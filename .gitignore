@@ -5,7 +5,7 @@
 
 /.quarto/
 /_site/
-/_freeze/
+
 
 slides/*.pdf
 slides/*.html
