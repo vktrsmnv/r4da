@@ -51,10 +51,6 @@ withr::with_dir(here::here(), {
 {{< var instructor.contact_policy >}}
 :::
 
-<!-- ::: -->
+:::
 
-<!-- ```{r echo=FALSE} -->
-<!-- knitr::include_graphics(here::here("files", "img", "eval-flowchart.png"), error = FALSE) -->
-<!-- ``` -->
-
-<!-- ::: -->
+:::
