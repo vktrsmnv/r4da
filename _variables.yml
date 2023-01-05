@@ -4,7 +4,7 @@ instructor:
   name: Viktoriia Semenova, M.A.
   name_no_title: Viktoriia Semenova
   email: semenova@uni-mannheim.de
-  # url: "https://www.andrewheiss.com"
+  url: "https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/"
   # twitter: vktrsmnv
   github: vktrsmnv
   office: "A5, 6 B301"
@@ -18,7 +18,7 @@ course:
   days: "Tuesday"
   time: "12:00-13:30"
   location: "A5, 6 C217"
-  dates: "February 12–May 30, 2023"
+  dates: "Spring 2023"
   github: "https://github.com/organizations/unima-data-s23"
   url: "https://data-s23.netlify.app"
   copyright_year: "2023"

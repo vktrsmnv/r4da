@@ -118,14 +118,14 @@ graph LR
     x7b056887098d4c56(["copy_attendance"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
     x3b13eed8c2f4209e(["copy_barrels_obs"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
     x04215792a9a4d36b(["copy_barrels_rct"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
-    xbbb6d7ed9a6f640a(["copy_eitc"]):::skipped --> x41092a7251862a9e(["copy_data"]):::queued
-    xf17ad1e9c3822d18(["copy_evaluation"]):::skipped --> x41092a7251862a9e(["copy_data"]):::queued
+    xbbb6d7ed9a6f640a(["copy_eitc"]):::built --> x41092a7251862a9e(["copy_data"]):::queued
+    xf17ad1e9c3822d18(["copy_evaluation"]):::built --> x41092a7251862a9e(["copy_data"]):::queued
     xf812cd9b8b5444a5(["copy_food_health_politics"]):::built --> x41092a7251862a9e(["copy_data"]):::queued
     xd2260b533f1829cb(["copy_monthly_panel"]):::built --> x41092a7251862a9e(["copy_data"]):::queued
     x2a5bb41380dcc5b0(["copy_penguins"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
     xa7f6f0c1b16f542a(["copy_plot_barrel_dag_obs"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
     x6271c0b6a170e94e(["copy_plot_barrel_dag_rct"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
-    x9c50e551b1b09085(["copy_public_housing"]):::skipped --> x41092a7251862a9e(["copy_data"]):::queued
+    x9c50e551b1b09085(["copy_public_housing"]):::built --> x41092a7251862a9e(["copy_data"]):::queued
     x0897796b858a5b3d(["copy_wage"]):::queued --> x41092a7251862a9e(["copy_data"]):::queued
     xb4844be3dca7f02b(["project_paths"]):::queued --> x7a8b235bff1bfb75["project_files"]:::queued
     x1917c787a0a4a0fd["project_zips"]:::queued --> x7aa56383a054e8ba(["site"]):::queued
@@ -148,7 +148,7 @@ graph LR
     x81182810f96b04c1(["data_injury"]):::queued --> xb453b5ae08dcaee7(["build_data"]):::queued
     x182180f03bcfc8dc(["data_mpg"]):::built --> xb453b5ae08dcaee7(["build_data"]):::queued
     xbe28472fe2bce29e(["data_nets"]):::queued --> xb453b5ae08dcaee7(["build_data"]):::queued
-    xa3d8306cecf136f4(["data_penguins"]):::skipped --> xb453b5ae08dcaee7(["build_data"]):::queued
+    xa3d8306cecf136f4(["data_penguins"]):::built --> xb453b5ae08dcaee7(["build_data"]):::queued
     x676cecdcd5eb7813(["data_plot_barrel_dag_obs"]):::queued --> xb453b5ae08dcaee7(["build_data"]):::queued
     xc72ce427df7cb6d6(["data_plot_barrel_dag_rct"]):::queued --> xb453b5ae08dcaee7(["build_data"]):::queued
     x313ad24da404b651(["data_tutoring_fuzzy"]):::queued --> xb453b5ae08dcaee7(["build_data"]):::queued
@@ -170,7 +170,7 @@ graph LR
     x7a8b235bff1bfb75["project_files"]:::queued --> x1917c787a0a4a0fd["project_zips"]:::queued
     x20b85e3488818f5e(["gen_data_tutoring"]):::queued --> x5c240766086c102f(["gen_data_tutoring_fuzzy"]):::queued
     x5c240766086c102f(["gen_data_tutoring_fuzzy"]):::queued --> x313ad24da404b651(["data_tutoring_fuzzy"]):::queued
-    x1b5d71f80f0ded23(["gen_data_father_educ"]):::skipped --> x068350206b5f4fee(["data_father_educ"]):::queued
+    x1b5d71f80f0ded23(["gen_data_father_educ"]):::built --> x068350206b5f4fee(["data_father_educ"]):::queued
     x60c212b45249134a["xaringan_slides"]:::queued --> x7a0d40becb063bda(["xaringan_html_files_files"]):::queued
     x07bd1301298fd82f(["gen_barrel_dags"]):::queued --> xc72ce427df7cb6d6(["data_plot_barrel_dag_rct"]):::queued
     x5cef82ddbf74dbd2(["gen_data_tutoring_sharp"]):::queued --> x6182dfd3a1ca6e02(["data_tutoring_sharp"]):::queued
@@ -183,7 +183,7 @@ graph LR
     xc72ce427df7cb6d6(["data_plot_barrel_dag_rct"]):::queued --> x6271c0b6a170e94e(["copy_plot_barrel_dag_rct"]):::queued
     x35552a73efe9c59f(["schedule_ical_data"]):::queued --> x4d31f5a49d5ae49f(["schedule_ical_file"]):::queued
     x6deca4ab95db78c5(["gen_data_bed_nets"]):::queued --> x10e4e9d82e7b691d(["data_bed_nets_time_machine"]):::queued
-    xa3d8306cecf136f4(["data_penguins"]):::skipped --> x2a5bb41380dcc5b0(["copy_penguins"]):::queued
+    xa3d8306cecf136f4(["data_penguins"]):::built --> x2a5bb41380dcc5b0(["copy_penguins"]):::queued
   end
 ```
 

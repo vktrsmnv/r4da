@@ -1,8 +1,8 @@
 ---
-title: "Program Evaluation for Public Service"
+title: "Data Analytics and Visualization with R"
 subtitle: "Combine research design, causal inference, and econometric tools to measure the effects of social programs"
 details: |
-  PMAP 8521 • Fall 2022<br>Andrew Young School of Policy Studies<br>Georgia State University
+  Spring 2023<br>School of Social Sciences<br>University of Mannheim
 sidebar: false
 toc: false
 page-layout: full
@@ -32,16 +32,15 @@ withr::with_dir(here::here(), {
 - {{< fa user >}} &nbsp; [{{< var instructor.name >}}]({{< var instructor.url >}})
 - {{< fa university >}} &nbsp; {{< var instructor.office >}}
 - {{< fa envelope >}} &nbsp; <a href="mailto:{{< var instructor.email >}}">{{< var instructor.email >}}</a>
-- {{< fa brands twitter >}} &nbsp; [{{< var instructor.twitter >}}](https://www.twitter.com/{{< var instructor.twitter >}})
 - {{< fa calendar-check >}} &nbsp; [Schedule an appointment]({{< var instructor.appointment_url >}})
 :::
 
 ::: {.g-col-12 .g-col-sm-6 .g-col-md-4}
 ### Course details
 
-- {{< fa calendar >}} &nbsp; {{< var course.days >}}
+<!-- - {{< fa calendar >}} &nbsp; {{< var course.days >}} -->
 - {{< fa calendar-alt >}} &nbsp; {{< var course.dates >}}
-- {{< fa clock >}} &nbsp; {{< var course.time >}}
+- {{< fa clock >}} &nbsp; {{< var course.days >}} {{< var course.time >}}
 - {{< fa location-dot >}} &nbsp; {{< var course.location >}}
 - {{< fa brands slack >}} &nbsp; [Slack]({{< var course.slack >}})
 :::
@@ -52,10 +51,10 @@ withr::with_dir(here::here(), {
 {{< var instructor.contact_policy >}}
 :::
 
-:::
+<!-- ::: -->
 
-```{r echo=FALSE}
-knitr::include_graphics(here::here("files", "img", "eval-flowchart.png"), error = FALSE)
-```
+<!-- ```{r echo=FALSE} -->
+<!-- knitr::include_graphics(here::here("files", "img", "eval-flowchart.png"), error = FALSE) -->
+<!-- ``` -->
 
-:::
+<!-- ::: -->
