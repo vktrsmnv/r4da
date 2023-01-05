@@ -16,16 +16,14 @@ library(pander)
 - {{< fa user >}} &nbsp; [{{< var instructor.name >}}]({{< var instructor.url >}})
 - {{< fa university >}} &nbsp; {{< var instructor.office >}}
 - {{< fa envelope >}} &nbsp; <a href="mailto:{{< var instructor.email >}}">{{< var instructor.email >}}</a>
-- {{< fa brands twitter >}} &nbsp; [{{< var instructor.twitter >}}](https://www.twitter.com/{{< var instructor.twitter >}})
 - {{< fa calendar-check >}} &nbsp; [Schedule an appointment]({{< var instructor.appointment_url >}})
 :::
 
 ::: {.g-col-6}
 ### Course details
 
-- {{< fa calendar >}} &nbsp; {{< var course.days >}}
 - {{< fa calendar-alt >}} &nbsp; {{< var course.dates >}}
-- {{< fa clock >}} &nbsp; {{< var course.time >}}
+- {{< fa clock >}} &nbsp; {{< var course.days >}} {{< var course.time >}}
 - {{< fa location-dot >}} &nbsp; {{< var course.location >}}
 - {{< fa brands slack >}} &nbsp; [Slack]({{< var course.slack >}})
 :::
@@ -38,40 +36,26 @@ By the end of this course, you (1) will be literate in the language of causal in
 
 Specifically, you'll be able to:
 
-- Explain the philosophy of causation
-- Identify and diagram program logic models
-- Outline theories of change with directed acyclic graphs (DAGs)
-- Summarize key threats to causal inference, identify these threats in evaluations, and mitigate these threats with research design
-- Develop rigorous and valid statistical measures
-- Run statistical models
-- Explain the theory, research design, methods, and results of evaluations to all types of stakeholders, from highly trained econometricians to the general public
-- Share your analyses and data with the public
-- Identify ethical issues and limits in data science and program evaluation
-- Become curious and confident in consuming and producing evaluations
+<!-- - Explain the philosophy of causation -->
+<!-- - Identify and diagram program logic models -->
+<!-- - Outline theories of change with directed acyclic graphs (DAGs) -->
+<!-- - Summarize key threats to causal inference, identify these threats in evaluations, and mitigate these threats with research design -->
+<!-- - Develop rigorous and valid statistical measures -->
+<!-- - Run statistical models -->
+<!-- - Explain the theory, research design, methods, and results of evaluations to all types of stakeholders, from highly trained econometricians to the general public -->
+- Perform statistical analysis 
+- Design studies aimed to evaluate causal relationships 
+- Use linear regression designs 
+- Data viz stuff 
+- Share your analyses and data with the public via Github
+- Become more confident in evaluating and consuming data 
 
 
 ## Course philosophy
 
-Classical statistics classes spend substantial time covering probability theory, null hypothesis testing, and other statistical tests first developed hundreds of years ago. Some classes don't use software or actual real data and instead live in the world of mathematical proofs. They can be math-heavy and full of often unintuitive concepts and equations.
+<!-- We will have two areas of emphasis in this course: causal inference, i.e. how to evaluate the effect of X on Y, and data communication through visualization.  -->
+<!-- We *begin* with data and learn how to tidy, wrangle, manipulate, and visualize it with code. Later in the semester we'll turn to the powerful toolbox of causal inference approaches, but continue to keep the focus on data as we do so. -->
 
-In this class, we will take the opposite approach. We *begin* with data and learn how to tidy, wrangle, manipulate, and visualize it with code. Later in the semester we'll turn to the powerful toolbox of causal inference approaches, but continue to keep the focus on data as we do so.
-
-In other words, there's way less of this:
-
-$$
-f(x) = \dfrac{1}{\sqrt{2\pi}} e^{-\frac12 x^2}
-$$
-
-And way more of this:
-
-```{r eval=FALSE}
-summary_monthly_temp <- weather %>%
-  group_by(month) %>%
-  summarize(mean = mean(temp),
-            std_dev = sd(temp))
-```
-
-Over the last decade there has been a revolution in statistical and scientific computing. Open source languages like R and Python have overtaken older (and expensive!) corporate software packages like SAS and SPSS, and there are now thousands of books and blog posts and other online resources with excellent tutorials about how to analyze pretty much any kind of data.
 
 This class will expose you to [R](https://cran.r-project.org/)—one of the most popular, sought-after, and in-demand statistical programming languages. Armed with the foundation of R skills you'll learn in this class, you'll know enough to be able to find how to analyze any sort of data-based question in the future.
 
@@ -79,11 +63,11 @@ This class will expose you to [R](https://cran.r-project.org/)—one of the most
 
 I *promise* you can succeed in this class.
 
-Learning R can be difficult at first—it's like learning a new language, just like Spanish, French, or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you'll be using like `ggplot2`—[made this wise observation](https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/):
+Learning R can be difficult at first—it's like learning a new language, just like French or Chinese. Hadley Wickham—the chief data scientist at RStudio and the author of some amazing R packages you'll be using like `ggplot2`—[made this wise observation](https://r-posts.com/advice-to-young-and-old-programmers-a-conversation-with-hadley-wickham/):
 
 > It’s easy when you start out programming to get really frustrated and think, “Oh it’s me, I’m really stupid,” or, “I’m not made out to program.” But, that is absolutely not the case. Everyone gets frustrated. I still get frustrated occasionally when writing R code. It’s just a natural part of programming. So, it happens to everyone and gets less and less over time. Don’t blame yourself. Just take a break, do something fun, and then come back and try again later.
 
-Even experienced programmers and evaluators find themselves bashing their heads against seemingly intractable errors. If you're finding yourself taking way too long hitting your head against a wall and not understanding, take a break, talk to classmates, e-mail me, etc.
+Even experienced programmers find themselves bashing their heads against seemingly intractable errors. If you're finding yourself taking way too long hitting your head against a wall and not understanding, take a break, talk to classmates, e-mail me, etc.
 
 ```{r echo=FALSE, out.width="80%", fig.align="center"}
 # https://twitter.com/allison_horst/status/1213275783675822080
@@ -95,124 +79,88 @@ knitr::include_graphics("/files/img/syllabus/hosrt_error_tweet.png", error = FAL
 
 ## Course materials
 
-Most of the readings in this class are free.
+All of the material used in this class is available for free. 
 
-### Books
+### Books & Videos
 
-There are two official textbooks for the class. Both are available digitally and both are free.
+There are multiple good books published recently on the topic of causal inference. For this class, we will be using the one written by an economist Nick Huntington-Klein:
 
-- Paul J. Gertler et al., *Impact Evaluation in Practice*, 2nd ed. (Inter-American Development Bank; World Bank, 2016), <https://openknowledge.worldbank.org/handle/10986/25030>. ([**Free!**](https://openknowledge.worldbank.org/handle/10986/25030))
-- Nick Huntington-Klein, *The Effect: An Introduction to Research Design and Causality* (CRC Press, 2021), <https://theeffectbook.net/>. ([**Free as a HTML version!**](https://theeffectbook.net/) The print version is coming soon and is pre-orderable at Amazon.)
+- Nick Huntington-Klein, *The Effect: An Introduction to Research Design and Causality* (CRC Press, 2021), <https://theeffectbook.net/>. ([**Free as a HTML version!**](https://theeffectbook.net/) The print version is available at the library.)
 
-Both of these books are written at a more general, easy-to-understand level with relatively minimal math. *You do not need to understand all the equations and notation.* If your eyes start to gloss over the Greek letters and subscripts, it's okay. Try to learn them, but don't stress out about it too much.
-
-In previous versions of this class I used two different books instead of *The Effect*, and they're still fantastic and I'd recommend checking them out. *The Mixtape* is a phenomenal, more detailed, more economics-focused, and mathier approach to these causal inference methods (and it's free!), while *'Metrics Matter* is a fairly canonical (and accessible!) book in the world of econometrics. I refer to these books a few times in the video lectures—don't worry, you'll get pretty much the same content in *The Effect*.
-
-- Scott Cunningham, *Causal Inference: The Mixtape* (New Haven, CT: Yale University Press, 2021), <https://mixtape.scunning.com/>. ([**Also free(!)**](https://mixtape.scunning.com/), but there's also a print version for <span>$35</span> that you might want to get for reference after the class is over)
-- Joshua D. Angrist and Jörn-Steffen Pischke, Mastering ’Metrics: The Path from Cause to Effect (Princeton, NJ: Princeton University Press, 2015). (**<span>$25</span> used or <span>$30</span> new at [Amazon](https://www.amazon.com/Mastering-Metrics-Path-Cause-Effect/dp/0691152845/)**)
+The book is quite lengthy but worry not, it is written at a more general, easy-to-understand level with relatively minimal math. *You do not need to understand all the equations and notation.* Another bonus with this book is the YouTube videos available for each chapter. They are no substitutes of the book but will be a great place to start to make the reading much easier. 
 
 
-### Articles, book chapters, and other materials
+On the topic of causal inference, there are three more books I would recommend if you'd prefer a different take for some reason. 
 
-There will also occasionally be additional articles and videos to read and watch. When this happens, links to these other resources will be included on the reading page for that week.
+- Ethan Bueno de Mesquita and Anthony Fowler, *Thinking Clearly with Data: A Guide to Quantitative Reasoning and Analysis* (Princeton, NJ: Princeton University Press, 2021). 
+- Scott Cunningham, *Causal Inference: The Mixtape* (New Haven, CT: Yale University Press, 2021), <https://mixtape.scunning.com/>. [**Also free(!)**](https://mixtape.scunning.com/). 
+- Joshua D. Angrist and Jörn-Steffen Pischke, *Mastering ’Metrics: The Path from Cause to Effect* (Princeton, NJ: Princeton University Press, 2015). 
 
-### R and RStudio
+*Thinking Clearly with Data* is an introductory book for quantitative methods, with an emphasis on reserach design and causal inference tools. We will read excerpts from it during the course. 
+*The Mixtape* is a more detailed and mathier approach to these causal inference methods, while *'Metrics Matter* is a fairly canonical (and accessible!) book in the world of econometrics. 
 
-You will do all of your analysis with the open source (and free!) programming language [R](https://cran.r-project.org/). You will use [RStudio](https://www.rstudio.com/) as the main program to access R. Think of R as an engine and RStudio as a car dashboard—R handles all the calculations and the actual statistics, while RStudio provides a nice interface for running R code.
+For the topic of data visualization, we will rely on various sources:
 
-R is free, but it can sometimes be a pain to install and configure. To make life easier, you can (and should!) use the free [RStudio.cloud](http://rstudio.cloud/) service, which lets you run a full instance of RStudio in your web browser. This means you won't have to install anything on your computer to get started with R! We will have a shared class workspace in RStudio.cloud that will let you quickly copy templates for labs and problem sets.
+- Kieran Healy. *Data Visualization: A practical introduction* http://socviz.co/
 
-RStudio.cloud is convenient, but it can be slow and it is not designed to be able to handle larger datasets or more complicated analysis. Over the course of the semester, you'll probably want to get around to installing R, RStudio, and other R packages on your computer and wean yourself off of RStudio.cloud. This isn't necessary, but it's helpful.
+- 
 
-You can [find instructions for installing R, RStudio, and all the tidyverse packages here.](/resource/install/)
 
-### Online help
+All assigned chapters and links to the resources you will need to prapare for our weekly sessions will be included on the reading page for that week.
 
-Data science and statistical programming can be difficult. Computers are stupid and little errors in your code can cause hours of headache (even if you've been doing this stuff for years!).
+### R, RStudio, git, and GitHub
 
-Fortunately there are tons of online resources to help you with this. Two of the most important are [StackOverflow](https://stackoverflow.com/) (a Q&A site with hundreds of thousands of answers to all sorts of programming questions) and [RStudio Community](https://community.rstudio.com/) (a forum specifically designed for people using RStudio and the tidyverse (i.e. you)).
+We will learn data analysis by *doing* data analysis. We will use the open-source (and free!) statistical programming language called [`R`](https://cran.r-project.org/). `R` is very popular in data science and statistics, it makes beautiful graphics, and it is great fun. You will use [RStudio](https://www.rstudio.com/) as the main program to access R. Think of R as an engine and RStudio as a car dashboard—R handles all the calculations and the actual statistics, while RStudio provides a nice interface for running R code.
 
-If you use Twitter, post R-related questions and content with [#rstats](https://twitter.com/search?q=%23rstats). The community there is exceptionally generous and helpful.
+To make our workflow with R more efficient, we will also be using version control tool called `git` and its online hosting Github. In a nutshell, think of this as a collaborative tool like Google Docs, but for code and on steroids. We will use Github to distribute material for our sessions, hand out and collect homework assignments, and provide you with feedback on your homework, too. I have taught introductory stats classes with and without `git`, and speaking from the experience, I promise, using this tool _will_ make your life easier.
 
-Searching for help with R on Google can sometimes be tricky because the program name is, um, a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
+You can [find instructions for installing R, RStudio, and git here.](/resource/install/)
 
-Additionally, we have a class chatroom at [Slack](https://gsuevalf2021.slack.com) where anyone in the class can ask questions and anyone can answer. **I will monitor Slack regularly and will respond quickly.** (It's one of the rare Slack workspaces where I actually have notifications enabled!) Ask questions about the readings, assignments, and project. You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions too.
+## Getting Help
+
+Computer programming can be frustrating because computers are stupid, and error messages are not always helpful. Fortunately, help is out there. [StackOverflow](https://stackoverflow.com/) is a Q&A site dedicated to helping people with their programming problems. [RStudio Community](https://community.rstudio.com/) is a similar concept, but tailored for people using RStudio (which applies to us). If you see these websites when you are googlng your errors, these would quite likely contain soem helpful info.  
+
+Searching for help with R on Google can sometimes be tricky because the program name is basically a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
+
+Additionally, we have a class workspace at [Slack](https://data-s23.slack.com) where anyone signed up can ask questions and anyone can answer. **I will monitor Slack regularly and will respond quickly.** You'll likely have similar questions as your peers, and you'll likely be able to answer other peoples' questions, too. Help each other out! 
 
 
 ## Course structure
 
-We meet weekly from 4:30–7:00 PM on Mondays in 330 Aderhold. ***However***, despite policies and rhetoric to the contrary, we're still in the middle of a severe global pandemic, and the BA.5 variant of COVID-19 is raging.
+### Weekly Sessions
 
-Accordingly, this semester we're going to have a [flipped classroom](https://en.wikipedia.org/wiki/Flipped_classroom), which will let us maximize flexibility during this pandemic. 
+We meet weekly from 12:00–13:30 on Tuesdays in C217 in A5, 6. 
 
-We will **not** have lectures during our regularly scheduled class time. Instead, you will do the readings and watch recorded lecture videos prior to each in-person class session. You can do the readings and watch the videos on your own schedule at whatever time works best for you. Many of you work full time and you have childcare and parental care responsibilities, leaving you with only evenings for coursework. I've designed this asynchronous system with *you specifically* in mind. I also can only really do teaching work at night when my kids are in bed—I recorded all these videos between like 10 PM and 2 AM. We're all in similar pandemic boats.
+I expect you to come to the sessions prepared, so will have a short lecture-part and then we will move along to activities, such as R labs. 
 
-We will do several things during our Monday in-person classes:
+### Weekly Homework Assignments
 
-- **Extensive Q&A**: As you do the readings and watch the videos prior to class, you will inevitably have questions. In [your weekly check-in assignment](/assignment/weekly-check-in.qmd), you'll submit (at least) 3 of those questions to me prior to class. We'll spend a good chunk of each class answering, clarifying, debating, and discussing your questions.
-- **Activities**: In some weeks, we'll do some in-class activities to help solidify concepts about logic models, DAGs, and other evaluation and causal inference principles.
-- **R labs**: We'll spend a substantial time during each class learning and working with R together. You'll need to bring a computer.
+The only way to earn programming is through practice, which means you will have homework assignments. These assignments will not be long but will be frequent, i.e. you will do them weekly. While your first few assignments will be individual because I want to ensure that everyone gets comfortable with the workflow, further during the semester you will also have group assignments. I will let you know more about this as the semester goes. 
+
+I will distribute homework assignments via Github after our sessions on Tuesday. You will have until next Monday, 12:00 (noon) to complete them. I will try to grade them the same day and provide you with feedback by our session on Tuesday (but let's see how this goes). 
+
+### Office Hours
+
+If for whatever reason you'd rather come and talk in person rather than post on Slack, you can do this during the office hours. Considering the deadline for homework in on Monday, I will make sure to keep the slot on Friday, 15:00-16:00, for the office hours. This is, however, not the only time I am available. You can always just [pick from the time slots that work for me](https://calendly.com/vktrsmnv/data-s23) on that particular week and come at a different day/time. You can come in groups if you want. Just note that you'll need to let me know you're coming at least 6 hours in advance. 
+
 
 ## Attendance and participation
 
-You're expected to come to class each Monday prepared—having read the material and watched the videos—and ready to discuss the content and work with R. 
+You're expected to come to class each Tuesday prepared—having read the material and watched the videos—and ready to discuss the content and work with R. 
 
-Attendance and participation are important to your success in this course. However, again, we're still in the middle of a global pandemic. If you are sick or are incapable of participating meaningfully in class (e.g. you have stayed up all night and are going to fall asleep in class), please stay home. I will stream our in-person sessions on Mondays via Webex (and will set up my own camera and microphone system to do it), so if you cannot attend, you can tune in if needed.
+Attendance and participation are important to your success in this course. However, if you are sick, please just let me know you're not coming if you can (so I can adjust the activities in class if needed) and stay home.
 
-GSU has some new process for getting absences excused because of illness, but I don't care about that process. If you're sick, I don't need a doctor's note or anything. If a relative dies and you have to attend a funeral, do it!—don't worry about sending me confirmation or anything. If your childcare situation falls through one week, focus on your kids!—again, don't worry about sending me confirmation. You're all adults—I trust you. Given the flipped nature of the course, you'll be able to catch up on the material.
+Officially, one of your coursework requirements is active participation. 
 
-If you test positive for COVID-19, report it at <https://cc-gsu.force.com/s/>, hunker down, and focus on getting better! Please do not come to class. 
-
-## Pandemic stuff
-
-### Masks and vaccines
-
-<small>GSU does not require this and I can't require this but I am allowed to urge it so here's me urging it:</small><br>Please get the COVID-19 vaccination and a booster shot ([sign up for one here!](https://covidinfo.gsu.edu/covid-19-resources/covid-19-vaccine/)). It is free. It saves lives. (I am fully vaccinated and boosted.)
-
-GSU and the University System of Georgia do not have a mask mandate for students or faculty. However, I personally will be wearing a mask when [the CDC's community transmission levels](https://covid.cdc.gov/covid-data-tracker/#county-view?list_select_state=Georgia&data-type=Risk&list_select_county=13121) in the Atlanta area are medium or above.
-
-**I strongly recommend/urge/encourage you to wear a mask in class on Mondays** regardless of your vaccination status. I will place a box of disposable masks by the door if you would like one. 
-
-Again, GSU does not require either vaccines or masks, and if you aren't vaccinated or don't wear a mask, there are no penalties.
-
-### Learning during a pandemic
-
-Life absolutely sucks right now. None of us is really okay. **We're all just pretending.**
-
-You most likely know people who have lost their jobs, have tested positive for COVID-19, have been hospitalized, or have even died (I myself know people in all those categories). You all have increased (or possibly decreased) work responsibilities and increased family care responsibilities—you might be caring for extra people (young and/or old!) right now, and you are likely facing uncertain job prospects (or have been laid off!).
-
-**I'm fully committed to making sure that you learn everything you were hoping to learn from this class!** I will make whatever accommodations I can to help you finish your problem sets, do well on your projects, and learn and understand the class material. Under ordinary conditions, I am flexible and lenient with grading and course expectations when students face difficult challenges. Under pandemic conditions, that flexibility and leniency is intensified.
-
-If you tell me you're having trouble, I will not judge you or think less of you. I hope you'll extend me the same grace.
-
-You *never* owe me personal information about your health (mental or physical). You are *always* welcome to talk to me about things that you're going through, though. If I can't help you, I usually know somebody who can.
-
-If you need extra help, or if you need more time with something, or if you feel like you're behind or not understanding everything, **do not suffer in silence!** Talk to me! I will work with you. **I promise.**
-
-*Please* sign up for a time to meet with me during student hours at <https://calendly.com/andrewheiss/>. I'm also available through e-mail and Slack. I've enabled notifications on my Slack account, so I'll see your messages quickly!
-
-I want you to learn lots of things from this class, but I primarily want you to stay healthy, balanced, and grounded during this crisis.
 
 
 ## Course policies
 
 **Be nice. Be honest. Don't cheat.**
 
-We will also follow [Georgia State's Code of Conduct](https://codeofconduct.gsu.edu/).
 
 This syllabus reflects a plan for the semester. Deviations may become necessary as the semester progresses.
 
-### Student hours
-
-Please watch this video:
-
-<iframe src="https://player.vimeo.com/video/270014784" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="display: block; margin: 0 auto 1rem;"></iframe>
-
-Student hours are set times dedicated to all of you (most professors call these "office hours"; I don't).[^studenthours] This means that I will be ~~in my office~~ at home (wistfully) waiting for you to ~~come by~~ talk to me remotely with whatever questions you have. This is the best and easiest way to find me and the best chance for discussing class material and concerns.
-
-[^studenthours]: There's fairly widespread misunderstanding about what office hours actually are! [Many students often think that they are the times I *shouldn't* be disturbed](https://www.chronicle.com/article/Can-This-Man-Change-How-Elite/245714/), which is the exact opposite of what they're for!
-
-Because of the pandemic, it is easiest to meet with me online via Webex for student hours. [Make an appointment with me here](https://calendly.com/andrewheiss/)—the confirmation e-mail will contain a link for a Webex meeting. You can also find me through e-mail and Slack.
 
 ### Late work
 
@@ -224,19 +172,7 @@ Life at GSU can be complicated and challenging (especially during a pandemic!). 
 
 ### Basic needs security
 
-If you have difficulty affording groceries or accessing sufficient food to eat every day, or if you lack a safe and stable place to live, and you believe this may affect your performance in this course, please contact the [Dean of Students](https://deanofstudents.gsu.edu/) for support. They can provide a host of services including free groceries from the [Panther Pantry](https://nutrition.gsu.edu/panther-pantry/) and assisting with homelessness with the [Embark Network](https://deanofstudents.gsu.edu/student-assistance/embark/). Additionally, please talk to me if you are comfortable in doing so. This will enable me to provide any resources that I might possess.
 
-### Lauren's Promise
-
-**I will listen and believe you if someone is threatening you.**
-
-Lauren McCluskey, a 21-year-old honors student athlete, [was murdered on October 22, 2018 by a man she briefly dated on the University of Utah campus](https://www.sltrib.com/opinion/commentary/2019/02/10/commentary-failing-lauren/). We must all take action to ensure that this never happens again.
-
-If you are in immediate danger, call 911 or GSU police (404-413-3333).
-
-If you are experiencing sexual assault, domestic violence, or stalking, please report it to me and I will connect you to resources or call [GSU's Counseling and Psychological Services](https://counselingcenter.gsu.edu/crisis-services/concern-self/immediate-help/) (404-413-1640).
-
-Any form of sexual harassment or violence will not be excused or tolerated at Georgia State. GSU has instituted procedures to respond to violations of these laws and standards, programs aimed at the prevention of such conduct, and intervention on behalf of the victims. Georgia State University Police officers will treat victims of sexual assault, domestic violence, and stalking with respect and dignity. Advocates on campus and in the community can help with victims' physical and emotional health, reporting options, and academic concerns.
 
 ### Academic honesty
 
@@ -251,63 +187,86 @@ Students who wish to request accommodation for a disability may do so by registe
 Students with special needs should then make an appointment with me during the first week of class to discuss any accommodations that need to be made.
 
 
-## Assignments and grades
+## Grading policy
 
-You can find descriptions for all the assignments on the [assignments page](/assignment/).
+Grades for this class are intended to assess your learning about (1) data and code, (2) scientific and critical reasoning, and (3) statistical reasoning. Following university regulations, **100% of your grade will be determined by a final paper**. Make sure to sign up for the examination via Portal2 in addition to registering for the class during the semester (otherwise, I cannot submit your grade).
 
-```{r assignments-grades, include=FALSE}
-assignments <- tribble(
-  ~Points,   ~Assignment,
-  14 * 10,   "Weekly check-ins (14 × 10)",
-  9 * 30,    "Problem sets (9 × 30)",
-  4 * 30,    "Evaluation assignments (4 × 30)",
-  100,       "Exam 1",
-  100,       "Exam 2",
-  200,       "Final project"
-) %>%
-  mutate(Percent = Points / sum(Points),
-         Percent = scales::percent(Percent))
-
-grading <- tribble(
-  ~Grade, ~Range, ~Grade1, ~Range1,
-  "A",  "93–100%", "C",  "73–76%",
-  "A−", "90–92%", "C−", "70–72%",
-  "B+", "87–89%", "D+", "67–69%",
-  "B",  "83–86%", "D",  "63–66%",
-  "B−", "80–82%", "D−", "60–62%",
-  "C+", "77–79%", "F",  "< 60%"
-)
-```
-
-<div class="centered-table">
-
-```{r show-assignments-table, echo=FALSE, results="asis"}
-assignments_total <- tibble(Assignment = "Total",
-                            Points = sum(assignments$Points),
-                            Percent = NA)
-
-bind_rows(assignments, assignments_total) %>%
-  select(Assignment, Points, Percent) %>%
-  pandoc.table(justify = "lcc", missing = "—")
-```
-</div>
-
-<div class="centered-table">
-
-```{r show-grades-table, echo=FALSE, results="asis"}
-grading %>%
-  pandoc.table(justify = "lclc",
-               col.names = c("Grade", "Range", "Grade", "Range"))
-```
-
-<div>
+I will only evaluate the final papers if you pass all the course requirements during the lecture period. This means two things.
 
 
-## Star Wars
+#### Active Participation 
 
-Once you have read this entire syllabus and [the assignments page](/assignment/), please [click here](mailto:aheiss@gsu.edu) and e-mail me a picture of a *cute* Star Wars character.[^starwars] Brownie points if it's animated.
+Should you miss more than two classes, it is your responsibility to reach out to me in advance so we can agree on the way to compensate for the the missing session. You might ask you to do a short presentation in class or prepare a short text on a relevant topic for the class website. 
 
-[^starwars]: Baby Yoda, Babu Frik, porgs, etc. are all super fair game.
+#### Homework assignments
+
+You need to pass all of the homework assignments.
+Please note that handing in the assignment is **necessary but not sufficient** for passing. Should the homework be below the standard of passing, I will ask you to resubmit that assignment but no more than twice during the semester[^failing]. 
+For group assignments, I measure each student's contribution with commits they made to the homework repository. 
+
+
+
+
+[^failing]: I noticed some students like to use this option to get extra time to submit the assignments and for the sake of equanimity, I want to discourage this behavior.
+
+
+<!-- You can find descriptions for all the assignments on the [assignments page](/assignment/). -->
+
+
+
+<!-- ```{r assignments-grades, include=FALSE} -->
+<!-- assignments <- tribble( -->
+<!--   ~Points,   ~Assignment, -->
+<!--   14 * 10,   "Weekly check-ins (14 × 10)", -->
+<!--   9 * 30,    "Problem sets (9 × 30)", -->
+<!--   4 * 30,    "Evaluation assignments (4 × 30)", -->
+<!--   100,       "Exam 1", -->
+<!--   100,       "Exam 2", -->
+<!--   200,       "Final project" -->
+<!-- ) %>% -->
+<!--   mutate(Percent = Points / sum(Points), -->
+<!--          Percent = scales::percent(Percent)) -->
+
+<!-- grading <- tribble( -->
+<!--   ~Grade, ~Range, ~Grade1, ~Range1, -->
+<!--   "1.0",  "95–100%", "3.0",  "73–76%", -->
+<!--   "1.3", "90–94%", "3.3", "70–72%", -->
+<!--   "1.7", "85–89%", "3.7", "67–69%", -->
+<!--   "2.0",  "80–84%", "4.0",  "63–66%", -->
+<!--   "2.3", "75–79%", "5.0", "< 50%", -->
+<!--   "2.7", "70–74%",  -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- <div class="centered-table"> -->
+
+<!-- ```{r show-assignments-table, echo=FALSE, results="asis"} -->
+<!-- assignments_total <- tibble(Assignment = "Total", -->
+<!--                             Points = sum(assignments$Points), -->
+<!--                             Percent = NA) -->
+
+<!-- bind_rows(assignments, assignments_total) %>% -->
+<!--   select(Assignment, Points, Percent) %>% -->
+<!--   pandoc.table(justify = "lcc", missing = "—") -->
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- <div class="centered-table"> -->
+
+<!-- ```{r show-grades-table, echo=FALSE, results="asis"} -->
+<!-- grading %>% -->
+<!--   pandoc.table(justify = "lclc", -->
+<!--                col.names = c("Grade", "Range", "Grade", "Range")) -->
+<!-- ``` -->
+
+<!-- <div> -->
+
+
+## Friends
+
+Once you have read this entire syllabus and [the assignments page](/assignment/), please DM me on Slack a picture of a Friends TV show character.[^friends] Brownie points if it's animated.
+
+[^friends]: Ross, Rachel, Monica, Chandler, Phoebe, Joe... 
 
 <figure>
 <img src="https://media.giphy.com/media/j4q4h9uWKWwnYT1k3Z/giphy.gif" alt="Baby Yoda with IG-11">

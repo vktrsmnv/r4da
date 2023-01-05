@@ -27,10 +27,6 @@ website:
 
   favicon: "/files/icon-512.png"
 
-  twitter-card:
-    image: "/files/social-image-f22.png"
-    card-style: summary_large_image
-    creator: "@vktrsmnv"
 
   open-graph:
     image: "/files/social-image-f22.png"
@@ -188,8 +184,7 @@ website:
       {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-nc >}}
       [Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
     right: |
-      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)<br>
-      [View the source at {{< fa brands github >}} GitHub]({{< var course.github >}})
+      Made with {{< fa solid heart >}},  [{{< fa brands github >}}](https://github.com/), [{{< fa brands r-project >}}](https://posit.co/) and [Quarto](https://quarto.org/).
 
 format:
   html:
