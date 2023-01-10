@@ -38,16 +38,14 @@ website:
     right:
       - syllabus.qmd
       - schedule.qmd
-      - text: "Content"
+      - text: "Prepare"
         file: content/index.qmd
-      - text: "Assignments"
+      - text: "Sessions"
+        file: session/index.qmd
+      - text: "Assignment"
         file: assignment/index.qmd
-      - text: "Examples"
-        file: example/index.qmd
       - text: "Resources"
         file: resource/index.qmd
-      - text: "News"
-        file: news/index.qmd
       - icon: slack
         href: "https://data-s23.slack.com"
         aria-label: Slack

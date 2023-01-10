@@ -2,8 +2,8 @@ library(targets)
 library(tarchetypes)
 suppressPackageStartupMessages(library(tidyverse))
 
-class_number <- "PMAP 8521"
-base_url <- "https://evalf22.classes.andrewheiss.com/"
+class_number <- "Data S23"
+base_url <- "https://data-s23.netlify.app/"
 page_suffix <- ".html"
 
 options(tidyverse.quiet = TRUE,
@@ -128,3 +128,4 @@ list(
     if (Sys.getenv("UPLOAD_WEBSITES") == "TRUE") processx::run(paste0("./", deploy_script))
   })
 )
+

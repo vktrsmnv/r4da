@@ -1,11 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Program Evaluation for Public Service <a href='https://evalf22.classes.andrewheiss.com/'><img src='files/icon-512.png' align="right" height="139" /></a>
+# Data Analytics and Visualization in R <a href='https://data-s23.netlify.app/'><img src='files/icon-512.png' align="right" height="139" /></a>
 
-[PMAP 8521 • Fall 2022](https://evalf22.classes.andrewheiss.com/)  
-[Andrew Heiss](https://www.andrewheiss.com/) • Andrew Young School of
-Policy Studies • Georgia State University
+[Spring 2023](https://data-s23.netlify.app/)  
+Viktoriia Semenova • School of Social Sciences • University of Mannheim
 
 ------------------------------------------------------------------------
 
