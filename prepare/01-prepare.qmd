@@ -1,0 +1,192 @@
+---
+title: "Meet the Toolkit"
+date: "2023-02-14"
+---
+
+## Installing Software
+
+In this course, we will use the open-source software `R` and RStudio as well as version control with `git` and GitHub. It would be best if you try installing all the necessary software *before* our class on Tuesday. First, I would like you to install both `R` and RStudio on your computer. Then, move to `git` and GitHub. This may look like a lot, but all of these tools will simplify your workflow once you actually start coding in R.   
+
+### What is `R`?
+
+`R` is a free and open-source programming language designed to help you perform data-related tasks, such as wrangling, statistical analysis, visualization, and many more things (this website and pretty much all of the material for this class was created wit R). `R` is getting more popular and knowledge of `R` will help you in the job market. Think of it as a very powerful engine in a car.
+
+### What is RStudio?
+
+We will communicate with R via RStudio, a so-called integrated development environment. This means, we will never be opening `R` directly, but rather only work in this program. RStudio is a very well-maintained commercial product, but the free version that we will be using, Rstudio Desktop, has more than enough features to make working with `R` more user-friendly. Think of it as a dashboard, which we will be using to communicate with the engine, `R`. Note that RStudio is not a requirement for programming with R, although it's very commonly used.
+
+![](/files/img/prepare/r_vs_rstudio_1.png)
+
+### What are `git` and GitHub?
+
+Git is a version control system that makes it easy to track changes and work on code collaboratively. `git` is a software you run locally on your computer. Version control allows you to store versions of your project as you progress, so you can come back to any version of the project, and accompany everything with human readable messages.
+
+With git, writing code for a project will look somewhat like this:
+
+![](/files/img/prepare/lego-steps-commit-messages.png)
+
+GitHub is a hosting service for `git`. You can think of it as a Dropbox for code (but much better). It contains projects, which we call *repositories* or *repos*, and these repos can be public or private. This is a tool I will use to distribute code and homework assignments to you and collect them. And you will use it to keep track of your code and collaborate in teams. Github has a nice integration with Rstudio, so using this tool will minimize the amount of work you will need to do.
+
+We will have a course organization on Github (like a course page on ILIAS), so your workflow will look something like this. We will go over it in class.
+
+![](/files/img/prepare/github-workflow-04.png)
+
+
+### 1. Install `R`
+
+::: panel-tabset
+#### <i class="fab fa-windows"></i> Windows users
+
+1.  Open your browser and go to <https://cran.rstudio.com>.
+
+2.  Click on *Download R for Windows* and select *base*. This is the version you want when you are installing `R` for the first time,
+
+3.  Click on *Download R-4.2.2 for Windows*.
+
+4.  Run the installation from the `.exe` file you just downloaded.
+
+5.  Now that `R` is installed, proceed to installing RStudio.
+
+#### <i class="fab fa-apple"></i> macOS users
+
+1.  Open your browser and go to <https://cran.rstudio.com>.
+
+2.  Check whether your Mac has an Intel-based processor or an M1 (or higher). You can find this info under <i class="fab fa-apple"></i> \> About This Mac \> Overview \> Processor.
+
+![](https://images.macworld.co.uk/cmsdata/features/3594298/mac_model_serial_apple_logo.jpg)
+
+3.  Click on *Download R for macOS* and scroll down to the respective `.pkg` file in the list of files and download it.
+
+4.  Run the installation from the `.pkg` file you just downloaded.
+
+5.  Download and install XQuartz: https://www.xquartz.org/.
+
+6.  Now that `R` is installed, proceed to installing RStudio.
+:::
+
+### 2. Install RStudio
+
+1.  Go to <https://posit.co/> and click on the *Download RStudio* button on the top bar.
+2.  Scroll down and click on the *Download* button for the free RStudio Desktop version.
+3.  Since we've already completed Step 1: Install R, move to Step 2 and download the latest version of Rstudio Desktop for your operating system.
+4.  Run the installer. Click *yes* through all the prompts to install like any other program.
+
+
+### 3. Install `git` 
+
+::: panel-tabset
+#### <i class="fab fa-windows"></i> Windows users
+
+1.  Go to <https://git-scm.com/downloads> and click on your operating system.
+2.  Download the latest release (at the time of writing, it is 2.39.0). Follow the instructions and install git.
+    -   When asked about "Adjusting your PATH environment", make sure to select *"Git from the command line and also from 3rd-party software"*.
+
+#### <i class="fab fa-apple"></i> macOS users
+
+**Recommended option**: *Install the Xcode command line tools (not all of Xcode), which includes Git*. This requires you opening Terminal on your Mac, i.e. we will install stuff by typing what to do rather than clicking on the buttons in programs. Don't get intimidated, it's easier than you think. 
+
+1. Go to the Terminal and type these commands to elicit an offer to install developer command line tools:
+
+```
+git --version
+git config
+```
+
+2. Accept the offer.  Click on "Install".
+
+**Alternative approach** (no command line required).
+
+1.  Go to <https://git-scm.com/downloads> and click on your operating system.
+2.  Download the latest release (at the time of writing, it is 2.39.0). Follow the instructions and install git.
+    -   When asked about "Adjusting your PATH environment", make sure to select *"Git from the command line and also from 3rd-party software"*.
+    
+:::
+
+### 4. Check that `git` was installed properly 
+
+To make sure that you did everything right and you're all set, do this:
+
+1. Open RStudio. The icons look similar, you need the right one: ![](/files/img/prepare/r_vs_rstudio_2.png){width=2in}
+
+2. Go to lower left part of the window and click on *Terminal*. 
+![](/files/img/prepare/Rstudio_overview.png){width=100% fig-align="center"}
+
+3. Type `git` in the Terminal. You should see something like this:
+![](/files/img/prepare/git-in-terminal.gif){width=100% fig-align="center"}
+If you are typing in the *Console* pane instead of *Terminal*, you will see this error. Make sure to switch to *Terminal*.  
+![](/files/img/prepare/git-in-console.svg){width=60% fig-align="center"}
+
+### 5. Get a GitHub account
+
+1.  Go to <https://github.com/> and create an account.
+2.  Use your `ILIAS-login` as a username. Better use your university email, too. 
+
+
+### 6. Connect `git` to your Github account
+
+We have installed everything we need to know and you have created a GitHub account. However, we still have not connected your Git and GitHub just yet. To interact with GitHub via Rstudio, you need to authenticate yourself, which means you need to prove you are the owner of your GitHub account. When you log in to GitHub from your browser, you provide your username and password to prove your identity. Here is what you need to do to authenticate yourself inside Rstudio:
+
+#### 1. Authenticate yourself to `git` on your computer.
+
+Make sure to **use the email associated with your GitHub account**.
+Type the following in the *Console* pane in Rstudio:
+``` r
+install.packages("usethis")
+
+usethis::use_git_config(user.name = "Viktoriia Semenova", user.email = "semenova@uni-mannheim.de")
+```
+
+#### 2. Generate a **personal access token (PAT)**.
+
+Now you will essentially create a long password which you won't need to re-enter when working with R. 
+
+Type the following in the *Console* pane in Rstudio:
+``` r
+usethis::create_github_token()
+```
+This will open a new page on Github in your browser, where you'll need to select the validity period of your PAT - Expiration - (I usually do 90 days), and click on **Generate Token** at the bottom of the page.
+
+Next page will give you the PAT. It will be a long string and will look something like this: `ghp_Kt33T3rXI1m4a9vxpBU0ngRU0`. Don't close this page yet! You'll need this sequence, so copy it.
+
+#### 3. Save PAT in R.
+Now that you have the PAT, you need to tell it to R. Here we will need to install another package, which will do all the work for us. 
+
+Type the following in the *Console* pane:
+``` r
+install.packages("credentials")
+
+credentials::set_github_pat()
+```
+Respond to the prompt with your personal access token (PAT).
+
+If successful, your initial (and subsequent) calls will look like this:
+``` r
+set_github_pat()
+
+# If prompted for GitHub credentials, enter your PAT in the password field
+# Using GITHUB_PAT from Viktoriia Semenova (credential helper: manager-core)
+```
+If for whatever reason this approach does not work, try another package [`gitcreds`](https://r-lib.github.io/gitcreds/). 
+
+Type the following in the *Console* pane:
+``` r
+install.packages("gitcreds")
+
+gitcreds::gitcreds_set()
+```
+Here you will need to enter your PAT directly in the *Console*. The output should look like this. 
+``` r
+> gitcreds::gitcreds_set()
+
+? Enter password or token: ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+-> Adding new credentials...
+-> Removing credentials from cache...
+-> Done.
+```
+
+If everything works well–congrats, you are all set for the semester! If something doesn't work---don't worry, just talk to me before or after class and we'll figure it out together on Tuesday. 
+
+
+
+
+

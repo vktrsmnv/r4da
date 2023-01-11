@@ -34,12 +34,12 @@ website:
 
   navbar:
     pinned: true
-    background: "#400010"
+    background: "#400020"
     right:
       - syllabus.qmd
       - schedule.qmd
       - text: "Prepare"
-        file: content/index.qmd
+        file: prepare/index.qmd
       - text: "Sessions"
         file: session/index.qmd
       - text: "Assignment"
@@ -54,54 +54,92 @@ website:
         aria-label: RStudio.cloud
 
   sidebar:
-    - title: "Content"
+    - title: "Prepare"
       style: "docked"
       search: false
       background: dark
       contents:
         - section: "Overview"
           contents:
-            - content/index.qmd
+            - prepare/index.qmd
         - section: "Course content"
           contents:
-            - text: "1: Evaluation and the causal revolution"
-              file: content/01-content.qmd
-            - text: "2: Regression and inference"
-              file: content/02-content.qmd
-            - text: "3: Theories of change and logic models"
-              file: content/03-content.qmd
-            - text: "4: Measurement and DAGs"
-              file: content/04-content.qmd
-            - text: "5: DAGs and potential outcomes"
-              file: content/05-content.qmd
-            - text: "6: Threats to validity"
-              file: content/06-content.qmd
-            - text: "7: Randomization and matching"
-              file: content/07-content.qmd
-            - text: "8: Diff-in-diff I"
-              file: content/08-content.qmd
-            - text: "9: Diff-in-diff II"
-              file: content/09-content.qmd
-            - text: "10: RDD I"
-              file: content/10-content.qmd
-            - text: "11: IV I"
-              file: content/11-content.qmd
-            - text: "12: IV II & RDD II"
-              file: content/12-content.qmd
-            - text: "13: Choosing and planning ethical evaluations"
-              file: content/13-content.qmd
-            - text: "14: Ethics, stories, and curiosity"
-              file: content/14-content.qmd
+            - text: "1: Meet the Toolkit"
+              file: prepare/01-prepare.qmd
+            - text: "2: Describing Variables"
+              file: prepare/02-prepare.qmd
+            - text: "3: Describing Relationships"
+              file: prepare/03-prepare.qmd
+            - text: "4: Identification and Causal Diagrams"
+              file: prepare/04-prepare.qmd
+            - text: "5: Causal Diagrams and Treatment Effects"
+              file: prepare/05-prepare.qmd
+            - text: "6: Regression for Describing"
+              file: prepare/06-prepare.qmd
+            - text: "7: Uncertainty and Statistical Inference"
+              file: prepare/07-prepare.qmd
+            - text: "8: Estimating Heterogeneous Effects"
+              file: prepare/08-prepare.qmd
+            - text: "9: Binary Dependent Variable"
+              file: prepare/09-prepare.qmd
+            - text: "10: Matching"
+              file: prepare/10-prepare.qmd
+            - text: "11: Fixed Effects"
+              file: prepare/11-prepare.qmd
+            - text: "12: Difference-in-Differences"
+              file: prepare/12-prepare.qmd
+            - text: "13: Regression Discontinuity"
+              file: prepare/13-prepare.qmd
+            - text: "14: Review"
+              file: prepare/14-prepare.qmd
+
+    - title: "Sessions"
+      style: "docked"
+      search: false
+      background: dark
+      contents:
+        - section: "Overview"
+          contents:
+            - session/index.qmd
+        - section: "Course content"
+          contents:
+            - text: "1: Meet the Toolkit"
+              file: session/01-session.qmd
+            - text: "2: Describing Variables"
+              file: session/02-session.qmd
+            - text: "3: Describing Relationships"
+              file: session/03-session.qmd
+            - text: "4: Identification and Causal Diagrams"
+              file: session/04-session.qmd
+            - text: "5: Causal Diagrams and Treatment Effects"
+              file: session/05-session.qmd
+            - text: "6: Regression for Describing"
+              file: session/06-session.qmd
+            - text: "7: Uncertainty and Statistical Inference"
+              file: session/07-session.qmd
+            - text: "8: Estimating Heterogeneous Effects"
+              file: session/08-session.qmd
+            - text: "9: Binary Dependent Variable"
+              file: session/09-session.qmd
+            - text: "10: Matching"
+              file: session/10-session.qmd
+            - text: "11: Fixed Effects"
+              file: session/11-session.qmd
+            - text: "12: Difference-in-Differences"
+              file: session/12-session.qmd
+            - text: "13: Regression Discontinuity"
+              file: session/13-session.qmd
+            - text: "14: Review"
+              file: session/14-session.qmd
 
     - title: "Assignments"
       contents:
         - section: "Overview"
           contents:
             - assignment/index.qmd
-        - section: "Other projects"
+        - section: "Final Project"
           contents:
             - assignment/final-project.qmd
-            - assignment/weekly-check-in.qmd
         - section: "Problem sets"
           contents:
             - assignment/01-problem-set.qmd
@@ -113,45 +151,10 @@ website:
             - assignment/07-problem-set.qmd
             - assignment/08-problem-set.qmd
             - assignment/09-problem-set.qmd
-        - section: "Evaluation"
-          contents:
-            - assignment/01-eval-background-theory.qmd
-            - assignment/02-eval-measurement.qmd
-            - assignment/03-eval-dag.qmd
-            - assignment/04-eval-threats.qmd
-
-    - title: "Examples"
-      contents:
-        - section: "Overview"
-          contents:
-            - example/index.qmd
-        - section: "Simulated data"
-          contents:
-            - text: "Random numbers"
-              file: example/random-numbers.qmd
-            - text: "Synthetic data"
-              file: example/synthetic-data.qmd
-        - section: "Examples"
-          contents:
-            - example/rstudio-tidyverse.qmd
-            - example/regression.qmd
-            - example/dags.qmd
-            - example/po-ate-cate.qmd
-            - text: "RCTs"
-              file: example/rcts.qmd
-            - text: "Matching and IPW"
-              file: example/matching-ipw.qmd
-            - text: "Robust standard errors"
-              file: example/standard-errors.qmd
-            - text: "Unobserved confounding"
-              file: example/confounding-sensitivity.qmd
-            - text: "Diff-in-diff"
-              file: example/diff-in-diff.qmd
-            - example/rdd.qmd
-            - example/iv.qmd
-            - text: "ITT and CACE"
-              file: example/cace.qmd
-            - example/rdd-fuzzy.qmd
+            - assignment/10-problem-set.qmd
+            - assignment/11-problem-set.qmd
+            - assignment/12-problem-set.qmd
+            - assignment/13-problem-set.qmd
 
     - title: "Resources"
       contents:

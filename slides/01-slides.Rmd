@@ -1,6 +1,6 @@
 ---
-title: "Evaluation and the causal revolution"
-author: "Andrew Heiss"
+title: "Meet the Toolkit"
+author: "Viktoriia Semenova"
 date: "`r Sys.Date()`"
 output:
   xaringan::moon_reader:
