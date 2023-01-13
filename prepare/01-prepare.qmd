@@ -4,9 +4,12 @@ date: "2023-02-14"
 ---
 
 
+## Readings
+
+- [{{< fa scroll >}} Syllabus](/syllabus.html) 
 
 
-## Install the Software
+## Software
 
 In this course, we will use the open-source software `R` and RStudio as well as version control with `git` and GitHub. It would be best if you try installing all the necessary software *before* our class on Tuesday. First, I would like you to install both `R` and RStudio on your computer. Then, move to `git` and GitHub. This may look like a lot, but all of these tools will simplify your workflow once you actually start coding in R. 
 

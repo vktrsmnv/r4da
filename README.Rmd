@@ -15,7 +15,7 @@ withr::with_dir(here::here(), {
 })
 ```
 
-# Data Analytics and Visualization in R <a href='https://data-s23.netlify.app/'><img src='files/icon-512.png' align="right" height="139" /></a>
+# Data Analytics and Visualization with R <a href='https://data-s23.netlify.app/'><img src='files/img/sticker.png' align="right" height="139" /></a>
 
 [Spring 2023](https://data-s23.netlify.app/)  
 Viktoriia Semenova • School of Social Sciences • University of Mannheim
@@ -28,8 +28,8 @@ Viktoriia Semenova • School of Social Sciences • University of Mannheim
 
 ## How to build the site
 
-1. Install [RStudio](https://www.rstudio.com/products/rstudio/download/#download) version 2022.07.1 or later since it has a [Quarto](https://quarto.org/) installation embedded in it. Otherwise, download and install [Quarto](https://quarto.org/) separately.
-2. Open `evalf22.Rproj` to open an [RStudio Project](https://r4ds.had.co.nz/workflow-projects.html).
+1. Install [RStudio](https://posit.co/download/rstudio-desktop/#download) version 2022.07.1 or later since it has a [Quarto](https://quarto.org/) installation embedded in it. Otherwise, download and install [Quarto](https://quarto.org/) separately.
+2. Open `data-s23.Rproj` to open an [RStudio Project](https://r4ds.had.co.nz/workflow-projects.html).
 3. If it's not installed already, R *should* try to install the [{renv} package](https://rstudio.github.io/renv/) when you open the RStudio Project for the first time. If you don't see a message about package installation, install it yourself by running `install.packages("renv")` in the R console.
 4. Run `renv::restore()` in the R console to install all the required packages for this project.
 5. Run `targets::tar_make()` in the R console to build everything.

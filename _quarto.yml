@@ -19,7 +19,7 @@ execute:
 
 bibliography: files/bib/references.bib
 csl: files/bib/chicago-author-date.csl
-description-meta: "Use modern statistical and data scientific tools to measure causal effects and evaluate public policy"
+description-meta: "Use modern statistical and data scientific tools to measure causal effects"
 
 website:
   title: "Data Analytics and Visualization with R"
@@ -29,7 +29,7 @@ website:
 
 
   open-graph:
-    image: "/files/social-image-f22.png"
+    image: "/files/img/sticker.png"
     locale: en_US
 
   navbar:
@@ -42,7 +42,7 @@ website:
         file: prepare/index.qmd
       - text: "Sessions"
         file: session/index.qmd
-      - text: "Assignment"
+      - text: "Assignments"
         file: assignment/index.qmd
       - text: "Resources"
         file: resource/index.qmd
