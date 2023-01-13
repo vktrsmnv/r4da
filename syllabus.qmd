@@ -178,6 +178,8 @@ I will distribute homework assignments via GitHub after our sessions on Tuesday.
 
 Content-wise, the problem sets will be primarily coding tasks, but they will also include theoretical questions related to readings and "lectures" once in a while. In order to pass the assignment, I need to see that you have tried to solve every task, and most of the tasks should be completed correctly. 
 
+You can find descriptions for all the assignments on the [assignments page](/assignment/).
+
 ### Attendance and participation
 
 Attendance and participation are important to your success in this course. You're expected to come to class each Tuesday prepared—having read the material and watched the videos—and ready to discuss the content and work with R. 
@@ -274,6 +276,11 @@ I am totally fine with you bringing drinks, especially caffeine-containing, to t
 
 Once we are halfway through the class, I will ask you for some feedback regarding the class. We will discuss your responses and I will try to incorporate this feedback for the second part of the class. At the end of the course, you will receive the official evaluations administered by the University, and I would appreciate you filling those in. 
 Apart from these opportunities, you are always welcome to share your concerns or feedback any time during the course, in person during office hours or anonymously via the [pop-up form on the course website](https://viktoriiasemenova.typeform.com/to/A8mIv5vG). 
+
+## Acknoweldgements
+
+This course benefited greatly from other publicly available course resources, in particular Gov50 by Matt Blackwell (Harvard University), Advanced Data Visualisation by Mine Cetinskaya-Rundlett (Duke University), Data Visualization by Andrew Heiss (Georgia State University), and Quantitative Methods in Political Science by Thomas Gschwend (University of Mannheim).   
+
 
 
 <!-- You can find descriptions for all the assignments on the [assignments page](/assignment/). -->

@@ -22,7 +22,7 @@ Viktoriia Semenova • School of Social Sciences • University of Mannheim
 
 ---
 
-**[Quarto](https://quarto.org/) + [{targets}](https://docs.ropensci.org/targets/) + [{renv}](https://rstudio.github.io/renv/) + [{xaringan}](https://github.com/yihui/xaringan) = magic! `r emoji::emoji("magic")`**
+**[Quarto](https://quarto.org/) + [{targets}](https://docs.ropensci.org/targets/) + [{renv}](https://rstudio.github.io/renv/) + [{xaringan}](https://github.com/yihui/xaringan) = magic!**
 
 ---
 
