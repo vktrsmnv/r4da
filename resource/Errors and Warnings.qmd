@@ -15,7 +15,16 @@ R has three ways of communicating its concerns:
 2.  Warnings
 3.  Messages
 
-Error messages appear when the execution of a certain function is terminated. R sees no possibility to continue with this input. There are two main reasons for this: syntax errors and semantic errors. The most intuitive examples of a syntax error are an unmatched parenthesis or a brace, and spelling mistakes in the name of a function. Semantic errors occur when the syntax of the code is correct, but it implies an impossible action. Imagine you created a data frame which has 5 rows. After that, you decided to add another column to this data frame. However, you do not notice that it has 10 rows. Even if you correctly asked R to attach this column, you would not see the result. Instead, you would get an error: replacement has \[x\] rows, data has \[y\]. It is important to understand that for us humans this action has more sense: we could imagine a table with one column which is bigger than others. For R this input sounds the same way as "how heavy is a red color?" for you.
+Error messages appear when the execution of a certain function is terminated. R sees no possibility to continue with this input. There are two main reasons for this: syntax errors and semantic errors. The most intuitive examples of a syntax error are an unmatched parenthesis or a brace, and spelling mistakes in the name of a function.
+
+```{r}
+#Unmached parenthesis 
+Mean(1:30
+#Wrong syntax:mdeian instead of median 
+Mdeian(1:30)
+```
+
+Semantic errors occur when the syntax of the code is correct, but it implies an impossible action. Imagine you created a data frame which has 5 rows. After that, you decided to add another column to this data frame. However, you do not notice that it has 10 rows. Even if you correctly asked R to attach this column, you would not see the result. Instead, you would get an error: replacement has \[x\] rows, data has \[y\]. It is important to understand that for us humans this action has more sense: we could imagine a table with one column which is bigger than others. For R this input sounds the same way as "how heavy is a red color?" for you.
 
 Warnings messages appear when R wants to warn you about the potential problems with the results of the execution of some function. The difference with errors is that in this case, you get a particular result, but R suspects that you are going to be dissatisfied with it. For example, imagine you created a vector of numbers and decided to convert it into a numeric class. If numbers in your vector are written properly, you will get a numeric vector. But if some of them do not, what happens then? R would automatically replace non-properly written numbers such as "1,000" or "2,500" with "NA". You made a syntax error using a comma as a separator without letting R know. However, R would not terminate the process of converting, but rather send a warning message: "NA's introduced by coercion".It might be the case that it was your plan from the very beginning, so you can ignore this message. If not, use it as a sign that some debugging is needed here.
 
