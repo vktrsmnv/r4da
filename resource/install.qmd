@@ -1,8 +1,5 @@
 ---
 title: "Installing R, RStudio, git, and Connecting to GitHub"
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 In this course, we will use the open-source software `R` and RStudio as
