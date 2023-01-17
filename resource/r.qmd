@@ -118,7 +118,7 @@ R has three ways of communicating its concerns:
 
 1.  Errors
 2.  Warnings
-3.   Messages
+3.  Messages
 
 Error messages appear when the execution of a certain function is
 terminated. R sees no possibility to continue with this input. There are
@@ -173,7 +173,7 @@ hesitate to contact us on Slack. Each error and warning is a good
 possibility to learn something about using R properly, so it is not a
 time loss when you search for potential problems and solutions.
 
-Sources which contain the most popular errors and messages:
+Sources which contain the most popular errors and warnings:
 
 Handling Errors & Warnings in R \| List of Typical Messages & How to
 Solve: [Statistics Globe](https://statisticsglobe.com/errors-warnings-r)
