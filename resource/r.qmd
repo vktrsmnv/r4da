@@ -180,11 +180,3 @@ Solve: [Statistics Globe](https://statisticsglobe.com/errors-warnings-r)
 
 Common Errors in R, Chapter 46: [Community
 Contribution](https://jtr13.github.io/cc21/common-errors-in-r.html)
-
-Where to go if you have a problem:
-
-[Stack Overflow](https://stackoverflow.com/)
-
-[R-bloggers](https://www.r-bloggers.com/2021/07/make-error-messages-your-own/)
-
-[RDocumentation](https://www.rdocumentation.org/)
