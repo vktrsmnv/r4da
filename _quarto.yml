@@ -177,6 +177,7 @@ website:
             - resource/markdown.qmd
             - resource/rmarkdown.qmd
             - resource/unzipping.qmd
+            - resource/errors.qmd
 
   page-footer:
     left: |
