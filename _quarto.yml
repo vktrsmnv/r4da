@@ -179,6 +179,7 @@ website:
             - resource/unzipping.qmd
             - resource/errors.qmd
 
+
   page-footer:
     left: |
       Content {{< fa brands creative-commons >}} {{< var course.copyright_year >}} by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}) <br>
