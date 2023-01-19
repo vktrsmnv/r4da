@@ -1,5 +1,5 @@
 ---
-title: "# Errors, Warnings and Messages in R"
+title: "Errors, Warnings and Messages in R"
 editor: 
  markdown: 
     wrap: 72
