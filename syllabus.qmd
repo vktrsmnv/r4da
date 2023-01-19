@@ -36,38 +36,17 @@ Making sense of the modern world and learning new things about it demands an und
 
 <!-- No statistical or computing background is necessary to succeed in this class, although you will benefit from the course most if you have taken an introductory class in quantitative methodology. You will learn to use the open-source and free statistical programming language R—one of the most popular, sought-after, and in-demand statistical programming languages, along with other professional tools for data analysis, such as RStudio, git, and GitHub. -->
 
-## Learning objectives UPDATE
+## Learning objectives 
 
-By the end of this course, you (1) will be literate in the language of causal inference, (2) will communicate evaluation outcomes clearly, and (3) will understand the ethics and limits of data analysis by designing, critiquing, coding, and running rigorous, valid, and feasible evaluations of public sector programs focused on society’s most pressing problems.
+By the end of this course, you'll be able to:
 
-Specifically, you'll be able to:
-
-<!-- - Explain the philosophy of causation -->
-<!-- - Identify and diagram program logic models -->
-<!-- - Outline theories of change with directed acyclic graphs (DAGs) -->
-<!-- - Summarize key threats to causal inference, identify these threats in evaluations, and mitigate these threats with research design -->
-<!-- - Develop rigorous and valid statistical measures -->
-<!-- - Run statistical models -->
-<!-- - Explain the theory, research design, methods, and results of evaluations to all types of stakeholders, from highly trained econometricians to the general public -->
-- analyze real-world data to answer questions about multivariable relationships
-- Perform statistical analysis 
-- Design studies aimed to evaluate causal relationships 
-- Use linear regression designs 
-- Data viz stuff 
-- use Quarto to write reproducible reports and GitHub for version control and collaboration
-- Become more confident in evaluating and consuming data 
-
-
-<!-- ## Course philosophy -->
-
-<!-- We will have two areas of emphasis in this course: causal inference, i.e. how to evaluate the effect of X on Y, and data communication through visualization.  -->
-<!-- We *begin* with data and learn how to tidy, wrangle, manipulate, and visualize it with code. Later in the semester we'll turn to the powerful toolbox of causal inference approaches, but continue to keep the focus on data as we do so. -->
-
-
-<!-- This class will expose you to [R](https://cran.r-project.org/)—one of the most popular, sought-after, and in-demand statistical programming languages. Armed with the foundation of R skills you'll learn in this class, you'll know enough to be able to find how to analyze data-based questions in the future.   -->
-
-
-
+- use the statistical programming language `R` for data wrangling and analysis 
+- translate your theory into a statistical model
+- outline theories with directed acyclic graphs (DAGs)  
+- use statistical modeling for estimating *causal* effects from observational data  
+- create meaningful visualizations to communicate insights from data
+- use Quarto to write reproducible reports
+- use `git` and GitHub for version control and collaboration
 
 
 <!-- ## Important pep talk! -->
@@ -228,15 +207,15 @@ You can do this task alone or in pairs, and completing it would improve your fin
 
 ### Late work and extensions
 
-The due dates for assignments are there to help you keep up with the course material and to ensure that I can provide feedback within a timely manner. This means that for homework assignments, your GitHub repositories will be closed to contributions at the deadline, which means you cannot edit them any longer. 
+The due dates for assignments are there to help you keep up with the course material and to ensure that I can provide feedback within a timely manner. This means that for homework assignments, your GitHub repositories will be closed to contributions at the deadline, which means you cannot edit them any longer and submit files. 
 
 Once during the semester you may get an unexplained extension and submit the assignment late (but no later than 6 days after the deadline). If there are circumstances that prevent you from completing a homework assignment by the stated due date, please [email](mailto:semenova@uni-mannheim.de?subject=data-s23 // late submission) me _before the deadline_. In your email, you only need to request the waiver, you do not need to provide explanation.
 
 For the final project, as a rule no late work will be accepted. 
 
-### Regrade requests 
+<!-- ### Regrade requests  -->
 
-Regrade requests must be made within one week of when the assignment is returned, and must be submitted via [email](mailto:semenova@uni-mannheim.de?subject=data-s23 // regrade request). Note that during the regrade process your score could go up or go down or not change.
+<!-- Regrade requests must be made within one week of when the assignment is returned, and must be submitted via [email](mailto:semenova@uni-mannheim.de?subject=data-s23 // regrade request). Note that during the regrade process your score could go up or go down or not change. -->
 
 
 ### Collaboration 
@@ -264,22 +243,22 @@ I am not sympathetic about computer emergencies. In general, you should learn to
 
 It is my goal that this class is an accessible and welcoming experience for all students, including those with disabilities that may impact learning in this class. If you anticipate or experience academic barriers based on your disability (including mental health, chronic or temporary medical conditions), please let me know immediately so that we can privately discuss options. After registration, make arrangements with me as soon as possible to discuss your accommodations so that they may be implemented in a timely fashion. Please consult the [University website](https://www.uni-mannheim.de/en/academics/advice-and-services/advice-for-students-with-disabilities-or-chronic-illnesses/) for more information on the topic. 
 
-### Pronouns
-Pronouns are meaningful tools to communicate identities and experiences, and using pronouns supports a campus environment where all community members can thrive. Please update your gender pronouns in Slack. 
+<!-- ### Pronouns -->
+<!-- Pronouns are meaningful tools to communicate identities and experiences, and using pronouns supports a campus environment where all community members can thrive. Please update your gender pronouns in Slack.  -->
 
 
-### Foods and Drinks in Class
+### Foods and drinks in class
 
 I am totally fine with you bringing drinks, especially caffeine-containing, to the class. However, please do not use the class time to have snacks or lunch. 
 
-## Student Feedback
+## Student feedback
 
 Once we are halfway through the class, I will ask you for some feedback regarding the class. We will discuss your responses and I will try to incorporate this feedback for the second part of the class. At the end of the course, you will receive the official evaluations administered by the University, and I would appreciate you filling those in. 
 Apart from these opportunities, you are always welcome to share your concerns or feedback any time during the course, in person during office hours or anonymously via the [pop-up form on the course website](https://viktoriiasemenova.typeform.com/to/A8mIv5vG). 
 
 ## Acknoweldgements
 
-This course benefited greatly from other publicly available course resources, in particular Gov50 by Matt Blackwell (Harvard University), Advanced Data Visualisation by Mine Cetinskaya-Rundlett (Duke University), Data Visualization by Andrew Heiss (Georgia State University), and Quantitative Methods in Political Science by Thomas Gschwend (University of Mannheim).   
+This course benefited greatly from other publicly available course resources, in particular [Gov50 by Matt Blackwell](https://gov50.mattblackwell.org/) (Harvard University), [Advanced Data Visualisation by Mine Cetinskaya-Rundlett](https://vizdata.org/) (Duke University), [Data Visualization by Andrew Heiss](https://datavizs22.classes.andrewheiss.com/) (Georgia State University), and [Quantitative Methods in Political Science by Thomas Gschwend](https://qm2021.netlify.app/) (University of Mannheim).   
 
 
 

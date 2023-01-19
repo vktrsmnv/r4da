@@ -23,7 +23,7 @@ description-meta: "Use modern statistical and data scientific tools to measure c
 
 website:
   title: "Data Analytics and Visualization with R"
-  site-url: "https://data-s23.netlify.app"
+  site-url: "https://r4da.live"
 
   favicon: "/files/icon-512.png"
 
@@ -34,7 +34,7 @@ website:
 
   navbar:
     pinned: true
-    background: "#400020"
+    background: "#800010"
     right:
       - syllabus.qmd
       - schedule.qmd

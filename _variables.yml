@@ -9,7 +9,7 @@ instructor:
   github: vktrsmnv
   office: "A5, 6 B301"
   contact_policy: >-
-    Our Slack workspace is the best way to reach me. I will try to respond on the same day on weekdays during lecture period. For general and assignment-related questions, please use respective channels on Slack. For personal matters, DM me or just shoot me an email.
+    Email or our Github Discussions forum is the best way to reach me. I will try to respond on the same day on weekdays during lecture period. For general and assignment-related questions, please use GitHub Discussion. For personal matters, please shoot me an email.
   appointment_url: https://calendly.com/vktrsmnv
 
 course:
@@ -20,7 +20,7 @@ course:
   location: "A5, 6 C217"
   dates: "Spring 2023"
   github: "https://github.com/organizations/unima-data-s23"
-  url: "https://data-s23.netlify.app"
+  url: "https://r4da.live"
   copyright_year: "2023"
   slack: "https://data-s23.slack.com"
 
