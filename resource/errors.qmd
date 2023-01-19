@@ -1,11 +1,14 @@
 ---
-title: "Errors and Warnings in R"
+title: "# Errors, Warnings and Messages in R"
 editor: 
  markdown: 
     wrap: 72
 ---
 
-# Errors, Warnings and Messages in R
+This guide is intended to introduce you to the different types of
+notices you will encounter while working in R
+
+# Why errors in R are so stressful?
 
 These days we interact with computers mainly using graphical interfaces.
 The most challenging thing about R is that it is different from our
@@ -19,11 +22,15 @@ program simply indicates the presence of an error, but doesn't help to
 solve it. This brings despair and anxiety. Our task is to learn how to
 take the most from R notices to debug our code and keep calm.
 
+# Different types of notices
+
 R has three ways of communicating its concerns:
 
 1.  Errors
 2.  Warnings
 3.  Messages
+
+## Errors
 
 Error messages appear when the execution of a certain function is
 terminated. R sees no possibility to continue with this input. There are
@@ -62,6 +69,8 @@ after the error message in the console you can see a *greater-than*
 sign: \>. Every code line in console starts with it. If it appears in
 the next line you know that R has stopped executing previous line.
 
+## Warnings
+
 Warnings messages appear when R wants to warn you about the potential
 problems with the results of the execution of some function. The
 difference with errors is that in this case, you get a particular
@@ -83,18 +92,22 @@ It might be the case that it was your plan from the very beginning, so
 you can ignore this message. If not, use it as a sign that some
 debugging is needed here.
 
+## Messages
+
 The last type is messages. They are mainly used to draw your attention
 to some execution results which might be less intuitive. They are
 designed by people who write functions and packages to make them more
 usable and easy in terms of diagnostics.
 
+# You got an error message: tips that might help
+
 Below you can find the list of sources which contain the most popular
 errors and warning messages in R. It can be useful to familiarize
-yourself with them and even try to replicate. some by yourself. However,
-it would be really hard to learn every error message so that non of them
-would come to you as a surprise. The good thing is that you don't really
-need to. R is the most popular programming language for statistics which
-has a great community. On open platforms such as Stack Overflow, you may
+yourself with them and even try to replicate some by yourself. However,
+it is really hard to learn every error message so that non of them would
+come to you as a surprise. The good thing is that you don't really need
+to. R is the most popular programming language for statistics which has
+a great community. On open platforms such as Stack Overflow, you may
 find the errors and problems you faced being already discussed. We have
 several pieces of advice regarding this. First, you can copy and paste
 the keywords from your error message directly to Google or another
