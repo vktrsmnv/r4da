@@ -1,113 +1,155 @@
 ---
 title: "Problem set 1"
-date: "2022-08-29"
+date: "2023-02-20"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center")
 ```
 
-## Task 1: Introduce yourself to R, RStudio, and the tidyverse
 
-1. Go the the example page for this week, ["Welcome to R, RStudio, and the tidyverse"](/example/rstudio-tidyverse.qmd), and work through the different primers and videos in the four parts of the page.
+This homework helps you with establishing the workflow with GitHub and Rstudio, as well as guides you through the first steps in working with Quarto documents. The guideline is rather detailed, so it may look like a lot but it is not. 
 
-    It seems like there's a lot on the page, but they're short and go fairly quickly (especially as you get the hang of the syntax). Also, **I have no way of seeing what you do or what you get wrong or right, and that's totally fine!** If you get stuck and want to skip some (or if it gets too easy), go right ahead and skip them!
+## Task 1: Install the software 
+
+1. If you haven't done so, please install the software following the guidelines [on this page](resources/install.html). Do this as soon as you have the chance, ideally before Friday so you can come to the office hours if you need help. 
 
 
-## Task 2: Make an RStudio Project
+## Task 2: Load your first homework repo 
 
-1. Use either RStudio.cloud or RStudio on your computer (preferably RStudio on your computer! [Follow these instructions to get started!](/resource/install.qmd)) to create a new RStudio Project. Refer to the [example page you read in Task 1 for instructions](/example/rstudio-tidyverse.qmd#part-3-rstudio-projects)
+You will be working on homework assignments in *private* repositories, which means only you and I have access to the files. Each homework repo will include your GitHub/ILIAS login in the title. You should be able to load this repo into your local machine, make changes to the files there, and have access to uploading things back to GitHub so I can see and grade them.
 
-2. Create a folder named "data" in the project folder you just made.
 
-3. Download this CSV file and place it in that folder:
+
+1. **Get the URL of the repo for homework assignment:** go to the page of our [course organization on GitHub]() and open the repository `01-problem-set-[username]`. This repo contains all the relevant materials for your first homework assignment. 
+
+Click on the green Code and copy the HTTPS link for the repo by clicking on the clipboard icon. 
+
+IMAGE 1
+<!-- To work on the assignment, you have open the repository as a new project in RStudio on your computer.  -->
+
+2. **Import the repository in RStudio:**
+
+Open RStudio and select `File` > `New Project` > `Version Control` > `Git`. 
+
+![](../files/img/assignments/new_project.png)
+
+In the final window, paste the repo URL you grabbed from GitHub in the `Repository URL` window. 
+Click on `Browse` to select the folder on your computer where you want to store the project. I suggest you set up a folder on your computer for all the class content and always use this as a destination to store your material for the course. 
+
+Click on `Create Project`. 
+
+If everything worked fine, you should now have a subfolder `01-problem-set-[username]` in the folder our selected when cloning the project. 
+
+## Task 3: Practice committing to the repo
+
+Before we move to `R`, let's try uploading files into GitHub. The process here requires two steps: first, you need to, figuratively, take a snapshot of your project looks like at the moment. This is what a `commit` command will do. And after that, you will need to upload your changes to GitHub (otherwise, they just stay on your local machine). This is done with the help of `push` command. 
+
+Your first commit will be adding the dataset into the repo: 
+
+- Create a subfolder named `data` in the project folder you just made. 
+- Download this `csv` file and place it in that folder:
 
     - [{{< fa file-csv >}} `cars.csv`](/files/data/package_data/cars.csv)
+    
+    
+Now you are ready to make your first commit! Here are the steps you need to follow: 
 
-4. In RStudio, go to "File" > "New File…" > "R Markdown…" and click "OK" in the dialog without changing anything.
+**How to upload the assignment to GitHub**
 
-5. Delete all the placeholder text in that new file and replace it with this:
+1. Click on `Git` in the environment pane on the upper right.
 
-````{verbatim, indent="    "}
----
-title: "Problem set 1"
-author: "Put your name here"
-output: html_document
----
+![](../files/img/assignments/github_push_1.png)
 
-```{r load-libraries-data, warning=FALSE, message=FALSE}
-library(tidyverse)
+2. Click on `Commit`.
+  
+![](../files/img/assignments/github_push_1.png)
+  
+3. Check all boxes that appear in the upper left pane.
+4. Write a _Commit Message_ in the upper right window. **For this task, please use _Added `data` folder_ as your Commit Message**. But usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. If you are completely done with the assignment, the message could be "Final assignment", but that's fully up to you. 
+5. Click on `Commit`.
+  
+![](../files/img/assignments/github_push_2.png)
 
-cars <- read_csv("data/cars.csv")
-```
+6. **Important**: _After clicking on Commit_, close the dialogue window and click on `Push` in order to push the new version to GitHub.
+  
+![](../files/img/assignments/github_push_3.png)
+  
+7. Now you can go to the repository on GitHub and check whether it is updated to the most current version of your assignment.
 
-# Learning R
-
-Tell me that you worked through the primers and videos and examples at the example page for this week:
-
-WRITE SOMETHING HERE LIKE "I did all the primers and had the time of my life!" or whatever.
-
-
-# My first plots
-
-Insert a chunk below and use it to create a scatterplot (hint: `geom_point()`) with diplacement (`displ`) on the x-axis, city MPG (`cty`) on the y-axis, and with the points colored by drive (`drv`).
-
-PUT CHUNK HERE
-
-Insert a chunk below and use it to create a histogram (hint: `geom_histogram()`) with highway MPG (`hwy`) on the x-axis. Do not include anything on the y-axis (`geom_histogram()` will do that automatically for you). Choose an appropriate bin width. If you're brave, facet by drive (`drv`).
-
-PUT CHUNK HERE
+In a few minutes after you pushed, if you have done everything right, you will see the badge "Data folder commit" in the `README.md` (aka description) part in your repository turning green.[^actions] 
 
 
-# My first data manipulation
-
-Insert a chunk below and use it to calculate the average city MPG (`cty`) by class of car (`class`). This won't be a plot---it'll be a table. Hint: use a combination of `group_by()` and `summarize()`.
-
-PUT CHUNK HERE
-````
-
-6. Save the R Markdown file with some sort of name (**without any spaces!**)
-
-7. Your project folder should look something like this:
-
-```{r project-structure, echo=FALSE, out.width="30%"}
-knitr::include_graphics("/files/img/assignments/project-structure.png", error = FALSE)
-```
+[^actions]: If you think you did everything right (which means you see `data` folder on GitHub) but the badge is red--don't worry! 
 
 
-## Task 3: Work with R
-
-1. Remove the text that says "PUT CHUNK HERE" and insert a new R code chunk. Either type <kbd>ctrl</kbd> + <kbd>alt</kbd> + <kbd>i</kbd> on Windows, or <kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>i</kbd> on macOS, or use the "Insert Chunk" menu:
-
-```{r insert-chunk-button, echo=FALSE, out.width="19%"}
-knitr::include_graphics("/files/img/assignments/insert-chunk-button.png", error = FALSE)
-```
-
-2. Follow the instructions for the three chunks of code.
-
-3. Knit your document as a Word file (or PDF if you're brave and [installed LaTeX](/resource/install.qmd#install-tinytex)). Use the "Knit" menu:
-
-```{r knit-button, echo=FALSE, out.width="30%"}
-knitr::include_graphics("/files/img/assignments/knit-button.png", error = FALSE)
-```
-
-4. Upload the knitted document to iCollege.
-
-5. `r emoji::emoji("tada")` Party! `r emoji::emoji("tada")`
+## Task 4: Try working with Quarto document 
 
 
-:::{.callout-tip}
+Now let's move to the fun part--working in Quarto and writing the `R` code. 
 
-You'll be doing this same process for all your future problem sets. Each problem set will involve an R Markdown file. You can either create a new RStudio Project directory for all your work:
+Open the file `problem-set.qmd`. This is the file that allows you to both write the code and the text, so you can produce well-formatted reports. 
 
-```{r single-directory, echo=FALSE, out.width="30%"}
-knitr::include_graphics("/files/img/reference/rproj-one-folder.png", error = FALSE)
-```
+The top part of the file is called `YAML`. It contains the main information about the project. 
 
-Or you can create individual projects for each assignment and project:
+1. Update your first and last name in the YAML. Try `knit`-ing the file now--this will produce an HTML file with your name (and the rest of the content). 
 
-```{r multiple-directories, echo=FALSE, out.width="30%",}
-knitr::include_graphics("/files/img/reference/rproj-multiple-folders.png", error = FALSE)
-```
+After that, let's try writing some code. The code in Quarto documents goes into *chunks*. The very first chunk you have in the document is usually called `setup` and it contains all of the preparatory things, such as packages you need to load or other related things. 
 
-:::
+Let's start by loading the dataset you downloaded and put into `data` folder into `R`. You will work with a `csv` file, which is not a native `R` file. This means we need a package to work with it. If you remember from the session, we will be using `readr` package for this purpose.
+
+2. Check that `readr` is being installed with `install.packages` and loaded with `library` command in the `setup` chunk. If it is not, add the code to do this. 
+
+3. Load the dataset. To do that, you need to specify the path to the data file relative to the project directory. If the data were right in the project folder, you would write just the name of the dataset. But since we put the data in the subfolder, you need to include it into the path: `data/cars.csv`. 
+
+4. Inspect the dataset. 
+
+
+5. Create a new column in the dataset. 
+
+
+6. Generate the plot. Copy and paste this code into the respective chunk and run the chunk. 
+Explain what you see on the plot in 2-3 sentences. 
+Writing accompanying text is easiest if you are using the Visual editor in RStudio. The interface resembles the one you have in programs like Microsoft Word, so it is quite intuitive to format the text nicely. 
+
+Tip: you can use comments inside the code chunks to incorporate notes. Better use the comments for small code-related notes and write descriptions and answer to questions using the regular text option. 
+
+7. Knit the file to PDF. 
+Now let's try knitting to PDF rather than HTML. This way, you can share the reports files much easier. 
+
+8. Save the `qmd` file. Do not change the name of the file.
+
+
+
+## Task 5: Commit and push the final result version to GitHub
+
+You're almost done with the first homework! Now all that's left is uploading the task back to GitHub. Essentially, you need to repeat the steps from before:
+
+**How to upload the assignment to GitHub**
+
+1. Click on `Git` in the environment pane on the upper right.
+
+![](../files/img/assignments/github_push_1.png)
+
+2. Click on `Commit`.
+  
+![](../files/img/assignments/github_push_1.png)
+  
+3. Check all boxes that appear in the upper left pane.
+4. Write a _Commit Message_ in the upper right window. **For this task, please use _Completed assignment_ as your Commit Message**. But usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. 
+
+5. Click on `Commit`.
+  
+![](../files/img/assignments/github_push_2.png)
+
+6. **Important**: _After clicking on Commit_, close the dialogue window and click on `Push` in order to push the new version to GitHub.
+  
+![](../files/img/assignments/github_push_3.png)
+  
+7. Now you can go to the repository on GitHub and check whether it is updated to the most current version of your assignment.
+
+Congrats! You are done with the first assignment! ! `r emoji::emoji("tada")`
+
+
+
+
