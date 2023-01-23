@@ -46,9 +46,9 @@ website:
         file: assignment/index.qmd
       - text: "Resources"
         file: resource/index.qmd
-      - icon: slack
-        href: "https://data-s23.slack.com"
-        aria-label: Slack
+      - icon: github
+        href: "https://github.com/r4da-s23"
+        aria-label: GitHub
       - icon: cloud-fill
         href: "https://rstudio.cloud"
         aria-label: RStudio.cloud
