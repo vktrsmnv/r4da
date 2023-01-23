@@ -59,21 +59,21 @@ Now you are ready to make your first commit! Here are the steps you need to foll
 
 1. Click on `Git` in the environment pane on the upper right.
 
-![](../files/img/assignments/github_push_1.png)
+<!-- ![](../files/img/assignments/github_push_1.png) -->
 
 2. Click on `Commit`.
   
-![](../files/img/assignments/github_push_1.png)
+<!-- ![](../files/img/assignments/github_push_1.png) -->
   
 3. Check all boxes that appear in the upper left pane.
 4. Write a _Commit Message_ in the upper right window. **For this task, please use _Added `data` folder_ as your Commit Message**. But usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. If you are completely done with the assignment, the message could be "Final assignment", but that's fully up to you. 
 5. Click on `Commit`.
   
-![](../files/img/assignments/github_push_2.png)
+<!-- ![](../files/img/assignments/github_push_2.png) -->
 
 6. **Important**: _After clicking on Commit_, close the dialogue window and click on `Push` in order to push the new version to GitHub.
   
-![](../files/img/assignments/github_push_3.png)
+<!-- ![](../files/img/assignments/github_push_3.png) -->
   
 7. Now you can go to the repository on GitHub and check whether it is updated to the most current version of your assignment.
 
@@ -129,26 +129,26 @@ You're almost done with the first homework! Now all that's left is uploading the
 
 1. Click on `Git` in the environment pane on the upper right.
 
-![](../files/img/assignments/github_push_1.png)
+<!-- ![](../files/img/assignments/github_push_1.png) -->
 
 2. Click on `Commit`.
   
-![](../files/img/assignments/github_push_1.png)
+<!-- ![](../files/img/assignments/github_push_1.png) -->
   
 3. Check all boxes that appear in the upper left pane.
 4. Write a _Commit Message_ in the upper right window. **For this task, please use _Completed assignment_ as your Commit Message**. But usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. 
 
 5. Click on `Commit`.
   
-![](../files/img/assignments/github_push_2.png)
+<!-- ![](../files/img/assignments/github_push_2.png) -->
 
 6. **Important**: _After clicking on Commit_, close the dialogue window and click on `Push` in order to push the new version to GitHub.
   
-![](../files/img/assignments/github_push_3.png)
+<!-- ![](../files/img/assignments/github_push_3.png) -->
   
 7. Now you can go to the repository on GitHub and check whether it is updated to the most current version of your assignment.
 
-Congrats! You are done with the first assignment! ! `r emoji::emoji("tada")`
+Congrats! You are done with the first homework assignment! ! `r emoji::emoji("tada")`
 
 
 

@@ -128,8 +128,12 @@ than you think.
 
 <!-- -->
 
-    git --version
-    git config
+```{verbatim}
+git --version
+git config
+```
+
+
 
 2.  Accept the offer. Click on "Install".
 
