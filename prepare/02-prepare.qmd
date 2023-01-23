@@ -18,9 +18,11 @@ slide_details <- tibble::tribble(
 )
 ```
 
-## Readings
 
-- {{< fa book >}} Chapters 3 and 4 in *The Effect* [@Huntington-Klein:2021]
+## Videos and Readings
+
+- {{< fa video >}} Chapter 3 in *The Effect* [@Huntington-Klein:2021]
+- {{< fa book >}} Chapter 3 in *The Effect* [@Huntington-Klein:2021]
 
 
 ## Recommended readings

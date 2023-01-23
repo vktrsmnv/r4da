@@ -1,5 +1,5 @@
 date-heading:
-  content: "Due by 11:59 PM on"
+  content: "Due by 12:00 on"
   class: "bg-assignment"
 date-format: "full"
 

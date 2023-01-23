@@ -6,9 +6,11 @@ date: "2023-02-14"
 
 ## Readings
 
-Please have a look at the pages here **before** the class session. 
+Please have a look at the material here **before** the class session. 
 
-- [{{< fa scroll >}} Syllabus](/syllabus.html) 
+[{{< fa scroll >}} Syllabus](/syllabus.html) 
+
+The Effect Chapter 1 (optional)
 
 
 ## Software

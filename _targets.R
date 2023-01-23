@@ -2,8 +2,8 @@ library(targets)
 library(tarchetypes)
 suppressPackageStartupMessages(library(tidyverse))
 
-class_number <- "Data S23"
-base_url <- "https://data-s23.netlify.app/"
+class_number <- "R4DA S23"
+base_url <- "https://r4da.live/"
 page_suffix <- ".html"
 
 options(tidyverse.quiet = TRUE,
