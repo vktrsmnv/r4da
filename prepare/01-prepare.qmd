@@ -9,6 +9,7 @@ date: "2023-02-14"
 Please have a look at the material here **before** the class session. 
 
 [{{< fa scroll >}} Syllabus](/syllabus.html) 
+[{{< fa book >}} Getting Started with Data in R](https://moderndive.com/1-getting-started.html)
 
 The Effect Chapter 1 (optional)
 
