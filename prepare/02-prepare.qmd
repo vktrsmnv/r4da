@@ -23,7 +23,7 @@ date: "2022-08-29"
 
 - {{< fa video >}} Chapter 3 in *The Effect* [@Huntington-Klein:2021]
 - {{< fa book >}} Chapter 3 in *The Effect* [@Huntington-Klein:2021]
-
+- {{< fa book >}} [Chapter 2 Data Visualization in *Statistical Inference via Data Science*](https://moderndive.com/2-viz.html) 
 
 ## Recommended readings
 
