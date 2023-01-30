@@ -12,6 +12,8 @@ As you already know, GitHub is a version control system which is particularly us
 
 ```{r}
 median(1:10)
-mean(5:12)
+mean(5:11)
+print("Merge Conflict")
+median(5:10)
 ```
 
