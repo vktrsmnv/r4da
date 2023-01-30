@@ -12,6 +12,6 @@ As you already know, GitHub is a version control system which is particularly us
 
 ```{r}
 median(1:10)
-mean(5:11)
+mean(5:12)
 ```
 
