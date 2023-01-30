@@ -6,7 +6,7 @@ editor:
 ---
 
 This guide is intended to introduce you to the different types of
-notices you will encounter while working in R
+notices you will encounter while working in R.
 
 # Why errors in R are so stressful?
 
@@ -34,15 +34,16 @@ R has three ways of communicating its concerns:
 
 Error messages appear when the execution of a certain function is
 terminated. R sees no possibility to continue with this input. There are
-two main reasons for this: syntax errors and semantic errors. The most
-intuitive examples of a syntax errors are an unmatched parenthesis or a
-brace, and spelling mistakes in the name of a function.
+two main reasons for this: [syntax errors and semantic
+errors](https://warin.ca/posts/rcourse-howto-interpretcommonerrors/).
+The most intuitive examples of a syntax errors are an unmatched
+parenthesis or a brace, and spelling mistakes in the name of a function.
 
 ![](/files/img/errors/syntax.png){width="60%" fig-align="center"}
 
 You can see an illustration of both above. Without the closing
 parenthesis, R perceives an expression as being incomplete. Note that
-error messages have red color and start with "*Error:".* The second
+error messages have red color and start with "*Error:*". The second
 error message in the picture above is straightforward: R knows that you
 want to apply some function, but can't find it, and we know it is due to
 the typo in the name(mdeian instead of median).
