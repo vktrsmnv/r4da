@@ -115,9 +115,9 @@ the keywords from your error message directly to Google or another
 search engine. Second, better use the English language rather than your
 native language to search for solutions to the problems you face,
 because you would find much more information available. Also, never
-hesitate to contact us on Slack. Each error and warning is a good
-possibility to learn something about using R properly, so it is not a
-time loss when you search for solutions.
+hesitate to contact us using GitHub Discussions. Each error and warning
+is a good possibility to learn something about using R properly, so it
+is not a time loss when you search for solutions.
 
 Sources which contain the most popular errors and warnings:
 
