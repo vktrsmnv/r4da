@@ -12,6 +12,8 @@ As you already know, GitHub is a version control system which is particularly us
 ```{r}
 5+5
 2*2
+mean(5:10)
+mean(4:10)
 3*3
 
 ```
