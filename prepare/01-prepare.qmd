@@ -1,18 +1,26 @@
 ---
 title: "Meet the Toolkit"
 date: "2023-02-14"
+draft: false
 ---
 
 
-## Readings
+## Readings & Videos
 
-Please have a look at the material here **before** the class session. 
 
-[{{< fa scroll >}} Syllabus](/syllabus.html) 
-[{{< fa book >}} Getting Started with Data in R](https://moderndive.com/1-getting-started.html)
+Make sure to get yourself acquainted with the formalities by reading the syllabus for the class. 
 
-The Effect Chapter 1 (optional)
+- {{< fa scroll >}} [Syllabus](/syllabus.html) 
 
+If you wanna get a head start on the R-related material of the first week, you can look through these pages:
+
+- {{< fa book >}} [Getting Started with Data in R](https://moderndive.com/1-getting-started.html) [@IsmayKim:2018]
+
+And as a refresher on what is a good research question, so the starting point to our empirical analysis, have a look at this chapter and/or watch the video of the author of the book provided below: 
+
+- {{< fa book >}} [Chapter 2 in *The Effect*](https://theeffectbook.net/ch-ResearchQuestions.html) [@Huntington-Klein:2021]
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZPuEFjJ2us8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## Software
 

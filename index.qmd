@@ -42,7 +42,7 @@ withr::with_dir(here::here(), {
 - {{< fa calendar-alt >}} &nbsp; {{< var course.dates >}}
 - {{< fa clock >}} &nbsp; {{< var course.days >}} {{< var course.time >}}
 - {{< fa location-dot >}} &nbsp; {{< var course.location >}}
-- {{< fa brands slack >}} &nbsp; [Slack]({{< var course.slack >}})
+- {{< fa brands github >}} &nbsp; [GitHub Organization]({{< var course.github >}})
 :::
 
 ::: {.g-col-12 .g-col-md-4 .contact-policy}

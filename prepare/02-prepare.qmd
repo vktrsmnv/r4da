@@ -1,22 +1,8 @@
 ---
-title: "Regression and inference"
-date: "2022-08-29"
+title: "Describing Variables"
+date: "2023-02-21"
+draft: false
 ---
-
-<!-- ```{r slides-videos, echo=FALSE, include=FALSE} -->
-<!-- source(here::here("R", "slide-things.R")) -->
-<!-- source(here::here("R", "youtube-playlist.R")) -->
-
-<!-- playlist_id <- "PLS6tnpTr39sERjvBbJGr9mpqvtiLVPzd4" -->
-
-<!-- slide_details <- tibble::tribble( -->
-<!--   ~youtube_id,   ~title, ~slide, ~active, -->
-<!--   "S4OmWxc3h3Y", "Introduction", "1", TRUE, -->
-<!--   "DGbLEgL4g6Y", "Drawing lines", "drawing-lines", FALSE, -->
-<!--   "n-rV1TIoIgw", "Lines, Greek, and regression", "lines-greek-regression", FALSE, -->
-<!--   "RYKsrTKWCR4", "Null worlds and statistical significance", "significance", FALSE -->
-<!-- ) -->
-<!-- ``` -->
 
 
 ## Videos and Readings

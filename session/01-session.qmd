@@ -6,12 +6,12 @@ subtitle: "Session Artifacts"
 
 ## Key concepts and skills
 
-Today you will learn to do the following: 
+Today you will start working with `R` and learn to do the following: 
 
 - Start a workflow in RStudio using GitHub, i.e., pull from a repository, commit, and push 
 - Work with Markdown and Quarto documents 
 - Load and save datasets in most commonly formats  (`.RData`, `.rds`, `.csv`, `.tsv`, `.dta`)
-- Use basic R syntax 
+- Use basic `R` syntax 
 
 ## Key functions and packages 
 
