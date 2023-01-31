@@ -29,3 +29,13 @@ When you click the box the square becomes a tick and you can commit and push the
 For more details on how to solve the merge conflict see [this material](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/addressing-merge-conflicts/resolving-a-merge-conflict-using-the-command-line). In the next part, we talk about the simple steps of your RStudio working routine which would help to avoid this problem in the first place.
 
 # Avoid GitHub errors: simple rules
+
+The first and very simple rule is to always work on your assignment in the project file. Some students open .qmd files with the code separately and then see that there is no connection with the GitHub repository and they can not commit their changes. As you already know, having an R Project is also useful for keeping all the necessary files in one place to ensure reproducibility.
+
+Before opening the R Project file on your computer, spend some time going to the GitHub repository, seeing what is the last commit and reading the corresponding comments. After that open the project file you are going to work with and before making any corrections press the *Pull* button. It is a blue arrow pointing down. If you have an old version of the file it will be updated. If you locally have the most up-to-date version, you will get the following message:
+
+![](/files/img/giterrors/sixth.jpg){width="60%" fig-align="center"}
+
+Then you can work on your part of the project. Before committing and pushing your code to the repository, you can again click on *Pull*, and only after that press the "Push" button. This would allow you to avoid merging conflicts.
+
+GitHub has an in-built functionality to host collaborative projects and ensure the smooth co-existence of multiple active contributors who work on the same part of the project separately but at the same time. It also has multiple tools to solve merge conflicts. However, it also has multiple communication tools which could make technical problem-solving unnecessary. Write senseless comments to your commits, discuss the project with your colleagues before starting it, and inform them about your progress.
