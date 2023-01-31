@@ -8,9 +8,3 @@ This guide is about potential problems you may encounter while working together 
 
 As you already know, GitHub is a version control system which is particularly useful for the collaborative work on your project. The unique functionality of GitHub is provided by the complexity of the data storage mechanism(for more details, see [this page](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)). As soon as it is different from the other collaborative work instruments which students usually use working on different project, they sometimes perform actions which cause GitHub errors. The most common problem is merging conflict. In simple terms, it is a situation where multiple commits are in conflict with each other.
 
-```{r}
-median(1:10)
-mean(5:11)
-print("Merge Conflict")
-median(5:10)
-```
