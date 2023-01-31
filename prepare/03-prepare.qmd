@@ -1,81 +1,42 @@
 ---
-title: "Theories of change and logic models"
-date: "2022-09-05"
+title: "Describing Relationships"
+date: "2023-02-28"
+draft: true 
 ---
 
-```{r slides-videos, echo=FALSE, include=FALSE}
-source(here::here("R", "slide-things.R"))
-source(here::here("R", "youtube-playlist.R"))
+## Required readings
 
-playlist_id <- "PLS6tnpTr39sHjKJRcD-ebQUbcaFhc0cQH"
+- {{< fa book >}} [Chapter 3 in *Thinking Clearly with Data*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
 
-slide_details <- tibble::tribble(
-  ~youtube_id,   ~title, ~slide, ~active,
-  "dwsCSqczNng", "Introduction", "1", TRUE,
-  "XkHUQJp5fh0", "Reproducibility", "reproducibility", FALSE,
-  "Uos8RumBrzE", "Program theories", "program-theories", FALSE,
-  "8CJ7M2dTmF4", "Logic models & results chains", "logic-models", FALSE
-)
-```
+- {{< fa book >}} [Chapter 4 in *The Effect*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
 
-## Readings
+Based on both of these texts, try to find the answers to the following questions (texts are often complementary):
 
-- {{< fa book >}} Chapter 2 in *Impact Evaluation in Practice* [@wb-eval]
-- {{< fa book >}} Chapter 2 in *Evaluation: A Systematic Approach* [@RossiLipseyHenry:2019]. This is available on iCollege.
-- {{< fa book >}} Chapter 3 in *Evaluation: A Systematic Approach* [@RossiLipseyHenry:2019]. This is available on iCollege.
+- What does it mean that there is a relationship, or correlation, between two variables? 
+- What is a conditional distribution? 
+- How can we quantify the correlation? How do we interpret these measures? 
+- What are the limitations of describing a relationship with a correlation? 
+
+As for coding, this week we will carry on with plotting and do some data wrangling and reshaping as well. If not before the class, you can have a look at this chapter while working on the homework assignment. 
+
+- {{< fa book >}} [Chapter 3 Data Wrangling in *Statistical Inference via Data Science*](https://moderndive.com/3-wrangling.html) [@IsmayKim:2018]
+
+As last time, we have a [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf). 
 
 
-## Slides
-
-The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys.
-
-```{r show-slide-tabs, echo=FALSE, results="asis"}
-slide_buttons("/slides/03-slides")
-slide_tabs(slide_details, "/slides/03-slides.html")
-```
-
-:::{.callout-tip}
-**Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands.
-:::
+<!-- ## Recommended readings -->
 
 
-## Videos
 
-```{r show-youtube-list, echo=FALSE, results="asis"}
-youtube_list(slide_details, playlist_id)
-```
+<!-- Look through your notes on regression from your last stats class. Also, you can skim through these resources: -->
 
-```{verbatim include=FALSE}
-Playlist: https://www.youtube.com/playlist?list=PLS6tnpTr39sHjKJRcD-ebQUbcaFhc0cQH
+<!-- - {{< fa book >}} 7.1–7.3 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
+<!-- - {{< fa book >}} 8.1 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
 
-https://youtu.be/dwsCSqczNng
-PMAP 8521 • (3) Theories of change: (0) Introduction
+<!-- We'll review all this regression stuff in the videos, so *don't panic* if this all looks terrifying! Also, take advantage of the videos that accompany the *OpenIntro* chapters. And *also*, the *OpenIntro* chapters are heavier on the math—don't worry if you don't understand everything. -->
 
-Introduction to the class session on theories of change
+## Videos 
 
-Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
+You can have a look at the following videos accompanying *The Effect* book. They cover the same material as the assigned chapter, so no need to do both. 
 
 
-https://youtu.be/XkHUQJp5fh0
-PMAP 8521 • (3) Theories of change: (1) Reproducibility
-
-Discussion about the importance of reproducible data analysis practices
-
-Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
-
-  
-https://youtu.be/Uos8RumBrzE
-PMAP 8521 • (3) Theories of change: (2) Program theories
-
-Discussion of program components, program impact theories, and the importance of basing programs on sound theories
-
-Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
-
-
-https://youtu.be/8CJ7M2dTmF4
-PMAP 8521 • (3) Theories of change: (3) Logic models & results chains
-
-Discussion of results chains, logic models, and the difference between logic models and impact theories 
-
-Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/03-content/
-```

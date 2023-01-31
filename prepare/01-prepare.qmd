@@ -5,12 +5,15 @@ draft: false
 ---
 
 
-## Readings & Videos
+## Required readings
 
 
 Make sure to get yourself acquainted with the formalities by reading the syllabus for the class. 
 
 - {{< fa scroll >}} [Syllabus](/syllabus.html) 
+
+
+## Recommended readings
 
 If you wanna get a head start on the R-related material of the first week, you can look through these pages:
 
@@ -19,6 +22,8 @@ If you wanna get a head start on the R-related material of the first week, you c
 And as a refresher on what is a good research question, so the starting point to our empirical analysis, have a look at this chapter and/or watch the video of the author of the book provided below: 
 
 - {{< fa book >}} [Chapter 2 in *The Effect*](https://theeffectbook.net/ch-ResearchQuestions.html) [@Huntington-Klein:2021]
+
+## Videos 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ZPuEFjJ2us8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

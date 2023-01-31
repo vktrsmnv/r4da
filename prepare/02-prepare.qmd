@@ -5,33 +5,44 @@ draft: false
 ---
 
 
-## Readings & Videos
+## Required readings
 
-For a theoretical refresher, have a look at this chapter and/or videos accompanying the book:
+For a theoretical refresher, have a look at this chapter:
 
 - {{< fa book >}} [Chapter 3 in *The Effect*](https://theeffectbook.net/ch-DescribingVariables.html) [@Huntington-Klein:2021]
 
+Look out specifically for answers to these questions:
+
+- What is a variable? What are the types of variables do we usually work with in social sciences? 
+- What is a distribution of a variable? What is the difference between the distributions of continuous and discrete variables? 
+- Why may we want to summarize a distribution? How can we do it? 
+- What is variation of a variable? How can we measure it?  
+- What is the difference between an empirical and a theoretical distribution? How do they both relate to the data generation process? 
+- What are the characteristics of a normal distribution? What kind of processes can generate it? 
+
 And for a primer on what is a `ggplot2` and how we will be using it to plot data, check this out:
 
-- {{< fa book >}} [Chapter 2 Data Visualization in *Statistical Inference via Data Science*](https://moderndive.com/2-viz.html) 
+- {{< fa book >}} [Chapter 2 Data Visualization in *Statistical Inference via Data Science*](https://moderndive.com/2-viz.html) [@IsmayKim:2018]
+
+One of the best things you can do to navigate the `ggplot2` package is to use [the cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf). 
 
 
-One of the best things you can do to navigate the `ggplot2` package is to use the cheatsheet. I highly recommend you print it out and keep close:
+<!-- ## Recommended readings -->
 
 
 
+<!-- Look through your notes on regression from your last stats class. Also, you can skim through these resources: -->
+
+<!-- - {{< fa book >}} 7.1–7.3 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
+<!-- - {{< fa book >}} 8.1 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
+
+<!-- We'll review all this regression stuff in the videos, so *don't panic* if this all looks terrifying! Also, take advantage of the videos that accompany the *OpenIntro* chapters. And *also*, the *OpenIntro* chapters are heavier on the math—don't worry if you don't understand everything. -->
+
+## Videos 
+
+You can have a look at the following videos accompanying *The Effect* book. They cover the same material as the assigned chapter, so no need to do both. 
 
 
-## Recommended readings
-
-Look through your notes on regression from your last stats class. Also, you can skim through these resources:
-
-- {{< fa book >}} [5.1–5.4 in *ModernDive*](https://moderndive.com/5-regression.html) [@IsmayKim:2018]
-- {{< fa book >}} [6.1–6.4 in *ModernDive*](https://moderndive.com/6-multiple-regression.html) [@IsmayKim:2018]
-- {{< fa book >}} 7.1–7.3 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017]
-- {{< fa book >}} 8.1 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017]
-
-We'll review all this regression stuff in the videos, so *don't panic* if this all looks terrifying! Also, take advantage of the videos that accompany the *OpenIntro* chapters. And *also*, the *OpenIntro* chapters are heavier on the math—don't worry if you don't understand everything.
 
 
 
