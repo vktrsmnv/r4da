@@ -1,10 +1,8 @@
 ---
 title: "GitHub Errors"
-format: pdf
-editor: visual
 ---
 
-This guide is about potential problems you may encounter while working together on the project using GitHub. 
+This guide is about potential problems you may encounter while working together on the project using GitHub.
 
 # Why can GitHub cause problems?
 
@@ -16,4 +14,3 @@ mean(5:11)
 print("Merge Conflict")
 median(5:10)
 ```
-
