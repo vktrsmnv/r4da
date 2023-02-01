@@ -1,6 +1,7 @@
 ---
-title: "Instrumental variables I"
-date: "2022-10-31"
+title: "Fixed Effects"
+date: "2023-05-09"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -149,3 +150,6 @@ Demonstration of how to check instrument validity and run two-stage least square
 
 Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/iv/
 ```
+NA
+NA
+NA

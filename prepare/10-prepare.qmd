@@ -1,6 +1,7 @@
 ---
-title: "Regression discontinuity I"
-date: "2022-10-24"
+title: "Matching"
+date: "2023-05-02"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -141,3 +142,6 @@ Demonstration of how to measure the gap at a discontinuity using nonparametric m
 
 Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/rdd/
 ```
+NA
+NA
+NA

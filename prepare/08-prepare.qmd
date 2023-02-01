@@ -1,6 +1,7 @@
 ---
-title: "Difference-in-differences I"
-date: "2022-10-10"
+title: "Estimating Heterogeneous Effects"
+date: "2023-04-18"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -138,3 +139,6 @@ Demonstration of how to use interaction terms in regression to calculate a diff-
 
 Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/diff-in-diff/
 ```
+NA
+NA
+NA

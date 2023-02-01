@@ -1,6 +1,7 @@
 ---
-title: "Choosing and planning ethical evaluations"
-date: "2022-11-14"
+title: "Regression Discontinuity"
+date: "2023-05-23"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -91,3 +92,6 @@ Discussion of how to use best practices of open science and ethical research to 
 
 Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/13-content/
 ```
+NA
+NA
+NA

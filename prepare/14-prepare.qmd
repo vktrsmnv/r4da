@@ -1,6 +1,7 @@
 ---
-title: "Ethics, stories, and curiosity"
-date: "2022-11-28"
+title: "Review"
+date: "2023-05-30"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -162,3 +163,6 @@ Discussion of the importance of curiosity in continuing to learn R and causal in
 
 Access the slides and other materials at the course website at https://evalf20.classes.andrewheiss.com/content/14-content/
 ```
+NA
+NA
+NA

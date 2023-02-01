@@ -1,6 +1,7 @@
 ---
 title: "Identification and Causal Diagrams"
 date: "2023-03-07"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -115,3 +116,6 @@ Demonstration of how to create and analyze DAGs with R and the {ggdag} package
 
 Download the data and see the polished code at https://evalf20.classes.andrewheiss.com/example/dags/
 ```
+NA
+NA
+NA

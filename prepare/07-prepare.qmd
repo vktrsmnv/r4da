@@ -1,6 +1,7 @@
 ---
-title: "Randomization and matching"
-date: "2022-10-03"
+title: "Uncertainty and Statistical Inference"
+date: "2023-03-28"
+draft: true 
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
