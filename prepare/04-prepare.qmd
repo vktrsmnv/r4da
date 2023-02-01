@@ -1,6 +1,6 @@
 ---
-title: "Measurement and DAGs"
-date: "2022-09-12"
+title: "Identification and Causal Diagrams"
+date: "2023-03-07"
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
