@@ -178,6 +178,8 @@ website:
             - resource/rmarkdown.qmd
             - resource/unzipping.qmd
             - resource/errors.qmd
+            - resource/giterrors.qmd
+
 
 
   page-footer:
