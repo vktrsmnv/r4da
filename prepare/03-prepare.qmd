@@ -10,20 +10,22 @@ draft: true
 
 - {{< fa book >}} [Chapter 4 in *The Effect*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
 
-Based on both of these texts, try to find the answers to the following questions (texts are often complementary):
+### Guiding questions 
 
 - What does it mean that there is a relationship, or correlation, between two variables? 
 - What is a conditional distribution? 
 - How can we quantify the correlation? How do we interpret these measures? 
 - What are the limitations of describing a relationship with a correlation? 
 
+### Coding 
+
 As for coding, this week we will carry on with plotting and do some data wrangling and reshaping as well. If not before the class, you can have a look at this chapter while working on the homework assignment. 
 
 - {{< fa book >}} [Chapter 3 Data Wrangling in *Statistical Inference via Data Science*](https://moderndive.com/3-wrangling.html) [@IsmayKim:2018]
 
-As last time, we have a [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf). 
+As last time, we have a [cheatsheet for `tidyr`](https://posit.co/wp-content/uploads/2022/10/tidyr.pdf) and for [`dplyr`](https://posit.co/wp-content/uploads/2022/10/data-transformation-1.pdf). 
 
-
+<!-- https://posit.co/wp-content/uploads/2022/10/data-import.pdf -->
 <!-- ## Recommended readings -->
 
 

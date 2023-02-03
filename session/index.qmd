@@ -1,0 +1,6 @@
+---
+title: "Session Artifacts"
+---
+
+This section includes the slides we used in class and well as the code that we went through during the code-along part. You will usually find the content for the respective week on Tuesday evening after our session. The code will be annotated more heavily than in the lab files you will find on GitHub before the session. 
+

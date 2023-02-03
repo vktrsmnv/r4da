@@ -7,11 +7,9 @@ draft: false
 
 ## Required readings
 
-For a theoretical refresher, have a look at this chapter:
-
 - {{< fa book >}} [Chapter 3 in *The Effect*](https://theeffectbook.net/ch-DescribingVariables.html) [@Huntington-Klein:2021]
 
-Look out specifically for answers to these questions:
+### Guiding questions 
 
 - What is a variable? What are the types of variables do we usually work with in social sciences? 
 - What is a distribution of a variable? What is the difference between the distributions of continuous and discrete variables? 
@@ -19,6 +17,8 @@ Look out specifically for answers to these questions:
 - What is variation of a variable? How can we measure it?  
 - What is the difference between an empirical and a theoretical distribution? How do they both relate to the data generation process? 
 - What are the characteristics of a normal distribution? What kind of processes can generate it? 
+
+### Coding 
 
 And for a primer on what is a `ggplot2` and how we will be using it to plot data, check this out:
 
