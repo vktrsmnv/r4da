@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Data Analytics and Visualization with R <a href='https://data-s23.netlify.app/'><img src='files/img/sticker.png' align="right" height="139" /></a>
+# Data Analytics and Visualization with R <a href='https://r4da.live/'><img src='files/img/sticker.png' align="right" height="139" /></a>
 
-[Spring 2023](https://data-s23.netlify.app/)  
+[Spring 2023](https://r4da.live/)  
 Viktoriia Semenova • School of Social Sciences • University of Mannheim
 
 ------------------------------------------------------------------------

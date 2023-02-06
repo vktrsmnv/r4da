@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Use modern statistical and data scientific tools to measure causal effects">
+
+<title>Data Analytics and Visualization with R - Final project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta property="og:title" content="Data Analytics and Visualization with R - Final project">
+<meta property="og:description" content="Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session.">
+<meta property="og:image" content="https://r4da.live/files/img/sticker.png">
+<meta property="og:site-name" content="Data Analytics and Visualization with R">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="620">
+<meta property="og:image:width" content="535">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Data Analytics and Visualization with R</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html">
+ <span class="menu-text">Roadmap</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../prepare/index.html">
+ <span class="menu-text">Prepare</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../session/index.html">
+ <span class="menu-text">Sessions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../assignment/index.html" aria-current="page">
+ <span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-s23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Final project</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Overview</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/index.html" class="sidebar-item-text sidebar-link">Assignments</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Final Project</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/final-project.html" class="sidebar-item-text sidebar-link active">Final project</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">Problem sets</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/01-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 1</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/02-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 2</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/03-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 3</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/04-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 4</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/05-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 5</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/06-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 6</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/07-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 7</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/08-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 8</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/09-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 9</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/10-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 10</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/11-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 11</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/12-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 12</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../assignment/13-problem-set.html" class="sidebar-item-text sidebar-link">Problem Set 13</a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tldr" id="toc-tldr" class="nav-link active" data-scroll-target="#tldr">TLDR</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header">
+<h1 class="title d-none d-lg-block display-7">Final project</h1>
+
+<div class="date-block bg-assignment text-white p-2">
+  <p class="date">Due by 12:00 on Tuesday, June 13, 2023</p>
+</div>
+</header>
+
+<section id="tldr" class="level2">
+<h2 class="anchored" data-anchor-id="tldr">TLDR</h2>
+<p>Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have 14 days to complete the data essay.</p>
+<p>Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me <strong>before May 15, 2023</strong>, so we can agree on the option that would be a relevant evaluation for this class but also helpful for <em>you</em>.</p>
+<p>You can expect more details about the assignment to be added during the semester, but the task will be published on this page on May 30, 2023.</p>
+<!-- Evaluation research is tricky and costly. If you begin an intervention or launch a study prematurely, you can waste time and money—and potentially lives.  -->
+<!-- Even if you have a well designed program with an impeccable logic model and a perfect DAG, you might discover (too late!) that you forgot to collect some critical variables or realize that your identification strategy will not work.  -->
+<!-- From a more cynical perspective, you might (unethically) engage in the practice of [p-hacking](https://theconversation.com/one-reason-so-many-scientific-studies-may-be-wrong-66384)—running all sorts of different model specifications until you find the results you want, and then claim in your report that you had intended to run that model all along.  -->
+
+<!-- One increasingly popular method for (1) ensuring that your data and methods work before launching a study or intervention, and (2) declaring and committing to your hypotheses and methods and models before analyzing your data is to [*pre-register* your research or evaluation](https://blogs.plos.org/plos/2019/11/preregistration-can-bring-science-back-to-its-roots/). A [pre-registered study](https://www.sciencemag.org/news/2018/09/more-and-more-scientists-are-preregistering-their-studies-should-you) contains all the background work—an introduction, literature review, theory, hypotheses, and proposed analysis—but without the actual data. Authors post their expectations and hypotheses publicly so they can be held publicly accountable for any deviations from their proposed design.[^prereg] -->
+<!-- [^prereg]: See the [Center for Open Science's directory of preregistrations](https://cos.io/prereg/), or [AsPredicted list](https://aspredicted.org/) for examples of this in real life. [Here's one by me!](https://osf.io/hsbyd) -->
+<!-- The best preregistered studies use simulated data that has the same structure as the data that will be collected (i.e. same columns, sometimes the same correlations and relationships researchers expect to see in the collected data, etc.). Because there's no data yet (or [just fake data](/example/synthetic-data.qmd)), you have more freedom when developing a preregistered study. You can experiment with different models, play with different approaches, manipulate data in different ways, and so on. If you realize that you need a new variable, or that you need to rearrange questions on a survey, or make any other kinds of changes, you can—you haven't collected the data yet!  -->
+<!-- (Additionally, using synthetic data is extremely useful if you're working with proprietary or private data that you cannot make public. [You can make a synthetic version of the real data instead](https://arxiv.org/abs/2011.01374); see [this too](https://twitter.com/cmastication/status/1325424086659502081).) -->
+<!-- Once you finalize your plan and know all the data you need to collect, and once you've written out the different models you'll run, all you have to do is collect the real data, plop it into your script (replacing the fake data you'd been using), and run the analysis script again to generate the actual, real results. In the results section, you get to either say "As predicted, we found…", or "Contrary to expectations, we found that…". -->
+<!-- For your final project in this class, you will write a pre-registered analysis of a public or nonprofit social program that you're interested in. You don't need to worry about collecting data—[you'll create a synthetic dataset for your pre-analysis.](/example/synthetic-data.qmd) -->
+<!-- You will submit **three things** via iCollege: -->
+<!-- 1. A PDF of your preregistered report (see the outline below for details of what this needs to contain). You should compile this with R Markdown. You might want to write the prose-heavy sections in a word processor like Word or Google Docs and copy/paste the text into your R Markdown document, since RStudio doesn't have a nice spell checker or grammar checker. This should have *no visible R code, warnings, or messages in it* (set `echo = FALSE` at the beginning of your document before you knit). -->
+<!-- 2. The same PDF as above, but with all the R code in it (set `echo = TRUE` at the beginning of your document and reknit the file). -->
+<!-- 3. A CSV file of [your fake data.](/example/synthetic-data.qmd) -->
+<!-- This project is due by **11:59 PM on Monday, December 12, 2022.** <span style="color: #81056F; font-weight: bold"> No late work will be accepted.</span> -->
+<!-- You can either run the analysis in RStudio locally on your computer (highly recommended(!!), since you won't have to worry about keeping all your work on RStudio's servers), or use an RStudio.cloud project. You can make a copy of this RStudio.cloud project—it doesn't have anything in it, but I have preinstalled all the packages we've used over the course of the semester, so you don't have to. -->
+<!-- - [ Empty RStudio.cloud project](https://rstudio.cloud/spaces/269500/content/4357672) -->
+<!-- - [ Empty RStudio project you can download and unzip on your computer](/projects/final-project.zip) (doesn't include any packages, since you're responsible for installing those) -->
+<!-- ## Resources -->
+<!-- Most importantly, **do not hesitate** to work with classmates. You all must choose different programs, but you can work in groups of up to 4 people on your own projects. Also, **absolutely do not hesitate** to ask me questions! I'm here to help! -->
+<!-- You might find this evaluation (and its proposal) of a truancy program in the Provo School District in Utah helpful as an example for the first half of this assignment (program overview, theory, implementation, threats to validity, and outcomes). The PSD evaluation doesn't have DAGs or fancy econometrics models like RCTs, diff-in-diff, RDD, IVs, or anything like that, so you can't use it as an example of that part, but these should provide a good template for the program-specific sections. *This is longer than expected for this class*. I provide suggested word counts in the outline below. -->
+<!-- - [ `psd-proposal-2011`](/files/psd-proposal-2011.pdf) -->
+<!-- - [ `psd-final-report-2012`](/files/psd-final-report-2012.pdf) -->
+<!-- ## Suggested outline -->
+<!-- Here's an outline of what you'll need to do. You did lots of this work in your evaluation assignments. Please don't just copy/paste those assignments as is into this final project—you'll want to polish it up for this final report. You can download this as an RMarkdown file and change the text if you want. I've also included this as an RMarkdown file in the empty RStudio.cloud project. -->
+<!-- - [ `final-project-template.Rmd`](/projects/final-project/final-project-template.Rmd) -->
+<!-- --- -->
+<!-- ### Introduction -->
+<!-- Describe the motivation for this evaluation, briefly describe the program to be evaluated, and explain why it matters for society. (**≈150 words**) -->
+<!-- ### Program overview -->
+<!-- Provide in-depth background about the program. Include details about (1) when it was started, (2) why it was started, (3) what it was designed to address in society. If the program hasn't started yet, explain why it's under consideration. (**≈300 words**) -->
+<!-- ### Program theory and implementation -->
+<!-- #### Program theory and impact theory graph -->
+<!-- Explain and explore the program's underlying theory. Sometimes programs will explain why they exist in a mission statement, but often they don't and you have to infer the theory from what the program looks like when implemented. What did the program designers plan on occurring? Was this theory based on existing research? If so, cite it. (**≈300 words**) -->
+<!-- Include a simple impact theory graph showing the program's basic activities and outcomes. Recall from class and your reading that this is focused primarily on the theory and mechanisms, not on the implementation of the program. -->
+<!-- #### Logic model -->
+<!-- Describe the program's inputs, activities, outputs, and outcomes. Pay careful attention to how they are linked—remember that every input needs to flow into an activity and every output must flow out of an activity. (**≈150 words**) -->
+<!-- Use flowchart software to connect the inputs, activities, outputs, and outcomes and create a complete logic model. Include this as a figure.  -->
+<!-- ### Outcome and causation -->
+<!-- #### Main outcome -->
+<!-- Select one of the program's outcomes to evaluate. Explain why you've chosen this (is it the most important? easiest to measure? has the greatest impact on society?) (**≈50 words**) -->
+<!-- #### Measurement -->
+<!-- Using the concept of the "ladder of abstraction" that we discussed in class (e.g. identifying a witch, measuring poverty, etc.), make a list of all the possible attributes of the outcome. Narrow this list down to 3-4 key attributes. Discuss how you decided to narrow the concepts and justify why you think these attributes capture the outcome. Then, for each of these attributes, answer these questions: -->
+<!-- - *Measurable definition*: How would you specifically define this attribute? (i.e. if the attribute is "reduced crime", define it as "The percent change in crime in a specific neighborhood during a certain time frame" or something similar) -->
+<!-- - *Ideal measurement*: How would you measure this attribute in an ideal world? -->
+<!-- - *Feasible measurement*: How would you measure this given reality and given limitations in budget, time, etc.? -->
+<!-- - *Measurement of program effect*: How would to connect this measure to people in the program? How would you check to see if the program itself had an effect? -->
+<!-- (**≈150 words** in this section) -->
+<!-- #### Causal theory -->
+<!-- Given your measurement approach, describe and draw a causal diagram (DAG) that shows how your program causes the outcome. Note that this is not the same thing as the logic model—you'll likely have nodes in the DAG that aren't related to the program at all (like socioeconomic status, gender, experience, or other factors). The logic model provides the framework for the actual implementation of your program and connects all the moving parts to the outcomes. The DAG is how you can prove causation with statistical approaches. (**≈150 words**) -->
+<!-- #### Hypotheses -->
+<!-- Make predictions of your program's effect. Declare what you think will happen. (**≈50 words**) -->
+<!-- ### Data and methods -->
+<!-- #### Identification strategy -->
+<!-- How will you measure the actual program effect? Will you rely on an RCT? Differences-in-differences? Regression discontinuity? Instrumental variables? How does your approach account for selection bias and endogeneity? How does your approach isolate the causal effect of the program on the outcome? -->
+<!-- Also briefly describe what kinds of threats to internal and external validity you face in your study. -->
+<!-- (**≈300 words**) -->
+<!-- #### Data -->
+<!-- Given your measurement approach, limits on feasibility, and identification strategy, describe the data you will use. Will you rely on administrative data collected by a government agency or nonprofit? Will you collect your own data? If so, what variables will you measure, and how? Will you conduct a survey or rely on outside observers or do something else? What does this data look like? What variables does it (or should it) include? -->
+<!-- (**≈100 words**) -->
+<!-- ### Synthetic analysis -->
+<!-- [Generate a synthetic (fake) dataset in R with all the variables you'll need for the real life analysis.](/example/synthetic-data.qmd) Analyze the data using your identification strategy. For instance: -->
+<!-- - If you're relying on observational data, close all the backdoors with matching or inverse probability weighting, don't adjust for colliders, and make a strong argument for isolation of the causal effect in the absence of treatment/control groups -->
+<!-- - If you're doing an RCT, test the differences in means in the treatment and control groups (and follow all other best practices listed in the World Bank book, checking for balance across groups, etc.) -->
+<!-- - If you're doing diff-in-diff, run a regression model with an interaction term to show the diff-in-diff -->
+<!-- - If you're doing regression discontinuity, check for a jump in the outcome variable at the cutoff in the running variable -->
+<!-- - If you're using instrumental variables, check the validity of your instrument and run a 2SLS model -->
+<!-- Include robustness checks to ensure the validity of your effect (i.e. if you're doing regression discontinuity, test different bandwidths and kernel types; etc.) -->
+<!-- (**As many words as you need to fully describe your analysis and results**) -->
+<!-- ### Conclusion -->
+<!-- What would the findings from this analysis mean for your selected program? What would it mean if you found an effect? What would it mean if you didn't find an effect? Why does any of this matter? (**≈75 words**) -->
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

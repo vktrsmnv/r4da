@@ -23,7 +23,7 @@ tar_option_set(
 here_rel <- function(...) {fs::path_rel(here::here(...))}
 
 # Load functions for the pipeline
-source("R/tar_slides.R")
+# source("R/tar_slides.R")
 source("R/tar_projects.R")
 source("R/tar_data.R")
 source("R/tar_calendar.R")
@@ -46,13 +46,13 @@ list(
   # Use dynamic branching to get a list of all .Rmd files in slides/ and knit them
   #
   # The main index.qmd page loads xaringan_slides as a target to link it as a dependency
-  tar_files(xaringan_files, list.files(here_rel("slides"),
-                                       pattern = "\\.Rmd",
-                                       full.names = TRUE)),
-  tar_target(xaringan_slides,
-             render_xaringan(xaringan_files),
-             pattern = map(xaringan_files),
-             format = "file"),
+  # tar_files(xaringan_files, list.files(here_rel("slides"),
+  #                                      pattern = "\\.Rmd",
+  #                                      full.names = TRUE)),
+  # tar_target(xaringan_slides,
+  #            render_xaringan(xaringan_files),
+  #            pattern = map(xaringan_files),
+  #            format = "file"),
 
   ### Convert xaringan HTML slides to PDF ----
   #
@@ -60,16 +60,16 @@ list(
   # convert them to PDF with pagedown
   #
   # The main index.qmd page loads xaringan_pdfs as a target to link it as a dependency
-  tar_files(xaringan_html_files, {
-    xaringan_slides
-    list.files(here_rel("slides"),
-               pattern = "\\.html",
-               full.names = TRUE)
-  }),
-  tar_target(xaringan_pdfs,
-             xaringan_to_pdf(xaringan_html_files),
-             pattern = map(xaringan_html_files),
-             format = "file"),
+  # tar_files(xaringan_html_files, {
+  #   xaringan_slides
+  #   list.files(here_rel("slides"),
+  #              pattern = "\\.html",
+  #              full.names = TRUE)
+  # }),
+  # tar_target(xaringan_pdfs,
+  #            xaringan_to_pdf(xaringan_html_files),
+  #            pattern = map(xaringan_html_files),
+  #            format = "file"),
 
 
   ## Project folders ----
