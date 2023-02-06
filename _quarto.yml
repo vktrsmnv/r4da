@@ -155,6 +155,9 @@ website:
             - assignment/11-problem-set.qmd
             - assignment/12-problem-set.qmd
             - assignment/13-problem-set.qmd
+        - section: "Optional"
+          contents:
+            - assignment/presentation.qmd
 
     - title: "Resources"
       contents:
@@ -165,12 +168,6 @@ website:
             - resource/style.qmd
             - resource/data.qmd
             - resource/citations.qmd
-            - resource/bayes.qmd
-            - resource/zilch.qmd
-        - section: "Study guides"
-          contents:
-            - resource/exam1.qmd
-            - resource/exam2.qmd
         - section: "Guides"
           contents:
             - resource/install.qmd
@@ -197,4 +194,4 @@ format:
       - litera
       - html/custom.scss
     toc: true
-    highlight-style: monokai
+    highlight-style: github
