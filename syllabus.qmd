@@ -2,7 +2,7 @@
 title: Syllabus
 ---
 
-```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+```{r setup, message=FALSE, warning=FALSE, include=FALSE, eval=FALSE}
 library(dplyr)
 library(tibble)
 library(pander)
@@ -69,13 +69,13 @@ By the end of this course, you'll be able to:
 
 ## Course materials
 
-There is no single textbook for this class, and I will be assigning chapters from various resources. All of the material will be available to you for via this website. Due to copyright reasons, some of the links will be password-protected. I will tell you the password in class and in our Slack workspace. 
+There is no single textbook for this class, and I will be assigning chapters from various resources. All of the material will be available to you for via this website. Due to copyright reasons, some of the links will be password-protected. I will tell you the password in class and will send via email at the beginning of the semester. 
 
 There will be both required and suggested material. While required ones I expect everyone to be familiar with, the suggested ones are there in case you want to dive deeper into a particular topic. 
 
 ### Books & Videos
 
-For general intro to R, we will primarily use the books listed below. Most of the time these would be suggested rather than required readings:
+For general intro to `R`, we will primarily use the books listed below. Most of the time these would be suggested rather than required readings:
 
 - Garret Grolemund and Hadley Wickham. [*R for Data Science*](https://r4ds.had.co.nz/)
 - Chester Ismay and Albert Y. Kim. [*Statistical Inference via Data Science: A ModernDive into R*](https://moderndive.com)
@@ -84,7 +84,7 @@ There are multiple good books published recently on the topic of causal inferenc
 
 - Nick Huntington-Klein. *The Effect: An Introduction to Research Design and Causality* (CRC Press, 2021), <https://theeffectbook.net/>. 
 
-The book is quite lengthy but worry not, it is written at a more general, easy-to-understand level with relatively minimal math. *You do not need to understand all the equations and notation.* Another bonus with this book is the YouTube videos available for each chapter. They are no substitutes of the book but will be a great place to start to speed up the reading. 
+The book is quite lengthy but worry not, it is written at a general, easy-to-understand level with relatively minimal math. *You do not need to understand all the equations and notation.* Another bonus with this book is the YouTube videos available for each chapter. They are no substitutes of the book but will be a great place to start to speed up the reading. 
 
 There are a few more books I would assign chapters from and would recommend if you'd prefer a different take for some reason. 
 
@@ -122,15 +122,15 @@ If you have a question during the class, don't hesitate to ask it! There are lik
 
 ### Office hours
 
-If for whatever reason you'd rather come and talk in person rather than post on Slack, you can do this during the office hours. Considering the deadline for homework in on Monday, I will make sure to keep the slot on Friday, 15:00-17:00, for the office hours. This is, however, not the only time I am available. You can always just [pick from the time slots that work for me](https://calendly.com/vktrsmnv/data-s23) on that particular week and come at a different day/time. You can come in groups if you want. Just note that you'll need to let me know you're coming at least 6 hours in advance. While helping with computer issues would often be faster to deal with in person, if necessary, we can also talk via Zoom. 
+If for whatever reason you'd rather come and talk in person rather than post on the GitHub discussions, you can do this during the office hours. Considering the deadline for homework in on Monday, I will make sure to keep the slot on Friday, 14:00-16:00, for the office hours. This is, however, not the only time I am available. You can always just [pick from the time slots that work for me](https://calendly.com/vktrsmnv/r4da) on that particular week and come at a different day/time. You can come in groups if you want. Just note that you'll need to let me know you're coming at least 6 hours in advance. 
 
-### Slack workspace 
+### GitHub discussions
 
-Have a question that can't wait for office hours? Prefer to write out your question in detail rather than asking in person? Our class workspace at [Slack](https://data-s23.slack.com) is the best venue for these. Once you are registered to the class via Portal2, you will get an email with an invite link. The `#help` channel would be the place to post your questions. There is a chance another student has already asked a similar question, so please check the other posts in the channel before adding a new one. If you know the answer to a question that is posted, I encourage you to respond! 
+Have a question that can't wait for office hours? Prefer to write out your question in detail rather than asking in person? Our Discussions forum on GitHub is the best venue for these. Once you join the GitHub organization for this course, you will have access to the discussion tool. There is a chance another student has already asked a similar question, so please check the other posts in the channel before adding a new one. If you know the answer to a question that is posted, I encourage you to respond and if someone's response was helpful, you can mark it as an answer! 
 
 ### Email
 
-Please refrain from emailing any course content questions (those should go to Slack), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.). For such matters, you may email me at [semenova@uni-mannheim.de](mailto:semenova@uni-mannheim.de?subject=data-s23 // Your subject). You can also DM me in Slack. Barring extenuating circumstances, I will respond to emails within 24 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday.
+Please refrain from emailing any course content questions (those should go to Discussions), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.). For such matters, you may email me at [semenova@uni-mannheim.de](mailto:semenova@uni-mannheim.de?subject=r4da // Your subject).  Barring extenuating circumstances, I will respond to emails within 24 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday.
 
 
 ### Online Resources 
@@ -167,13 +167,17 @@ However, if you are sick, please just let me know you're not coming if you can (
 
 Since active participation is listed as a coursework requirement, I will take attendance at some point during the session.  
 
-## Evaluation and Grading policy UPDATE
+## Evaluation and Grading policy
 
 
 ### Final Paper 
 Grades for this class are intended to assess your learning about (1) data and code, (2) scientific and critical reasoning, and (3) statistical reasoning. Following university regulations, **100% of your grade will be determined by a final paper**. Make sure to sign up for the examination via Portal2 in addition to registering for the class during the semester (otherwise, I cannot submit your grade).
 
-DECIDE ON THE FINAL ASSIGNMENT 
+Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have until June 13, 2023 to complete the data essay[^deadline]. 
+
+[^deadline]: Once we have the exam schedule for the lectures, we can revisit the deadline issue. Either way, you will have 14 days to complete the assignment. 
+
+Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me **before May 15, 2023**, so we can agree on the option that would be a relevant evaluation for this class but also helpful for _you_.  
 
 I can only evaluate the final papers if you pass all the course requirements during the lecture period. This means two things:
 
@@ -194,9 +198,9 @@ See [Late work and extensions](/syllabus.html#late-work-and-extensions) for more
 
 ### (Optional) Presentation
 
-You could prepare an 8-10-minute presentation about a topic related to data visualization, data wrangling, or something else related to the course content. By doing this, you will see how easy it is to make slides right inside R (which is very useful when you need to present your analysis) and also get more practice collaborating using GitHub. As an alternative to an in-class presentation, you could prepare a little guide on that topic, which we could post on our course website. 
+You could prepare an 8-10-minute presentation or a blog post for this website about a topic related to data visualization, data wrangling, or something else related to the course content. By doing this, you will see how easy it is to make slides right inside R (which is very useful when you need to present your analysis) and also get more practice collaborating using GitHub. 
 
-You can do this task alone or in pairs, and completing it would improve your final grade by 0.3 point (no adverse effects otherwise, you can still get a 1.0 without doing this). You can find more information about the task [here](assignment/presentation.html). Talk to me if you are interested.
+You can do this task alone or in pairs, and completing it would improve your final grade by 0.3 point (no adverse effects otherwise, you can still pass the coursework requirements and/or get a 1.0 for the class without doing this assignment). You can find more information about the task [here](assignment/presentation.html). Talk to me if you are interested.
 
 
 
@@ -209,13 +213,13 @@ You can do this task alone or in pairs, and completing it would improve your fin
 
 The due dates for assignments are there to help you keep up with the course material and to ensure that I can provide feedback within a timely manner. This means that for homework assignments, your GitHub repositories will be closed to contributions at the deadline, which means you cannot edit them any longer and submit files. 
 
-Once during the semester you may get an unexplained extension and submit the assignment late (but no later than 6 days after the deadline). If there are circumstances that prevent you from completing a homework assignment by the stated due date, please [email](mailto:semenova@uni-mannheim.de?subject=data-s23 // late submission) me _before the deadline_. In your email, you only need to request the waiver, you do not need to provide explanation.
+Once during the semester you may get an unexplained extension and submit the assignment late (but no later than 6 days after the deadline). If there are circumstances that prevent you from completing a homework assignment by the stated due date, please [email](mailto:semenova@uni-mannheim.de?subject=r4da // late submission) me _before the deadline_. In your email, you only need to request the waiver, you do not need to provide explanation.
 
 For the final project, as a rule no late work will be accepted. 
 
 <!-- ### Regrade requests  -->
 
-<!-- Regrade requests must be made within one week of when the assignment is returned, and must be submitted via [email](mailto:semenova@uni-mannheim.de?subject=data-s23 // regrade request). Note that during the regrade process your score could go up or go down or not change. -->
+<!-- Regrade requests must be made within one week of when the assignment is returned, and must be submitted via [email](mailto:semenova@uni-mannheim.de?subject=r4da // regrade request). Note that during the regrade process your score could go up or go down or not change. -->
 
 
 ### Collaboration 

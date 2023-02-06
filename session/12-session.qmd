@@ -1,0 +1,32 @@
+---
+title: "Difference-in-Differences"
+date: "2023-05-22"
+---
+
+TBA
+
+<!-- ## What you should learn today -->
+
+<!-- ## Key functions and packages  -->
+
+<!-- - Base R -->
+
+<!-- - Package `dplyr`  -->
+
+<!-- - Package `readr` -->
+
+
+<!-- ## Cheatsheet -->
+
+<!-- ## Slides  -->
+
+
+
+
+
+
+
+
+
+
+

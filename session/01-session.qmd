@@ -1,6 +1,6 @@
 ---
 title: "Meet the Toolkit"
-# subtitle: "Session Artifacts"
+date: "2023-02-20"
 ---
 
 
@@ -17,24 +17,31 @@ Today you will start working with `R` and learn to do the following:
 
 - Base R
   - `<-` "assign"
-  - `|>` "pipe"
-  - `+` "add"
   - `c()`
   - `install.packages()`
   - `library()`
-  - `summary()`
   - `head()`
   - `tail()`
   - `print()`
   - `ncol()`
   - `nrow()`
-  - `sum()`
+  - `dim()`
+  - `summary()`
+  - `colnames()`/`rownames()`
+  - `length()`
+  
+- Package `dplyr` 
+  - `%>%` "pipe" 
+  - `glimpse()`
 
+- Package `readr`
+  - `read_csv()`
+  
+  
+  
 ## Cheatsheet
 
-
 There are many resources that can help you navigate data import, and this [cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-import.pdf) is one of them. It contains the main things you need to work with the functions we're using this week. You don't need all of the info in it, but it's a nice format for a quick reference. 
-
 
 ## Slides 
 

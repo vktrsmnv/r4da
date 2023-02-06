@@ -1,0 +1,32 @@
+---
+title: "Regression for Describing"
+date: "2023-03-27"
+---
+
+TBA
+
+<!-- ## What you should learn today -->
+
+<!-- ## Key functions and packages  -->
+
+<!-- - Base R -->
+
+<!-- - Package `dplyr`  -->
+
+<!-- - Package `readr` -->
+
+
+<!-- ## Cheatsheet -->
+
+<!-- ## Slides  -->
+
+
+
+
+
+
+
+
+
+
+

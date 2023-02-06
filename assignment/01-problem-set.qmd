@@ -1,5 +1,5 @@
 ---
-title: "Problem set 1"
+title: "Problem Set 1"
 date: "2023-02-20"
 ---
 
@@ -35,7 +35,7 @@ Click on the green Code button and copy the HTTPS link for the repo by clicking 
 Open RStudio and select `File` > `New Project` > `Version Control` > `Git`. 
 
 ```{r echo=FALSE, out.width = "100%", fig.align = "center"}
-knitr::include_graphics("../files/img/assignments/")
+knitr::include_graphics("../files/img/assignments/new-project.png")
 ```
 
 
@@ -58,7 +58,7 @@ Your first commit will be adding the dataset into the repo:
 - Create a subfolder named `data` in the project folder you just made. 
 - Download this `csv` file and place it in that folder:
 
-    - [{{< fa file-csv >}} `cars.csv`](/files/data/package_data/cars.csv)
+    - [{{< fa file-csv >}} `trains.csv`](/files/data/external_data/trains.csv)
     
     
 Now you are ready to make your first commit! Here are the steps you need to follow: 

@@ -1,0 +1,32 @@
+---
+title: "Uncertainty and Statistical Inference"
+date: "2023-04-03"
+---
+
+TBA
+
+<!-- ## What you should learn today -->
+
+<!-- ## Key functions and packages  -->
+
+<!-- - Base R -->
+
+<!-- - Package `dplyr`  -->
+
+<!-- - Package `readr` -->
+
+
+<!-- ## Cheatsheet -->
+
+<!-- ## Slides  -->
+
+
+
+
+
+
+
+
+
+
+

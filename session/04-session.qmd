@@ -1,0 +1,32 @@
+---
+title: "Identification and Causal Diagrams"
+date: "2023-03-13"
+---
+
+TBA
+
+<!-- ## What you should learn today -->
+
+<!-- ## Key functions and packages  -->
+
+<!-- - Base R -->
+
+<!-- - Package `dplyr`  -->
+
+<!-- - Package `readr` -->
+
+
+<!-- ## Cheatsheet -->
+
+<!-- ## Slides  -->
+
+
+
+
+
+
+
+
+
+
+

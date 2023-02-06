@@ -1,6 +1,6 @@
 ---
 title: "Describing Variables"
-subtitle: "Session Artifacts"
+date: "2023-02-27"
 ---
 
 
