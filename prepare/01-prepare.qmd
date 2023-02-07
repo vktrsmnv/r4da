@@ -12,6 +12,13 @@ Make sure to get yourself acquainted with the formalities by reading the syllabu
 
 - {{< fa scroll >}} [Syllabus](/syllabus.html) 
 
+It would be great if you also completed the welcome survey:
+
+
+<div data-tf-widget="YiuF6eTw" data-tf-opacity="100" data-tf-iframe-props="title=Data 2023" data-tf-transitive-search-params data-tf-medium="snippet" style="width:100%;height:500px;"></div><script src="//embed.typeform.com/next/embed.js"></script>
+
+
+
 
 ## Recommended material
 
