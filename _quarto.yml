@@ -68,30 +68,30 @@ website:
               file: prepare/01-prepare.qmd
             - text: "2: Describing Variables"
               file: prepare/02-prepare.qmd
-            - text: "3: Describing Relationships"
-              file: prepare/03-prepare.qmd
-            - text: "4: Identification and Causal Diagrams"
-              file: prepare/04-prepare.qmd
-            - text: "5: Causal Diagrams and Treatment Effects"
-              file: prepare/05-prepare.qmd
-            - text: "6: Regression for Describing"
-              file: prepare/06-prepare.qmd
-            - text: "7: Uncertainty and Statistical Inference"
-              file: prepare/07-prepare.qmd
-            - text: "8: Estimating Heterogeneous Effects"
-              file: prepare/08-prepare.qmd
-            - text: "9: Binary Dependent Variable"
-              file: prepare/09-prepare.qmd
-            - text: "10: Matching"
-              file: prepare/10-prepare.qmd
-            - text: "11: Fixed Effects"
-              file: prepare/11-prepare.qmd
-            - text: "12: Difference-in-Differences"
-              file: prepare/12-prepare.qmd
-            - text: "13: Regression Discontinuity"
-              file: prepare/13-prepare.qmd
-            - text: "14: Review"
-              file: prepare/14-prepare.qmd
+            # - text: "3: Describing Relationships"
+            #   file: prepare/03-prepare.qmd
+            # - text: "4: Identification and Causal Diagrams"
+            #   file: prepare/04-prepare.qmd
+            # - text: "5: Causal Diagrams and Treatment Effects"
+            #   file: prepare/05-prepare.qmd
+            # - text: "6: Regression for Describing"
+            #   file: prepare/06-prepare.qmd
+            # - text: "7: Uncertainty and Statistical Inference"
+            #   file: prepare/07-prepare.qmd
+            # - text: "8: Estimating Heterogeneous Effects"
+            #   file: prepare/08-prepare.qmd
+            # - text: "9: Binary Dependent Variable"
+            #   file: prepare/09-prepare.qmd
+            # - text: "10: Matching"
+            #   file: prepare/10-prepare.qmd
+            # - text: "11: Fixed Effects"
+            #   file: prepare/11-prepare.qmd
+            # - text: "12: Difference-in-Differences"
+            #   file: prepare/12-prepare.qmd
+            # - text: "13: Regression Discontinuity"
+            #   file: prepare/13-prepare.qmd
+            # - text: "14: Review"
+            #   file: prepare/14-prepare.qmd
 
     - title: "Sessions"
       style: "docked"
@@ -107,30 +107,30 @@ website:
               file: session/01-session.qmd
             - text: "2: Describing Variables"
               file: session/02-session.qmd
-            - text: "3: Describing Relationships"
-              file: session/03-session.qmd
-            - text: "4: Identification and Causal Diagrams"
-              file: session/04-session.qmd
-            - text: "5: Causal Diagrams and Treatment Effects"
-              file: session/05-session.qmd
-            - text: "6: Regression for Describing"
-              file: session/06-session.qmd
-            - text: "7: Uncertainty and Statistical Inference"
-              file: session/07-session.qmd
-            - text: "8: Estimating Heterogeneous Effects"
-              file: session/08-session.qmd
-            - text: "9: Binary Dependent Variable"
-              file: session/09-session.qmd
-            - text: "10: Matching"
-              file: session/10-session.qmd
-            - text: "11: Fixed Effects"
-              file: session/11-session.qmd
-            - text: "12: Difference-in-Differences"
-              file: session/12-session.qmd
-            - text: "13: Regression Discontinuity"
-              file: session/13-session.qmd
-            - text: "14: Review"
-              file: session/14-session.qmd
+            # - text: "3: Describing Relationships"
+            #   file: session/03-session.qmd
+            # - text: "4: Identification and Causal Diagrams"
+            #   file: session/04-session.qmd
+            # - text: "5: Causal Diagrams and Treatment Effects"
+            #   file: session/05-session.qmd
+            # - text: "6: Regression for Describing"
+            #   file: session/06-session.qmd
+            # - text: "7: Uncertainty and Statistical Inference"
+            #   file: session/07-session.qmd
+            # - text: "8: Estimating Heterogeneous Effects"
+            #   file: session/08-session.qmd
+            # - text: "9: Binary Dependent Variable"
+            #   file: session/09-session.qmd
+            # - text: "10: Matching"
+            #   file: session/10-session.qmd
+            # - text: "11: Fixed Effects"
+            #   file: session/11-session.qmd
+            # - text: "12: Difference-in-Differences"
+            #   file: session/12-session.qmd
+            # - text: "13: Regression Discontinuity"
+            #   file: session/13-session.qmd
+            # - text: "14: Review"
+            #   file: session/14-session.qmd
 
     - title: "Assignments"
       contents:
@@ -142,19 +142,19 @@ website:
             - assignment/final-project.qmd
         - section: "Problem sets"
           contents:
-            - assignment/01-problem-set.qmd
-            - assignment/02-problem-set.qmd
-            - assignment/03-problem-set.qmd
-            - assignment/04-problem-set.qmd
-            - assignment/05-problem-set.qmd
-            - assignment/06-problem-set.qmd
-            - assignment/07-problem-set.qmd
-            - assignment/08-problem-set.qmd
-            - assignment/09-problem-set.qmd
-            - assignment/10-problem-set.qmd
-            - assignment/11-problem-set.qmd
-            - assignment/12-problem-set.qmd
-            - assignment/13-problem-set.qmd
+            # - assignment/01-problem-set.qmd
+            # - assignment/02-problem-set.qmd
+            # - assignment/03-problem-set.qmd
+            # - assignment/04-problem-set.qmd
+            # - assignment/05-problem-set.qmd
+            # - assignment/06-problem-set.qmd
+            # - assignment/07-problem-set.qmd
+            # - assignment/08-problem-set.qmd
+            # - assignment/09-problem-set.qmd
+            # - assignment/10-problem-set.qmd
+            # - assignment/11-problem-set.qmd
+            # - assignment/12-problem-set.qmd
+            # - assignment/13-problem-set.qmd
         - section: "Optional"
           contents:
             - assignment/presentation.qmd
@@ -166,16 +166,16 @@ website:
             - resource/index.qmd
             - resource/r.qmd
             - resource/style.qmd
-            - resource/data.qmd
-            - resource/citations.qmd
+            # - resource/data.qmd
+            # - resource/citations.qmd
         - section: "Guides"
           contents:
             - resource/install.qmd
-            - resource/markdown.qmd
-            - resource/rmarkdown.qmd
-            - resource/unzipping.qmd
-            - resource/errors.qmd
-            - resource/giterrors.qmd
+            # - resource/markdown.qmd
+            # - resource/rmarkdown.qmd
+            # - resource/unzipping.qmd
+            # - resource/errors.qmd
+            # - resource/giterrors.qmd
 
 
 
