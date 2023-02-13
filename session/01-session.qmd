@@ -32,17 +32,16 @@ Today you will start working with `R` and learn to do the following:
 
 -   Core `tidyverse` [@tidyverse]
 
--   Package `dplyr`[@citedplyr]
+    -   Package `dplyr`[@citedplyr]
 
-    -   `%>%` "pipe"
-    -   `glimpse()`
-    -   `left_join()`
-    -   `mutate()`
-    -   `select()`
+        -   `%>%` "pipe"
+        -   `glimpse()`
+        -   `mutate()`
+        -   `select()`
 
--   Package `readr`[@citereadr]
+    -   Package `readr`[@citereadr]
 
-    -   `read_csv()`
+        -   `read_csv()`
 
 ## Cheatsheet
 
