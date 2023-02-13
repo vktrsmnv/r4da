@@ -1,6 +1,6 @@
 ---
 title: "Describing Variables"
-date: "2023-02-27"
+date: "2023-02-20"
 ---
 
 
