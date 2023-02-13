@@ -139,7 +139,7 @@ Computer programming can be frustrating because computers are stupid, and error 
 
 Searching for help with R on Google can sometimes be tricky because the program name is basically a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
 
-
+![](https://mermaid.ink/img/pako:eNpVUl1r20AQ_CtbGUoCNnVpH4IKDUkUmoS2YNqnynnY6FbWkdOteh9xRZT_3j1ZNrb0cuzsziyz85pVrCjLs43DroHfxdqCfFdnZYMvBAh_I_mg2V4-nsNi8RWuzzpyni0a0N5HOp8GRvDmrOLoPEGLgZxGM6HXI1qU1KKWOeuDi1Vg97iDbxI8sNvgAHel9qCDNEFoCHxvDD5Ffzm13o2tPfkB7ktHns0LqXdwgloe4KFE4whVD2xBdoJvOjTxaU_zcERzXEmj30sf0AWwtIXV-ytZIxGlhQrtq-i9uOFPNpdF2fUielxMvu4sGuB252bPEYLTpGDDvDG03-Z2tGeItiHT1dEcmCbgUL4_Fkg2oriTrvOhQae26A6KP8uKW4LAwHWtK4ImHWbSK0baVblFMfrzxQm22kmi9VtypA6aU90yiOudOCAiEpa1rQx6X1ANimqMJkDFhl0-u1gulx-X81obk8_qup7L0fmZ8pnUp_diq1Vo8k_dvy9JJLGlP5tnLTmJipJcvo5IJha3tM5yeSp0z-tsbd-kD2PgX72tslwSRfMsdkqSV2iUOLf7IiktWfuxy_kY93nWof3DLC01Gk9v_wG-zvsd?type=png)
 
 ## Course structure
 

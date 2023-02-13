@@ -1,6 +1,6 @@
 ---
 title: "Data Analytics and Visualization with R"
-subtitle: "Combine research design, causal inference, and data scientific tools to gain insights from data"
+subtitle: "Combine research design, causal inference, and programming tools to gain insights from data"
 details: |
   Spring 2023<br>School of Social Sciences<br>University of Mannheim
 sidebar: false
@@ -26,7 +26,7 @@ withr::with_dir(here::here(), {
 
 ::: {.grid .course-details}
 
-::: {.g-col-12 .g-col-sm-6 .g-col-md-4}
+::: {.g-col-6 .g-col-sm-6 .g-col-md-4}
 ### Instructor
 
 - {{< fa user >}} &nbsp; [{{< var instructor.name >}}]({{< var instructor.url >}})
@@ -35,7 +35,7 @@ withr::with_dir(here::here(), {
 - {{< fa calendar-check >}} &nbsp; [Schedule an appointment]({{< var instructor.appointment_url >}})
 :::
 
-::: {.g-col-12 .g-col-sm-6 .g-col-md-4}
+::: {.g-col-6 .g-col-sm-6 .g-col-md-4}
 ### Course details
 
 <!-- - {{< fa calendar >}} &nbsp; {{< var course.days >}} -->
@@ -45,14 +45,29 @@ withr::with_dir(here::here(), {
 - {{< fa brands github >}} &nbsp; [GitHub Organization]({{< var course.github >}})
 :::
 
-::: {.g-col-12 .g-col-md-4 .contact-policy}
-### Contacting me
+<!-- ::: {.g-col-12 .g-col-md-4 .contact-policy} -->
+<!-- ### Contact form  -->
 
-{{< var instructor.contact_policy >}}
+
+
+<!-- <div data-tf-widget="A8mIv5vG" data-tf-opacity="100" data-tf-inline-on-mobile data-tf-iframe-props="title=Feedback" data-tf-transitive-search-params data-tf-medium="snippet" style="width:100%;height:100%;"></div><script src="//embed.typeform.com/next/embed.js"></script> -->
+
+<!-- Calendly link widget begin -->
+<!-- <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"> -->
+<!-- <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script> -->
+<!-- <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/vktrsmnv/r4da'});return false;">Schedule an appointment</a> -->
+<!-- Calendly link widget end -->
+
+<!-- Calendly inline widget begin -->
+<!-- <div class="calendly-inline-widget" data-url="https://calendly.com/vktrsmnv/r4da?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:630px;"></div> -->
+<!-- <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> -->
+<!-- Calendly inline widget end -->
+
+<!-- {{< var instructor.contact_policy >}} -->
+<!-- ::: -->
+
 :::
 
 :::
 
-:::
-
-<div data-tf-popover="A8mIv5vG" data-tf-opacity="100" data-tf-iframe-props="title=Feedback" data-tf-transitive-search-params data-tf-button-color="#800010" data-tf-medium="snippet" style="all:unset;"></div><script src="//embed.typeform.com/next/embed.js"></script>
+<div data-tf-popover="A8mIv5vG" data-tf-opacity="100" data-tf-iframe-props="title=Feedback" data-tf-chat data-tf-transitive-search-params data-tf-button-color="#800010" data-tf-medium="snippet" style="all:unset;"></div><script src="//embed.typeform.com/next/embed.js"></script>
