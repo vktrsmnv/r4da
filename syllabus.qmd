@@ -43,7 +43,7 @@ By the end of this course, you'll be able to:
 - use the statistical programming language `R` for data wrangling and analysis 
 - translate your theory into a statistical model
 - outline theories with directed acyclic graphs (DAGs)  
-- use statistical modeling for estimating *causal* effects from observational data  
+- use statistical modelling for estimating *causal* effects from observational data  
 - create meaningful visualizations to communicate insights from data
 - use Quarto to write reproducible reports
 - use `git` and GitHub for version control and collaboration
@@ -69,7 +69,7 @@ By the end of this course, you'll be able to:
 
 ## Course materials
 
-There is no single textbook for this class, and I will be assigning chapters from various resources. All of the material will be available to you for via this website. Due to copyright reasons, some of the links will be password-protected. I will tell you the password in class and will send via email at the beginning of the semester. 
+There is no single textbook for this class, and I will be assigning chapters from various resources. All of the material will be available to you via this website. Due to copyright reasons, some of the links will be password-protected. I will tell you the password in class and will send via email at the beginning of the semester. 
 
 There will be both required and suggested material. While required ones I expect everyone to be familiar with, the suggested ones are there in case you want to dive deeper into a particular topic. 
 
@@ -92,7 +92,7 @@ There are a few more books I would assign chapters from and would recommend if y
 - Scott Cunningham. *Causal Inference: The Mixtape* (New Haven, CT: Yale University Press, 2021), <https://mixtape.scunning.com/>. 
 - Joshua D. Angrist and Jörn-Steffen Pischke. *Mastering ’Metrics: The Path from Cause to Effect* (Princeton, NJ: Princeton University Press, 2015). 
 
-*Thinking Clearly with Data* is an introductory book for quantitative methods, with an emphasis on reserach design and causal inference tools. We will read excerpts from it during the course. 
+*Thinking Clearly with Data* is an introductory book for quantitative methods, with an emphasis on research design and causal inference tools. We will read excerpts from it during the course. 
 *The Mixtape* is a more detailed and mathier approach to these causal inference methods, while *'Metrics Matter* is a fairly canonical (and accessible!) book in the world of econometrics. 
 
 For the topic of data visualization, we will rely on various sources:

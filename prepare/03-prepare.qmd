@@ -6,39 +6,37 @@ draft: true
 
 ## Required readings
 
-- {{< fa book >}} [Chapter 3 in *Thinking Clearly with Data*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
+-  {{< fa book >}} Chapter 3 in Thinking Clearly with Data 
 
-- {{< fa book >}} [Chapter 4 in *The Effect*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
+-  {{< fa book >}} Chapter 4 in The Effect 
 
-### Guiding questions 
+### Guiding questions
 
-- What does it mean that there is a relationship, or correlation, between two variables? 
-- What is a conditional distribution? 
-- How can we quantify the correlation? How do we interpret these measures? 
-- What are the limitations of describing a relationship with a correlation? 
+-   What does it mean that there is a relationship, or correlation, between two variables?
+-   What is a conditional distribution?
+-   How can we quantify the correlation? How do we interpret these measures?
+-   What are the limitations of describing a relationship with a correlation?
 
-### Coding 
+### Coding
 
-As for coding, this week we will carry on with plotting and do some data wrangling and reshaping as well. If not before the class, you can have a look at this chapter while working on the homework assignment. 
+As for coding, this week we will carry on with plotting and do some data wrangling and reshaping as well. If not before the class, you can have a look at this chapter while working on the homework assignment.
 
-- {{< fa book >}} [Chapter 3 Data Wrangling in *Statistical Inference via Data Science*](https://moderndive.com/3-wrangling.html) [@IsmayKim:2018]
+-   {{< fa book >}} [Chapter 3 Data Wrangling in *Statistical Inference via Data Science*](https://moderndive.com/3-wrangling.html) [@IsmayKim:2018]
 
-As last time, we have a [cheatsheet for `tidyr`](https://posit.co/wp-content/uploads/2022/10/tidyr.pdf) and for [`dplyr`](https://posit.co/wp-content/uploads/2022/10/data-transformation-1.pdf). 
+As last time, we have a [cheatsheet for `tidyr`](https://posit.co/wp-content/uploads/2022/10/tidyr.pdf) and for [`dplyr`](https://posit.co/wp-content/uploads/2022/10/data-transformation-1.pdf).
 
 <!-- https://posit.co/wp-content/uploads/2022/10/data-import.pdf -->
+
 <!-- ## Recommended readings -->
-
-
 
 <!-- Look through your notes on regression from your last stats class. Also, you can skim through these resources: -->
 
 <!-- - {{< fa book >}} 7.1–7.3 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
+
 <!-- - {{< fa book >}} 8.1 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
 
 <!-- We'll review all this regression stuff in the videos, so *don't panic* if this all looks terrifying! Also, take advantage of the videos that accompany the *OpenIntro* chapters. And *also*, the *OpenIntro* chapters are heavier on the math—don't worry if you don't understand everything. -->
 
-## Videos 
+## Videos
 
-You can have a look at the following videos accompanying *The Effect* book. They cover the same material as the assigned chapter, so no need to do both. 
-
-
+You can have a look at the following videos accompanying *The Effect* book. They cover the same material as the assigned chapter, so no need to do both.
