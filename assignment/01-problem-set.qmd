@@ -110,10 +110,8 @@ knitr::include_graphics("../files/img/assignments/commit-push-success.png")
   
 Now you can go to the repository on GitHub and check whether it is updated to the most current version of your assignment.
 
-In a few minutes after you pushed, if you have done everything right, you will see the badge "Data folder commit" in the `README.md` (aka description) part in your repository turning green.[^actions] 
+In a few minutes after you pushed, if you have done everything right, you will see the badge "Data folder commit" in the `README.md` (aka description) part in your repository turning green.
 
-
-[^actions]: If you think you did everything right (which means you see `data` folder on GitHub) but the badge is red--don't worry! 
 
 
 ## Task 4: Try working with Quarto document (11 points)
