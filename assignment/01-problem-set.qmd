@@ -1,5 +1,5 @@
 ---
-title: "Problem Set 1"
+title: "Problem Set 1 (20 points)"
 date: "2023-02-20"
 ---
 
@@ -10,12 +10,12 @@ knitr::opts_chunk$set(fig.align = "center")
 
 This homework helps you with establishing the workflow with GitHub and Rstudio, as well as guides you through the first steps in working with Quarto documents and writing code with `R`. The guideline is rather detailed, but should you have any further questions or issues, do not hesitate to ask for help at the [Discussion forum](https://github.com/orgs/r4da-s23/discussions) or during the [office hours](https://calendly.com/vktrsmnv). 
 
-## Task 1: Install the software 
+## Task 1: Install the software (3 points)
 
 If you haven't done so, please install the software following the guidelines [on this page](resources/install.html). Do this as soon as you have the chance, ideally before Friday so you can come to the office hours if you need help. 
 
 
-## Task 2: Load your first homework repo 
+## Task 2: Load your first homework repo (2 points)
 
 You will be working on homework assignments in *private* repositories, which means only you and I have access to the files. Each homework repo will include your GitHub/ILIAS login in the title. You should be able to load this repo into your local machine, make changes to the files there, and have access to uploading things back to GitHub so I can see and grade them.
 
@@ -23,7 +23,7 @@ You will be working on homework assignments in *private* repositories, which mea
 
 #### Get the URL of the repo for homework assignment
 
-Go to the page of our [course organization on GitHub](https://github.com/orgs/r4da-s23) and open the repository `01-problem-set-[username]`. This repo contains all the relevant materials for your first homework assignment. 
+Go to the page of our [course organization on GitHub](https://github.com/orgs/r4da-s23) and open the repository `01_problem_set_[username]`. This repo contains all the relevant materials for your first homework assignment. 
 
 Click on the green Code button and copy the HTTPS link for the repo by clicking on the clipboard icon. 
 
@@ -32,7 +32,7 @@ Click on the green Code button and copy the HTTPS link for the repo by clicking 
 
 #### Import the repository in RStudio
 
-Open RStudio and select `File` > `New Project` > `Version Control` > `Git`. 
+1. Open RStudio and select `File` > `New Project` > `Version Control` > `Git`. 
 
 ```{r echo=FALSE, out.width = "100%", fig.align = "center"}
 knitr::include_graphics("../files/img/assignments/new-project.png")
@@ -40,14 +40,13 @@ knitr::include_graphics("../files/img/assignments/new-project.png")
 
 
 
-In the final window, paste the repo URL you grabbed from GitHub in the `Repository URL` window. 
-Click on `Browse` to select the folder on your computer where you want to store the project. I suggest you set up a folder on your computer for all the class content and always use this as a destination to store your material for the course. 
+2. In the final window, paste the repo URL you grabbed from GitHub in the `Repository URL` window. Click on `Browse` to select the folder on your computer where you want to store the project. I suggest you set up a folder on your computer for all the class content and always use this as a destination to store your material for the course. 
 
-Click on `Create Project`. 
+3. Click on `Create Project`. 
 
-If everything worked fine, you should now have a subfolder `01-problem-set-[username]` in the folder our selected when cloning the project. 
+If everything worked fine, you should now have a subfolder `01_problem_set_[username]` in the folder our selected when cloning the project. 
 
-## Task 3: Practice committing to the repo
+## Task 3: Practice committing to the repo (2 points)
 
 Before we move to `R`, let's try uploading files into GitHub. The process here requires two steps: first, you need to, figuratively, take a snapshot of your project looks like at the moment. This is what a `commit` command will do. And after that, you will need to upload your changes to GitHub (otherwise, they just stay on your local machine). This is done with the help of `push` command. 
 
@@ -58,7 +57,7 @@ Your first commit will be adding the dataset into the repo:
 - Create a subfolder named `data` in the project folder you just made. 
 - Download this `csv` file and place it in that folder:
 
-    - [{{< fa file-csv >}} `trains.csv`](/files/data/external_data/trains.csv)
+    - [{{< fa file-csv >}} `trains.csv`](/files/data/external_data/un_votes.csv)
     
     
 Now you are ready to make your first commit! Here are the steps you need to follow: 
@@ -86,9 +85,6 @@ knitr::include_graphics("../files/img/assignments/commit-select-files.png")
 knitr::include_graphics("../files/img/assignments/commit-add-message.png")
 ```
 
-
-
-  
 
 6. If everything worked fine, you should see something similar in a dialog window. This means that you have successfully svaed your work _on your computer_.  
 
@@ -120,43 +116,15 @@ In a few minutes after you pushed, if you have done everything right, you will s
 [^actions]: If you think you did everything right (which means you see `data` folder on GitHub) but the badge is red--don't worry! 
 
 
-## Task 4: Try working with Quarto document 
+## Task 4: Try working with Quarto document (11 points)
 
 
 Now let's move to the fun part--working in Quarto and writing the `R` code. 
 
-Open the file `01-problem-set.qmd`. This is the file that allows you to both write the code and the text, so you can produce well-formatted reports. 
-
-The top part of the file is called `YAML`. It contains the main information about the project. 
-
-1. Update your first and last name in the YAML. Try `knit`-ing the file now--this will produce an HTML file with your name (and the rest of the content). 
-
-After that, let's try writing some code. The code in Quarto documents goes into *chunks*. The very first chunk you have in the document is usually called `setup` and it contains all of the preparatory things, such as packages you need to load or other related things. 
-
-Let's start by loading the dataset you downloaded and put into `data` folder into `R`. You will work with a `csv` file, which is not a native `R` file. This means we need a package to work with it. If you remember from the session, we will be using `readr` package for this purpose.
-
-2. Check that `readr` is being installed with `install.packages` and loaded with `library` command in the `setup` chunk. If it is not, add the code to do this. 
-
-3. Load the dataset. To do that, you need to specify the path to the data file relative to the project directory. If the data were right in the project folder, you would write just the name of the dataset. But since we put the data in the subfolder, you need to include it into the path: `data/cars.csv`. 
-
-4. Inspect the dataset. 
-
-5. Create a new column in the dataset. 
-
-6. Generate the plot. Copy and paste this code into the respective chunk and run the chunk. 
-Explain what you see on the plot in 2-3 sentences. 
-Writing accompanying text is easiest if you are using the Visual editor in RStudio. The interface resembles the one you have in programs like Microsoft Word, so it is quite intuitive to format the text nicely. 
-
-Tip: you can use comments inside the code chunks to incorporate notes. Better use the comments for small code-related notes and write descriptions and answer to questions using the regular text option. 
-
-7. Knit the file to PDF. 
-Now let's try knitting to PDF rather than HTML. This way, you can share the reports files much easier. 
-
-8. Save the `qmd` file. Do not change the name of the file.
+Open the file `problem_set.qmd`. This is the file that allows you to both write the code and the text, so you can produce well-formatted reports. Complete the tasks written there. You do not *have to* commit/push the work in progress, but you are more then welcome to! 
 
 
-
-## Task 5: Commit and push the final result version to GitHub
+## Task 5: Commit and push the final result version to GitHub (2 points)
 
 You're almost done with the first homework! Now all that's left is uploading the task back to GitHub. Essentially, you need to repeat the steps from before:
 
@@ -167,7 +135,7 @@ You're almost done with the first homework! Now all that's left is uploading the
 
 3. Click on `Commit`.
 
-4. Write a _Commit Message_ in the upper right window. **For this task, please use _"Added data folder and dataset"_ as your commit message**. Usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. 
+4. Write a _Commit Message_ in the upper right window. **For this task, please use _"Final version"_ as your commit message**. 
 
 5. Click on `Commit`.
 
