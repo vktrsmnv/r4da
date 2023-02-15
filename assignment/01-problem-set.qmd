@@ -1,11 +1,13 @@
 ---
-title: "Problem Set 1 (20 points)"
+title: "Problem Set 1"
+subtitle: "Total points: 20"
 date: "2023-02-20"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.align = "center")
 ```
+
 
 
 This homework helps you with establishing the workflow with GitHub and Rstudio, as well as guides you through the first steps in working with Quarto documents and writing code with `R`. The guideline is rather detailed, but should you have any further questions or issues, do not hesitate to ask for help at the [Discussion forum](https://github.com/orgs/r4da-s23/discussions) or during the [office hours](https://calendly.com/vktrsmnv). 
@@ -57,14 +59,14 @@ Your first commit will be adding the dataset into the repo:
 - Create a subfolder named `data` in the project folder you just made. 
 - Download this `csv` file and place it in that folder:
 
-    - [{{< fa file-csv >}} `trains.csv`](/files/data/external_data/un_votes.csv)
+    - [{{< fa file-csv >}} `un_votes.csv`](/files/data/external_data/un_votes.csv)
     
     
 Now you are ready to make your first commit! Here are the steps you need to follow: 
 
 #### Upload the assignment to GitHub
 
-1. Click on `Git` in the environment pane on the upper right.
+1. Click on `Git` in the environment pane on the upper right. If nothing appears in the *Git* pane in RStudio, click on the Refresh 
 
 2. Check all boxes that appear in the upper left pane. By doing so, you are telling `git` to take a snapshot of all the files you've made changes to. 
 
