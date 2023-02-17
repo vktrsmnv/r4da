@@ -127,6 +127,8 @@ Now let's move to the fun part--working in Quarto and writing the `R` code.
 
 Open the file `problem_set.qmd`. This is the file that allows you to both write the code and the text, so you can produce well-formatted reports. Complete the tasks written in the file. You do not *have to* commit/push the work in progress, but you are more then welcome to! 
 
+Note: click on *Save* to see the changed files in the `git` pane. 
+
 
 ## Task 5: Commit and push the final result version to GitHub (2 points)
 
