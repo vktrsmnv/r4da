@@ -1,7 +1,20 @@
 ---
-title: "Identification and Causal Diagrams"
+title: "Causality and Identification"
 date: "2023-03-07"
 draft: false 
 ---
 
-Content TBA
+## Required readings
+
+-  {{< fa book >}} Chapter 3 in Thinking Clearly with Data [@de2021thinking]
+
+- {{< fa book >}} [Chapter 4 in *The Effect*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
+
+### Guiding questions
+
+-   What do we mean by _causation_? 
+-   What is _potential outcomes_ and how does this relate to counterfactuals? 
+-   What do we call the fundamental problem of causal inference? 
+-   What do we mean when we talk about an *identification strategy* in a study? 
+-   What is the purpose of a causal diagram? What are the elements of a causal diagram? 
+

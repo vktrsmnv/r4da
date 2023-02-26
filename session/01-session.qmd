@@ -36,8 +36,6 @@ Today you will start working with `R` and learn to do the following:
 
         -   `%>%` "pipe"
         -   `glimpse()`
-        -   `mutate()`
-        -   `select()`
 
     -   Package `readr`[@citereadr]
 
@@ -49,4 +47,5 @@ There are many resources that can help you navigate data import, and this [cheat
 
 ## Slides
 
-TBA
+
+<iframe src="../files/week01_Meet_the_Toolkit.pdf#toolbar=0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="604.8" height="339.84">

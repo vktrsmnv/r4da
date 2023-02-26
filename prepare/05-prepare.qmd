@@ -4,4 +4,9 @@ date: "2023-03-14"
 draft: true 
 ---
 
-Content TBA
+## Required readings
+
+-  {{< fa book >}} Chapter 9 in *Thinking Clearly with Data* [@de2021thinking]
+
+- {{< fa book >}} [Chapter 4 in *The Effect*](https://theeffectbook.net/ch-DescribingRelationships.html) [@Huntington-Klein:2021]
+

@@ -209,6 +209,10 @@ You can do this task alone or in pairs, and completing it would improve your fin
 
 **Be nice. Be honest. Don't cheat.**
 
+### Auditing 
+
+I would be very happy if you audit the class because you are interested. But please keep in mind that the amount of grading that comes with weekly homework assignments is not small. I will thus prioritize the submissions of students who are taking the class for credit and will only provide feedback for those who audit if time permits. 
+
 ### Late work and extensions
 
 The due dates for assignments are there to help you keep up with the course material and to ensure that I can provide feedback within a timely manner. This means that for homework assignments, your GitHub repositories will be closed to contributions at the deadline, which means you cannot edit them any longer and submit files. 

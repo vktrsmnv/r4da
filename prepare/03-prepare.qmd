@@ -1,14 +1,13 @@
 ---
 title: "Describing Relationships"
 date: "2023-02-28"
-draft: true 
 ---
 
 ## Required readings
 
--  {{< fa book >}} Chapter 3 in Thinking Clearly with Data 
+-  {{< fa book >}} [Chapter 2 in Thinking Clearly with Data](../files/TCWD/Ethan Bueno de Mesquita, Anthony Fowler - Thinking Clearly with Data_ A Guide to Quantitative Reasoning and Analysis-Princeton University Press (2021)_36-59.pdf) [@de2021thinking]
 
--  {{< fa book >}} Chapter 4 in The Effect 
+- {{< fa book >}} [Chapter 4 in *The Effect*](https://theeffectbook.net/ch-DescribingVariables.html) [@Huntington-Klein:2021]
 
 ### Guiding questions
 

@@ -68,8 +68,8 @@ website:
               file: prepare/01-prepare.qmd
             - text: "2: Describing Variables"
               file: prepare/02-prepare.qmd
-            # - text: "3: Describing Relationships"
-            #   file: prepare/03-prepare.qmd
+            - text: "3: Describing Relationships"
+              file: prepare/03-prepare.qmd
             # - text: "4: Identification and Causal Diagrams"
             #   file: prepare/04-prepare.qmd
             # - text: "5: Causal Diagrams and Treatment Effects"
@@ -143,7 +143,7 @@ website:
         - section: "Problem sets"
           contents:
             - assignment/01-problem-set.qmd
-            # - assignment/02-problem-set.qmd
+            - assignment/02-problem-set.qmd
             # - assignment/03-problem-set.qmd
             # - assignment/04-problem-set.qmd
             # - assignment/05-problem-set.qmd

@@ -43,7 +43,7 @@ knitr::include_graphics("../files/img/assignments/new-project.png")
 2. In the final window, paste the repo URL you grabbed from GitHub in the `Repository URL` window. 
 Click on `Browse` to select the folder on your computer where you want to store the project. I suggest you set up a folder on your computer for all the class content and always use this as a destination to store your material for the course. 
 
-Sometimes RStudio (and other programs as wel) has troubles with paths that contain spaces or special characters, like umlauts (e.g., Ü). To avoid these problems, **make sure your path to the project folder does not contain special characters and/or spaces**.[^naming] You can replace spaces in a filenames and folders with dashes (-) or underscores (_) or remove them completely. Also, better avoid periods (.) in files'/folders' names: periods should be saved for extension only. 
+Sometimes RStudio (and other programs as well) has troubles with paths that contain spaces or special characters, like umlauts (e.g., Ü). To avoid these problems, **make sure your path to the project folder does not contain special characters and/or spaces**.[^naming] You can replace spaces in a file names and folders with dashes (-) or underscores (_) or remove them completely. Also, better avoid periods (.) in files'/folders' names: periods should be saved for extension only. 
 
 [^naming]: For some general advice on file/folder naming, have a look [here](https://blog.josephscott.org/2007/02/12/things-that-shouldnt-be-in-file-names-for-1000-alex/). 
 
