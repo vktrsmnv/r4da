@@ -72,8 +72,8 @@ website:
               file: prepare/03-prepare.qmd
             - text: "4: Identification and Causal Diagrams"
               file: prepare/04-prepare.qmd
-            # - text: "5: Causal Diagrams and Treatment Effects"
-            #   file: prepare/05-prepare.qmd
+            - text: "5: Causal Diagrams and Treatment Effects"
+              file: prepare/05-prepare.qmd
             # - text: "6: Regression for Describing"
             #   file: prepare/06-prepare.qmd
             # - text: "7: Uncertainty and Statistical Inference"
@@ -108,11 +108,11 @@ website:
             - text: "2: Describing Variables"
               file: session/02-session.qmd
             - text: "3: Describing Relationships"
-              # file: session/03-session.qmd
-            # - text: "4: Identification and Causal Diagrams"
-            #   file: session/04-session.qmd
-            # - text: "5: Causal Diagrams and Treatment Effects"
-            #   file: session/05-session.qmd
+              file: session/03-session.qmd
+            - text: "4: Identification and Causal Diagrams"
+              file: session/04-session.qmd
+            - text: "5: Causal Diagrams and Treatment Effects"
+              file: session/05-session.qmd
             # - text: "6: Regression for Describing"
             #   file: session/06-session.qmd
             # - text: "7: Uncertainty and Statistical Inference"
