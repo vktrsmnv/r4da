@@ -3,6 +3,61 @@ title: "Identification and Causal Diagrams"
 date: "2023-03-13"
 ---
 
+## Key concepts and skills
+
+Today you will learn the following:
+
+-   Meaning of causation
+
+-   What is Data Generating Process
+
+-   What are potential outcomes and Fundamental Problem of Causal Inference
+
+-   Casual Diagrams and types of association
+
+-   Components of Directed Acyclic Graphs
+
+
+## Key functions and packages
+
+-  dagitty
+
+    -   `dagitty()`
+    -   `paths()`
+    -   `adjustmentSets()`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TBA
 
 <!-- ## What you should learn today -->
