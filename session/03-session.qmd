@@ -1,32 +1,46 @@
 ---
 title: "Describing Relationships"
 date: "2023-03-06"
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
-TBA
+## Key concepts and skills
 
-<!-- ## What you should learn today -->
+Today you will learn the following:
 
-<!-- ## Key functions and packages  -->
+-   How variables could be related to each other
 
-<!-- - Base R -->
+-   How could we measure association
 
-<!-- - Package `dplyr`  -->
+-   Visualize bivariate relationships
 
-<!-- - Package `readr` -->
+-   Adding a second scale in \`ggplot2\`
 
+## Key functions and packages
 
-<!-- ## Cheatsheet -->
+-   ggplot2
 
-<!-- ## Slides  -->
+    -   `geom_line()`
+    -   `geom_smooth()`
+    -   `scale_y_continuous()`
+    -   `aes()`
 
+-   dplyr
 
+    -   `group_by()`
+    -   `summarize()`
+    -   `summarise_all()`
 
+-   knitr
 
+    -   `kable()`
 
+-   patchwork
 
+## Slides
 
-
-
+<iframe src="../files/week02_DescribingRelationships.pdf#toolbar=0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="604.8" height="339.84">
 
 
