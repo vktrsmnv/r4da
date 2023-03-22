@@ -4,27 +4,36 @@ date: "2023-03-07"
 ---
 
 
-<!-- ## What you should learn today -->
 
-<!-- ## Key functions and packages  -->
-
-<!-- - Base R -->
-
-<!-- - Package `dplyr`  -->
-
-<!-- - Package `readr` -->
+## Key concepts and skills
 
 
-<!-- ## Cheatsheet -->
+Today you will learn the following:
 
-<!-- ## Slides  -->
+-   Meaning of causation
+
+-   What is Data Generating Process
+
+-   What are potential outcomes and Fundamental Problem of Causal Inference
+
+-   Casual Diagrams and types of association
+
+-   Components of Directed Acyclic Graphs
+
+
+## Key functions and packages
+
+-  dagitty
+
+    -   `dagitty()`
+    -   `paths()`
+    -   `adjustmentSets()`
 
 
 ## Slides
 
 
 [<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../files/week04_Causality.pdf)
-
 
 <iframe src="../slides/04/04-Causality.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
 
