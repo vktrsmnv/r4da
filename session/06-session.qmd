@@ -18,9 +18,12 @@ TBA
 
 <!-- ## Cheatsheet -->
 
-<!-- ## Slides  -->
+## Slides 
+
+[<button class="btn"><i class="fa fa-download"></i> Download PDF Version</button>](../files/week06_Regression.pdf)
 
 
+<iframe src="../slides/06/06-regression.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
 
 
 

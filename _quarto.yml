@@ -2,7 +2,7 @@ project:
   type: website
   render:
     - "*.qmd"
-    - "!slides/"
+    # - "!slides/"
   resources:
     - "files/"
     - "projects/"
@@ -74,10 +74,10 @@ website:
               file: prepare/04-prepare.qmd
             - text: "5: Causal Diagrams and Treatment Effects"
               file: prepare/05-prepare.qmd
-            # - text: "6: Regression for Describing"
-            #   file: prepare/06-prepare.qmd
-            # - text: "7: Uncertainty and Statistical Inference"
-            #   file: prepare/07-prepare.qmd
+            - text: "6: Regression for Describing"
+              file: prepare/06-prepare.qmd
+            - text: "7: Uncertainty and Statistical Inference"
+              file: prepare/07-prepare.qmd
             # - text: "8: Estimating Heterogeneous Effects"
             #   file: prepare/08-prepare.qmd
             # - text: "9: Binary Dependent Variable"
@@ -113,8 +113,8 @@ website:
               file: session/04-session.qmd
             - text: "5: Causal Diagrams and Treatment Effects"
               file: session/05-session.qmd
-            # - text: "6: Regression for Describing"
-            #   file: session/06-session.qmd
+            - text: "6: Regression for Describing"
+              file: session/06-session.qmd
             # - text: "7: Uncertainty and Statistical Inference"
             #   file: session/07-session.qmd
             # - text: "8: Estimating Heterogeneous Effects"
@@ -146,8 +146,8 @@ website:
             - assignment/02-problem-set.qmd
             - assignment/03-problem-set.qmd
             - assignment/04-problem-set.qmd
-            # - assignment/05-problem-set.qmd
-            # - assignment/06-problem-set.qmd
+            - assignment/05-problem-set.qmd
+            - assignment/06-problem-set.qmd
             # - assignment/07-problem-set.qmd
             # - assignment/08-problem-set.qmd
             # - assignment/09-problem-set.qmd
@@ -167,7 +167,6 @@ website:
             - resource/r.qmd
             - resource/style.qmd
             # - resource/data.qmd
-            # - resource/citations.qmd
         - section: "Guides"
           contents:
             - resource/install.qmd
@@ -176,6 +175,9 @@ website:
             # - resource/unzipping.qmd
             - resource/errors.qmd
             - resource/giterrors.qmd
+        - section: "Math"
+          contents:
+            - resource/slr.qmd
 
 
 

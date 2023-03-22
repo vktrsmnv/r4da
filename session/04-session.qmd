@@ -1,9 +1,8 @@
 ---
-title: "Identification and Causal Diagrams"
-date: "2023-03-13"
+title: "Identification and Causal Inference"
+date: "2023-03-07"
 ---
 
-TBA
 
 <!-- ## What you should learn today -->
 
@@ -21,6 +20,13 @@ TBA
 <!-- ## Slides  -->
 
 
+## Slides
+
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../files/week04_Causality.pdf)
+
+
+<iframe src="../slides/04/04-Causality.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
 
 
 

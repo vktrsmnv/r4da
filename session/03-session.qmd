@@ -41,6 +41,11 @@ Today you will learn the following:
 
 ## Slides
 
-<iframe src="../files/week02_DescribingRelationships.pdf#toolbar=0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="604.8" height="339.84">
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../files/week03_Describing_Relationships.pdf)
+
+
+<iframe src="../slides/03/03-describing-relationships.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
+
 
 

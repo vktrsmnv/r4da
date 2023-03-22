@@ -31,3 +31,9 @@ Today you will learn to do the following:
 ## Slides
 
 <iframe src="../files/week02_Describing_Variables.pdf#toolbar=0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="604.8" height="339.84">
+
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../files/week02_Describing_Variables.pdf)
+
+
+<iframe src="../slides/02/02-describing-variables.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">

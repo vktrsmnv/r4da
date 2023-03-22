@@ -112,7 +112,7 @@ list(
   ## Knit the README ----
   tar_target(workflow_graph, tar_mermaid(targets_only = TRUE, outdated = FALSE,
                                          legend = FALSE, color = FALSE)),
-  tar_render(readme, here_rel("README.Rmd")),
+  tar_render(readme, here_rel("README.md")),
 
 
   ## Build site ----
