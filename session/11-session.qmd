@@ -1,9 +1,12 @@
 ---
 title: "Fixed Effects"
-date: "2023-05-15"
+date: "2023-05-09"
 ---
 
-TBA
+## Slides
+
+
+<iframe src="../slides/11/11-fixed-effects.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
 
 <!-- ## What you should learn today -->
 

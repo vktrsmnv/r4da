@@ -1,7 +1,8 @@
 ---
 title: "Matching"
 date: "2023-05-02"
-draft: true 
 ---
 
-Content TBA
+## Required readings
+
+- {{< fa book >}} [Chapter 14 in *The Effect*](https://theeffectbook.net/ch-Matching.html) [@Huntington-Klein:2021]

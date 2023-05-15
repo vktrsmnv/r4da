@@ -4,4 +4,11 @@ date: "2023-04-18"
 draft: true 
 ---
 
-Content TBA
+
+Previously we assumed that the effects of variables are the same across all values of that variable. This time, we are focusing on how to estimate the effects when they could differ across groups, i.e. effects are heterogeneous. For instance, the effect of *campaign spending* could be different in close vs. safe electoral races. We will explore how such a hypothesis can be tested with the help of an interaction effect. 
+
+## Required readings
+
+- {{< fa book >}} [Section 13.2.4 Interaction Terms in *The Effect*](https://theeffectbook.net/ch-StatisticalAdjustment.html) [@Huntington-Klein:2021]
+
+

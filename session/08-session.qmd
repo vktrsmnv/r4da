@@ -3,28 +3,12 @@ title: "Estimating Heterogeneous Effects"
 date: "2023-04-24"
 ---
 
-TBA
-
-<!-- ## What you should learn today -->
-
-<!-- ## Key functions and packages  -->
-
-<!-- - Base R -->
-
-<!-- - Package `dplyr`  -->
-
-<!-- - Package `readr` -->
+## Slides
 
 
-<!-- ## Cheatsheet -->
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../files/week04_Causality.pdf)
 
-<!-- ## Slides  -->
-
-
-
-
-
-
+<iframe src="../slides/08/08-Regression.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
 
 
 
