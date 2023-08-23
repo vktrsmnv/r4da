@@ -1,0 +1,5 @@
+format:
+  html:
+    # code-fold: show
+    code-tools: false
+    toc-depth: 4

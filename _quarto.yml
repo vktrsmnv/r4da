@@ -3,6 +3,8 @@ project:
   render:
     - "*.qmd"
     - "!slides/06"
+    - "!s23/assignment/"
+    - "!s23/solutions/"
   resources:
     - "files/"
     - "projects/"
@@ -46,8 +48,10 @@ website:
         file: assignment/index.qmd
       - text: "Resources"
         file: resource/index.qmd
+      - text: "Spring 2023"
+        file: s23/index.qmd
       - icon: github
-        href: "https://github.com/r4da-s23"
+        href: "https://github.com/r4da-f23"
         aria-label: GitHub
       - icon: cloud-fill
         href: "https://rstudio.cloud"
@@ -186,7 +190,44 @@ website:
           contents:
             - resource/slr.qmd
 
-
+    - title: "Spring 2023"
+      style: "docked"
+      search: false
+      background: dark
+      contents:
+        - section: "Overview"
+          contents:
+            - s23/index.qmd
+        - section: "Course content"
+          contents:
+            - text: "1: Meet the Toolkit"
+              file: s23/session/01-session.qmd
+            - text: "2: Describing Variables"
+              file: s23/session/02-session.qmd
+            - text: "3: Describing Relationships"
+              file: s23/session/03-session.qmd
+            - text: "4: Identification and Causal Diagrams"
+              file: s23/session/04-session.qmd
+            - text: "5: Causal Diagrams and Treatment Effects"
+              file: s23/session/05-session.qmd
+            - text: "6: Regression for Describing"
+              file: s23/session/06-session.qmd
+            - text: "7: Uncertainty and Statistical Inference"
+              file: s23/session/07-session.qmd
+            - text: "8: Estimating Heterogeneous Effects"
+              file: s23/session/08-session.qmd
+            - text: "9: Binary Dependent Variable"
+              file: s23/session/09-session.qmd
+            - text: "10: Matching"
+              file: s23/session/10-session.qmd
+            - text: "11: Fixed Effects"
+              file: s23/session/11-session.qmd
+            - text: "12: Difference-in-Differences"
+              file: s23/session/12-session.qmd
+            - text: "13: Regression Discontinuity"
+              file: s23/session/13-session.qmd
+            - text: "14: Review"
+              file: s23/session/14-session.qmd
 
   page-footer:
     left: |
