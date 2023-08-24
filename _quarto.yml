@@ -229,6 +229,65 @@ website:
             - text: "14: Review"
               file: s23/session/14-session.qmd
 
+        - section: "Problem sets"
+          contents:
+           - text: "Problem set 1"
+             file: s23/assignment/01-problem-set.qmd
+           - text: "Problem set 2"
+             file: s23/assignment/02-problem-set.qmd
+           - text: "Problem set 3"
+             file: s23/assignment/03-problem-set.qmd
+           - text: "Problem set 4"
+             file: s23/assignment/04-problem-set.qmd
+           - text: "Problem set 5"
+             file: s23/assignment/05-problem-set.qmd
+           - text: "Problem set 6"
+             file: s23/assignment/06-problem-set.qmd
+           - text: "Problem set 7"
+             file: s23/assignment/07-problem-set.qmd
+           - text: "Problem set 8"
+             file: s23/assignment/08-problem-set.qmd
+           - text: "Problem set 9"
+             file: s23/assignment/09-problem-set.qmd
+           - text: "Problem set 10"
+             file: s23/assignment/10-problem-set.qmd
+           - text: "Problem set 11"
+             file: s23/assignment/11-problem-set.qmd
+           - text: "Problem set 12"
+             file: s23/assignment/12-problem-set.qmd
+           - text: "Problem set 13"
+             file: s23/assignment/13-problem-set.qmd
+
+        - section: "Solutions"
+          contents:
+           - text: "Problem set 1"
+             file: s23/assignment/01-problem-set.qmd
+           - text: "Problem set 2"
+             file: s23/assignment/02-problem-set.qmd
+           - text: "Problem set 3"
+             file: s23/assignment/03-problem-set.qmd
+           - text: "Problem set 4"
+             file: s23/assignment/04-problem-set.qmd
+           - text: "Problem set 5"
+             file: s23/assignment/05-problem-set.qmd
+           - text: "Problem set 6"
+             file: s23/assignment/06-problem-set.qmd
+           - text: "Problem set 7"
+             file: s23/assignment/07-problem-set.qmd
+           - text: "Problem set 8"
+             file: s23/assignment/08-problem-set.qmd
+           - text: "Problem set 9"
+             file: s23/assignment/09-problem-set.qmd
+           - text: "Problem set 10"
+             file: s23/assignment/10-problem-set.qmd
+           - text: "Problem set 11"
+             file: s23/assignment/11-problem-set.qmd
+           - text: "Problem set 12"
+             file: s23/assignment/12-problem-set.qmd
+           - text: "Problem set 13"
+             file: s23/assignment/13-problem-set.qmd
+
+
   page-footer:
     left: |
       Content {{< fa brands creative-commons >}} {{< var course.copyright_year >}} by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}) <br>
