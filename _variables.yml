@@ -9,20 +9,29 @@ instructor:
   github: vktrsmnv
   office: "A5, 6 B301"
   contact_policy: >-
-    Email or our Github Discussions forum is the best way to reach me. I will try to respond on the same day on weekdays during lecture period. For general and assignment-related questions, please use GitHub Discussion. For personal matters, please shoot me an email.
+    Email or Slack is the best way to reach me. I will try to respond on the same day on weekdays during lecture period.
   appointment_url: https://calendly.com/vktrsmnv
+
+ta:
+  name: David Avagian, B.A.
+  name_no_title: David Avagian
+  email: david.avagian@students.uni-mannheim.de
+  url: "https://www.sowi.uni-mannheim.de/braeuninger/team/student-assistants/david-avagian/"
+  # twitter: vktrsmnv
+  office: "A5, 6 A330"
+  appointment_url: https://calendly.com/davagian
 
 course:
   # number: "Met"
   semester: "Spring 2023"
-  days: "Tuesday"
-  time: "12:00-13:30"
-  location: "A5, 6 C217"
+  days: "Wednesday"
+  time: "13:45-15:15"
+  location: "A5, 6 B317"
   dates: "Spring 2023"
-  github: "https://github.com/organizations/r4da-s23"
+  github: "https://github.com/organizations/r4da-f23"
   url: "https://r4da.live"
   copyright_year: "2023"
-  slack: "https://data-s23.slack.com"
+  slack: "https://r4da.slack.com"
 
 university:
   name: University of Mannheim
