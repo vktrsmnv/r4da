@@ -23,11 +23,11 @@ ta:
 
 course:
   # number: "Met"
-  semester: "Spring 2023"
+  semester: "Fall 2023"
   days: "Wednesday"
   time: "13:45-15:15"
   location: "A5, 6 B317"
-  dates: "Spring 2023"
+  dates: "Fall 2023"
   github: "https://github.com/organizations/r4da-f23"
   url: "https://r4da.live"
   copyright_year: "2023"

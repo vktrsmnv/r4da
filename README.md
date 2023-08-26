@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Data Analytics and Visualization with R <a href='https://r4da.live/'><img src='files/img/sticker.png' align="right" height="139" /></a>
+# R for Data Analysis <a href='https://r4da.live/'><img src='files/img/sticker.png' align="right" height="139" /></a>
 
-[Spring 2023](https://r4da.live/)  
+[Fall 2023](https://r4da.live/)  
 Viktoriia Semenova • School of Social Sciences • University of Mannheim
 
 ------------------------------------------------------------------------
@@ -23,7 +23,7 @@ Viktoriia Semenova • School of Social Sciences • University of Mannheim
     [Quarto](https://quarto.org/) installation embedded in it.
     Otherwise, download and install [Quarto](https://quarto.org/)
     separately.
-2.  Open `data-s23.Rproj` to open an [RStudio
+2.  Open `r4da.Rproj` to open an [RStudio
     Project](https://r4ds.had.co.nz/workflow-projects.html).
 3.  If it’s not installed already, R *should* try to install the [{renv}
     package](https://rstudio.github.io/renv/) when you open the RStudio
@@ -65,20 +65,6 @@ The pipeline does several major tasks:
   any new folder that is added to `/projects/` will automatically be
   zipped up when running the pipeline.
 
-- **Render xaringan slides to HTML and PDF**: Quarto supports HTML-based
-  slideshows through
-  [reveal.js](https://quarto.org/docs/presentations/revealjs/). However,
-  I created all my slides using
-  [{xaringan}](https://github.com/yihui/xaringan), which is based on
-  [remark.js](https://remarkjs.com/) and doesn’t work with Quarto.
-  Since (1) I recorded all the class videos using my {xaringan} slides
-  with a fancy template I made, and (2) I don’t want to recreate my
-  fancy template in reveal.js yet, I want to keep using {xaringan}.
-
-  The pipeline [dynamically generates
-  targets](https://books.ropensci.org/targets/dynamic.html) for all the
-  `.Rmd` files in [`/slides/`](/slides/) and renders them using R
-  Markdown rather than Quarto.
 
   The pipeline then uses
   [{renderthis}](https://jhelvy.github.io/renderthis/) to convert each

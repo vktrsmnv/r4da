@@ -1,7 +1,0 @@
----
-title: "Problem Set 13"
-date: "2023-05-29"
-draft: true 
----
-
-Content TBA
