@@ -3,7 +3,6 @@ project:
   render:
     - "*.qmd"
     - "!slides/06"
-    - "!s23/solutions/"
   resources:
     - "files/"
     - "projects/"
@@ -269,7 +268,6 @@ website:
              file: s23/10-problem-set-solution.qmd
            - text: "Problem set 11"
              file: s23/11-problem-set-solution.qmd
-
   page-footer:
     left: |
       Content {{< fa brands creative-commons >}} {{< var course.copyright_year >}} by [{{< var instructor.name_no_title >}}]({{< var instructor.url >}}) <br>

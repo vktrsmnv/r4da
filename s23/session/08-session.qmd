@@ -1,0 +1,16 @@
+---
+title: "Estimating Heterogeneous Effects"
+date: "2023-04-24"
+---
+
+## Slides
+
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../files/week08_Estimating_Heterogeneous_Effects.pdf)
+
+<iframe src="../files/week08_Estimating_Heterogeneous_Effects.pdf#toolbar=0" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="604.8" height="339.84">
+
+
+
+
+
