@@ -21,3 +21,6 @@ README.html
 files/incomplete-reports.zip
 
 /.luarc.json
+.Rdata
+.httr-oauth
+.DS_Store
