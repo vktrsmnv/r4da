@@ -1,0 +1,430 @@
+---
+title: "Problem Set 7: Suggested Solutions"
+# author: ""
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup}
+#| echo: fenced
+#| include: false
+#| output: false
+# put all packages we use in a vector
+p_needed <- c(
+  "tidyverse", # shortcut for ggplot2, dplyr, readr
+  "janitor", # clean variable names
+  "broom", # model output
+  "showtext", # adding fonts
+  "modelsummary", # table output
+  "kableExtra", # table formatting
+  "styler" # style the code
+)
+
+# check if they are already installed, install if not installed
+lapply(
+  p_needed[!(p_needed %in% rownames(installed.packages()))],
+  install.packages
+)
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# Add a new font
+font_add_google(name = "Noto Sans")
+showtext_auto()
+
+# set the theme for all plots to theme_bw
+theme_set(theme_minimal(base_family = "Noto Sans", base_size = 10)) +
+  theme(plot.title.position = "plot")
+
+# load the dataset
+judges <- readRDS("data/judges.rds") %>%
+  mutate(
+    any_girls = girls > 0,
+    any_girls = as.numeric(any_girls),
+    catholic = if_else(religion == 4, 1, 0),
+    african = if_else(race == 2, 1, 0),
+    hispanic = if_else(race == 3, 1, 0),
+    asian = if_else(race == 4, 1, 0)
+  )
+```
+
+## Task 1: Modeling
+
+We will be working with the following specification of the model:
+
+$$
+\begin{aligned}
+\operatorname{{\% \ Progressive\ Votes}} &= {\beta}_{0}\ + {\beta}_{1} \cdot \operatorname{At \ least \ 1 \ daughter}\ +  \ {\beta}_{2} \cdot \operatorname{Woman}\ +  \ {\beta}_{3} \cdot \operatorname{Age}\ + \\
+&\quad {\beta}_{4} \cdot \operatorname{Catholic}\ +  \ {\beta}_{5} \cdot \operatorname{Asian}\ +  \ {\beta}_{6} \cdot \operatorname{African}\ +  \ {\beta}_{7} \cdot \operatorname{Hispanic}\ + \\
+&\quad {\beta}_{8} \cdot \operatorname{Republican}\ +  \ {\beta}_{9} \cdot \operatorname{Number \ of \ kids}\ + \ \varepsilon \\
+\varepsilon \sim {\mathcal{N}(0, \sigma^2)}
+\end{aligned}
+$$
+
+1.1. What does the part $\mathcal{N}(0, \sigma^2)$ in this equation imply?
+
+> The error term is normally distributed with the mean of 0 and a standard deviation of $\sigma$, which is a constant value across all values of the dependent variable. In otehr words, the zero mean of the error term distribution means that on average, our predictions are correct (error is zero) and that variance of our predictions stays the same, i.e. there are no values that we can predict better (smaller error) or worse (larger error). This assumption is required for us to use confidence intervals and hypotheses testing for our estimates. 
+
+1.2. Estimate the model with this specification on (1) all judges (store in `m1`), (2) only parents (store in `m2`), and (3) only parents with 1 - 4 kids (store in `m3`).
+
+```{r}
+#| label: models
+#| echo: fenced
+m1 <- lm(
+  progressive_vote ~ woman + age + republican + asian + african +
+    hispanic + catholic + kids + any_girls,
+  data = judges
+)
+m2 <- lm(
+  progressive_vote ~ woman + age + republican + asian + african +
+    hispanic + catholic + kids + any_girls,
+  data = judges %>%
+    filter(kids > 0)
+)
+m3 <- lm(
+  progressive_vote ~ woman + age + republican + asian + african +
+    hispanic + catholic + kids + any_girls,
+  data = judges %>% subset(kids > 0 & kids < 5)
+)
+```
+
+1.3. Put the regression results in a well-formatted regression table. You are provided with the template below. Make sure that the table fulfills all the following criteria.
+
+*Well-formatted table (i.e. something you would always want to have in your papers) means that:*
+
+1.  *A table has a descriptive title*
+2.  *All variable names are meaningful and clear (not the raw variable names in `R`)*
+3.  *Names of dummy variables should be meaningful, with the title indicating the category for* $X = 1$ *(e.g. Female, not Gender).*
+4.  *Should there be any categorical variables that were recoded as dummies (like `race` in our case), the baseline, i.e. the omitted, category should be mentioned in the notes to the table. If a categorical variable was included with only one category (like catholic here), you don't need to mention the other categories as long as the variable name is clear.*
+5.  *Should you be including p-values as stars, make sure to indicate the corresponding significance levels.*
+
+You can learn more about the syntax of this function on the package webpage: <https://vincentarelbundock.github.io/modelsummary/articles/modelsummary.html>.
+
+```{r}
+#| label: regression-table
+#| echo: fenced
+#| eval: true # add echo: false to hide source code 
+modelsummary(
+  models = list(m1, m2, m3),
+  title = "The Effect of Having Daughters on Judges' Ruling",
+  gof_omit = "IC|F|Log.",
+  align = "lccc", # left-align first column, center other three
+  coef_map = c(
+    "any_girls" = "At least 1 daughter",
+    "woman" = "Female",
+    "age" = "Age (years)",
+    "catholic" = "Catholic",
+    "asian" = "Race: Asian",
+    "african" = "Race: African",
+    "hispanic" = "Race: Hispanic",
+    "republican" = "Republican",
+    "kids" = "Number of Kids",
+    "(Intercept)" = "Intercept"
+  ),
+  notes = list(
+    "Notes: Standard errors in parentheses. White is the baseline category for race variable."
+  ),
+  fmt = 3,
+  # round to 3 digits after zero
+  stars = T # include p-values
+) %>%
+  kableExtra::add_header_above( # add an extra row with
+    c(
+      " " = 1, # nothing in column 1
+      "DV: Proportion of Progressive Votes" = 3
+    ),
+    bold = F,
+    italic = T
+  ) %>%
+  kableExtra::add_header_above(c( # add info about samples
+    " " = 1,
+    "All judges" = 1,
+    "Parents" = 1,
+    "Parents (1-4 kids)" = 1
+  )) %>%
+  kableExtra::column_spec(2:4, width = "3cm") # set the size of 2, 3, 4 columns in table to 3 cm
+```
+
+1.4. Interpret the regression results in 2-3 sentences. Key things to mention:
+
+-   *The effect of your main explanatory variable across the models taking into account both the uncertainty about the estimate and the size of the effect.*
+-   *You don't need to interpret the effects of control variables, but if you do, always frame it as a correlation, not a causal relationship.*
+
+>  Since judges who have no kids may be systematically different from those who choose to have kids, it is reasonable to restrict the sample to parents alone. The subsample of parents with one to four kids excludes potential outliers that could be driving the results. On this subsample, holding all else constant, having one daughter or more, on average, results in 10 percentage point increase in progressive vote at the 0.1 level of significance. However, we cannot reject the null hypothesis of no effect at the 0.05 level of significance for this subsample, as well as for subsamples of all parents and all judges. 
+
+\newpage 
+
+## Task 2: Uncertainty
+
+2.1. Using model 3, calculate 90% and 95% confidence intervals for your estimates (`tidy()` from `broom` package can help, or you can use `modelsummary()` and specify arguments as `statistic = 'conf.int', conf_level = .90`). Interpret the effect of the `any_girls` variable using interval estimates rather than the point estimate.
+
+```{r}
+#| label: cis
+#| echo: fenced
+tidy(m3, conf.int = TRUE, conf.level = 0.90) %>%
+  bind_rows(tidy(m3, conf.int = TRUE, conf.level = 0.95)) %>%
+  filter(term == "any_girls") %>%
+  dplyr::select(term, estimate, starts_with("conf")) %>%
+  mutate(level = c("90% CI", "95% CI")) %>% 
+  kable(digits = 3)
+```
+
+> With 90% confidence, we can expect that having at least one daughter is associated with an expected increase of 0.009 to 0.206 in the proportion of progressive votes for a judges, holding all else constant. When relying on the 95% confidence intervals, we can expect an effect of having daughters to range from -0.9 to 22.5 percentage points, which means that the associated increase in progressive voteshare is not significantly different from zero at this level. \
+> Generally speaking, confidence intervals are constructed such that, when repeating the sampling a large number of times and estimating the parameters on each of these samples, at least 90% (or 95%) of these calculated intervals cover the true parameter. 
+
+2.2. Which of the confidence intervals is wider, the 90% or the 95% one? Which one is more conservative (conservative means that using an interval, it is harder for us to reject the null hypothesis of, say, the effect being zero)?
+
+> The 95% confidence interval is wider, it is also more conversative.
+
+2.3. Generally speaking, what is the trade-off when choosing a narrow vs. wider confidence interval to report?
+
+> The general trade-off when reporting interval measures is teh one between accuracy and precision. Accuracy implies that we estimate the parameter correctly, while precision means that varianec of our estimates is smaller. When having a wider interval, we have better chances of reporting the true value of the effect (i.e. we are more accurate) yet wider intervals may become uninformative. An extreme case of this would be a confidence interval of 100%, which would range from $-\infty$ to $+\infty$, definitely covers the true value, but is useless for interpretation. 
+
+2.4. Based on the CIs you calculated for the effect of `any_girls`, which of the statements are correct? Why (not)?
+
+2.4.1. The probability that the intervals we calculated, $[-0.01, 0.225]$ and $[0.009, 0.206]$, include the true effect of `any_girls` on the `progressive_vote` is 95% and 90%, respectively.
+
+> This is incorrect: confidence intervals contain the true parameter at least 95% (90%) of the times if we repeat the experiment (i.e. sampling process and estimation) a large number of times. Our calculated CI either covers the true value or not. 
+
+2.4.2. If we were to collect many more samples and estimate the effect $\hat\beta_1$ of having at least one daughter on feminist voting, there is a 90% chance that the effects $\hat\beta_1$ estimated on those other sample would also range between $[0.009, 0.206]$.
+
+> This is incorrect: a single confidence interval calculated on one sample does not tell us anything about the confidence intervals estimates on other subsamples. The procedure of confidence intervals construction is about the true value of the parameter only. 
+
+2.4.3. The effect $\hat\beta_1$ of having at least one daughter on feminist voting is significantly different from zero at 90% confidence level, but not at the 95% confidence level.
+
+> This is correct: whether zero is included in the confidence interval allows us to see if the effect is different from that value at a specified significance/confidence level. 95% CI $[-0.01, 0.225]$ includes zero and 90% CI $[0.009, 0.206]$ does not. 
+
+2.4.4. The effect $\hat\beta_1$ of having at least one daughter on feminist voting is significantly different from 0.5 at both 90% and 95% confidence levels.
+
+> This is correct: like with zero, we can compare if a certain value is included in the confidence interval or not and conclude whetehr the effect is different from that value at a specified significance/confidence level. Neither 95% CI $[-0.01, 0.225]$ nor 90% CI $[0.009, 0.206]$ include 0.5, hence the effect of having at least one daughter on feminist voting is significantly different from 0.5 on both levels.
+
+2.4.5. The probability that the intervals we calculated, $[-0.01, 0.225]$ and $[0.009, 0.206]$, include the true effect of `any_girls` on the `progressive_vote` is 0 or 1 in each case, respectively.
+
+> This is correct: each calculated confidence interval either includes the true value or not. Us knowing whether the true value is covered or not does not affect the probability of the true value being covered by the calculated confidence interval.  
+
+\newpage 
+
+## Task 3: Marginal Effects Plots
+
+Now we will move to constructing a marginal effect plot for our main variable of interest, `any_girls`.
+
+3.1. You may see different versions of marginal effects plots: sometimes, marginal effect plots show the values of the coefficient depending on the values of the main predictor directly. Would such a plot be informative in our case? Why (not)?
+
+> Such a plot will not be very informative as the effect is constant across the values of the predictor variable. The estimated effect of the variable is equal to `r m3$coefficients[["any_girls"]] %>% round(3)` and does not depend on the values of any other variable. The same information would be available to us when Here is how such a plot would look like: 
+
+```{r}
+#| label: me-plot
+#| echo: fenced
+# generate the marginal effects plot data 
+cdat <- margins::cplot(m3, # model object 
+                       "any_girls", # variable name 
+                       what = "effect", # type of plot 
+                       draw = F) %>%
+  filter(xvals %in% 0:1) # only select the 0 & 1 values 
+
+ggplot(cdat, aes(x = if_else(xvals == 0, "No", "Yes"))) +
+  geom_pointrange(aes(y = yvals, ymin = lower,
+                      ymax = upper)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  labs(x = "Having Daughters",
+       y = expression("Marginal Effect of Having Daughters: " * beta[1]),
+       title = "Marginal Effects Plot for Linear Model",
+       subtitle = "Mean and 95% confidence intervals") +
+  ylim(-0.1, 0.5)
+```
+
+
+3.2. Construct the plot with the *fitted values* over the different values of the predictor variable `any_girls`. To isolate the effect of `any_girls`, set all other variables used in the model to a constant, meaningful, existing in the data, value. 
+
+
+```{r}
+#| label: fig-me
+#| fig-cap: "The Effect of Having at Least One Daughter on Progressive Voting: Average Case"
+#| echo: fenced
+#| fig-align: "center"
+
+new_data <- tibble(
+  any_girls = c(0, 1),
+  woman = median(m3$model$woman), 
+  age = median(m3$model$age),
+  catholic = median(m3$model$catholic),
+  asian = median(m3$model$asian),
+  african = median(m3$model$african),
+  hispanic = median(m3$model$hispanic),
+  republican = median(m3$model$republican),
+  kids = median(m3$model$kids)
+)
+
+# calculate CIs for expected values 
+ci_90 <- predict(m3,
+                 newdata = new_data,
+                 level = 0.9,
+                 interval = "c") %>%
+  as_tibble() %>%
+  mutate(level = "0.9") %>%
+  bind_cols(new_data)
+
+ci_95 <- predict(m3,
+                 newdata = new_data,
+                 level = 0.95,
+                 interval = "c") %>%
+  as_tibble() %>%
+  mutate(level = "0.95") %>%
+  bind_cols(new_data)
+
+bind_rows(ci_90, ci_95) %>%
+  ggplot(aes(
+    x = fit,
+    y = factor(any_girls),
+    color = factor(any_girls)
+  )) +
+  geom_pointrange(aes(
+    xmin = lwr,
+    xmax = upr,
+    linewidth = level
+  ), size = 1) +
+  geom_jitter(
+    data = broom::augment(m3),
+    aes(x = .fitted),
+    width = 0.1,
+    size = 2.5,
+    alpha = 0.5
+  ) +
+  scale_color_viridis_d(direction = -1, end = 0.8) +
+  scale_y_discrete(labels = c("No daughters", "At least one\ndaughter")) +
+  scale_linewidth_manual(values = c(2, 1)) +
+  guides(
+    color = "none",
+    linewidth = guide_legend(override.aes = list(size = .5)),
+    alpha = guide_legend(override.aes = list(linewidth = 0))
+  ) +
+  labs(
+    x = "Proportion of Feminist Rulings",
+    y = "",
+    linewidth = "Confidence level:",
+    caption = "Source: Glynn & Sen (2015)",
+    alpha = "",
+    title = "The Effect of Having at Least One Daughter on Progressive Voting",
+    subtitle = "Sample: U.S. Courts of Appeals Judges, 1996-2002, Gender-Related Cases"
+  ) +
+  scale_x_continuous(breaks = scales::pretty_breaks(), limits = c(0, 1)) +
+  theme(legend.position = "bottom",
+        plot.title.position = "plot")
+```
+
+3.3. Interpret the plot in 2-3 sentences.
+
+> This plot shows us the expected shares of progressive votes for a typical judge (all other variables were set to median in the data) depending on whether they have at least one daughter or not. When having no daughters, the expected proportion of feminist rulings is on average, 28.7 percentage points, but ranges from 19 to 38 percentage points based on the 90% confidence interval. The expected share of feminist votes when having a daughter or more is 39.5 percentage points (33.1 to 45.8 with 90% confidence). This is in line with our expectation that having at least one daughter is associated with an increase in feminst voting for judges. 
+
+3.4. Can we, theoretically, observe values above 1 or below 0 for the *Proportion of Feminist Rulings*? Why do the confidence intervals still include these values?
+
+> The *dependent variable*, the proportion by definition ranges from 0 to 1. However, when we are using a linear model, which assumes unbounded dependent variable (i.e. any value of the DV is possible), we may end up in a situation where the point estimates and/or the confidence intervals include values lower than 0 or larger than 1. This is the result of the DV variable being modeled as unbounded. \ In this case, for example, we have very few cases with Asian judges, hence the uncertainty for expected values for this group could be very large, and CIs for the expected proportion go beyond the 0 and 1.  Using a different modelling approach could allow us to ensure that the predictions are bounded to certain values only. 
+\ At the same time, the *effects*, i.e. the coefficients and their estimates, are not restricted in most models, and there is no limitation for the CIs for coefficients.  
+
+```{r}
+#| label: fig-me-asian
+#| fig-cap: "The Effect of Having at Least One Daughter on Progressive Voting: Asian Judge"
+#| echo: fenced
+#| fig-align: "center"
+
+new_data <- tibble(
+  any_girls = c(0, 1),
+  woman = median(m3$model$woman), 
+  age = median(m3$model$age),
+  catholic = median(m3$model$catholic),
+  asian = 1,
+  african = median(m3$model$african),
+  hispanic = median(m3$model$hispanic),
+  republican = median(m3$model$republican),
+  kids = median(m3$model$kids)
+)
+
+# calculate CIs for expected values 
+ci_90 <- predict(m3,
+                 newdata = new_data,
+                 level = 0.9,
+                 interval = "c") %>%
+  as_tibble() %>%
+  mutate(level = "0.9") %>%
+  bind_cols(new_data)
+
+ci_95 <- predict(m3,
+                 newdata = new_data,
+                 level = 0.95,
+                 interval = "c") %>%
+  as_tibble() %>%
+  mutate(level = "0.95") %>%
+  bind_cols(new_data)
+
+bind_rows(ci_90, ci_95) %>%
+  ggplot(aes(
+    x = fit,
+    y = factor(any_girls),
+    color = factor(any_girls)
+  )) +
+  geom_pointrange(aes(
+    xmin = lwr,
+    xmax = upr,
+    linewidth = level
+  ), size = 1) +
+  geom_jitter(
+    data = broom::augment(m3),
+    aes(x = .fitted),
+    width = 0.1,
+    size = 2.5,
+    alpha = 0.5
+  ) +
+  scale_color_viridis_d(direction = -1, end = 0.8) +
+  scale_y_discrete(labels = c("No daughters", "At least one\ndaughter")) +
+  scale_linewidth_manual(values = c(2, 1)) +
+  guides(
+    color = "none",
+    linewidth = guide_legend(override.aes = list(size = .5)),
+    alpha = guide_legend(override.aes = list(linewidth = 0))
+  ) +
+  labs(
+    x = "Proportion of Feminist Rulings",
+    y = "",
+    linewidth = "Confidence level:",
+    caption = "Source: Glynn & Sen (2015)",
+    alpha = "",
+    title = "The Effect of Having at Least One Daughter on Progressive Voting",
+    subtitle = "Sample: U.S. Courts of Appeals Judges, 1996-2002, Gender-Related Cases"
+  ) +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  theme(legend.position = "bottom",
+        plot.title.position = "plot")
+```
+
+
+
+\newpage 
+
+## Task 4: Quarto Chunk Options
+
+The chunks in this (and other quarto documents) contain so-called chunk options (`#|`) that control things like whether we execute the chunk or not, whether we include the source code or only the chunk output in the final document, and many other things. In this task you will need to add one or two of such options to the chunks above. Some of the most basic chunk options are:
+
+| Option    | Description                                                                                                                                                                                       |
+|-----------------|-------------------------------------------------------|
+| `eval`    | Evaluate the code chunk (if `false`, just echos the code into the output).                                                                                                                        |
+| `echo`    | Include the source code in output                                                                                                                                                                 |
+| `output`  | Include the results of executing the code in the output (`true`, `false`, or `asis` to indicate that the output is raw markdown and should not have any of Quarto's standard enclosing markdown). |
+| `warning` | Include warnings in the output.                                                                                                                                                                   |
+| `error`   | Include errors in the output (note that this implies that errors executing code will not halt processing of the document).                                                                        |
+| `include` | Catch all for preventing any output (code or results) from being included (e.g. `include: false` suppresses all output from the code block).                                                      |
+
+You can find many more of them here: https://quarto.org/docs/reference/cells/cells-knitr.html.
+
+4.1. In academic papers, people often put figure captions in the text rather than on the plot directly. In the chunk with label `fig-me`, adjust the `fig-cap` option to specify a meaningful title for the plot.
+
+4.2. Add meaningful labels to all other chucks. The labels must be unique!
+
+4.3. Using chunk options, hide all the output of the `setup` chunk as well as the source code.
+
+4.4. In the `regression-table`, make sure the code is executed when rendering the file. Also, hide the source code so that only the output (i.e. the table) is shown in the rendered document.
+
+## Task 5: Knitting and Formatting
+
+Please knit your file to PDF. Make sure that all code lines are visible (there are no hanging lines), and that your code is well-styled (running `styler::style_dir()` in the console should do the styling automatically for you). Upload the latest version of the project (primarily the `qmd` file) to the repo.
