@@ -123,7 +123,7 @@ For the topic of data visualization, you are welcome to look at these sources:
 
 We will learn data analysis by *doing* data analysis. We will use the open-source (and free!) statistical programming language called [`R`](https://cran.r-project.org/). `R` is very popular in data science and statistics, it makes beautiful graphics, and it is great fun. You will use [RStudio](https://posit.co/products/open-source/rstudio/) as the main program to access R. Think of `R` as an engine and RStudio as a car dashboard—R handles all the calculations and the actual statistics, while RStudio provides a nice interface for running `R` code.
 
-To make our workflow with `R` more efficient, we will also be using a version control tool called `git` and its online hosting GitHub. In a nutshell, think of this as Google Docs, but for code and on steroids. I will use GitHub to distribute material for our sessions, hand out and collect homework assignments, and provide you with feedback on your homework, too. 
+To make our workflow with `R` more efficient, we will also be using a version control tool called `git` and its online hosting GitHub. In a nutshell, think of this as Google Docs, but for code and on steroids. I will use GitHub to distribute material for our sessions, hand out and collect homework assignments, and provide you with solutions and feedback back on your homework when necessary. 
 
 You can [find instructions for installing R, RStudio, and git here.](/resource/install.html)
 
@@ -140,7 +140,7 @@ If you have a question during the class, don't hesitate to ask it! There are lik
 
 If for whatever reason you'd rather come and talk in person rather than post on the GitHub discussions, you can do this during the office hours. Considering the deadline for homework in on Monday, I will make sure to keep the slot on Mondays and Wednesdays, 15:30-17:00, for the office hours. This is, however, not the only time I am available. You can always just [pick from the time slots that work for me](https://calendly.com/vktrsmnv/r4da) on that particular week and come at a different day/time. You can come in groups if you want. Just note that you'll need to let me know you're coming at least 6 hours in advance. 
 
-You are also welcome to sick help from our TA, David. Also just [pick from the time slots thatare available](https://calendly.com/davagian)
+You are also welcome to sick help from our TA, David. Also just pick from the time slots that are available on [this page](https://calendly.com/davagian).
 
 ### Slack
 

@@ -71,30 +71,30 @@ website:
               file: prepare/01-prepare.qmd
             - text: "2: Describing Variables"
               file: prepare/02-prepare.qmd
-            - text: "3: Describing Relationships"
-              file: prepare/03-prepare.qmd
-            - text: "4: Identification and Causal Diagrams"
-              file: prepare/04-prepare.qmd
-            - text: "5: Causal Diagrams and Treatment Effects"
-              file: prepare/05-prepare.qmd
-            - text: "6: Regression for Describing"
-              file: prepare/06-prepare.qmd
-            - text: "7: Uncertainty and Statistical Inference"
-              file: prepare/07-prepare.qmd
-            - text: "8: Estimating Heterogeneous Effects"
-              file: prepare/08-prepare.qmd
-            - text: "9: Binary Dependent Variable"
-              file: prepare/09-prepare.qmd
-            - text: "10: Matching"
-              file: prepare/10-prepare.qmd
-            - text: "11: Fixed Effects"
-              file: prepare/11-prepare.qmd
-            - text: "12: Difference-in-Differences"
-              file: prepare/12-prepare.qmd
-            - text: "13: Regression Discontinuity"
-              file: prepare/13-prepare.qmd
-            - text: "14: Review"
-              file: prepare/14-prepare.qmd
+            # - text: "3: Describing Relationships"
+            #   file: prepare/03-prepare.qmd
+            # - text: "4: Identification and Causal Diagrams"
+            #   file: prepare/04-prepare.qmd
+            # - text: "5: Causal Diagrams and Treatment Effects"
+            #   file: prepare/05-prepare.qmd
+            # - text: "6: Regression for Describing"
+            #   file: prepare/06-prepare.qmd
+            # - text: "7: Uncertainty and Statistical Inference"
+            #   file: prepare/07-prepare.qmd
+            # - text: "8: Estimating Heterogeneous Effects"
+            #   file: prepare/08-prepare.qmd
+            # - text: "9: Binary Dependent Variable"
+            #   file: prepare/09-prepare.qmd
+            # - text: "10: Matching"
+            #   file: prepare/10-prepare.qmd
+            # - text: "11: Fixed Effects"
+            #   file: prepare/11-prepare.qmd
+            # - text: "12: Difference-in-Differences"
+            #   file: prepare/12-prepare.qmd
+            # - text: "13: Regression Discontinuity"
+            #   file: prepare/13-prepare.qmd
+            # - text: "14: Review"
+            #   file: prepare/14-prepare.qmd
 
     - title: "Sessions"
       style: "docked"
@@ -259,16 +259,16 @@ website:
 
         - section: "Solutions"
           contents:
-           - text: "Problem set 2: solution"
-             file: s23/02-problem-set.qmd
-           - text: "Problem set 7: solution"
-             file: s23/07-problem-set.qmd
-           - text: "Problem set 9: solution"
-             file: s23/09-problem-set.qmd
-           - text: "Problem set 10: solution"
-             file: s23/10-problem-set.qmd
-           - text: "Problem set 11: solution"
-             file: s23/11-problem-set.qmd
+           - text: "Problem set 2"
+             file: s23/02-problem-set-solution.qmd
+           - text: "Problem set 7"
+             file: s23/07-problem-set-solution.qmd
+           - text: "Problem set 9"
+             file: s23/09-problem-set-solution.qmd
+           - text: "Problem set 10"
+             file: s23/10-problem-set-solution.qmd
+           - text: "Problem set 11"
+             file: s23/11-problem-set-solution.qmd
 
   page-footer:
     left: |
