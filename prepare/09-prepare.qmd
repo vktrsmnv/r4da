@@ -1,7 +1,0 @@
----
-title: "Binary Dependent Variable"
-date: "2023-04-25"
-draft: true 
----
-
-Content TBA

@@ -5,169 +5,169 @@ date: "2023-06-13, 23:59"
 
 <!-- ## TLDR -->
 
-<!-- Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have ~14~ 21 days to complete the data essay.  -->
+Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have 10 days to complete the data essay.
 
 <!-- Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me **before May 15, 2023**, so we can agree on the option that would be a relevant evaluation for this class but also helpful for _you_.   -->
 
 <!-- You can expect more details about the assignment to be added during the semester, but the task will be published on this page on May 30, 2023.  -->
 
-## Task Description
+<!-- ## Task Description -->
 
-In this final data analysis project, you will apply the things you have learned in the course, from data wrangling with R to communicating results of your analysis in an accessible manner. You will need to test two hypotheses about the motivations for constituency work among legislative candidates in Switzerland. You need to test two hypotheses.
+<!-- In this final data analysis project, you will apply the things you have learned in the course, from data wrangling with R to communicating results of your analysis in an accessible manner. You will need to test two hypotheses about the motivations for constituency work among legislative candidates in Switzerland. You need to test two hypotheses. -->
 
-On GitHub, everyone of you should have an individual repo for the data essay as of May 23, 2023. The repo contains the dataset in the `data` folder, as well as the `qmd` file you can use a template (all formatting is preset, but make sure to update your document's YAML) and supplementary files.
+<!-- On GitHub, everyone of you should have an individual repo for the data essay as of May 23, 2023. The repo contains the dataset in the `data` folder, as well as the `qmd` file you can use a template (all formatting is preset, but make sure to update your document's YAML) and supplementary files. -->
 
-No preprocessing like data cleaning is required for this task. The dataset provided is sufficient to test the hypotheses, but you may need/want to create additional variables from the existing ones. Merging dataset with any other data sources is not necessary.
+<!-- No preprocessing like data cleaning is required for this task. The dataset provided is sufficient to test the hypotheses, but you may need/want to create additional variables from the existing ones. Merging dataset with any other data sources is not necessary. -->
 
-This task requires the following steps:
+<!-- This task requires the following steps: -->
 
--   performing exploratory data analysis and describing the dataset and relevant variables in your essay
--   performing the statistical analysis appropriate for the task (selecting the model, the covariates, etc)
--   presenting results of your analysis numerically but also graphically as relevant quantities of interest
--   identifying the shortcomings of your empirical approach, data, etc. (aka identify limitations), providing robustness checks where possible
--   writing up the accompanying text that follows standards of academic writing
+<!-- -   performing exploratory data analysis and describing the dataset and relevant variables in your essay -->
+<!-- -   performing the statistical analysis appropriate for the task (selecting the model, the covariates, etc) -->
+<!-- -   presenting results of your analysis numerically but also graphically as relevant quantities of interest -->
+<!-- -   identifying the shortcomings of your empirical approach, data, etc. (aka identify limitations), providing robustness checks where possible -->
+<!-- -   writing up the accompanying text that follows standards of academic writing -->
 
-## Theory Outline
+<!-- ## Theory Outline -->
 
-Legislators' responsiveness to voters is essential for democratic governance and substantive representation. Motivations for politicians to demonstrate their responsiveness through such channels as constituency work however varies across political contexts as well as across individuals. Research in behavioral economics and political behavior offers two potential explanations to this variation: one approach suggests that legislator responsiveness is primarily driven by *extrinsic* motivations based on electoral considerations, while other body of work focuses on internal desire to connect to voters or a sense of duty, i.e. *intrinsic* motivations.
+<!-- Legislators' responsiveness to voters is essential for democratic governance and substantive representation. Motivations for politicians to demonstrate their responsiveness through such channels as constituency work however varies across political contexts as well as across individuals. Research in behavioral economics and political behavior offers two potential explanations to this variation: one approach suggests that legislator responsiveness is primarily driven by *extrinsic* motivations based on electoral considerations, while other body of work focuses on internal desire to connect to voters or a sense of duty, i.e. *intrinsic* motivations. -->
 
-In this paper, you need to explore to which extent the constituency work of legislative candidates is strategic, i.e. driven by the re-election prospects and electoral context. In particular, you will test two hypotheses:
+<!-- In this paper, you need to explore to which extent the constituency work of legislative candidates is strategic, i.e. driven by the re-election prospects and electoral context. In particular, you will test two hypotheses: -->
 
-> Hypothesis 1: Legislative candidates are more likely to do constituency work when it impacts their re-election prospects stronger.
+<!-- > Hypothesis 1: Legislative candidates are more likely to do constituency work when it impacts their re-election prospects stronger. -->
 
-> Hypothesis 2: Legislative candidates are more likely to do constituency work when it impacts their re-election prospects stronger when candidates' electoral safety is low.
+<!-- > Hypothesis 2: Legislative candidates are more likely to do constituency work when it impacts their re-election prospects stronger when candidates' electoral safety is low. -->
 
-The data you will use comes from Switzerland and was collected in 2015, when national legislative elections were taking place. To explore if candidates are strategic about constituency work or whether they are motivated intrinsically, researchers conducted a field experiment. 660 candidates from the five largest parties in Switzerland that field candidates in all cantons were contacted via email and were asked to respond to a policy-related question. To be able to distinguish between candidates' motives, researchers altered the district (canton) where the email comes from: it either (1) came from the same district where the candidate was running or (2) came outside of candidate's district.
+<!-- The data you will use comes from Switzerland and was collected in 2015, when national legislative elections were taking place. To explore if candidates are strategic about constituency work or whether they are motivated intrinsically, researchers conducted a field experiment. 660 candidates from the five largest parties in Switzerland that field candidates in all cantons were contacted via email and were asked to respond to a policy-related question. To be able to distinguish between candidates' motives, researchers altered the district (canton) where the email comes from: it either (1) came from the same district where the candidate was running or (2) came outside of candidate's district. -->
 
-In terms of the hypotheses, we should expect that if constituency work is extrinsically motivated, legislators tend to respond more to emails coming from their district. If intrinsic motivation prevails, there should no difference between response rates between treatment conditions.
+<!-- In terms of the hypotheses, we should expect that if constituency work is extrinsically motivated, legislators tend to respond more to emails coming from their district. If intrinsic motivation prevails, there should no difference between response rates between treatment conditions. -->
 
-In addition to information about the treatment variables, the dataset contains variables for political context and some candidate characteristics, such as gender, age, incumbent status, party affiliation. There is also information about candidates' district (canton), its size (in terms of seats elected), and whether German or French are spoken in that canton (note that all emails came in the language of the canton that candidates represent).
+<!-- In addition to information about the treatment variables, the dataset contains variables for political context and some candidate characteristics, such as gender, age, incumbent status, party affiliation. There is also information about candidates' district (canton), its size (in terms of seats elected), and whether German or French are spoken in that canton (note that all emails came in the language of the canton that candidates represent). -->
 
-Finally, there are a few measures of candidates' electoral safety available. Electoral safety `safety` compares a candidate's election result in the race, i.e. the number of votes received, to the result of the candidate elected with the least amount of votes on the same list. The index takes a value above 100 if the candidate is elected with a better result than another elected candidate on the same list. It is lower than 100 if the candidate does not win a seat (gets less votes than the candidate elected with the least amount of votes), and it is exactly 100 if the candidate is the candidate elected with the least votes. There is also a categorical version of this variable with three options.
+<!-- Finally, there are a few measures of candidates' electoral safety available. Electoral safety `safety` compares a candidate's election result in the race, i.e. the number of votes received, to the result of the candidate elected with the least amount of votes on the same list. The index takes a value above 100 if the candidate is elected with a better result than another elected candidate on the same list. It is lower than 100 if the candidate does not win a seat (gets less votes than the candidate elected with the least amount of votes), and it is exactly 100 if the candidate is the candidate elected with the least votes. There is also a categorical version of this variable with three options. -->
 
-The second safety measure utilizes candidates' list position. Switzerland uses open-list PR system, and research shows lower list position is associated with lower probability of being elected, all else constant. Districts vary in their sizes from 1 to 35 seats elected, so this is important to account for if relying on ballot position as safety measure. Finally, sometimes lists can be alphabetical, which means that ballot position is not directly associated with performance of the other candidates on the same list or special events.
+<!-- The second safety measure utilizes candidates' list position. Switzerland uses open-list PR system, and research shows lower list position is associated with lower probability of being elected, all else constant. Districts vary in their sizes from 1 to 35 seats elected, so this is important to account for if relying on ballot position as safety measure. Finally, sometimes lists can be alphabetical, which means that ballot position is not directly associated with performance of the other candidates on the same list or special events. -->
 
-Here is a list of available variables:
+<!-- Here is a list of available variables: -->
 
-| Variable         | Description                                                      |
-|---------------------|---------------------------------------------------|
-| `answer`         | whether candidate answered email or not                          |
-| `treatment_cant` | whether email came from in- or out-of-district (canton)          |
-| `safety`         | electoral safety index, see above                                |
-| `safety_group`   | electoral safety index with categories for low, medium, and high |
-| `inc`            | whether candidate is an incumbent or not                         |
-| `elec`           | whether candidate got elected in 2015 or not                     |
-| `male`           | whether candidate is male or female                              |
-| `age`            | candidate's age                                                  |
-| `party`          | candidate's party ideological spectrum (left, center, right)     |
-| `party1:party5`  | candidate's party (no party names available, indicators only)    |
-| `canton`         | canton ID variable                                               |
-| `list_pos`       | candidate's position on the party list                           |
-| `seats`          | canton (district) size                                           |
-| `list_alph`      | whether party list is alphabetized                               |
-| `list_pos2`      | candidate's position on the party list, divided by district size |
-| `lang`           | canton language (German or French)                               |
-| `staff`          | whether candidate reported to have paid staff members            |
+<!-- | Variable         | Description                                                      | -->
+<!-- |---------------------|---------------------------------------------------| -->
+<!-- | `answer`         | whether candidate answered email or not                          | -->
+<!-- | `treatment_cant` | whether email came from in- or out-of-district (canton)          | -->
+<!-- | `safety`         | electoral safety index, see above                                | -->
+<!-- | `safety_group`   | electoral safety index with categories for low, medium, and high | -->
+<!-- | `inc`            | whether candidate is an incumbent or not                         | -->
+<!-- | `elec`           | whether candidate got elected in 2015 or not                     | -->
+<!-- | `male`           | whether candidate is male or female                              | -->
+<!-- | `age`            | candidate's age                                                  | -->
+<!-- | `party`          | candidate's party ideological spectrum (left, center, right)     | -->
+<!-- | `party1:party5`  | candidate's party (no party names available, indicators only)    | -->
+<!-- | `canton`         | canton ID variable                                               | -->
+<!-- | `list_pos`       | candidate's position on the party list                           | -->
+<!-- | `seats`          | canton (district) size                                           | -->
+<!-- | `list_alph`      | whether party list is alphabetized                               | -->
+<!-- | `list_pos2`      | candidate's position on the party list, divided by district size | -->
+<!-- | `lang`           | canton language (German or French)                               | -->
+<!-- | `staff`          | whether candidate reported to have paid staff members            | -->
 
-## Details
+<!-- ## Details -->
 
-### Data Preparation and Analysis
+<!-- ### Data Preparation and Analysis -->
 
--   All steps of the analysis should be performed in R and documented in your `qmd` file.
--   Your code should be well-documented, commented out and run smoothly.
--   The code should follow the Tidyverse style guidelines (i.e. use `styler` package)
+<!-- -   All steps of the analysis should be performed in R and documented in your `qmd` file. -->
+<!-- -   Your code should be well-documented, commented out and run smoothly. -->
+<!-- -   The code should follow the Tidyverse style guidelines (i.e. use `styler` package) -->
 
-### Essay
+<!-- ### Essay -->
 
--   The text should read like an empirical strategy (research design and data analysis) parts of a research paper. You do not need to discuss the theory or hypotheses in your text. Also, there should be no code chunks inside the text!
+<!-- -   The text should read like an empirical strategy (research design and data analysis) parts of a research paper. You do not need to discuss the theory or hypotheses in your text. Also, there should be no code chunks inside the text! -->
 
--   If you start with making a DAG (and I suggest you do), you can include in the text, but you can rather put it in Appendix if you want to.
+<!-- -   If you start with making a DAG (and I suggest you do), you can include in the text, but you can rather put it in Appendix if you want to. -->
 
--   Discuss which identification strategy you choose, e.g., diff-in-diff, RDD, fixed effects, matching, etc. Explain why you choose it. If there are any assumptions associated with that strategy (e.g., parallel trends for diff-in-diff), provide justification.
+<!-- -   Discuss which identification strategy you choose, e.g., diff-in-diff, RDD, fixed effects, matching, etc. Explain why you choose it. If there are any assumptions associated with that strategy (e.g., parallel trends for diff-in-diff), provide justification. -->
 
--   Prior to describing statistical analysis and its results, your text should include a brief discussion of the dataset you work with as well as the key variables of interest (your dependent and main independent variables).
+<!-- -   Prior to describing statistical analysis and its results, your text should include a brief discussion of the dataset you work with as well as the key variables of interest (your dependent and main independent variables). -->
 
--   When describing the modeling approach, you need to justify the selection of the model as well as the selection of covariates (if you include any and/or you opt for matching). Including your model specification as an equation may be a good idea. You can look for examples on our slide and problem sets.
+<!-- -   When describing the modeling approach, you need to justify the selection of the model as well as the selection of covariates (if you include any and/or you opt for matching). Including your model specification as an equation may be a good idea. You can look for examples on our slide and problem sets. -->
 
--   Present the results of your analysis in one well-formatted table (or graph). When describing results, discuss the effects for your main independent variables in terms of sign, size (where possible), and statistical significance.
+<!-- -   Present the results of your analysis in one well-formatted table (or graph). When describing results, discuss the effects for your main independent variables in terms of sign, size (where possible), and statistical significance. -->
 
--   Be careful with using causal interpretation of effects. If unsure, opt for non-causal interpretation when describing results.
+<!-- -   Be careful with using causal interpretation of effects. If unsure, opt for non-causal interpretation when describing results. -->
 
--   For substantive interpretation of your results, try to use simulations to obtain appropriate quantities of interest and set meaningful scenarios (i.e. select sensible values given the dataset or common sense). Discuss the substantive magnitude of the effects as well the uncertainty surrounding those effects.
+<!-- -   For substantive interpretation of your results, try to use simulations to obtain appropriate quantities of interest and set meaningful scenarios (i.e. select sensible values given the dataset or common sense). Discuss the substantive magnitude of the effects as well the uncertainty surrounding those effects. -->
 
--   Discuss any limitations that your current approach to testing hypotheses poses. Think about measurements of your variables, any other relevant controls that you could have included (if you had data), sample size, other explanations you cannot rule out, etc.
+<!-- -   Discuss any limitations that your current approach to testing hypotheses poses. Think about measurements of your variables, any other relevant controls that you could have included (if you had data), sample size, other explanations you cannot rule out, etc. -->
 
--   You should adhere to academic writing standards: there should be appropriate citations where necessary (but you don't have to have them!) and the text should be written in formal style. Please use American Political Science Association or Mannheim Political Science Group Citation Style (this is set as default in the template you are provided with).
+<!-- -   You should adhere to academic writing standards: there should be appropriate citations where necessary (but you don't have to have them!) and the text should be written in formal style. Please use American Political Science Association or Mannheim Political Science Group Citation Style (this is set as default in the template you are provided with). -->
 
--   Your write-up should be up to 3500 words long, not including the appendix if you decide to have one. This is an upper limit: if you can present **all** the necessary info with less text, go for it.
+<!-- -   Your write-up should be up to 3500 words long, not including the appendix if you decide to have one. This is an upper limit: if you can present **all** the necessary info with less text, go for it. -->
 
--   This should be a coherent text, and you are welcome to use sections and subsections to separate the contents. Just keep it reasonable. Numbering sections is not necessary.
+<!-- -   This should be a coherent text, and you are welcome to use sections and subsections to separate the contents. Just keep it reasonable. Numbering sections is not necessary. -->
 
-### Formalities
+<!-- ### Formalities -->
 
--   Please refrain from any collaboration at this stage. Should there be any questions, please ask me directly. I will post questions/answers on Slack, so the same information is available for everyone, so monitor the class workspace.
+<!-- -   Please refrain from any collaboration at this stage. Should there be any questions, please ask me directly. I will post questions/answers on Slack, so the same information is available for everyone, so monitor the class workspace. -->
 
--   All material (including the `qmd` **and** rendered PDF) should be on GitHub by then, too. I should be able to render the same PDF with one click.
+<!-- -   All material (including the `qmd` **and** rendered PDF) should be on GitHub by then, too. I should be able to render the same PDF with one click. -->
 
--   You will also need to upload the PDF of the final text *with signed statutory declaration* via ILIAS. Essays without the declaration are not graded and receive a fail automatically.
+<!-- -   You will also need to upload the PDF of the final text *with signed statutory declaration* via ILIAS. Essays without the declaration are not graded and receive a fail automatically. -->
 
-## Grading Scheme
+<!-- ## Grading Scheme -->
 
-### Empirical Startegy (30/100)
+<!-- ### Empirical Startegy (30/100) -->
 
--   dataset description and preprocessing steps explained
--   descriptive statistics for main variables
--   operationalisation and measurement for main variable justified (if options are available)
--   model specification selection
--   justification for covariates
+<!-- -   dataset description and preprocessing steps explained -->
+<!-- -   descriptive statistics for main variables -->
+<!-- -   operationalisation and measurement for main variable justified (if options are available) -->
+<!-- -   model specification selection -->
+<!-- -   justification for covariates -->
 
-### Results (30/100)
+<!-- ### Results (30/100) -->
 
--   interpretation for model coefficients in text
--   well-formatted tables/coefficient plots for models
--   substantive interpretation with quantities of interest (especially for non-linear models)
-    -   meaningful quantities of interest (e.g., predicted probabilities for logit)
-    -   reasonable scenarios (e.g., average case)
-    -   description in text
+<!-- -   interpretation for model coefficients in text -->
+<!-- -   well-formatted tables/coefficient plots for models -->
+<!-- -   substantive interpretation with quantities of interest (especially for non-linear models) -->
+<!--     -   meaningful quantities of interest (e.g., predicted probabilities for logit) -->
+<!--     -   reasonable scenarios (e.g., average case) -->
+<!--     -   description in text -->
 
-### Robustness (10/100)
+<!-- ### Robustness (10/100) -->
 
--   at least one robustness check (alternative measure/identification strategy/etc.)
--   limitations of the empirical strategy are discussed
+<!-- -   at least one robustness check (alternative measure/identification strategy/etc.) -->
+<!-- -   limitations of the empirical strategy are discussed -->
 
-### Overall Text (10/100)
+<!-- ### Overall Text (10/100) -->
 
--   following academic writing standards
--   coherence and structure
--   grammar and spelling
--   formatting
+<!-- -   following academic writing standards -->
+<!-- -   coherence and structure -->
+<!-- -   grammar and spelling -->
+<!-- -   formatting -->
 
-### Graphs and Tables (10/100)
+<!-- ### Graphs and Tables (10/100) -->
 
--   tables are well-formatted and clear
--   tables and graphs are self-contained
--   graphs are accessible and clear
--   tables are numbered and captioned
--   each table/graph is referred in the text
+<!-- -   tables are well-formatted and clear -->
+<!-- -   tables and graphs are self-contained -->
+<!-- -   graphs are accessible and clear -->
+<!-- -   tables are numbered and captioned -->
+<!-- -   each table/graph is referred in the text -->
 
-### Code (10/100)
+<!-- ### Code (10/100) -->
 
--   Code chunks run smoothly
--   Code is well-annotated
--   Code chunks are not included in the text
+<!-- -   Code chunks run smoothly -->
+<!-- -   Code is well-annotated -->
+<!-- -   Code chunks are not included in the text -->
 
-### Points-to-Grade Conversion
+<!-- ### Points-to-Grade Conversion -->
 
-| **Grade**      | **Points**      |
-|----------------|-----------------|
-| 1.0            | 95-100          |
-| 1.3            | 90-94           |
-| 1.7            | 85-89           |
-| 2.0            | 80-84           |
-| 2.3            | 75-79           |
-| 2.7            | 70-74           |
-| 3.0            | 65-69           |
-| 3.3            | 60-64           |
-| 3.7            | 55-59           |
-| 4.0            | 50-54           |
-| 5.0            | $<$ 50          |
+<!-- | **Grade**      | **Points**      | -->
+<!-- |----------------|-----------------| -->
+<!-- | 1.0            | 95-100          | -->
+<!-- | 1.3            | 90-94           | -->
+<!-- | 1.7            | 85-89           | -->
+<!-- | 2.0            | 80-84           | -->
+<!-- | 2.3            | 75-79           | -->
+<!-- | 2.7            | 70-74           | -->
+<!-- | 3.0            | 65-69           | -->
+<!-- | 3.3            | 60-64           | -->
+<!-- | 3.7            | 55-59           | -->
+<!-- | 4.0            | 50-54           | -->
+<!-- | 5.0            | $<$ 50          | -->

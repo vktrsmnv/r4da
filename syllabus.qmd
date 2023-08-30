@@ -17,6 +17,16 @@ library(pander)
 - {{< fa university >}} &nbsp; {{< var instructor.office >}}
 - {{< fa envelope >}} &nbsp; <a href="mailto:{{< var instructor.email >}}">{{< var instructor.email >}}</a>
 - {{< fa calendar-check >}} &nbsp; [Schedule an appointment]({{< var instructor.appointment_url >}})
+
+
+## Teaching Assistant
+
+- {{< fa user >}} &nbsp; [{{< var ta.name >}}]({{< var ta.url >}})
+- {{< fa university >}} &nbsp; {{< var ta.office >}}
+- {{< fa envelope >}} &nbsp; <a href="mailto:{{< var ta.email >}}">{{< var ta.email >}}</a>
+- {{< fa calendar-check >}} &nbsp; [Schedule an appointment]({{< var ta.appointment_url >}})
+
+
 :::
 
 ::: {.g-col-6}
@@ -32,7 +42,8 @@ library(pander)
 
 ## Course description 
 
-Making sense of the modern world and learning new things about it demands an understanding of data, how to use it, and what conclusions can be drawn from it. In this class, we will talk about how social scientists identify causal effects (how X causes Y to happen) without experiments, what challenges this task poses, and how these problems are conceptually addressed. You will learn to implement different causal methods using R statistical programming language. Besides this, we will devote attention to effective data visualization, making you a more confident consumer and communicator of insights from your data.
+Data are increasingly prevalent in politics, yet using data to learn about the events of the world is complex and challenging. In this class, we will primarily focus on two components of this process. The first part of the course will focus on R programming skills relevant for data collection and data preprocessing, which often takes a lion share of time when working with data. The second part will be devoted to statistical modeling and inference and expand your methodological knowledge in regression analysis beyond linear regression.
+In this course, you will use the open-source and free statistical programming language R—one of the most popular, sought-after, and in-demand statistical programming languages, along with other professional tools for data analysis, such as RStudio, git, and GitHub. 
 
 <!-- No statistical or computing background is necessary to succeed in this class, although you will benefit from the course most if you have taken an introductory class in quantitative methodology. You will learn to use the open-source and free statistical programming language R—one of the most popular, sought-after, and in-demand statistical programming languages, along with other professional tools for data analysis, such as RStudio, git, and GitHub. -->
 
@@ -42,10 +53,10 @@ By the end of this course, you'll be able to:
 
 - use the statistical programming language `R` for data wrangling and analysis 
 - translate your theory into a statistical model
-- outline theories with directed acyclic graphs (DAGs)  
-- use statistical modelling for estimating *causal* effects from observational data  
-- create meaningful visualizations to communicate insights from data
-- use Quarto to write reproducible reports
+- use directed acyclic graphs (DAGs) to build causal models 
+- create meaningful visualizations to communicate insights from statistical analysis
+- describe your analysis in research papers 
+- use Quarto to write reproducible reports 
 - use `git` and GitHub for version control and collaboration
 
 
@@ -73,35 +84,40 @@ There is no single textbook for this class, and I will be assigning chapters fro
 
 There will be both required and suggested material. While required ones I expect everyone to be familiar with, the suggested ones are there in case you want to dive deeper into a particular topic. 
 
+
 ### Books & Videos
 
-For general intro to `R`, we will primarily use the books listed below. Most of the time these would be suggested rather than required readings:
+We will primarily use the books listed below. Most of the time these would be suggested rather than required readings:
 
 - Garret Grolemund and Hadley Wickham. [*R for Data Science*](https://r4ds.had.co.nz/)
 - Chester Ismay and Albert Y. Kim. [*Statistical Inference via Data Science: A ModernDive into R*](https://moderndive.com)
+- Mine Cetinkaya-Rundel and Johanna Hardin. [*Introduction to Modern Statistics.*](https://openintro-ims.netlify.app/) 
+- Nick Huntington-Klein. [*The Effect: An Introduction to Research Design and Causality*](https://theeffectbook.net/).
+- Ethan Bueno de Mesquita and Anthony Fowler. *Thinking Clearly with Data: A Guide to Quantitative Reasoning and Analysis* (Princeton, NJ: Princeton University Press, 2021).
 
-There are multiple good books published recently on the topic of causal inference. One of the books you will read a lot from was written by an economist Nick Huntington-Klein:
 
-- Nick Huntington-Klein. *The Effect: An Introduction to Research Design and Causality* (CRC Press, 2021), <https://theeffectbook.net/>. 
+<!-- There are multiple good books published recently on the topic of causal inference. One of the books you will read a lot from was written by an economist Nick Huntington-Klein: -->
 
-The book is quite lengthy but worry not, it is written at a general, easy-to-understand level with relatively minimal math. *You do not need to understand all the equations and notation.* Another bonus with this book is the YouTube videos available for each chapter. They are no substitutes of the book but will be a great place to start to speed up the reading. 
+<!-- - Nick Huntington-Klein. *The Effect: An Introduction to Research Design and Causality* (CRC Press, 2021), <https://theeffectbook.net/>.  -->
 
-There are a few more books I would assign chapters from and would recommend if you'd prefer a different take for some reason. 
+<!-- The book is quite lengthy but worry not, it is written at a general, easy-to-understand level with relatively minimal math. *You do not need to understand all the equations and notation.* Another bonus with this book is the YouTube videos available for each chapter. They are no substitutes of the book but will be a great place to start to speed up the reading.  -->
 
-- Ethan Bueno de Mesquita and Anthony Fowler. *Thinking Clearly with Data: A Guide to Quantitative Reasoning and Analysis* (Princeton, NJ: Princeton University Press, 2021). 
-- Scott Cunningham. *Causal Inference: The Mixtape* (New Haven, CT: Yale University Press, 2021), <https://mixtape.scunning.com/>. 
-- Joshua D. Angrist and Jörn-Steffen Pischke. *Mastering ’Metrics: The Path from Cause to Effect* (Princeton, NJ: Princeton University Press, 2015). 
+<!-- There are a few more books I would assign chapters from and would recommend if you'd prefer a different take for some reason.  -->
 
-*Thinking Clearly with Data* is an introductory book for quantitative methods, with an emphasis on research design and causal inference tools. We will read excerpts from it during the course. 
-*The Mixtape* is a more detailed and mathier approach to these causal inference methods, while *'Metrics Matter* is a fairly canonical (and accessible!) book in the world of econometrics. 
+<!-- - Ethan Bueno de Mesquita and Anthony Fowler. *Thinking Clearly with Data: A Guide to Quantitative Reasoning and Analysis* (Princeton, NJ: Princeton University Press, 2021).  -->
+<!-- - Scott Cunningham. *Causal Inference: The Mixtape* (New Haven, CT: Yale University Press, 2021), <https://mixtape.scunning.com/>.  -->
+<!-- - Joshua D. Angrist and Jörn-Steffen Pischke. *Mastering ’Metrics: The Path from Cause to Effect* (Princeton, NJ: Princeton University Press, 2015).  -->
 
-For the topic of data visualization, we will rely on various sources:
+<!-- *Thinking Clearly with Data* is an introductory book for quantitative methods, with an emphasis on research design and causal inference tools. We will read excerpts from it during the course.  -->
+<!-- *The Mixtape* is a more detailed and mathier approach to these causal inference methods, while *'Metrics Matter* is a fairly canonical (and accessible!) book in the world of econometrics.  -->
+
+For the topic of data visualization, you are welcome to look at these sources:
 
 - Kieran Healy. *Data Visualization: A Practical Introduction* (Princeton, NJ: Princeton University Press, 2018), <http://socviz.co/>.
 - Claus O. Wilke. *Fundamentals of Data Visualization.* (O’Reilly Media, 2019), <https://clauswilke.com/dataviz/>.
 - Hadley Wickham, Danielle Navarro, and Thomas Lin Pedersen. *ggplot2: Elegant Graphics for Data Analysis*. (in progress) 3rd edition. Springer, 2021. <https://ggplot2-book.org/>.
 
-All assigned chapters and links to the resources you will need to prepare for our weekly sessions will be included on the reading page for that week. 
+<!-- All assigned chapters and links to the resources you will need to prepare for our weekly sessions will be included on the reading page for that week.  -->
 
 ### Software 
 
@@ -122,15 +138,19 @@ If you have a question during the class, don't hesitate to ask it! There are lik
 
 ### Office hours
 
-If for whatever reason you'd rather come and talk in person rather than post on the GitHub discussions, you can do this during the office hours. Considering the deadline for homework in on Monday, I will make sure to keep the slot on Friday, 14:00-16:00, for the office hours. This is, however, not the only time I am available. You can always just [pick from the time slots that work for me](https://calendly.com/vktrsmnv/r4da) on that particular week and come at a different day/time. You can come in groups if you want. Just note that you'll need to let me know you're coming at least 6 hours in advance. 
+If for whatever reason you'd rather come and talk in person rather than post on the GitHub discussions, you can do this during the office hours. Considering the deadline for homework in on Monday, I will make sure to keep the slot on Mondays and Wednesdays, 15:30-17:00, for the office hours. This is, however, not the only time I am available. You can always just [pick from the time slots that work for me](https://calendly.com/vktrsmnv/r4da) on that particular week and come at a different day/time. You can come in groups if you want. Just note that you'll need to let me know you're coming at least 6 hours in advance. 
 
-### GitHub discussions
+You are also welcome to sick help from our TA, David. Also just [pick from the time slots thatare available](https://calendly.com/davagian)
 
-Have a question that can't wait for office hours? Prefer to write out your question in detail rather than asking in person? Our Discussions forum on GitHub is the best venue for these. Once you join the GitHub organization for this course, you will have access to the discussion tool. There is a chance another student has already asked a similar question, so please check the other posts in the channel before adding a new one. If you know the answer to a question that is posted, I encourage you to respond and if someone's response was helpful, you can mark it as an answer! 
+### Slack
+
+Have a question that can’t wait for office hours? Prefer to write out your question in detail rather than asking in person? Our Slack workspace is the best venue for these. Once you join the GitHub organization for this course, you will have access to the discussion tool. There is a chance another student has already asked a similar question, so please check the other posts in the channel before adding a new one. If you know the answer to a question that is posted, I encourage you to respond and if someone’s response was helpful, you can mark it as an answer!
+
+
 
 ### Email
 
-Please refrain from emailing any course content questions (those should go to Discussions), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.). For such matters, you may email me at [semenova@uni-mannheim.de](mailto:semenova@uni-mannheim.de?subject=r4da // Your subject).  Barring extenuating circumstances, I will respond to emails within 24 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday.
+Please refrain from emailing any course content questions (those should go to Slack), and only use email for questions about personal matters that may not be appropriate for the public course forum (e.g., illness, accommodations, etc.). For such matters, you may email me at [semenova@uni-mannheim.de](mailto:semenova@uni-mannheim.de?subject=r4da // Your subject).  Barring extenuating circumstances, I will respond to emails within 48 hours Monday - Friday. Response time may be slower for emails sent Friday evening - Sunday.
 
 
 ### Online Resources 
@@ -139,29 +159,35 @@ Computer programming can be frustrating because computers are stupid, and error 
 
 Searching for help with R on Google can sometimes be tricky because the program name is basically a single letter. Google is generally smart enough to figure out what you mean when you search for "r scatterplot", but if it does struggle, try searching for "rstats" instead (e.g. "rstats scatterplot").
 
-![](https://mermaid.ink/img/pako:eNpVUl1r20AQ_CtbGUoCNnVpH4IKDUkUmoS2YNqnynnY6FbWkdOteh9xRZT_3j1ZNrb0cuzsziyz85pVrCjLs43DroHfxdqCfFdnZYMvBAh_I_mg2V4-nsNi8RWuzzpyni0a0N5HOp8GRvDmrOLoPEGLgZxGM6HXI1qU1KKWOeuDi1Vg97iDbxI8sNvgAHel9qCDNEFoCHxvDD5Ffzm13o2tPfkB7ktHns0LqXdwgloe4KFE4whVD2xBdoJvOjTxaU_zcERzXEmj30sf0AWwtIXV-ytZIxGlhQrtq-i9uOFPNpdF2fUielxMvu4sGuB252bPEYLTpGDDvDG03-Z2tGeItiHT1dEcmCbgUL4_Fkg2oriTrvOhQae26A6KP8uKW4LAwHWtK4ImHWbSK0baVblFMfrzxQm22kmi9VtypA6aU90yiOudOCAiEpa1rQx6X1ANimqMJkDFhl0-u1gulx-X81obk8_qup7L0fmZ8pnUp_diq1Vo8k_dvy9JJLGlP5tnLTmJipJcvo5IJha3tM5yeSp0z-tsbd-kD2PgX72tslwSRfMsdkqSV2iUOLf7IiktWfuxy_kY93nWof3DLC01Gk9v_wG-zvsd?type=png)
+<!-- ![](https://mermaid.ink/img/pako:eNpVUl1r20AQ_CtbGUoCNnVpH4IKDUkUmoS2YNqnynnY6FbWkdOteh9xRZT_3j1ZNrb0cuzsziyz85pVrCjLs43DroHfxdqCfFdnZYMvBAh_I_mg2V4-nsNi8RWuzzpyni0a0N5HOp8GRvDmrOLoPEGLgZxGM6HXI1qU1KKWOeuDi1Vg97iDbxI8sNvgAHel9qCDNEFoCHxvDD5Ffzm13o2tPfkB7ktHns0LqXdwgloe4KFE4whVD2xBdoJvOjTxaU_zcERzXEmj30sf0AWwtIXV-ytZIxGlhQrtq-i9uOFPNpdF2fUielxMvu4sGuB252bPEYLTpGDDvDG03-Z2tGeItiHT1dEcmCbgUL4_Fkg2oriTrvOhQae26A6KP8uKW4LAwHWtK4ImHWbSK0baVblFMfrzxQm22kmi9VtypA6aU90yiOudOCAiEpa1rQx6X1ANimqMJkDFhl0-u1gulx-X81obk8_qup7L0fmZ8pnUp_diq1Vo8k_dvy9JJLGlP5tnLTmJipJcvo5IJha3tM5yeSp0z-tsbd-kD2PgX72tslwSRfMsdkqSV2iUOLf7IiktWfuxy_kY93nWof3DLC01Gk9v_wG-zvsd?type=png) -->
 
 ## Course structure
 
 ### In-person classes
 
-We meet weekly from 12:00–13:30 on Tuesdays in C217 in A5, 6. There are *no PCs* in the room so if you want to follow along during the labs (which I encourage you to do), you will need to bring a laptop. Alternatively, you could work from a tablet with a [cloud version of Rstudio](/resource/install.html#cloud-version-of-rstudio), but this would be less convenient. 
+We meet weekly from 13:45–15:15 on Wednesdays in B317 in A5, 6. There are **no PCs** in the room so to follow along during the labs, you will need to bring a laptop. Alternatively, you could work from a tablet with a [cloud version of Rstudio](/resource/install.html#cloud-version-of-rstudio), but this would be less convenient. 
 
 I expect you to come to the sessions prepared, which means having completed everything that is listed for the respective week in [Prepare](/prepare/) section of the website. We will have a short lecture-part and then we will move to code-along part and other activities. 
 
 ### Homework Assignments
 
-The only way to learn programming is through practice, which means you will have coding homework assignments. These problem sets will not be long but will be frequent, so you will need to submit them *weekly.* While your first few assignments will be individual because I want to ensure that everyone gets comfortable with the workflow, as we progress during the semester, we will switch to group assignments. You will need to work in groups of 2-3 students, as this way you will learn more about the collaborative part of working with `git`. I will let you know more about this as the semester goes. 
+The only way to learn programming is through practice, which means you will have coding homework assignments. These problem sets will not be long but will be frequent, so you will need to submit them weekly. To pass, you need to get more than half of the points for that assignment.
 
-I will distribute homework assignments via GitHub after our sessions on Tuesday. You will have until next Monday, 12:00 (noon) to complete the problem set. You will need to upload your solutions to GitHub by the deadline (this will be known as to `push`), and I will evaluate the latest version that is available on GitHub on Mondays 12:00. I will try to grade problem sets the same day and provide you with feedback by our session on Tuesday (but let's see how this goes). 
+Your first few assignments will be individual as it’s important that everyone gets comfortable with the workflow. As we progress during the semester, we will switch to group assignments but you can still work on your own if you prefer that. You can work in groups of 2-3 students. I will let you know more about this as the semester goes.
 
-Content-wise, the problem sets will be primarily coding tasks, but they will also include theoretical questions related to readings and "lectures" once in a while. In order to pass the assignment, I need to see that you have tried to solve every task, and most of the tasks should be completed correctly. 
+I will distribute homework assignments via GitHub on Wednesdays. You will have until next Tuesday, 22:00 to complete the problem set. You will need to upload your solutions to GitHub by the deadline (this is known as to `push`, I will show you all the process in class).
+
+After the deadline, I will provide you with solutions and it will be your job to go over them and compare your answers. You will later upload the points you got via a survey by that week's Friday. The TA and I will randomly select a few assignments each week to verify that you did not over- or under-evaluated yourself. In case of more than a 2-point difference between our and your evaluations, that homework assignment will be granted zero points. You are more than welcome to ask me questions if you are not sure when evaluating yourselves.
+
+This approach allows for you to get the feedback quickly and for me to be sure that you have seen and understood the correct solutions without spending time on it in class.
+
+Content-wise, the problem sets will be primarily coding tasks, but they will also include theoretical questions related to readings and material we cover in class.
 
 You can find descriptions for all the assignments on the [assignments page](/assignment/).
 
 ### Attendance and participation
 
-Attendance and participation are important to your success in this course. You're expected to come to class each Tuesday prepared—having read the material and watched the videos—and ready to discuss the content and work with R. 
+Attendance and participation are important to your success in this course. You're expected to come to class each Tuesday prepared—having read the material and watched the videos—and ready to discuss the content and work with `R`. 
 
 However, if you are sick, please just let me know you're not coming if you can (so I can adjust the activities in class if needed) and stay home. 
 
@@ -171,16 +197,17 @@ Since active participation is listed as a coursework requirement, I will take at
 
 
 ### Final Paper 
+
 Grades for this class are intended to assess your learning about (1) data and code, (2) scientific and critical reasoning, and (3) statistical reasoning. Following university regulations, **100% of your grade will be determined by a final paper**. Make sure to sign up for the examination via Portal2 in addition to registering for the class during the semester (otherwise, I cannot submit your grade).
 
-Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have until June 13, 2023 to complete the data essay[^deadline]. 
+Your final project will be a data essay: you will get raw dataset(s), a research question, and one or two hypotheses based on a short theoretical story. You will need to select a research design to test the hypotheses and thus answer the research question to the best of your ability with the data provided. Essentially, you will be doing the same thing as writing your own paper, but you skip the part of *developing* a theory and focus on translating and testing it. The project must be completed individually, without any cooperation. You will have until December 16, 2023 to complete the data essay[^deadline]. 
 
-[^deadline]: Once we have the exam schedule for the lectures, we can revisit the deadline issue. Either way, you will have 14 days to complete the assignment. 
+[^deadline]: Once we have the exam schedule, we can revisit the deadline issue. Either way, you will have at least 10 days to complete the assignment, and everyone will need to start working on it at the same time. 
 
-Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me **before May 15, 2023**, so we can agree on the option that would be a relevant evaluation for this class but also helpful for _you_.  
+Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me **before November 15, 2023**, so we can agree on the option that would be a relevant evaluation for this class but also helpful for _you_.  Please beware that this option is potentially more time- and effort-consuming, so make the decision taking this into account. 
 
-I can only evaluate the final papers if you pass all the course requirements during the lecture period. This means two things:
 
+I can only evaluate the final papers if you *pass* all the coursework requirements during the lecture period. This means two things:
 
 ### Active Participation 
 
@@ -189,37 +216,23 @@ Should you miss more than two classes, it is your responsibility to reach out to
 ### Homework assignments
 
 You need to pass all of the homework assignments.
-Please note that handing in the assignment is **necessary but not sufficient** for passing. Should the homework be below the standard of passing, I will ask you to resubmit that assignment but no more than twice during the semester[^failing]. I will use a point scale for evaluation and you will need to have more than half of the total points for that homework to pass.
+Please note that handing in the assignment is **necessary but not sufficient** for passing. Should the homework be below the standard of passing, please reach out to me right away so we can go over the assignment togethr and clarify all the issues. We will use a point scale for evaluation and you will need to have more than half of the total points for that homework to pass.
 For group assignments, each student is expected to make contributions (aka *commits*) to the homework repository, but all team members who contributed to the repository receive the same point score. 
- *As an extra incentive, the student(s) who will have the highest score for the problem sets at the end of the course will get a final grade improvement of 0.3 points.*  There are no adverse effects for others, so you can still get a 1.0 for the class without the bonus. 
+
+*As an extra incentive, the student(s) who will have the highest score for the problem sets at the end of the course will get a final grade improvement of 0.3 points.*  There are no adverse effects for others, so you can still get a 1.0 for the class without the bonus. 
 See [Late work and extensions](/syllabus.html#late-work-and-extensions) for more info.
-
-[^failing]: Since some students like to use this option to get extra time to submit the assignments, for the sake of equanimity and your learning progress I want to discourage this behavior.
-
-### (Optional) Presentation
-
-You could prepare an 8-10-minute presentation or a blog post for this website about a topic related to data visualization, data wrangling, or something else related to the course content. By doing this, you will see how easy it is to make slides right inside R (which is very useful when you need to present your analysis) and also get more practice collaborating using GitHub. 
-
-You can do this task alone or in pairs, and completing it would improve your final grade by 0.3 point (no adverse effects otherwise, you can still pass the coursework requirements and/or get a 1.0 for the class without doing this assignment). You can find more information about the task [here](assignment/presentation.html). Talk to me if you are interested.
-
-
 
 
 ## Course policies
 
 **Be nice. Be honest. Don't cheat.**
 
-### Auditing 
-
-I would be very happy if you audit the class because you are interested. But please keep in mind that the amount of grading that comes with weekly homework assignments is not small. I will thus prioritize the submissions of students who are taking the class for credit and will only provide feedback for those who audit if time permits. 
 
 ### Late work and extensions
 
-The due dates for assignments are there to help you keep up with the course material and to ensure that I can provide feedback within a timely manner. This means that for homework assignments, your GitHub repositories will be closed to contributions at the deadline, which means you cannot edit them any longer and submit files. 
+The due dates for assignments are there to help you keep up with the course material and to ensure that you can get feedback in a timely manner. Since I will providing solutions for everyone after the deadline, this eliminates the possibility of individual extensions. If you require accommodations or extensions, please reach out to me in advance. 
 
-Once during the semester you may get an unexplained extension and submit the assignment late (but no later than 6 days after the deadline). If there are circumstances that prevent you from completing a homework assignment by the stated due date, please [email](mailto:semenova@uni-mannheim.de?subject=r4da // late submission) me _before the deadline_. In your email, you only need to request the waiver, you do not need to provide explanation.
-
-For the final project, as a rule no late work will be accepted. 
+For the final project, the deadline is a hard one and as a rule no late work will be accepted. 
 
 <!-- ### Regrade requests  -->
 
@@ -257,7 +270,7 @@ It is my goal that this class is an accessible and welcoming experience for all 
 
 ### Foods and drinks in class
 
-I am totally fine with you bringing drinks, especially caffeine-containing, to the class. However, please do not use the class time to have snacks or lunch. 
+I am totally fine with you bringing drinks, especially caffeine-containing, to the class. However, please do not use the class time to have snacks.  
 
 ## Student feedback
 

@@ -3,6 +3,10 @@ project:
   render:
     - "*.qmd"
     - "!slides/06"
+<<<<<<< HEAD
+=======
+    - "!s23/solutions/"
+>>>>>>> 9ddf14a5c531fe37f37ce707076dd7bc11cf8bc3
   resources:
     - "files/"
     - "projects/"
@@ -19,10 +23,10 @@ execute:
 
 bibliography: files/bib/references.bib
 csl: files/bib/chicago-author-date.csl
-description-meta: "Use modern statistical and data scientific tools to measure causal effects"
+description-meta: "Learning to use data and statistics to explore the social, political, and economic world"
 
 website:
-  title: "Data Analytics and Visualization with R"
+  title: "R for Data Analysis"
   site-url: "https://r4da.live"
 
   favicon: "/files/icon-512.png"
@@ -34,13 +38,13 @@ website:
 
   navbar:
     pinned: true
-    background: "#800010"
+    background: "#800020"
     right:
       - syllabus.qmd
       - schedule.qmd
       - text: "Prepare"
         file: prepare/index.qmd
-      - text: "Sessions"
+      - text: "Slides"
         file: session/index.qmd
       - text: "Assignments"
         file: assignment/index.qmd
@@ -107,32 +111,32 @@ website:
           contents:
             - text: "1: Meet the Toolkit"
               file: session/01-session.qmd
-            - text: "2: Describing Variables"
-              file: session/02-session.qmd
-            - text: "3: Describing Relationships"
-              file: session/03-session.qmd
-            - text: "4: Identification and Causal Diagrams"
-              file: session/04-session.qmd
-            - text: "5: Causal Diagrams and Treatment Effects"
-              file: session/05-session.qmd
-            - text: "6: Regression for Describing"
-              file: session/06-session.qmd
-            - text: "7: Uncertainty and Statistical Inference"
-              file: session/07-session.qmd
-            - text: "8: Estimating Heterogeneous Effects"
-              file: session/08-session.qmd
-            - text: "9: Binary Dependent Variable"
-              file: session/09-session.qmd
-            - text: "10: Matching"
-              file: session/10-session.qmd
-            - text: "11: Fixed Effects"
-              file: session/11-session.qmd
-            - text: "12: Difference-in-Differences"
-              file: session/12-session.qmd
-            - text: "13: Regression Discontinuity"
-              file: session/13-session.qmd
-            - text: "14: Review"
-              file: session/14-session.qmd
+            # - text: "2: Describing Variables"
+            #   file: session/02-session.qmd
+            # - text: "3: Describing Relationships"
+            #   file: session/03-session.qmd
+            # - text: "4: Data Wrangling"
+            #   file: session/04-session.qmd
+            # - text: "5: Data Merging"
+            #   file: session/05-session.qmd
+            # - text: "6: Working with strings and factors"
+            #   file: session/06-session.qmd
+            # - text: "7: Linear Regression"
+            #   file: session/07-session.qmd
+            # - text: "8: Uncertainty and Statistical Inference"
+            #   file: session/08-session.qmd
+            # - text: "9: No-class Week"
+            #   file: session/09-session.qmd
+            # - text: "10: Communicating Results"
+            #   file: session/10-session.qmd
+            # - text: "11: Interaction Effects"
+            #   file: session/11-session.qmd
+            # - text: "12: Binary Dependent Variable"
+            #   file: session/12-session.qmd
+            # - text: "13: Count Dependent Variable"
+            #   file: session/13-session.qmd
+            # - text: "14: Review"
+            #   file: session/14-session.qmd
 
     - title: "Assignments"
       contents:
@@ -144,7 +148,7 @@ website:
             - assignment/final-project.qmd
         - section: "Problem sets"
           contents:
-            - assignment/01-problem-set.qmd
+            # - assignment/01-problem-set.qmd
             # - assignment/02-problem-set.qmd
             # - assignment/03-problem-set.qmd
             # - assignment/04-problem-set.qmd
@@ -157,16 +161,16 @@ website:
             # - assignment/11-problem-set.qmd
             # - assignment/12-problem-set.qmd
             # - assignment/13-problem-set.qmd
-        - section: "Solutions"
-          contents:
-            - solutions/02-problem-set.qmd
-            - solutions/07-problem-set.qmd
-            - solutions/09-problem-set.qmd
-            - solutions/10-problem-set.qmd
-            - solutions/11-problem-set.qmd
-        - section: "Optional"
-          contents:
-            - assignment/presentation.qmd
+        # - section: "Solutions"
+        #   contents:
+        #     - solutions/02-problem-set.qmd
+        #     - solutions/07-problem-set.qmd
+        #     - solutions/09-problem-set.qmd
+        #     - solutions/10-problem-set.qmd
+        #     - solutions/11-problem-set.qmd
+        # - section: "Optional"
+        #   contents:
+        #     - assignment/presentation.qmd
 
     - title: "Resources"
       contents:
@@ -199,33 +203,33 @@ website:
         - section: "Course content"
           contents:
             - text: "1: Meet the Toolkit"
-              file: s23/session/01-session.qmd
+              file: s23/01-session.qmd
             - text: "2: Describing Variables"
-              file: s23/session/02-session.qmd
+              file: s23/02-session.qmd
             - text: "3: Describing Relationships"
-              file: s23/session/03-session.qmd
+              file: s23/03-session.qmd
             - text: "4: Identification and Causal Diagrams"
-              file: s23/session/04-session.qmd
+              file: s23/04-session.qmd
             - text: "5: Causal Diagrams and Treatment Effects"
-              file: s23/session/05-session.qmd
+              file: s23/05-session.qmd
             - text: "6: Regression for Describing"
-              file: s23/session/06-session.qmd
+              file: s23/06-session.qmd
             - text: "7: Uncertainty and Statistical Inference"
-              file: s23/session/07-session.qmd
+              file: s23/07-session.qmd
             - text: "8: Estimating Heterogeneous Effects"
-              file: s23/session/08-session.qmd
+              file: s23/08-session.qmd
             - text: "9: Binary Dependent Variable"
-              file: s23/session/09-session.qmd
+              file: s23/09-session.qmd
             - text: "10: Matching"
-              file: s23/session/10-session.qmd
+              file: s23/10-session.qmd
             - text: "11: Fixed Effects"
-              file: s23/session/11-session.qmd
+              file: s23/11-session.qmd
             - text: "12: Difference-in-Differences"
-              file: s23/session/12-session.qmd
+              file: s23/12-session.qmd
             - text: "13: Regression Discontinuity"
-              file: s23/session/13-session.qmd
+              file: s23/13-session.qmd
             - text: "14: Review"
-              file: s23/session/14-session.qmd
+              file: s23/14-session.qmd
 
         - section: "Problem sets"
           contents:
@@ -259,6 +263,7 @@ website:
         - section: "Solutions"
           contents:
            - text: "Problem set 2: solution"
+<<<<<<< HEAD
              file: s23/02-problem-set-solution.qmd
            - text: "Problem set 7: solution"
              file: s23/07-problem-set-solution.qmd
@@ -268,6 +273,17 @@ website:
              file: s23/10-problem-set-solution.qmd
            - text: "Problem set 11: solution"
              file: s23/11-problem-set-solution.qmd
+=======
+             file: s23/02-problem-set.qmd
+           - text: "Problem set 7: solution"
+             file: s23/07-problem-set.qmd
+           - text: "Problem set 9: solution"
+             file: s23/09-problem-set.qmd
+           - text: "Problem set 10: solution"
+             file: s23/10-problem-set.qmd
+           - text: "Problem set 11: solution"
+             file: s23/11-problem-set.qmd
+>>>>>>> 9ddf14a5c531fe37f37ce707076dd7bc11cf8bc3
 
   page-footer:
     left: |
