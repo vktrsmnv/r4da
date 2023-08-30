@@ -1,0 +1,142 @@
+---
+title: "Data Essay" 
+subtitle: "Data Analytics and Visualization with R" 
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Spring 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: ../slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+p_needed <- c(
+  "tidyverse",
+  "janitor",
+  "icons",
+  "infer",
+  "haven",
+  "countdown",
+  "showtext",
+  "ggdag",
+  "kableExtra",
+  "magrittr",
+  "knitr",
+  "MatchIt",
+  "cobalt",
+  "patchwork",
+  "gt",
+  "flair",
+  "plotly",
+  "broom",
+  "patchwork",
+  "modelsummary",
+  "usmap",
+  "scales"
+)
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 20)) 
+theme_update(plot.title = element_text(face = "bold"),
+        plot.title.position = "plot",
+        panel.grid.minor = element_blank(),
+        legend.position = "bottom")
+
+
+set.seed(2508)
+# Directly import data from shared google folder into R
+card_df <- readr::read_csv("https://docs.google.com/uc?id=10h_5og14wbNHU-lapQaS1W6SBdzI7W6Z&export=download")
+
+```
+
+# Data Essay 
+
+## Setup 
+
+- Individual repos called `dataessay_[GITHUB-LOGIN]` with data and template document  
+- Repo should contain all material for replication, i.e. code and text 
+- Text should read like a paper, not a homework with chunks of code in-between 
+- Use chunk options to have a part with text only and code later
+
+
+## Task  
+
+<!-- - RQ: **To what extent does electoral safety impact legislative candidate's responsiveness to constituents?** -->
+
+- RQ: To what extent is constituency work of legislative candidates strategic?
+- Candidates' motivations: 
+  - **Extrinsically motivated constituency work**: Interact with constituents only since they could vote for me $\Rightarrow$ responsive mostly to *in-district* emails 
+  - **Intrinsically motivated constituency work**: Interact with constituents because this is an important part of my job  $\Rightarrow$ responsive also to *out-of-district* emails
+  
+## Hypotheses 
+
+<!-- 1. When electoral safety is lower, candidates are more likely to respond to email from constituents.  -->
+<!-- 2. When electoral safety is lower, candidates are more likely to respond to email from constituents from same district.  -->
+
+1. Legislative candidates are more likely to respond to emails from same district.
+2. Legislative candidates are more likely to respond to emails from same district, especially when candidates' electoral safety is low.   
+
+## Data 
+
+- Data from field experiment from 2015 election of the Swiss legislature
+- Random sample of 660 candidates across cantons and parties 
+- Researchers randomized two conditions in the email:
+  - *in-* vs. *out-canton* 
+  - *same* vs. *different party* to candidate   
+
+## Where To Start  
+
+- Get to know the dataset 
+- Start with a DAG (what is the main relationship? what are the confounders? what is randomly assigned, what is not? what is observed, what is not?)
+- Choose your identification strategy
+- Decide on model specification; have one main model (potentially testing all hypotheses), use it to generate meaningful quantities 
+- Present your results not only numerically but also graphically
+- If necessary/possible, try different approaches for identification/measure for key variables/etc. as robustness checks
+
+
+## Formal Stuff
+
+- No collaboration at this stage
+- If you have questions/get errors and Google can't handle them, ask *me*
+- **Deadline: June 13, 2023, 23:59** 
+  - Please upload PDF *with signed statutory declaration* on ILIAS 
+  - All material (including the `qmd` **and** rendered PDF) should be on GitHub by then, too. I should be able to render the same PDF with one click. 
+- Please proofread. 
+
+

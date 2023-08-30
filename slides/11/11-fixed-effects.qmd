@@ -1,0 +1,768 @@
+---
+title: "Fixed Effects" 
+subtitle: "Data Analytics and Visualization with R<br>Session 11" 
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Spring 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: ../slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+p_needed <- c(
+  "tidyverse",
+  "janitor",
+  "icons",
+  "infer",
+  "haven",
+  "countdown",
+  "showtext",
+  "ggdag",
+  "magrittr",
+  "knitr",
+  "MatchIt",
+  "cobalt",
+  "patchwork",
+  "gt",
+  "plotly",
+  "broom",
+  "patchwork",
+  "modelsummary"
+)
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 18)) 
+theme_update(plot.title = element_text(face = "bold"),
+        plot.title.position = "plot",
+        panel.grid.minor = element_blank())
+
+
+set.seed(2508)
+# bp <- causaldata::black_politicians
+```
+
+# Intro
+
+<!-- ## Housekeeping -->
+
+<!-- - Evaluations have started! Please check your email for details! -->
+<!-- - New deadline for PS10: Wednesday May 10, 23:59 -->
+<!-- - You need to pass 10 problem sets (not all ~~13~~ 12) -->
+<!-- - Which topics to review in the last week: [ask your questions here](https://viktoriiasemenova.typeform.com/to/JMDJOtYg) -->
+
+
+## Quiz: Which of these statements are correct?
+
+<!-- # ```{r} -->
+<!-- # #| echo: false -->
+<!-- # countdown(minutes = 4, color_background = "white") -->
+<!-- # ``` -->
+
+
+1. If there is no overlap in joint distributions of the matching variables, then it would not be possible to find a match, hence (exact) matching would not work.
+2. Propensity score depicts the probability of the unit being treated predicted with the main dependent variable.
+3. Matching works through adding the variation in confounders so that the relationship between $X$ and $Y$ can only be attributed to the variation in $X$.
+4. Matching requires some correlation between the treatment assignment and the potential outcomes for it to work properly.
+
+
+## Common Support Assumption
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| fig-asp: 1
+set.seed(1234)
+edu_age_treated <- tibble(education = rnorm(30, 20, 3),
+                          age = rnorm(30, 50, 8),
+                          treatment = "Treated")
+
+edu_age_untreated <- tibble(
+  education = runif(
+    70,
+    min(edu_age_treated$education) - 2,
+    max(edu_age_treated$education) + 2
+  ),
+  age = runif(70,
+              min(edu_age_treated$age) - 5,
+              max(edu_age_treated$age) + 5),
+  treatment = "Untreated"
+)
+  # bind_rows(slice_sample(edu_age_treated, n = 10) %>%
+  #             mutate(treatment = "Untreated"))
+
+edu_age <- bind_rows(edu_age_treated, edu_age_untreated) %>%
+  mutate(treat_bin = recode(treatment, Treated = 1, Untreated = 0)) %>%
+  mutate(id = 1:n()) %>%
+  mutate(treatment = factor(treatment, levels = c("Untreated", "Treated")),
+         outcome = 2 + 0.5 * age + 2 * education + 5 * I(treatment == "Treated") + rnorm(100))
+
+ggplot(
+  edu_age %>%
+    # mutate(matched = 0) %>%
+    arrange(treatment), # plot treated units after untreated (avoid overlapping)
+  aes(education,
+    age,
+    fill = treatment,
+    group = treatment,
+    color = treatment
+    # alpha = factor(matched)
+  )
+) +
+   geom_point(size = 5, pch = 21) +
+ # geom_point(size = 5, pch = 21, color = "white") +
+  scale_fill_viridis_d(end = 0.8, alpha = 0.7) +
+    scale_color_viridis_d(end = 0.8) +
+  # scale_fill_manual(values = c("#440154FF", "#7AD151FF"), name = NULL) +
+  # scale_color_manual(values = c("#ffffff", "#ffffff"), name = NULL) +
+  # scale_alpha_manual(values = c(0.3, 0.7)) +
+  guides(color = FALSE,
+         # fill = F,
+         alpha = F)  +
+  labs(x = "Education", y = "Age", fill = "",
+       title = "Presence of Common Support") +
+  theme(legend.position = "bottom",
+        legend.margin = margin(t = 0, b = 0)) +
+  theme(legend.position = "bottom") -> p
+ggExtra::ggMarginal(p, type = "boxplot",
+                    groupFill = T, groupColour = T)
+```
+
+:::
+::: {.column width="50%"}
+
+```{r}
+#| echo: false
+#| fig-asp: 1
+
+## no common support
+
+ggplot(
+  edu_age %>%
+    mutate(education = if_else(treatment == "Treated", education + 5, education - 5),
+           age = if_else(treatment == "Treated", age - 5, age + 5)) %>%
+    arrange(treatment), # plot treated units after untreated (avoid overlapping)
+  aes(education,
+    age,
+    fill = treatment,
+    group = treatment,
+    color = treatment
+    # alpha = factor(matched)
+  )
+) +
+   geom_point(size = 5, pch = 21) +
+ # geom_point(size = 5, pch = 21, color = "white") +
+  scale_fill_viridis_d(end = 0.8, alpha = 0.7) +
+    scale_color_viridis_d(end = 0.8) +
+  # scale_fill_manual(values = c("#440154FF", "#7AD151FF"), name = NULL) +
+  # scale_color_manual(values = c("#ffffff", "#ffffff"), name = NULL) +
+  # scale_alpha_manual(values = c(0.3, 0.7)) +
+  guides(color = FALSE,
+         # fill = F,
+         alpha = F)  +
+  labs(x = "Education", y = "Age",  fill = "",
+       title = "Lack of Common Support") +
+  theme(legend.position = "bottom",
+        legend.margin = margin(t = 0, b = 0)) +
+  theme(legend.position = "bottom") -> p
+ggExtra::ggMarginal(p, type = "boxplot",
+                    groupFill = T,
+                    groupColour = T)
+
+```
+
+:::
+:::
+
+
+## Matching is Non-parametric
+
+::: columns
+::: {.column width="50%"}
+```{r, echo=FALSE, fig.asp=1}
+# Data-generating code
+df <- tibble(
+  # x is our confounder
+  x = runif(1000, -1, 4),
+  # it affects the probabiity of receiving the treatment
+  # in a NON-LINEAR way (step function)
+  prob_d = ifelse(x > 0.5 & x < 2.5, 0.1, 0.9),
+  d = rbinom(1000, 1, prob_d),
+  noise = rnorm(1000, sd = 0.1),
+  # for simplification, the treatment effect is homogeneous
+  treat_effect = 1,
+  # x also effects the outcome in a non-linear way
+  y = sin(x) + d*treat_effect + noise
+) %>%
+  mutate(d_factor = factor(d,
+                           levels=c(0,1), labels=c("Untreated",
+                                                   "Treated")))
+
+ggplot(df,
+       aes(x, y,
+           color = d_factor)) +
+  geom_point() +
+  labs(color = "", y = "Y", x = "X") +
+  theme(legend.position = "bottom") +
+  scale_color_viridis_d(end = 0.8)
+```
+
+:::
+::: {.column width="50%"}
+```{r}
+m1 <- lm(y ~ d + x, data = df)
+confint(m1)
+
+cem_df <- matchit(d ~ x,
+                  data = df,
+                  method = "cem") %>%
+  match.data()
+m2 <- lm(y ~ d + x, data = cem_df,
+         weights = weights)
+confint(m2)
+```
+:::
+:::
+
+
+# Fixed Effects
+
+
+## Recap
+
+- So far we talked about two ways to isolate the relationship between $X$ and $Y$, i.e.  blocking back doors to identify an effect
+  - **Statistical control**: use $W$ to explain our $X$ and $Y$ variables, then work with the residuals
+  - **Matching**: restrict the data so that observations only have similar values in $W$ and compare _within_ these values
+
+- In both cases, we assumed we have the necessary variables to close the back doors (i.e. we assume _conditional independence_)
+  <!-- - Either everything was measured or we have everything needed measured -->
+- But what if there are things we need to control but we cannot measure/observe them?
+
+## DAG: We Cannot Close All Paths
+
+
+```{dot}
+//| echo: false
+//| fig-width: 7
+//| fig-asp: 0.7
+//| out-width: 100%
+digraph D {
+  node [shape=ellipse];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "Treatment"];
+  b [label = "Outcome"];
+  c [label = "Confounder"];
+  d [label = "Unobserved", style = "dashed"];
+  e [label = "Unmeasured", style = "dashed"];
+
+  {rank=same a b};
+  {rank=same d e};
+  {rank=sink d};
+  {rank=source a};
+  a->b;
+  c->a;
+  c->b;
+  d->c;
+  d->b;
+  e->b;
+  e->a;
+}
+```
+
+## Our Solution: Fixed Effects
+
+- If we observe each *person*/*party*/*country*/etc. multiple times, then we can forget about controlling for the actual back-door variable we’re interested in
+- And just control for  *person*/*party*/*country*/etc. identity instead!
+- This will control for **everything** unique to that individual, whether we can measure it or not!
+
+## Fixed Effects Illustration
+
+```{r, echo=FALSE}
+
+set.seed(250895)
+# cookies_data <- cookies
+# cookies_model <- lm(happiness ~ cookies, data = cookies)
+# more_cookies = data.frame(cookies = rbinom(100, size = 10, prob = 0.4))
+# more_cookies$weekend <- ifelse(more_cookies$cookies > 4, 0.2, 0.9)
+# more_cookies$weekend <- rbinom(100, size = 1, prob = more_cookies$weekend)
+# more_cookies$happiness <-
+#   predict(cookies_model, more_cookies) + 1.3 * more_cookies$weekend + rnorm(100, sd = 0.2) - 1
+# more_cookies$happiness_score <-
+#   predict(cookies_model, more_cookies) + rnorm(100, sd = 0.4)
+
+df <- data.frame(Person = rep(1:4, 50)) %>%
+  mutate(X = .5 + .5 * (Person - 2.5) + rnorm(200)) %>%
+  mutate(Y = -.5 * X + (Person - 2.5) + 1 + rnorm(200), time = "1") %>%
+  group_by(Person) %>%
+  mutate(mean_X = mean(X), mean_Y = mean(Y)) %>%
+  ungroup()
+
+
+#Calculate correlations
+before_cor <-
+  paste("Raw data, r = ", round(cor(df$X, df$Y), 3), sep = '')
+after_cor <-
+  paste("Within-Individual Correlation \nBetween X and Y: ",
+        round(cor(df$X - df$mean_X, df$Y - df$mean_Y), 3),
+        sep = '')
+
+#Add step 2 in which X is demeaned, and 3 in which both X and Y are, and 4 which just changes label
+dffull <- rbind(
+  #Step 1: Raw data only
+  df %>% mutate(
+    mean_X = NA,
+    mean_Y = NA,
+    time = before_cor
+  ),
+  #Step 2: Add x-lines
+  df %>% mutate(mean_Y = NA, time = 'Calculate\nbetween-Individual\ndifferences in X'),
+  #Step 3: X de-meaned
+  df %>% mutate(
+    X = X - mean_X,
+    mean_X = 0,
+    mean_Y = NA,
+    time = "Remove all\nbetween-Individual\ndifferences in X"
+  ),
+  #Step 4: Remove X lines, add Y
+  df %>% mutate(
+    X = X - mean_X,
+    mean_X = NA,
+    time = "Calculate\nbetween-Individual\ndifferences in Y"
+  ),
+  #Step 5: Y de-meaned
+  df %>% mutate(
+    X = X - mean_X,
+    Y = Y - mean_Y,
+    mean_X = NA,
+    mean_Y = 0,
+    time = "Remove all\nbetween-Individual\ndifferences in Y"
+  ),
+  #Step 6: Raw demeaned data only
+  df %>% mutate(
+    X = X - mean_X,
+    Y = Y - mean_Y,
+    mean_X = NA,
+    mean_Y = NA,
+    time = after_cor
+  )
+) %>%
+  mutate(time = as_factor(time) %>% fct_inorder())
+
+ggplot(dffull, aes(
+  y = Y,
+  x = X,
+  color = as.factor(Person)
+)) +
+  geom_point(alpha = 0.8) +
+  geom_vline(aes(xintercept = mean_X, color = as.factor(Person)),
+             size = 1.2,
+             alpha = 0.8) +
+  geom_hline(aes(yintercept = mean_Y, color = as.factor(Person)),
+             size = 1.2,
+             alpha = 0.8) +
+  guides(color = guide_legend(title = "Person")) +
+  # scale_color_manual(values = c("#000000",
+  #
+  #                                        "#",
+  #                                        "#800010", "#00000050")) +
+  scale_color_viridis_d(end = 0.9) +
+  # labs(title = 'The Relationship between Y and X, Controlling for a Binary Variable W') +
+  facet_wrap(~ time) +
+  # guides(color = F) +
+  # coord_cartesian(xlim = c(-0.5, 10), ylim = c(0, 3.5)) +
+  scale_x_continuous(breaks = seq(-6, 10, by = 2)) +
+  labs(x = "Cookies eaten (X)",
+       color = "Person",
+       y = "Level of happiness (Y)") +
+  theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        legend.position = "bottom",
+        plot.title = element_text(face = "bold")) +
+  # ylim(c(-1.2, 4)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 3))
+
+```
+
+
+
+## Example: GDP per capita and Life Expectancy
+
+<br>
+
+```{r}
+library(gapminder) # built-in dataset
+data(gapminder) # load data from it
+glimpse(gapminder)
+datasummary_skim(gapminder)
+```
+
+## Example: GDP per capita and Life Expectancy
+
+<br>
+```{r}
+# remove the means
+gapminder <- gapminder %>%
+  group_by(country) %>%
+  mutate(
+    lifeExp_c = lifeExp - mean(lifeExp),
+    logGDP_c = log(gdpPercap) - mean(log(gdpPercap))
+  ) %>%
+  ungroup()
+
+# compare correlations
+cor(gapminder$lifeExp, log(gapminder$gdpPercap))
+cor(gapminder$lifeExp_c, gapminder$logGDP_c)
+```
+
+## Gapminder Illustration
+
+::: columns
+::: {.column width="50%"}
+```{r, echo=FALSE, fig.asp=1}
+ggplot(data = gapminder %>%
+         filter(year == 2007),
+       mapping = aes(x = gdpPercap,
+                     y = lifeExp,
+                     fill = continent)) +
+  geom_point(pch = 21, color = "white", size = 3) +
+  scale_fill_viridis_d(end = 0.9) +
+  theme(legend.position = "bottom") +
+  scale_x_log10() +
+  labs(title = "Health and wealth grow together",
+       subtitle = "Data from 2007",
+       x = "Wealth (GDP per capita)",
+       y = "Health (life expectancy)",
+       fill = "Continent",
+       size = "Population",
+       caption = "Source: The Gapminder Project")
+```
+:::
+::: {.column width="50%"}
+
+```{r, echo=FALSE, fig.asp=1}
+gapminder %>%
+  group_by(country) %>%
+  mutate(
+    lifeExp_c = lifeExp - mean(lifeExp),
+    logGDP_c = log(gdpPercap) - mean(log(gdpPercap))
+  ) %>%
+  ungroup() %>%
+         filter(year == 2007) %>%
+  ggplot(mapping = aes(x = logGDP_c,
+                     y = lifeExp_c,
+                     fill = continent)) +
+  geom_point(pch = 21, color = "white", size = 3) +
+  scale_fill_viridis_d(end = 0.9) +
+  theme(legend.position = "bottom") +
+  scale_x_log10() +
+  labs(title = "Health and wealth grow together",
+       subtitle = "Data from 2007",
+       x = "Wealth (GDP per capita, Cenetered)",
+       y = "Health (life expectancy, Centered)",
+       fill = "Continent",
+       size = "Population",
+       caption = "Source: The Gapminder Project")
+```
+
+:::
+:::
+
+## We Control For Multiple Confounders at Once
+
+```{dot}
+//| echo: false
+//| fig-width: 7
+//| fig-asp: 0.7
+//| out-width: 100%
+digraph D {
+  node [shape=ellipse];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "GDP per capita"];
+  b [label = "Life Expectancy"];
+  c [label = "Political\nInstitutions"];
+  d [label = "History"];
+  e [label = "Economic\nInstitutions"];
+  f [label = "War"];
+  g [label = "Pandemic"];
+
+  {rank=same a b};
+  {rank=same d e};
+  {rank=sink d};
+  {rank=source c f g};
+  a->b;
+  c->a;
+  c->b;
+  d->a;
+  d->b;
+  e->b;
+  e->a;
+  f->b;
+  f->a;
+  g->b;
+  g->a;
+}
+```
+
+- If these factors stay constant within country, we don't need a big long list of back doors.
+
+## Control for Country
+
+```{dot}
+//| echo: false
+//| fig-width: 7
+//| fig-asp: 0.7
+//| out-width: 100%
+digraph D {
+  node [shape=ellipse];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "GDP per capita"];
+  b [label = "Life Expectancy"];
+  d [label = "Country"];
+
+  {rank=same a b};
+  {rank=sink d};
+  a->b;
+  d->a;
+  d->b;
+}
+```
+
+
+## How Fixed Effects Work
+
+- Ignoring the baseline differences between Germany, Britain, China, etc., in their GDP per capita and life expectancy, and just looking within each country
+- We are comparing countries _to themselves_ at different time periods
+- We are ignoring all differences *between* countries and looking only at differences *within* countries
+- Fixed Effects is sometimes also referred to as the _"within estimator"_
+
+::: task
+
+- **Within variation:** variation that occurs _within_ an individual (usually) across different periods of time. \
+- **Between variation:** variation of a variable that occurs _between_ different individuals, usually at the same period of time, or comparing over-time averages.
+:::
+
+## Within Variation: One Country
+
+```{r, echo=FALSE}
+ggplot(data = gapminder %>%
+         mutate(germany = if_else(country == "Germany", "Germany", "Other") %>%
+                  factor() %>%
+                  fct_rev()) %>%
+         arrange(germany),
+       mapping = aes(x = gdpPercap,
+                     y = lifeExp,
+                     fill = germany)) +
+  geom_point(pch = 21, color = "white", size = 3) +
+  scale_fill_viridis_d(end = 0.9) +
+  theme(legend.position = "bottom") +
+  scale_x_log10() +
+  labs(title = "Health and wealth grow together",
+       x = "Wealth (GDP per capita)",
+       y = "Health\n(life expectancy)",
+       fill = "",
+       size = "Population",
+       caption = "Source: The Gapminder Project")
+```
+
+## Regression Equations for Fixed Effects
+
+$$
+\text{Life Expectancy}_{it}  = \beta_{i} + \beta_1 \cdot \text{GDP per capita}_{it} +  \varepsilon_{it}
+$$
+
+$$
+\text{Life Expectancy}_{it}  = \beta_0 + \beta_1 \cdot \text{GDP per capita}_{it} + \beta_2 \cdot \text{Country}_{it} + \varepsilon_{it}
+$$
+
+
+- Subscript $it$ indicates that the data varies both between countries ($i$) and over time ($t$)
+- The intercept term has a subscript $i$ instead of an $0$, making it $\beta_{i}$
+- Units in the data are constrained to have the same slope (there’s no $i$ subscript on $\beta_2$), but they have different intercepts
+
+
+## Interpretation 
+
+$$
+\text{Life Expectancy}_{it}  = \beta_0 + \beta_1 \cdot \text{GDP per capita}_{it} + \beta_2 \cdot \text{Country}_{it} + \varepsilon_{it}
+$$
+
+- If we have fixed effects for country, we are comparing that country to itself over time
+- And if we had fixed effects for continent, we are comparing country in that continent only to other country in that continent
+- We can include more than one FE where needed 
+
+## Pooled Ordinary Least Squares 
+
+```{r, echo = F}
+ggplot(data = gapminder %>%
+         filter(country %in% c("India", "Brazil")),
+       mapping = aes(x = log(gdpPercap),
+                     y = lifeExp)) +
+  # geom_point(pch = 21, color = "white", size = 3) +
+  geom_text(aes(label = year, color = country)) +
+  scale_color_viridis_d(end = 0.9) +
+  theme(legend.position = "bottom") +
+  # scale_x_log10() +
+  labs(title = "Health and wealth grow together",
+       x = "Wealth (GDP per capita), logged",
+       y = "Health (life expectancy)",
+       color = "",
+       caption = "Source: The Gapminder Project") +
+  geom_smooth(method = "lm", se = F, formula = "y ~ x", color = "grey50")
+```
+
+## With Country Fixed Effects
+
+```{r, echo = F}
+ggplot(data = gapminder %>%
+         filter(country %in% c("India", "Brazil")),
+       mapping = aes(x = log(gdpPercap),
+                     y = lifeExp,
+                     group = country)) +
+  # geom_point(pch = 21, color = "white", size = 3) +
+  geom_text(aes(label = year, color = country)) +
+  scale_color_viridis_d(end = 0.9) +
+  theme(legend.position = "bottom") +
+  labs(title = "Health and wealth grow together",
+       x = "Wealth (GDP per capita), logged",
+       y = "Health (life expectancy)",
+       color = "",
+       caption = "Source: The Gapminder Project") +
+  geom_abline(slope = 15.36,
+              intercept = c(-69.32,  -69.32 + 17.22),
+              color = "grey50")
+```
+
+
+
+## When to Use Fixed Effects
+
+- *Panel data*: refers to situations where the number of time periods is quite short and the number of units quite high. 
+  - NES panel is like this: 2000 respondents asked questions at various points in time over
+the course of an election (or multiple elections).
+- *Time-series cross-sectional data*: has fewer units and many time periods (e.g., U.S. states over time or Western European countries over time)
+
+
+## Two-way Fixed Effects 
+
+- We can include multiple fixed effects in one equation, e.g. for  
+- *Two-way fixed effects* is common for TSCS data
+  - FE for both *individual* and *time*  
+
+$$
+Y_{it} = \beta_i + \beta_t + \beta_1X_{it} + \varepsilon_{it}
+$$
+
+- Here we are looking at variation *within* individual as well as *within* year, i.e. the variation that’s left as being variation relative to _what we'd expect given that individual, and given that year_
+- Estimator focuses more heavily on individuals that have a lot of variation over time
+
+##  Clustered Standard Errors
+
+- Regression assumption: error terms are independent of each other, but with hierarchical data, this is likely violated 
+- _Clustered SEs_ account for any sort of correlation between errors _within_ each grouping, e.g. country 
+- Including a control for a group indicator in the model vs. clustering at that group level are different but often complimentary
+  - The indicator variable suggests that group membership is an important _predictor_ of the outcome and possibly on an important back door
+  - Clustering suggests that group membership is related to the _ability of the model to predict_ well
+- Good practice: use theory and/or cluster at the level of treatment
+- Often clustered SEs are default implementation  
+
+  
+## What Fixed Effects Do Not Fix
+
+- Reverse causality (e.g., crime rates vs. police spending per capita)
+- Time-variant unobserved heterogeneity (e.g., war or pandemic)
+- Fixed effects framework does not straightforwardly extend to non-linear models, especially when the number of groups is large 
+  - Approach 1: Use OLS 
+  - Approach 2: Look for implementations, such as `feglm()`/`fenegbin()` in `fixest` package 
+  
+## Factor Varies Over Time
+
+```{dot}
+//| echo: false
+//| fig-width: 7
+//| fig-asp: 0.7
+//| out-width: 100%
+digraph D {
+  node [shape=ellipse];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "GDP per capita"];
+  b [label = "Life Expectancy"];
+  d [label = "Country"];
+  e [label = "War"];
+
+  {rank=same a b};
+  {rank=sink d};
+  a->b;
+  d->a;
+  d->b;
+  e->a;
+  e->b;
+}
+```
+
+- Solution: include *War* into regression model
+
+
+## Example
+
+- Suppose you want to know the effect of a teacher on the test scores of high school students
+- Some potential back doors might go through: *parents' intelligence*, *age*, *demographics*, *school*, *last year's teacher*
+- If you used fixed effects for students, what back doors would still be open?
+
+
+
+<!-- ## Example: Train Delays  -->
+
+<!-- ![](https://www.journals.uchicago.edu/na101/home/literatum/publisher/uchicago/journals/content/jop/2018/jop.2018.80.issue-4/698754/20180920/images/large/tb1_1.jpeg) -->
+
+
+
+
+
+
+
+## Main Takeaways
+
+- Fixed Effects is essentially a dummy variable regression
+- It is useful for panel data (i.e. when we have repeated observations across units) and it allows us to isolate the effect _within_ individuals
+- Fixed effects combines together lots of different **constant-within-country** back doors into something that lets us identify the model even if we can’t measure them all
+- Use clustered SEs when working with FEs
+
+
+
