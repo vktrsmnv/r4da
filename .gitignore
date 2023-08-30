@@ -7,9 +7,6 @@
 /_site/
 
 
-slides/*.pdf
-slides/*.html
-slides/**/*_cache/*
 projects/*.zip
 
 # knitr and caching stuff
