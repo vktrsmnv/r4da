@@ -3,7 +3,7 @@ title: "R for Data Analysis"
 subtitle: "Combine research design and programming tools to gain insights from data and communicate them effectively"
 details: |
   Fall 2023<br>School of Social Sciences<br>University of Mannheim
-sidebar: false
+sidebar: true
 toc: false
 page-layout: full
 format:
@@ -20,16 +20,108 @@ withr::with_dir(here::here(), {
   targets::tar_load(xaringan_slides)
   targets::tar_load(xaringan_pdfs)
 })
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+withr::with_dir(here::here(), {
+  schedule_nested <- targets::tar_read(schedule_page_data)
+  targets::tar_load(schedule_ical_file)
+})
+
+base_url <- yaml::read_yaml(here::here("_quarto.yml"))$website$`site-url`
+ical_url_absolute <- paste0(base_url, "/", schedule_ical_file)
 ```
 
 ::: home
 ::: {.grid .course-details}
+<!-- ::: {.g-col-6 .g-col-sm-6 .g-col-md-4} -->
+<!-- # <i class="fas fa-chalkboard-teacher"></i>  -->
+<!-- ## Session -->
+<!-- Wednesday  -->
+<!-- ::: -->
 
+<!-- ::: {.g-col-6 .g-col-sm-6 .g-col-md-4} -->
+<!-- # <i class="fas fa-laptop-code"></i> -->
+<!-- ::: -->
+
+<!-- ::: {.g-col-6 .g-col-sm-6 .g-col-md-4} -->
+<!-- # <i class="fas fa-laptop-code"></i> -->
+<!-- ::: -->
+<!-- ::: -->
+
+<!-- ```{=html} -->
+<!--   <div class="col-12 col-sm-4"> -->
+<!--     <div class="featurette-icon"><i class="fas fa-chalkboard-teacher"></i></div> -->
+<!--     <h3>Lecture</h3> -->
+<!--     <p>Wednesday (Thomas) 8:30-10:00<br>A5,6 B144</p> -->
+<!--   </div> -->
+
+
+
+
+
+
+<!--   <div class="col-12 col-sm-4"> -->
+<!--     <div class="featurette-icon"><i class="fas fa-laptop-code"></i></div> -->
+<!--     <h3>Labs</h3> -->
+<!--     <p>Thursday (Oliver) 10:15-11:45 in A5,6 C-108 <br>Monday (Viktoriia) 12:00-13:30 in A5,6 C-108<br>Tuesday (David) 17:15-18:45 online</p> -->
+<!--   </div> -->
+
+
+
+
+
+
+<!--   <div class="col-12 col-sm-4"> -->
+<!--     <div class="featurette-icon"><i class="far fa-comments"></i></div> -->
+<!--     <h3>Online Office Hours</h3> -->
+<!--     <p>Thomas: <a href="https://uni-mannheim.zoom.us/j/68595945348?pwd=TWtzOGdORXhMV1Q5YUZTUWVrejdwZz09" target="_blank">Tuesday 13:30-14:30</a> <br>David, Oliver &amp; Viktoriia: <a href="https://uni-mannheim.zoom.us/j/62493789522?pwd=M0EwaWg4Mm5xbWtTRHVLOUdteXFjdz09" target="_blank">Monday 15:30-17:00</a> &amp;<br><a href="https://uni-mannheim.zoom.us/j/62493789522?pwd=M0EwaWg4Mm5xbWtTRHVLOUdteXFjdz09" target="_blank">Thursday 15:30-16:30</a></p> -->
+<!--   </div> -->
+
+
+
+
+
+
+<!--   <div class="col-12 col-sm-4"> -->
+<!--     <div class="featurette-icon"><i class="fas fa-keyboard"></i></div> -->
+<!--     <h3>Weekly Problem Sets</h3> -->
+<!--     <p>Assigned after Tuesday lab <br>Due Tuesday in a week, 23:59 <br> HWs 1-2: <i class="fas fa-user"></i> HWs 3-10: <i class="fas fa-users"></i></p> -->
+<!--   </div> -->
+
+
+
+
+
+
+<!--   <div class="col-12 col-sm-4"> -->
+<!--     <div class="featurette-icon"><i class="fas fa-star"></i></div> -->
+<!--     <h3>Grading</h3> -->
+<!--     <p>Midterm - 50% <br>Data Essay - 50%<br>Problem Sets - Pass/Fail</p> -->
+<!--   </div> -->
+
+
+
+
+
+
+<!--   <div class="col-12 col-sm-4"> -->
+<!--     <div class="featurette-icon"><i class="fas fa-scroll"></i></div> -->
+<!--     <h3>Syllabus</h3> -->
+<!--     <p>For more details, check out the <a href="/syllabus">Syllabus</a>, and <a href="/roadmap">Roadmap</a> for the course material overview</p> -->
+<!--   </div> -->
+
+<!-- </div> -->
+
+<!--     </div> -->
+<!-- ``` -->
+
+
+<!-- ::: {.grid .course-details} -->
 ::: {.g-col-6 .g-col-sm-6 .g-col-md-4}
 ### Course details
-
-<!-- - {{< fa calendar >}} &nbsp; {{< var course.days >}} -->
-
 -   {{< fa calendar-alt >}}   {{< var course.dates >}}
 -   {{< fa clock >}}   {{< var course.days >}} {{< var course.time >}}
 -   {{< fa location-dot >}}   {{< var course.location >}}
@@ -43,7 +135,6 @@ withr::with_dir(here::here(), {
 -   {{< fa university >}}   {{< var instructor.office >}}
 -   {{< fa envelope >}}   <a href="mailto:{{< var instructor.email >}}">{{< var instructor.email >}}</a>
 -   {{< fa calendar-check >}}   [Schedule an appointment](%7B%7B%3C%20var%20instructor.appointment_url%20%3E%7D%7D)
-
 :::
 
 ::: {.g-col-6 .g-col-sm-6 .g-col-md-4}
@@ -56,38 +147,119 @@ withr::with_dir(here::here(), {
 
 :::
 
-
-<!-- ::: {.g-col-12 .g-col-md-4 .contact-policy} -->
-
-<!-- ### Contact form  -->
-
-<!-- <div data-tf-widget="A8mIv5vG" data-tf-opacity="100" data-tf-inline-on-mobile data-tf-iframe-props="title=Feedback" data-tf-transitive-search-params data-tf-medium="snippet" style="width:100%;height:100%;"></div><script src="//embed.typeform.com/next/embed.js"></script> -->
-
-<!-- Calendly link widget begin -->
-
-<!-- <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"> -->
-
-<!-- <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script> -->
-
-<!-- <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/vktrsmnv/r4da'});return false;">Schedule an appointment</a> -->
-
-<!-- Calendly link widget end -->
-
-<!-- Calendly inline widget begin -->
-
-<!-- <div class="calendly-inline-widget" data-url="https://calendly.com/vktrsmnv/r4da?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:630px;"></div> -->
-
-<!-- <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script> -->
-
-<!-- Calendly inline widget end -->
-
-<!-- {{< var instructor.contact_policy >}} -->
-
-<!-- ::: -->
 :::
 :::
 
-::: {data-tf-popover="A8mIv5vG" data-tf-opacity="100" data-tf-iframe-props="title=Feedback" data-tf-chat="" data-tf-transitive-search-params="" data-tf-button-color="#800010" data-tf-medium="snippet" style="all:unset;"}
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(googlesheets4)
+library(gt)
+library(tidyverse)
+gs4_deauth()
+d <- read_sheet("https://docs.google.com/spreadsheets/d/1Vgb4YBCrg1W161ZKqXB8Go_BeXKtrwSZhxJXpGwmvbw/edit?usp=sharing")
+```
+
+```{r}
+#| echo: false
+# 
+# d |>
+#   select(-dow) |>
+#   mutate(
+#     date = as.Date(date)
+#   ) |>
+#   gt() |>
+#   fmt_date(date, date_style = 31) |>
+#   sub_missing(columns = c(week, topic, prepare, materials, due), missing_text = "") |>
+#   cols_align(
+#     align = "center", 
+#     columns = c(week)
+#     ) |>
+#   cols_align(
+#     align = "right", 
+#     columns = c(date)
+#     ) |>
+#   cols_align(
+#     align = "left", 
+#     columns = c(topic, prepare, materials, due)
+#     ) |>
+#   tab_style(
+#     style = cell_borders(
+#       sides = "right",
+#       color = "#D3D3D3",
+#       style = "solid"
+#     ),
+#     locations = cells_body(
+#       columns = c(date, topic, prepare, materials)
+#     )
+#   ) |>
+#   fmt_markdown(
+#     columns = c(topic, prepare, materials, due)
+#   ) |>
+#   cols_width(
+#     week ~ px(45),
+#     date ~ px(100), 
+#     topic ~ px(300),
+#     prepare ~ px(220),
+#     materials ~ px(90),
+#     due ~ px(190)
+#   ) |>
+#   cols_label_with(fn = function(x) {
+#       janitor::make_clean_names(x, case = "title") |>
+#         toupper() |>
+#         stringr::str_replace_all("^|$", "**") |>
+#         md()
+#     }) |>
+#   tab_options(table.font.size = 13) |>
+#   opt_row_striping()
+```
+
+<!-- ## Overview -->
+
+<!-- ```{r,  include=FALSE} -->
+<!-- library(tidyverse) -->
+<!-- library(knitr) -->
+<!-- library(kableExtra) -->
+
+<!-- withr::with_dir(here::here(), { -->
+<!--   schedule_nested <- targets::tar_read(schedule_page_data) -->
+<!--   targets::tar_load(schedule_ical_file) -->
+<!-- }) -->
+
+<!-- base_url <- yaml::read_yaml(here::here("_quarto.yml"))$website$`site-url` -->
+<!-- ical_url_absolute <- paste0(base_url, "/", schedule_ical_file) -->
+<!-- ``` -->
+
+
+<!-- ```{r build-table, include=FALSE} -->
+<!-- show_table <- function(group_id) { -->
+<!--   # Add a heading -->
+<!--   cat(as.character(paste("\n####", schedule_nested$group[[group_id]], "\n"))) -->
+
+<!--   # Make the table -->
+<!--   tbl <- schedule_nested$data[[group_id]] %>%  -->
+<!--     rename("  " = subgroup) %>%  -->
+<!--     # dplyr::select(-subgroup) %>%  -->
+<!--     kbl(escape = FALSE, align = "rrlccc", table.attr = 'class="schedule-table"') %>%  -->
+<!--     kable_styling() %>%  -->
+<!--     column_spec(1, width = "10%", extra_css = "padding-right: 20px;") %>%  -->
+<!--     column_spec(2, width = "10%", extra_css = "padding-right: 20px;") %>%  -->
+<!--     column_spec(3, width = "50%") %>%  -->
+<!--     column_spec(4:6, width = "10%")  -->
+<!--     # pack_rows(index = schedule_nested$subgroup_index[[group_id]], -->
+<!--     #           label_row_css = "border-bottom: 1px solid #000000;") -->
+
+<!--   cat(tbl) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- # ```{r show-table, echo=FALSE, results="asis"} -->
+<!-- # walk(seq(1, nrow(schedule_nested)), ~show_table(.x)) -->
+<!-- # ``` -->
+::: {data-tf-popover="A8mIv5vG" data-tf-opacity="100" data-tf-iframe-props="title=Feedback" data-tf-chat="" data-tf-transitive-search-params="" data-tf-button-color="#003056" data-tf-medium="snippet" style="all:unset;"}
 :::
 
 ```{=html}

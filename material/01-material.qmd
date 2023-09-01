@@ -1,0 +1,123 @@
+---
+title: "Meet the Toolkit"
+date: "2023-09-06"
+draft: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Learning Goals
+
+-   Get acquainted with course requirements and expectations
+-   Familiarize yourself with RStudio interface and `git`/GitHub workflow with RStudio
+-   Get familiar with basic `R` syntax and key data structures in `R`
+
+## Week Overview
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(googlesheets4)
+library(gt)
+library(tidyverse)
+gs4_deauth()
+d <- read_sheet("https://docs.google.com/spreadsheets/d/1Vgb4YBCrg1W161ZKqXB8Go_BeXKtrwSZhxJXpGwmvbw/edit?usp=sharing")
+```
+
+```{r}
+#| echo: false
+# week_nr <- knitr::current_input() %>% 
+#   str_extract("material/[0-9]+") %>%
+#   str_remove("material/") %>%
+#   as.numeric()
+week_nr <- 1
+d |>
+  tidyr::fill(week) |>
+  filter(week %in% c(week_nr, week_nr - 1)) |>
+  select(-dow, -week) |>
+  mutate(
+    date = as.Date(date)
+  ) |>
+  # slice(-1, -2, -3) %>%
+  gt() |>
+  fmt_date(date, date_style = 31) |>
+  sub_missing(columns = c(
+    # week, 
+    event, date, material), missing_text = "") |>
+  # cols_align(
+  #   align = "center",
+  #   columns = c(week)
+  #   ) |>
+  cols_align(
+    align = "right",
+    columns = c(date)
+    ) |>
+  cols_align(
+    align = "left",
+    columns = c(event, material)
+    ) |>
+  tab_style(
+    style = cell_borders(
+      sides = "right",
+      # color = "#D3D3D3",
+      style = "solid"
+    ),
+    locations = cells_body(
+      columns = c(date, time, event)
+    )
+  ) |>
+  fmt_markdown(
+    columns = c(time, event, material)
+  ) |>
+  tab_options(table.width = pct(100)) %>%
+  # cols_width(
+  #   # week ~ px(45),
+  #   date ~ px(100),
+  #   time ~ px(100),
+  #   event ~ px(400),
+  #   material ~ px(250)
+  # ) |>
+  cols_label_with(fn = function(x) {
+      janitor::make_clean_names(x, case = "title") |>
+        toupper() |>
+        stringr::str_replace_all("^|$", "**") |>
+        md()
+    }) |>
+  tab_options(table.font.size = 20) |>
+  opt_row_striping()
+```
+
+
+<!-- ### Organisation -->
+
+<!-- -   {{< fa scroll >}} [Syllabus](/syllabus.html): Make sure to get yourself acquainted with the formalities by reading the syllabus for the class. -->
+
+<!-- -   {{< fa question >}} [Welcome Survey](https://viktoriiasemenova.typeform.com/c/c6lhg7Od): It would be great if you answered a couple of questions to help me get to know you a bit better. -->
+
+<!-- -   {{< fa fa-slack >}} Join Slack: Make sure you also join our Slack workspace. Check the welcome email for the invitation link. -->
+
+## Software
+
+In this course, we will use the open-source software `R` and RStudio as well as version control with `git` and GitHub. It would be best if you *try* installing all the necessary software *before* our class on Wednesday. First, I would like you to install both `R` and RStudio on your computer. Then, move to `git` and GitHub.
+
+-   Please follow these [instructions for Installing R, RStudio, git, and Connecting to GitHub](/resource/install.html).
+
+-   Once you have your GitHub account, let me know your username by filling in this form so I can add you to the course organization (so you have access to all of the lab material and homework assignments).
+
+If everything works well--congrats, you are all set for the semester! If something doesn't work---don't worry, just talk to me before or after class and we'll figure it out together on Wednesday. You are also welcome to use the Cloud version of Rstudio for the first two weeks or so, but you will have to switch to the desktop versions eventually.
+
+## Recommended material
+
+If you wanna get a head start on the R-related material of the first week, you can look through these pages:
+
+-   {{< fa book >}} [Getting Started with Data in R](https://moderndive.com/1-getting-started.html) [@IsmayKim:2018]
+
+And as a refresher on what is a good research question, so the starting point to our empirical analysis, have a look at this chapter and/or watch the video of the author of the book provided below:
+
+-   {{< fa book >}} [Chapter 2 in *The Effect*](https://theeffectbook.net/ch-ResearchQuestions.html) [@Huntington-Klein:2021]
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZPuEFjJ2us8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+
+</iframe>

@@ -27,24 +27,48 @@ build_schedule_for_page <- function(schedule_file) {
     mutate(var_prepare = ifelse(!is.na(prepare),
                                 glue('<a href="{prepare}.qmd"><i class="fa-solid fa-book-open-reader fa-lg"></i></a>'),
                                 glue('<font color="#e9ecef"><i class="fa-solid fa-book-open-reader fa-lg"></i></font>'))) %>%
-    mutate(var_session = ifelse(!is.na(session),
-                                glue('<a href="{session}.qmd"><i class="fa-solid fa-laptop-code fa-lg"></i></a>'),
+    mutate(var_lab = ifelse(!is.na(lab),
+                                glue('<a href="https://github.com/r4da-f23?q=week{str_extract(subgroup, "[0-9]+")}/"><i class="fa-solid fa-laptop-code fa-lg"></i></a>'),
                                 glue('<font color="#e9ecef"><i class="fa-solid fa-laptop-code fa-lg"></i></font>'))) %>%
+    mutate(var_lab = ifelse(!is.na(lab),
+                            glue('<a href="{lab}"><i class="fa-solid fa-laptop-code fa-lg"></i></a>'),
+                            glue('<font color="#e9ecef"><i class="fa-solid fa-laptop-code fa-lg"></i></font>'))) %>%
+    mutate(var_eval = ifelse(!is.na(evaluation),
+                             glue('<a href="{evaluation}"><i class="fa-solid fa-star"></i></a>'),
+                             glue('<font color="#e9ecef"><i class="fa-solid fa-star"></i></font>'))) %>%
+    mutate(var_session = ifelse(!is.na(session),
+                                glue('<a href="{session}.qmd"><i class="fa-solid fa-person-chalkboard"></i></a>
+                                     <a href="{session}.pdf"><i class="fa-solid fa-file-pdf"></i></a>'),
+                                glue('<font color="#e9ecef"><i class="fa-solid fa-person-chalkboard"></i>
+                                     <i class="fa-solid fa-file-pdf"></i></font>'))) %>%
     mutate(var_assignment = ifelse(!is.na(assignment),
-                                   glue('<a href="{assignment}.qmd"><i class="fa-solid fa-code fa-lg"></i></a>'),
-                                   glue('<font color="#e9ecef"><i class="fa-solid fa-code fa-lg"></i></font>'))) %>%
+                                   glue('<a href="{assignment}"><i class="fa-solid fa-house"></i></a>'),
+                                   glue('<font color="#e9ecef"><i class="fa-solid fa-house"></i></font>'))) %>%
+    # mutate(var_assignment = ifelse(!is.na(assignment),
+    #                                glue('<a href="https://github.com/r4da-f23?q=ps{str_extract(subgroup, "[0-9]+")}/"><i class="fa-solid fa-house"></i></a>'),
+    #                                glue('<font color="#e9ecef"><i class="fa-solid fa-house"></i></font>'))) %>%
     mutate(col_date = ifelse(is.na(date_end),
                              glue('<strong>{format(date, "%b %e")}</strong>'),
                              glue('<strong>{format(date, "%b %e")}</strong>–<strong>{format(date_end, "%b %e")}</strong>'))) %>%
     mutate(col_title = glue('{var_title}{var_deadline}{var_note}')) %>%
     mutate(col_prepare = var_prepare,
            col_session = var_session,
+           col_lab = var_lab,
+           col_eval = var_eval,
            col_assignment = var_assignment)
 
   schedule_nested <- schedule %>%
-    select(group, subgroup,
-           ` ` = col_date, Title = col_title, Prepare = col_prepare,
-           Session = col_session, Assignment = col_assignment) %>%
+    select(
+      group,
+      subgroup,
+      ` ` = col_date,
+      Topic = col_title,
+      "Before Class" = col_prepare,
+      Slides = col_session,
+      Lab = col_lab,
+      Homework = col_assignment,
+      # Evaluation = col_eval
+    ) %>%
     group_by(group) %>%
     nest() %>%
     mutate(subgroup_count = map(data, ~count(.x, subgroup)),

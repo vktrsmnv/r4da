@@ -1,0 +1,795 @@
+---
+title: "Difference-in-Differences" 
+subtitle: "Data Analytics and Visualization with R<br>Session 12" 
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Spring 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: ../slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+p_needed <- c(
+  "tidyverse",
+  "janitor",
+  "icons",
+  "infer",
+  "haven",
+  "countdown",
+  "showtext",
+  "ggdag",
+  "kableExtra",
+  "magrittr",
+  "knitr",
+  "MatchIt",
+  "cobalt",
+  "patchwork",
+  "gt",
+  "flair",
+  "plotly",
+  "broom",
+  "patchwork",
+  "modelsummary",
+  "usmap",
+  "scales"
+)
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 20)) 
+theme_update(plot.title = element_text(face = "bold"),
+        plot.title.position = "plot",
+        panel.grid.minor = element_blank(),
+        legend.position = "bottom")
+
+
+set.seed(2508)
+# Directly import data from shared google folder into R
+card_df <- readr::read_csv("https://docs.google.com/uc?id=10h_5og14wbNHU-lapQaS1W6SBdzI7W6Z&export=download")
+
+```
+
+# Intro
+
+## Quiz
+
+<!-- ## Quiz: Selecting Research Design -->
+
+```{r}
+#| echo: false
+countdown(minutes = 6, color_background = "white")
+```
+
+You need to explore if women are more likely to quit politics after losing their
+first race than men. Discuss the following research design choices.
+
+1.  What candidates should be included in the sample? (e.g., only those who lost
+    the election once? only those who decided to quit politics?)
+
+2.  What would be the unit of analysis?
+
+3.  What model would you use? Why?
+
+<!-- You are interested in exploring the effect of election fraud perception on trust in government. You obtained data from multiple waves of WVS -->
+
+<!-- (2010-2020). -->
+
+<!-- Discuss the pros and cons of using each design. -->
+
+<!-- 1.  Multiple Linear Regression (MLR) with Statistical Control -->
+
+<!-- 2.  Matching -->
+
+<!-- 3.  MLR with fixed effects for countries and years -->
+
+## Closing Backdoors
+
+**Model-based vs. Design-based Identification**
+
+-   Option 1: Do our best to measure all confounding variables (and assume we
+    did if that's plausible): *regression*, *matching*, *IPW*
+-   Option 2: Make comparisons *within* units with repeated measures of same
+    units, thus controlling for unobserved things that stay constant in units
+    over time: *fixed effects*
+-   Option 3: Look for quasi-experiments (**as-if** random assignment)
+    -   Difference-in-difference
+    -   Regression discontinuity design
+
+## Each Method Has Pros and Cons
+
+![](https://evalf22.classes.andrewheiss.com/slides/img/08-class/causality-continuum.png)
+
+## Natural Experiments (aka Quasi-Experiments)
+
+- Situation in which there is random assignment of a treatment via a
+    randomization device, but this assignment is not under the control of the
+    researcher
+- Randomization may be imperfect, but external validity is high
+
+::: smaller
+::: columns
+::: {.column width="50%"}
+
+-   *How did Vietnam draft vulnerability influence political attitudes?*
+-   The 1969 Vietnam draft lottery assigned numbers to birth dates in order to
+    determine which young men would be called to fight in Vietnam ([Erikson and Stoker
+    2011)](https://www.cambridge.org/core/journals/american-political-science-review/article/caught-in-the-draft-the-effects-of-vietnam-draft-lottery-status-on-political-attitudes/37B0E3788769BF032C516E6F93794F97)
+    
+:::
+::: {.column width="50%"}
+-   *Do people continue to elect women after quotas are lifted?* 
+-   One third of seats to women candidates in India's local elections are
+    randomly reserved and change from one election to the next ([Bhavnani
+    2009)](https://www.cambridge.org/core/journals/american-political-science-review/article/do-electoral-quotas-work-after-they-are-withdrawn-evidence-from-a-natural-experiment-in-india/0AA2DD658A2AFE3CE30108FFCF1FDCD3)
+:::
+:::
+:::
+
+## Recap: Interactions
+
+$$
+\widehat{\text{Running for Office}} = \hat\beta_0 + \hat\beta_1 \text{Losing Elections} + \hat\beta_2 \text{Female} +\\ \hat\beta_3 (\text{Losing Elections} \times \text{Female})
+$$
+
+-   The effect of *Losing Elections* on running for office is allowed to be
+    different for *Men* vs. *Women*
+-   Different intercepts + different slopes
+
+<!-- - $\hat\beta_0$ is the expected vote share for non-incumbent & zero Policy Campaign Focus   -->
+
+<!-- - $\hat\beta_1$ is the effect of Policy Campaign Focus for non-incumbents on the expected vote share -->
+
+<!-- - $\hat\beta_2$ is the effect of incumbent status on the expected vote share when Policy Campaign Focus is zero  -->
+
+<!-- - $\hat\beta_3$ is difference in the effect of Policy Campaign Focus between incumbents and non-incumbents   -->
+
+# Diff-in-Diff
+
+## What is Difference-In-Differences
+
+-   We want to know the effect of some policy
+-   We look for cities/states/countries/etc. which implemented it and measure
+    the outcome *before* and *after* the policy implementation (difference #1)
+-   These *before* and *after* comparisons would include the effect of policy
+    but also other stuff that changes over time
+-   We find units that did *not* introduce the policy (which are similar to
+    the "treated" one) and use them as controls: compare them for the same pre-
+    and post-treatment times (difference #2)
+-   We then compare the changes in outcome for cases where policy was
+    implemented (difference #1) to changes for control (difference #2)
+    $\Rightarrow$ **Difference-in-differences**
+
+## Diff-in-Diff Illustration
+
+```{r dd-graph, echo=FALSE, fig.width=12, fig.height=6, out.width="100%"}
+dd_labels <- tribble(
+  ~Group, ~Time, ~label,
+  "Treatment", "Before", "A",
+  "Treatment", "After", "B",
+  "Control", "Before", "C",
+  "Control", "After", "D"
+)
+
+dd_data <- tribble(
+  ~Group, ~Before, ~Intervention, ~After,
+  "Treatment", 30, 35, 50,
+  "Control",   20, 25, 30
+) %>% 
+  pivot_longer(cols = !Group, names_to = "Time", values_to = "avg") %>% 
+  left_join(dd_labels, by = c("Group", "Time")) %>% 
+  mutate(across(c(Group, Time), ~fct_inorder(.)))
+
+ggplot(dd_data, aes(x = Time, y = avg, color = Group, group = Group)) +
+  geom_vline(xintercept = "Intervention") +
+  geom_line(size = 3,
+            key_glyph = draw_key_point) +
+  annotate(geom = "segment", x = "Intervention", xend = "After",
+           y = 35, yend = 40, color = "#800010", size = 2, linetype = "22") +
+  annotate(geom = "segment", x = "After", xend = "After",
+           y = 40, yend = 50, color = "#800010", size = 2) +
+  annotate(geom = "label", x = "After", y = 45, label = "Causal\neffect",
+           family = "Fira Sans Condensed Bold", fontface = "plain", 
+           size = 5, fill = "#800010", color = "white") +
+  geom_point(data = filter(dd_data, !is.na(label)), size = 15) +
+  geom_text(aes(label = label), family = "Fira Sans Condensed Bold", 
+            fontface = "plain", size = 10, color = "white") +
+  scale_color_manual(values = c("#000000", "#E69F00")) +
+  labs(x = NULL, y = "Outcome") +
+  coord_cartesian(ylim = c(15, 55)) 
+```
+
+
+## DAG for Diff-in-Diff
+
+```{dot}
+//| echo: false
+//| fig-width: 7
+//| fig-asp: 0.7
+//| out-width: 100%
+digraph D {
+  node [shape=ellipse, fontname="AtkinsonHyperlegible-Regular"];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "Treatment\n(Policy)"];
+  b [label = "Outcome"];
+  c [label = "Time"];
+  
+  {rank=same a b};
+  {rank=source a};
+  a->b;
+  c->a;
+  c->b;
+}
+```
+
+## Example: Minimum Wage and Unemployment
+
+```{r, echo=FALSE}
+plot_usmap(
+  # include = c(.northeast_region, .north_central_region, .south_region),
+  labels = TRUE, data = tibble(state = c("PA", "NJ"), values = c("1","1")),
+  ) +
+   scale_fill_discrete(
+    c("white", "#800010"), name = "", label = scales::comma
+  ) +
+  guides(fill = "none")
+```
+
+--------------------------------------------------------------------------------
+
+![](images/FBaP8R8XIAEycMC.jpeg){fig-align="center" width="561"}
+
+## Card & Krueger Study DAG
+
+::: columns
+::: {.column width="40%"}
+-   New Jersey raised their minimum wage in early 1992 (\$4.25 → \$5.05), but
+    Pennsylvania didn't
+-   Outcome variable: Average number of jobs per fast food restaurant in January
+    1992 and November 1992
+:::
+
+::: {.column width="60%"}
+```{dot}
+//| echo: false
+//| fig-width: 5
+//| fig-asp: 0.7
+//| out-width: 100%
+digraph D {
+  node [shape=ellipse, fontname="AtkinsonHyperlegible-Regular"];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "Minimum Wage\nIncrease"];
+  b [label = "Unemployment"];
+  c [label = "Time"];
+  d [label = "Being in NJ"];
+
+  {rank=same a b};
+  {rank=sink d};
+  {rank=source c};
+  a->b;
+  c->a;
+  c->b;
+  d->a;
+  d->b;
+}  
+
+```
+:::
+:::
+
+```{r, eval=F, include=FALSE}
+ggplot(card_df, aes(x = x_st_wage_before)) +
+  geom_histogram() +
+  facet_wrap(.~ d_nj)
+
+ggplot(card_df,aes(x = x_st_wage_after))+
+  geom_histogram() +
+  facet_wrap(.~ d_nj)
+```
+
+## Outcome Matrix
+
+<br>
+
+```{r dd-table-basic, echo=FALSE}
+dd <- tribble(
+  ~` `, ~`Pre mean`, ~`Post mean`, ~`<span class='color-light-5'>∆ <span class='smaller'>(post − pre)</span></span>`,
+  "Control", "<b>A</b><br><span class='small'>(never treated)</small>", "<b>B</b><br><span class='small'>(never treated)</small>", "<b>B − A</b>",
+  "Treatment", "<b>C</b><br><span class='small'>(not yet treated)</small>", "<b>D</b><br><span class='small'>(treated)</small>", "<b>D − C</b>",
+  "∆<br><span class='smaller'>(treatment − control)</span>", "<b>C − A</b>", "<b>D − B</b>", "<span class=''><b>(B − A) − (D − C)</b></span> <i>or</i><br><span class=''><b>(B − D) − (A − C)</b></span>"
+)
+
+dd %>% 
+  kbl(escape = FALSE, align = "cccc") %>% 
+  kable_styling(bootstrap_options = "none") %>% 
+  row_spec(1:2, background = "#FFFFFF") %>% 
+  column_spec(4, background = "#DDDDDD") %>% 
+  row_spec(0, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(1, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(4, background = "#FFFFFF", color = "#FFFFFF") %>% 
+  row_spec(3, background = "#FFFFFF", color = "#FFFFFF")
+```
+
+## Outcome Matrix: ∆<sub>within units</sub>
+
+<br>
+
+```{r dd-table-growth, echo=FALSE}
+dd <- tribble(
+  ~` `, ~`Pre mean`, ~`Post mean`, ~`∆ <span class='smaller'>(post − pre)</span>`,
+  "Control", "<b>A</b><br><span class='small'>(never treated)</small>", "<b>B</b><br><span class='small'>(never treated)</small>", "<b>B − A</b>",
+  "Treatment", "<b>C</b><br><span class='small'>(not yet treated)</small>", "<b>D</b><br><span class='small'>(treated)</small>", "<b>D − C</b>",
+  "∆<br><span class='smaller'>(treatment − control)</span>", "<b>A − C</b>", "<b>B − D</b>", "<span class=''><b>(B − A) − (D − C)</b></span> <i>or</i><br><span class=''><b>(B − D) − (A − C)</b></span>"
+)
+
+dd %>% 
+  kbl(escape = FALSE, align = "cccc") %>% 
+  kable_styling(bootstrap_options = "none") %>% 
+  row_spec(1:2, background = "#FFFFFF") %>% 
+  column_spec(4, background = "#DDDDDD") %>% 
+  row_spec(0, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(1, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  row_spec(3, background = "#FFFFFF", color = "#FFFFFF")
+```
+
+## Outcome Matrix: ∆<sub>within groups</sub>
+
+<br>
+
+```{r dd-table-within, echo=FALSE}
+dd <- tribble(
+  ~` `, ~`Pre mean`, ~`Post mean`, ~`<span class='color-light-5'>∆ <span class='smaller'>(post − pre)</span></span>`,
+  "Control", "<b>A</b><br><span class='small'>(never treated)</small>", "<b>B</b><br><span class='small'>(never treated)</small>", "<b>B − A</b>",
+  "Treatment", "<b>C</b><br><span class='small'>(not yet treated)</small>", "<b>D</b><br><span class='small'>(treated)</small>", "<b>D − C</b>",
+  "∆<br><span class='smaller'>(treatment − control)</span>", "<b>C − A</b>", "<b>D − B</b>", "<span class=''><b>(B − A) − (D − C)</b></span> <i>or</i><br><span class=''><b>(B − D) − (A − C)</b></span>"
+)
+
+dd %>% 
+  kbl(escape = FALSE, align = "cccc") %>% 
+  kable_styling(bootstrap_options = "none") %>% 
+  row_spec(1:2, background = "#FFFFFF") %>% 
+  row_spec(3, background = "#DDDDDD") %>% 
+  row_spec(0, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(1, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(4, background = "#FFFFFF", color = "#FFFFFF")
+```
+
+## Problems
+
+-   Comparing only before/after ∆<sub>within units</sub>
+    -   You're only looking at the treatment or control group separately 
+    -   Impossible to know if change happened because of treatment or just
+        naturally
+-   Comparing only treatment/control ∆<sub>within groups</sub>
+    -   You're only looking at post-treatment values across treatment & control 
+    -   Impossible to know if change happened because of natural growth
+
+## Outcome Matrix: ∆<sub>within units</sub> − ∆<sub>within groups</sub>
+
+<br>
+
+```{r dd-table-full, echo=FALSE}
+dd <- tribble(
+  ~` `, ~`Pre mean`, ~`Post mean`, ~`∆ <span class='smaller'>(post − pre)</span>`,
+  "Control", "<b>A</b><br><span class='small'>(never treated)</small>", "<b>B</b><br><span class='small'>(never treated)</small>", "<b>B − A</b>",
+  "Treatment", "<b>C</b><br><span class='small'>(not yet treated)</small>", "<b>D</b><br><span class='small'>(treated)</small>", "<b>D − C</b>",
+  "∆<br><span class='smaller'>(treatment − control)</span>", "<b>C − A</b>", "<b>D − B</b>", "<span class='color-5'><b>(D − C) − (B − A)</b></span> <i>or</i><br><span class='color-5'><b>(D − B) − (C − A)</b></span>"
+)
+
+dd %>% 
+  kbl(escape = FALSE, align = "cccc") %>% 
+  kable_styling(bootstrap_options = "none") %>% 
+  row_spec(1:2, background = "#FFFFFF") %>% 
+  row_spec(3, background = "#DDDDDD") %>% 
+  column_spec(4, background = "#DDDDDD") %>% 
+  row_spec(0, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(1, bold = TRUE, background = "#80001050", color = "#800010")
+```
+
+## Minimum Wage and Unemployment Diff-in-Diff
+
+<br>
+
+```{r dd-table-numbers, echo=FALSE}
+dd <- tribble(
+  ~` `, ~`Pre mean`, ~`Post mean`, ~`∆ <span class='smaller'>(post − pre)</span>`,
+  "Pennsylvania", "<b>23.33</b><br><span class='small'>A</small>", "<b>21.17</b><br><span class='small'>B</small>", "<b>-2.16</b><br><span class='small'>B − A</small>",
+  "New Jersey", "<b>20.44</b><br><span class='small'>C</small>", "<b>21.03</b><br><span class='small'>D</small>", "<b>0.59</b><br><span class='small'>D − C</small>",
+  "∆<br><span class='smaller'>(NJ − PA)</span>", "<b>-2.89</b><br><span class='small'>C − A</small>", "<b>-0.14</b><br><span class='small'>D − B</small>", "<b>(0.59) − (−2.16) = <br><span class='color-5'>2.75</span></b>"
+)
+
+dd %>% 
+  kbl(escape = FALSE, align = "cccc") %>% 
+  kable_styling(bootstrap_options = "none") %>% 
+  row_spec(1:2, background = "#FFFFFF") %>% 
+  row_spec(3, background = "#DDDDDD") %>% 
+  column_spec(4, background = "#DDDDDD") %>% 
+  row_spec(0, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(1, bold = TRUE, background = "#80001050", color = "#800010")
+```
+
+
+<!-- ## Diff-in-Diff Illustration -->
+
+```{r, echo=FALSE, include=FALSE}
+df <- data.frame(Control = c(rep("Control",150),rep("Treatment",150)),
+                 Time=rep(c(rep("Before",75),rep("After",75)),2)) %>%
+  mutate(Y = 2+2*(Control=="Treatment")+1*(Time=="After") + 1.5*(Control=="Treatment")*(Time=="After")+rnorm(300),state="1",
+         xaxisTime = (Time == "Before") + 2*(Time == "After") + (runif(300)-.5)*.95) %>%
+  group_by(Control,Time) %>%
+  mutate(mean_Y=mean(Y)) %>%
+  ungroup()
+
+df$Time <- factor(df$Time,levels=c("Before","After"))
+
+#Create segments
+dfseg <- df %>%
+  group_by(Control,Time) %>%
+  summarize(mean_Y = mean(mean_Y)) %>%
+  ungroup()
+
+diff <- filter(dfseg,Time=='After',Control=='Control')$mean_Y[1] - filter(dfseg,Time=='Before',Control=='Control')$mean_Y[1]
+
+dffull <- rbind(
+  #Step 1: Raw data only
+  df %>% mutate(state='Raw data.'),
+  #Step 2: Add Y-lines
+  df %>% mutate(state='Compute differences in Y\nexplained by Treatment and/or Time.'),
+  #Step 3: Collapse to means
+  df %>% mutate(Y = mean_Y,state="Keep what's explained\nby Treatment and/or Time."),
+  #Step 4: Display time effect
+  df %>% mutate(Y = mean_Y,state="See how Control\nchanged over Time."),
+  #Step 5: Shift to remove time effect
+  df %>% mutate(Y = mean_Y 
+                - (Time=='After')*diff,
+                state="Remove the Before/After Control\ndifference for both groups."),
+  #Step 6: Raw demeaned data only
+  df %>% mutate(Y = mean_Y 
+                - (Time=='After')*diff,
+                state='The remaining Before/After Treatment\ndifference is the effect.')) %>%
+  mutate(state = as_factor(state))
+
+
+ggplot(dffull, aes(
+    y = Y,
+    x = xaxisTime,
+    fill = as.factor(Control)
+  )) +
+  geom_point(pch = 21, color ="white", alpha = 0.5) +
+  guides(color = guide_legend(title = "Group")) +
+  geom_vline(aes(xintercept = 1.5), linetype = "dashed") +
+  scale_fill_viridis_d(end = 0.9, option = "A", direction = -1) +
+  scale_x_continuous(
+    breaks = c(1, 2),
+    label = c("Before\nTreatment", "After\nTreatment")
+  ) +
+  # The four lines for the four means
+  geom_segment(
+    aes(
+      x = ifelse(
+        state == dffull$state %>% levels() %>% .[2] |
+          state == dffull$state %>% levels() %>% .[3] ,
+        .5,
+        NA
+      ),
+      xend = 1.5,
+      y = filter(dfseg, Time == "Before", Control == "Control")$mean_Y[1],
+      yend = filter(dfseg, Time == "Before", Control == "Control")$mean_Y[1]
+    ),
+    size = 1,
+    color = "#E69F00"
+  ) +
+  geom_segment(
+    aes(
+      x = ifelse(
+        state == dffull$state %>% levels() %>% .[2] |
+          state == dffull$state %>% levels() %>% .[3] ,
+        .5,
+        NA
+      ),
+      xend = 1.5,
+      y = filter(dfseg, Time == "Before", Control == "Treatment")$mean_Y[1],
+      yend = filter(dfseg, Time == "Before", Control == "Treatment")$mean_Y[1]
+    ),
+    size = 1,
+    color = "#000000"
+  ) +
+  geom_segment(
+    aes(
+      x = ifelse(
+        state == dffull$state %>% levels() %>% .[2] |
+          state == dffull$state %>% levels() %>% .[3] ,
+        1.5,
+        NA
+      ),
+      xend = 2.5,
+      y = filter(dfseg, Time == "After", Control == "Control")$mean_Y[1],
+      yend = filter(dfseg, Time == "After", Control == "Control")$mean_Y[1]
+    ),
+    size = 1,
+    color = "#E69F00"
+  ) +
+  geom_segment(
+    aes(
+      x = ifelse(
+        state == dffull$state %>% levels() %>% .[2] |
+          state == dffull$state %>% levels() %>% .[3] ,
+        1.5,
+        NA
+      ),
+      xend = 2.5,
+      y = filter(dfseg, Time == "After", Control == "Treatment")$mean_Y[1],
+      yend = filter(dfseg, Time == "After", Control == "Treatment")$mean_Y[1]
+    ),
+    size = 1,
+    color = "#000000"
+  ) +
+  # Line indicating treatment effect
+  geom_segment(
+    aes(
+      x = 1.5,
+      xend = 1.5,
+      y = ifelse(
+        state == dffull$state %>% levels() %>% .[6],
+        filter(dfseg, Time == "After", Control == "Treatment")$mean_Y[1] -
+          diff,
+        NA
+      ),
+      yend = filter(dfseg, Time == "Before", Control == "Treatment")$mean_Y[1]
+    ),
+    size = 1.5,
+    color = "#800010"
+  ) +
+  # Line indicating pre/post control difference
+  geom_segment(
+    aes(
+      x = 1.5,
+      xend = 1.5,
+      y = ifelse(
+        state == dffull$state %>% levels() %>% .[4],
+        filter(dfseg, Time == "After", Control == "Control")$mean_Y[1],
+        ifelse(
+          state == dffull$state %>% levels() %>% .[5],
+          filter(dfseg, Time == "Before", Control ==
+            "Control")$mean_Y[1],
+          NA
+        )
+      ),
+      yend = filter(dfseg, Time == "Before", Control == "Control")$mean_Y[1]
+    ),
+    size = 1.5,
+    color = "#800010"
+  ) +
+  labs(x = "",
+       fill = "") +
+  facet_wrap(. ~ state)
+```
+
+## Diff-in-Diff with Regression
+
+$$\begin{aligned}
+\color{#440154FF}{Y_{it}}\ =\ &\alpha + \beta\ \color{#35608DFF}{\text{Group}_i} + \gamma\ \color{#22A884FF}{\text{Time}_t} + \delta\ \color{#800010}{(\text{Group}_i \times \text{Time}_t)} + \varepsilon_{it}
+\end{aligned}$$
+
+```{r dd-example-code, echo=FALSE, tidy=FALSE}
+decorate('
+model <- lm(outcome ~ group + time + (group * time))
+', eval = FALSE) %>% 
+  flair("outcome", color = "#440154FF", before = "<b>", after = "</b>") %>% 
+  flair(" group ", color = "#35608DFF", before = "<b>", after = "</b>") %>% 
+  flair(" time ", color = "#22A884FF", before = "<b>", after = "</b>") %>% 
+  flair("(group * time)", color = "#800010", before = "<b>", after = "</b>")
+```
+
+<!-- [Group = 1 or TRUE if treatment]{style="color: #35608DFF"} -->
+
+<!-- [Time = 1 or TRUE if after]{style="color: #22A884FF"} -->
+
+[α = Mean of control, pre-treatment]{style="color: #666666"}
+
+[β = Increase in outcome across groups]{style="color: #35608DFF"}
+
+[γ = Increase in outcome over time within units]{style="color: #22A884FF"}
+
+[δ = Difference in differences!]{style="color: #800010"}
+
+
+```{r dd-table-coefs, echo=FALSE}
+dd <- tribble(
+  ~` `, ~`&ensp;Pre mean&ensp;`, ~`&ensp;Post mean&ensp;`, ~`&ensp;∆ <span class='smaller'>(post − pre)</span>&ensp;`,
+  "Control", "<b><span style='color: #666666;'>α</span></b>", "<b><span style='color: #666666;'>α</span> + <span style='color: #22A884FF;'>γ</span></b>", "<b><span style='color: #22A884FF;'>γ</span></b>",
+  "Treatment", "<b><span style='color: #666666;'>α</span> + <span style='color: #35608DFF;'>β</span></b>", "<b><span style='color: #666666;'>α</span> + <span style='color: #35608DFF;'>β</span> + <span style='color: #22A884FF;'>γ</span> + <span style='color: #800010'>δ</span></b>", "<b><span style='color: #22A884FF;'>γ</span> + <span style='color: #800010'>δ</span></b>",
+  "&ensp;∆ <span class='smaller'>(trtmt − ctrl)</span>&ensp;", "<b><span style='color: #35608DFF;'>β</span></b>", "<b><span style='color: #35608DFF;'>β</span> + <span style='color: #800010'>δ</span></b>", "<b><span style='color: #800010'>δ</span></b>"
+)
+
+dd %>% 
+  kbl(escape = FALSE, align = "cccc") %>% 
+  kable_styling(bootstrap_options = "none") %>% 
+  row_spec(1:2, background = "#FFFFFF") %>% 
+  row_spec(3, background = "#EEEEEE") %>% 
+  column_spec(4, background = "#EEEEEE") %>% 
+  row_spec(0, bold = TRUE, background = "#80001050", color = "#800010") %>% 
+  column_spec(1, bold = TRUE, background = "#80001050", color = "#800010")
+```
+
+<!-- ## What is Diff-in-Diff? -->
+
+<!-- -   We combine untreated groups with fixed effects -->
+
+<!-- -   We have a treated group that we observe both *before* and *after* they're -->
+
+<!--     treated -->
+
+<!-- -   And we have an untreated group -->
+
+<!-- -   The treated and control groups probably aren't identical - there are back -->
+
+<!--     doors! So... we control for group like with fixed effects -->
+
+## Parallel Trend Assumption
+
+-   Treatment and control groups might have different values at first, but we
+    assume that the treatment group would have changed like the control group in
+    the absence of treatment
+-   We are assuming is that Time affected the Treatment and Control groups
+    equally
+-   Otherwise, our attempt to control for Time by using how it changed in
+    Control won't work
+-   We can test it if there is data available for *before* treatment
+
+## Parallel Trend Assumption
+
+```{r plot-trends-1, echo=FALSE, fig.width=12, fig.height=6, out.width="100%"}
+trends <- expand_grid(state = c("A", "B"), month = 1:6) %>% 
+  mutate(income_parallel = case_when(
+    state == "A" ~ 100 + 125 * month,
+    state == "B" & month <= 3 ~ 100 + 125 * month + 200,
+    state == "B" & month > 3 ~ 100 + 125 * month + 400
+  )) %>% 
+  mutate(income_flat = case_when(
+    state == "A" ~ 100 + 125 * month,
+    state == "B" & month <= 3 ~ 675,
+    state == "B" & month > 3 ~ 100 + 125 * month + 400
+  )) %>% 
+  mutate(income_down = case_when(
+    state == "A" ~ 100 + 125 * month,
+    state == "B" & month <= 3 ~ 800 - 100 * month + 200,
+    state == "B" & month > 3 ~ 100 + 125 * month + 400
+  )) %>% 
+  mutate(state = paste0("State ", state))
+
+hypothetical_end <- lm(income_parallel ~ month, 
+                       data = filter(trends, state == "State B", month <= 3)) %>% 
+  augment(newdata = tibble(month = 6)) %>% 
+  pull(.fitted)
+
+actual_end <- filter(trends, state == "State B", month == 6) %>% 
+  pull(income_parallel)
+
+dd_trends_1 <- ggplot(trends, aes(x = as.factor(month), y = income_parallel, color = state, group = state)) +
+  geom_smooth(data = filter(trends, state == "State B", month <= 3), 
+              method = "lm", fullrange = TRUE, 
+              color = "#800010", size = .5, linetype = "22") +
+  geom_vline(xintercept = 3.5, size = 1) +
+  geom_line(size = 2) +
+  geom_segment(aes(x = 6, xend = 6, 
+                   y = actual_end, yend = hypothetical_end),
+               color = "#800010", size = 2) +
+  scale_color_manual(values = viridis::magma(2, end = 0.9), name = NULL) +
+  scale_y_continuous(labels = scales::dollar) +
+  labs(x = "Month", y = "Income") 
+dd_trends_1
+```
+
+## Parallel Trend Assumption Violation
+
+```{r plot-trends-2-back, echo=FALSE, fig.width=12, fig.height=6, out.width="100%"}
+state_a_start <- filter(trends, state == "State A", month == 1)$income_flat
+state_b_end <- filter(trends, state == "State B", month == 3)$income_flat
+hypothetical_start <- filter(trends, state == "State B", month == 2)$income_flat
+diff_states <-  filter(trends, state == "State B", month == 1)$income_flat - state_a_start
+hypothetical_end <- filter(trends, state == "State A", month == 2)$income_flat + diff_states
+
+ggplot(filter(trends, month <= 6),
+       aes(x = month, y = income_flat, color = state, group = state)) +
+  geom_ribbon(data = filter(trends, state == "State B", month <= 3),
+              aes(x = month, ymin = -Inf, ymax = Inf, color = NULL), 
+              fill = "#7FDBFF", alpha = 0.2) +
+  annotate(geom = "segment", x = 2, xend = 3,
+                   y = hypothetical_start, yend = hypothetical_end,
+               color = "#0074D9", size = 1, linetype = "22") +
+  geom_vline(xintercept = 2, size = 1) +
+  geom_line(size = 3) +
+  geom_segment(aes(x = 3, xend = 3,
+                   y = state_b_end, yend = hypothetical_end),
+               color = "#800010", size = 2, inherit.aes = FALSE) +
+  scale_color_manual(values = viridis::magma(2, end = 0.9), name = NULL) +
+  scale_x_continuous(breaks = 1:6) +
+  scale_y_continuous(labels = dollar) +
+  labs(x = "Month", y = "Income") 
+```
+
+## Parallel Trend Assumption Violation
+
+```{r plot-trends-3-back, echo=FALSE, fig.width=12, fig.height=6, out.width="100%"}
+state_a_start <- filter(trends, state == "State A", month == 1)$income_down
+state_b_end <- filter(trends, state == "State B", month == 3)$income_down
+hypothetical_start <- filter(trends, state == "State B", month == 2)$income_down
+diff_states <-  filter(trends, state == "State B", month == 1)$income_down - state_a_start
+hypothetical_end <- filter(trends, state == "State A", month == 1)$income_down + diff_states
+
+ggplot(filter(trends, month <= 6),
+       aes(x = month, y = income_down, color = state, group = state)) +
+  geom_ribbon(data = filter(trends, state == "State B", month <= 3),
+              aes(x = month, ymin = -Inf, ymax = Inf, color = NULL), 
+              fill = "#7FDBFF", alpha = 0.2) +
+  annotate(geom = "segment", x = 2, xend = 3,
+                   y = hypothetical_start, yend = hypothetical_end,
+               color = "#0074D9", size = 1, linetype = "22") +
+  geom_vline(xintercept = 2, size = 1) +
+  geom_line(size = 3) +
+  geom_segment(aes(x = 3, xend = 3,
+                   y = state_b_end, yend = hypothetical_end),
+               color = "#800010", size = 2, inherit.aes = FALSE) +
+  scale_color_manual(values = viridis::magma(2, end = 0.9), name = NULL) +
+  scale_x_continuous(breaks = 1:6) +
+  scale_y_continuous(labels = dollar) +
+  labs(x = "Month", y = "Income") 
+```
+
+## Parallel Trend Assumption Holds
+
+```{r plot-trends-1-back, echo=FALSE, fig.width=12, fig.height=6, out.width="100%"}
+hypothetical_start <- filter(trends, state == "State B", month == 2)$income_parallel
+hypothetical_end <- filter(trends, state == "State B", month == 3)$income_parallel
+
+ggplot(filter(trends, month <= 6),
+       aes(x = month, y = income_parallel, color = state, group = state)) +
+  geom_ribbon(data = filter(trends, state == "State B", month <= 3),
+              aes(x = month, ymin = -Inf, ymax = Inf, color = NULL), 
+              fill = "#7FDBFF", alpha = 0.2) +
+  geom_vline(xintercept = 2, size = 1) +
+  geom_line(size = 3) +
+  annotate(geom = "segment", x = 2, xend = 3,
+                   y = hypothetical_start, yend = hypothetical_end,
+               color = "#800010", size = 1, linetype = "22") +
+  scale_color_manual(values = viridis::magma(2, end = 0.9), name = NULL) +
+  scale_x_continuous(breaks = 1:6) +
+  scale_y_continuous(labels = dollar) +
+  labs(x = "Month", y = "Income") 
+```

@@ -3,6 +3,8 @@ project:
   render:
     - "*.qmd"
     - "!slides/06"
+    # - "!s23/*solution.qmd"
+    - "!s23/"
   resources:
     - "files/"
     - "projects/"
@@ -29,21 +31,21 @@ website:
 
 
   open-graph:
-    image: "/files/img/sticker.png"
+    image: "/files/icon-512.png"
     locale: en_US
 
   navbar:
     pinned: true
-    background: "#800020"
+    background: "#003056"
     right:
       - syllabus.qmd
       - schedule.qmd
-      - text: "Prepare"
-        file: prepare/index.qmd
-      - text: "Slides"
-        file: session/index.qmd
-      - text: "Assignments"
-        file: assignment/index.qmd
+      - text: "Course Material"
+        file: material/index.qmd
+      # - text: "Slides"
+      #   file: session/index.qmd
+      # - text: "Assignments"
+      #   file: assignment/index.qmd
       - text: "Resources"
         file: resource/index.qmd
       - text: "Spring 2023"
@@ -56,46 +58,47 @@ website:
         aria-label: RStudio.cloud
 
   sidebar:
-    - title: "Prepare"
+    - title: "Course Material"
       style: "docked"
-      search: false
+      search: true
+      align: center
       background: dark
       contents:
         - section: "Overview"
           contents:
-            - prepare/index.qmd
+            - material/index.qmd
         - section: "Course content"
           contents:
             - text: "1: Meet the Toolkit"
-              file: prepare/01-prepare.qmd
+              file: material/01-material.qmd
             - text: "2: Describing Variables"
-              file: prepare/02-prepare.qmd
+              file: material/02-material.qmd
             # - text: "3: Describing Relationships"
-            #   file: prepare/03-prepare.qmd
+            #   file: material/03-material.qmd
             # - text: "4: Identification and Causal Diagrams"
-            #   file: prepare/04-prepare.qmd
+            #   file: material/04-material.qmd
             # - text: "5: Causal Diagrams and Treatment Effects"
-            #   file: prepare/05-prepare.qmd
+            #   file: material/05-material.qmd
             # - text: "6: Regression for Describing"
-            #   file: prepare/06-prepare.qmd
+            #   file: material/06-material.qmd
             # - text: "7: Uncertainty and Statistical Inference"
-            #   file: prepare/07-prepare.qmd
+            #   file: material/07-material.qmd
             # - text: "8: Estimating Heterogeneous Effects"
-            #   file: prepare/08-prepare.qmd
+            #   file: material/08-material.qmd
             # - text: "9: Binary Dependent Variable"
-            #   file: prepare/09-prepare.qmd
+            #   file: material/09-material.qmd
             # - text: "10: Matching"
-            #   file: prepare/10-prepare.qmd
+            #   file: material/10-material.qmd
             # - text: "11: Fixed Effects"
-            #   file: prepare/11-prepare.qmd
+            #   file: material/11-material.qmd
             # - text: "12: Difference-in-Differences"
-            #   file: prepare/12-prepare.qmd
+            #   file: material/12-material.qmd
             # - text: "13: Regression Discontinuity"
-            #   file: prepare/13-prepare.qmd
+            #   file: material/13-material.qmd
             # - text: "14: Review"
-            #   file: prepare/14-prepare.qmd
+            #   file: material/14-material.qmd
 
-    - title: "Sessions"
+    - title: "Material"
       style: "docked"
       search: false
       background: dark

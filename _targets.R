@@ -2,7 +2,7 @@ library(targets)
 library(tarchetypes)
 suppressPackageStartupMessages(library(tidyverse))
 
-class_number <- "R4DA S23"
+class_number <- "R4DA F23"
 base_url <- "https://r4da.live/"
 page_suffix <- ".html"
 
@@ -102,11 +102,11 @@ list(
   ## Class schedule calendar ----
   tar_target(schedule_file, here_rel("data", "schedule.csv"), format = "file"),
   tar_target(schedule_page_data, build_schedule_for_page(schedule_file)),
-  tar_target(schedule_ical_data, build_ical(schedule_file, base_url, page_suffix, class_number)),
-  tar_target(schedule_ical_file,
-             save_ical(schedule_ical_data,
-                       here_rel("files", "schedule.ics")),
-             format = "file"),
+  # tar_target(schedule_ical_data, build_ical(schedule_file, base_url, page_suffix, class_number)),
+  # tar_target(schedule_ical_file,
+  #            save_ical(schedule_ical_data,
+  #                      here_rel("files", "schedule.ics")),
+  #            format = "file"),
 
 
   ## Knit the README ----

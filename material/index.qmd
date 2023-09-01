@@ -1,0 +1,5 @@
+---
+title: "Weekly Sessions"
+---
+
+This section of the website contains a detailed overview of the week, list of material you need to prepare before class, and session artifacts such as slides. You can find all the material for lab code on Github (the links will also be on these pages).

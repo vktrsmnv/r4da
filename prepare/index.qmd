@@ -1,9 +1,0 @@
----
-title: "Readings and videos"
----
-
-Each class session has a set of required readings that you should complete ***before*** attending the class. 
-
-The material is listed in the order I suggest you approach it. For each week, you will be provided with a set of guiding questions for readings and videos, which will help you with navigating through the material. 
-
-Due to copyright, links to some readings are [password-protected](https://tinyurl.com/2llcz9lg). I will tell you the password in class and you will also find it in our Slack workspace. 

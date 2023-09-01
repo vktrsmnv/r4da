@@ -1,5 +1,5 @@
 ---
-title: "Roadmap"
+title: "Overview"
 sidebar: false
 toc: false
 page-layout: full
@@ -21,30 +21,31 @@ ical_url_absolute <- paste0(base_url, "/", schedule_ical_file)
 
 ::: {.schedule-page}
 
-Here's your schedule for the semester!
+<!-- Here's your schedule for the semester! -->
 
-- [**Prepare**](/prepare/) ({{< fa book-open-reader >}}): This page contains readings and videos for the week. Read and watch these **before** our in-person class. 
+<!-- - [**Prepare**](/prepare/) ({{< fa book-open-reader >}}): This page contains readings and videos for the week. Read and watch these **before** our in-person class.  -->
 
-- [**Sessions**](/session/) ({{< fa laptop-code >}}): Here you can find the slides and further material from our in-person sessions. 
+<!-- - [**Sessions**](/session/) ({{< fa laptop-code >}}): Here you can find the slides and further material from our in-person sessions.  -->
 
-- [**Assignments**](/assignment/) ({{< fa code >}}): This page contains the instructions for weekly problem sets. 
+<!-- - [**Assignments**](/assignment/) ({{< fa code >}}): This page contains the instructions for weekly problem sets.  -->
 
 
 ```{r build-table, include=FALSE}
 show_table <- function(group_id) {
   # Add a heading
-  cat(as.character(paste("\n####", schedule_nested$group[[group_id]], "\n")))
+  cat(as.character(paste("\n##", schedule_nested$group[[group_id]], "\n")))
   
   # Make the table
   tbl <- schedule_nested$data[[group_id]] %>% 
     rename("  " = subgroup) %>% 
     # dplyr::select(-subgroup) %>% 
-    kbl(escape = FALSE, align = "rrlccc", table.attr = 'class="schedule-table"') %>% 
-    kable_styling() %>% 
+    kbl(escape = FALSE, align = "rrlcccc", table.attr = 'class="schedule-table"') %>% 
+    kable_styling(font_size = 20) %>% 
     column_spec(1, width = "10%", extra_css = "padding-right: 20px;") %>% 
     column_spec(2, width = "10%", extra_css = "padding-right: 20px;") %>% 
-    column_spec(3, width = "50%") %>% 
-    column_spec(4:6, width = "10%") 
+    column_spec(3, width = "35%") %>% 
+    column_spec(4, width = "15%") %>%
+    column_spec(5:7, width = "10%") 
     # pack_rows(index = schedule_nested$subgroup_index[[group_id]],
     #           label_row_css = "border-bottom: 1px solid #000000;")
   
