@@ -2,6 +2,9 @@
 title: "Assignments"
 ---
 
+
+Weekly problem sets will be distributed via GitHub and the README page of each repository will contain all the necessary information for that assignment. The evaluation as well as solution and feedback will also be provided via GitHub.  
+
 <!-- The main goals of this class are to help you design, critique, code, and run rigorous, valid, and feasible evaluations of public sector programs. Each type of assignment in this class is designed to help you achieve one or more of these goals. -->
 
 

@@ -1,0 +1,39 @@
+---
+title: "Meet the Toolkit"
+subtitle: "R for Data Analysis<br>Session 1"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  echo: true
+---
+
+```{r, include=FALSE}
+
+un_votes <- readr::read_csv("https://r4da.live/files/data/external_data/un_votes.csv")
+p_needed <- c("tidyverse", "scico", "icons") 
+
+# check if they are already installed, install if not installed 
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages)
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+```
+
+# Welcome 
+
+
+Slides will be available shortly before our session 

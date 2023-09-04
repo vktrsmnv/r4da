@@ -42,22 +42,23 @@ library(pander)
 
 ## Course description 
 
-Data are increasingly prevalent in politics, yet using data to learn about the events of the world is complex and challenging. In this class, we will primarily focus on two components of this process. The first part of the course will focus on R programming skills relevant for data collection and data preprocessing, which often takes a lion share of time when working with data. The second part will be devoted to statistical modeling and inference and expand your methodological knowledge in regression analysis beyond linear regression.
-In this course, you will use the open-source and free statistical programming language R—one of the most popular, sought-after, and in-demand statistical programming languages, along with other professional tools for data analysis, such as RStudio, git, and GitHub. 
+Data are increasingly prevalent in politics, yet using data to learn about the events of the world is complex and challenging. In this class, we will primarily focus on two components of this process. The first part of the course will focus on `R` programming skills relevant for data collection and data preprocessing, which often takes a lion's share of time when working with datasets. The second part will be devoted to statistical modeling and inference and expand your methodological knowledge in regression analysis beyond linear regression. In particular, we will cover some generalized linear models, which will allow you to model binary and count dependent variables. You will also learn the tools to visualize the results of our statistical analysis and communicate it in meaningful and well-interpretable way. 
+
+In this course, you will use the open-source and free statistical programming language R—one of the most popular, sought-after, and in-demand statistical programming languages, along with other professional tools for data analysis, such as RStudio, `git`, and GitHub. 
 
 <!-- No statistical or computing background is necessary to succeed in this class, although you will benefit from the course most if you have taken an introductory class in quantitative methodology. You will learn to use the open-source and free statistical programming language R—one of the most popular, sought-after, and in-demand statistical programming languages, along with other professional tools for data analysis, such as RStudio, git, and GitHub. -->
 
 ## Learning objectives 
 
-By the end of this course, you'll be able to:
+By the end of this course, you should be able to:
 
 - use the statistical programming language `R` for data wrangling and analysis 
-- translate your theory into a statistical model
-- use directed acyclic graphs (DAGs) to build causal models 
+- translate your social science theory into a statistical model
+- use directed acyclic graphs (DAGs) to build causal models and use them when building statistical models
 - create meaningful visualizations to communicate insights from statistical analysis
 - describe your analysis in research papers 
-- use Quarto to write reproducible reports 
-- use `git` and GitHub for version control and collaboration
+- use Quarto (and RMarkdown) to write reproducible reports 
+- use `git` and GitHub for version control and collaboration 
 
 
 <!-- ## Important pep talk! -->
@@ -80,9 +81,9 @@ By the end of this course, you'll be able to:
 
 ## Course materials
 
-There is no single textbook for this class, and I will be assigning chapters from various resources. All of the material will be available to you via this website. Due to copyright reasons, some of the links will be password-protected. I will tell you the password in class and will send via email at the beginning of the semester. 
+There is no single textbook for this class, and I will be assigning chapters nd video from various resources. All of the material will be available to you via this website. I will sometimes ask you to watch videos rather than read book chapters. Yet the most important part of the class will be coding and scripts, which will be made available to you via GitHub. 
 
-There will be both required and suggested material. While required ones I expect everyone to be familiar with, the suggested ones are there in case you want to dive deeper into a particular topic. 
+There will be both required and suggested material. While required texts and videos I expect everyone to be familiar with, the suggested ones are there in case you want to dive deeper into a particular topic. 
 
 
 ### Books & Videos
@@ -111,7 +112,7 @@ We will primarily use the books listed below. Most of the time these would be su
 <!-- *Thinking Clearly with Data* is an introductory book for quantitative methods, with an emphasis on research design and causal inference tools. We will read excerpts from it during the course.  -->
 <!-- *The Mixtape* is a more detailed and mathier approach to these causal inference methods, while *'Metrics Matter* is a fairly canonical (and accessible!) book in the world of econometrics.  -->
 
-For the topic of data visualization, you are welcome to look at these sources:
+While not the direct focus of this course, visualization is an essential part of working with data. Should you require more resources on the topic beyond the ones I provide you directly in class, you are welcome to look at these sources:
 
 - Kieran Healy. *Data Visualization: A Practical Introduction* (Princeton, NJ: Princeton University Press, 2018), <http://socviz.co/>.
 - Claus O. Wilke. *Fundamentals of Data Visualization.* (O’Reilly Media, 2019), <https://clauswilke.com/dataviz/>.

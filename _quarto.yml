@@ -4,6 +4,7 @@ project:
     - "*.qmd"
     - "!slides/06"
     # - "!s23/*solution.qmd"
+    - "s23/index.qmd"
     - "!s23/"
   resources:
     - "files/"
@@ -145,31 +146,31 @@ website:
         - section: "Final Project"
           contents:
             - assignment/final-project.qmd
-        - section: "Problem sets"
-          contents:
-            # - assignment/01-problem-set.qmd
-            # - assignment/02-problem-set.qmd
-            # - assignment/03-problem-set.qmd
-            # - assignment/04-problem-set.qmd
-            # - assignment/05-problem-set.qmd
-            # - assignment/06-problem-set.qmd
-            # - assignment/07-problem-set.qmd
-            # - assignment/08-problem-set.qmd
-            # - assignment/09-problem-set.qmd
-            # - assignment/10-problem-set.qmd
-            # - assignment/11-problem-set.qmd
-            # - assignment/12-problem-set.qmd
-            # - assignment/13-problem-set.qmd
-        # - section: "Solutions"
+        # - section: "Problem sets"
         #   contents:
-        #     - solutions/02-problem-set.qmd
-        #     - solutions/07-problem-set.qmd
-        #     - solutions/09-problem-set.qmd
-        #     - solutions/10-problem-set.qmd
-        #     - solutions/11-problem-set.qmd
-        # - section: "Optional"
-        #   contents:
-        #     - assignment/presentation.qmd
+        #     # - assignment/01-problem-set.qmd
+        #     # - assignment/02-problem-set.qmd
+        #     # - assignment/03-problem-set.qmd
+        #     # - assignment/04-problem-set.qmd
+        #     # - assignment/05-problem-set.qmd
+        #     # - assignment/06-problem-set.qmd
+        #     # - assignment/07-problem-set.qmd
+        #     # - assignment/08-problem-set.qmd
+        #     # - assignment/09-problem-set.qmd
+        #     # - assignment/10-problem-set.qmd
+        #     # - assignment/11-problem-set.qmd
+        #     # - assignment/12-problem-set.qmd
+        #     # - assignment/13-problem-set.qmd
+        # # - section: "Solutions"
+        # #   contents:
+        # #     - solutions/02-problem-set.qmd
+        # #     - solutions/07-problem-set.qmd
+        # #     - solutions/09-problem-set.qmd
+        # #     - solutions/10-problem-set.qmd
+        # #     - solutions/11-problem-set.qmd
+        # # - section: "Optional"
+        # #   contents:
+        # #     - assignment/presentation.qmd
 
     - title: "Resources"
       contents:
