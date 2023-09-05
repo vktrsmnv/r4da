@@ -33,7 +33,190 @@ lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packag
 lapply(p_needed, library, character.only = TRUE)
 ```
 
-# Welcome 
+
+# Welcome!
+
+## Agenda
+
+<br>
+
+### Introductions
+
+### Course Details
+
+### Meet the Toolkit
+
+### Making Your First Plot
 
 
-Slides will be available shortly before our session 
+## Teaching team 
+
+::: columns
+::: {.column width="50%"}
+### Viktoria 
+  - Ph.D. candidate and research associate 
+  - Office: A5,6 B301 
+  - Email: [`semenova@uni-mannheim.de`](mailto:semenova@uni-mannheim.de)
+  - Consultation: [Monday/Wednesday 15:30-17:00](https://calendly.com/vktrsmnv)
+:::
+
+::: {.column width="50%"}
+### David 
+  - Teaching assistant for the class 
+  - MA student in Political Science program 
+  - Email: [`davagian@mail.uni-mannheim.de`](mailto:davagian@mail.uni-mannheim.de)
+:::
+:::
+
+
+## What will you learn in this class
+
+- use the statistical programming language `R` for data wrangling and analysis
+- translate your social science theory into a statistical model
+- use directed acyclic graphs (DAGs) to build causal models and use them when building statistical models
+- create meaningful visualizations to communicate insights from statistical analysis
+- describe your analysis in research papers
+- use Quarto (and RMarkdown) to write reproducible reports
+- use `git` and GitHub for version control and collaboration
+
+# Course Details
+
+## Course Overview
+
+::: columns
+::: {.column width="20%"}
+::: {.center}
+**Monday**
+
+`r  icons::icon_style(icons::fontawesome("comment", style = "solid"), fill = "#003056")`
+
+Consultation 
+[15:30-17:00](https://calendly.com/vktrsmnv) 
+(A5, 6 B301)
+:::
+::: 
+::: {.column width="20%"}
+::: {.center}
+**Tuesday**
+
+`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` 
+
+Problem sets 
+due at 22:00 
+(GitHub)
+:::
+::: 
+::: {.column width="20%"}
+
+**Wednesday**
+
+::: {.center}
+<!--  `r  icons::icon_style(icons::fontawesome("book"), fill = "#003056")`  -->
+<!-- Reading/videos  -->
+<!-- due before class  -->
+`r icons::icon_style(icons::fontawesome("laptop-code"), fill = "#003056")` 
+Class sessions
+13:45-15:15
+(A5,6 B317)
+
+`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` 
+Problem sets 
+distributed 
+(GitHub)
+18:00
+
+:::
+::: 
+::: {.column width="20%"}
+
+::: {.center}
+**Thursday** 
+
+:::
+::: 
+::: {.column width="20%"}
+::: {.center}
+**Friday** 
+
+`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` 
+Problem sets 
+evaluation due 
+22:00
+(GitHub)
+
+::: 
+:::
+:::
+
+
+## Assessment and Grading
+
+
+- You need to show up and participate
+
+- You need to pass all homework problem sets 
+  
+  -  Weekly problem sets with coding and technical writing tasks, due Tuesday 22:00
+  -  First 2-3 are individual, then in groups of 2-3 students
+  -  Evaluation is point-based, passing means >50% points 
+  -  Deadlines are hard
+  -  Bonus: student(s) with highest homework scores get(s) 0.3 improvement of the final course grade 
+
+
+
+## Final Paper: Data Analysis Project
+
+
+- You will get a dataset and a research question you could answer using it
+- You will need to apply the skills you learned in this class to answer the research question
+- The write-up should read like the results section of a research paper
+- You will have at least 10 days to complete the task, no late work accepted 
+- _Preliminary_ time frame: **December 6-December 20, 2023** 
+- If you want to work on a paper of your own instead, talk to me before **November 15, 2023**
+
+::: task
+The final paper grade is 100% of your course grade
+:::
+
+## Course Policies 
+
+-  `r icons::fontawesome("clock")` Deadlines are hard 
+-  `r icons::fontawesome("calendar-check")` Attendance is expected (as long as you're healthy!)
+-   `r icons::fontawesome("cloud-upload-alt")` No recording during sessions or office hours
+-   `r icons::fontawesome("robot")` Don't rely on ChatGPT
+-   `r icons::fontawesome("scroll")` Check syllabus & website for updates regularly 
+-   `r icons::fontawesome("envelope")` Check email/Slack regularly  
+-   `r icons::fontawesome("comment-dots")` [Feedback and suggestions welcome anytime](https://viktoriiasemenova.typeform.com/to/A8mIv5vG)   
+
+
+## Communication & Help
+
+<!-- - Use [Discussions](https://github.com/orgs/unima-r4da-s23/discussions) in our GitHub class organisation  -->
+
+- Slack workspace is the primary forum for communication 
+  - `#course-announcements`: deadline updates, task clarifications, schedule/topic changes, etc. (please react so I see it reached you :D)
+  - `#github-updates`: automated notifications when new material is uploaded on GitHub
+  - `#help`: place for your questions and issues (ask & answer if you can)
+  - `#random`: place for various data/stats things 
+  - you can create _private_ channels for your teams or DM me 
+
+- Email me ([semenova@uni-mannheim.de](mailto:semenova@uni-mannheim.de)) for private matters (e.g., illness, accommodations, etc.)
+  - Expect response within 48 hours Monday - Friday
+
+- Office hours on Monday/Wednesday 15:30-17:00 in A5, 6, B301 ([please schedule in advance](https://calendly.com/vktrsmnv/r4da))
+
+
+## Asking for Help
+
+1. For software/installation questions: better come over during office hours
+2. For `git`/`R`-related questions: 
+  0. *Read* the error message. Often the message includes suggestions on how to resolve it.
+  1. Before posting, make sure the most recent version of your work is on GitHub (I will be able to download that exact version and see the issue)
+  2. Attach screen shots/error message when first writing the message 
+  
+  
+  
+  
+  
+  
+  

@@ -4,7 +4,14 @@ title: "Session Artifacts"
 
 Here you can find the material from the Spring 2023 iteration of the course.
 
-> Making sense of the modern world and learning new things about it demands an understanding of data, how to use it, and what conclusions can be drawn from it. In this class, we will talk about how social scientists identify causal effects (how X causes Y to happen) without experiments, what challenges this task poses, and how these problems are conceptually addressed. You will learn to implement different causal methods using R statistical programming language. Besides this, we will devote attention to effective data visualization, making you a more confident consumer and communicator of insights from your data. 
+```{=html}
+<details>
+  <summary>Course description</summary>
+  <p>Making sense of the modern world and learning new things about it demands an understanding of data, how to use it, and what conclusions can be drawn from it. In this class, we will talk about how social scientists identify causal effects (how X causes Y to happen) without experiments, what challenges this task poses, and how these problems are conceptually addressed. You will learn to implement different causal methods using R statistical programming language. Besides this, we will devote attention to effective data visualization, making you a more confident consumer and communicator of insights from your data.</p>
+</details>
+```
+
+
 
 [<button class="btn"><i class="fa fa-download"></i> Download all slides as PDF (one file)</button>](../files/r4da_s23.pdf)
 

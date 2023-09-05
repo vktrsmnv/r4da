@@ -4,8 +4,8 @@ project:
     - "*.qmd"
     - "!slides/06"
     # - "!s23/*solution.qmd"
-    - "s23/index.qmd"
-    - "!s23/"
+    # - "s23/index.qmd"
+    # - "!s23/"
   resources:
     - "files/"
     - "projects/"
