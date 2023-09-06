@@ -33,7 +33,6 @@ lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packag
 lapply(p_needed, library, character.only = TRUE)
 ```
 
-
 # Welcome!
 
 ## Agenda
@@ -46,177 +45,429 @@ lapply(p_needed, library, character.only = TRUE)
 
 ### Meet the Toolkit
 
-### Making Your First Plot
 
-
-## Teaching team 
+## Teaching team {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
-### Viktoria 
-  - Ph.D. candidate and research associate 
-  - Office: A5,6 B301 
-  - Email: [`semenova@uni-mannheim.de`](mailto:semenova@uni-mannheim.de)
-  - Consultation: [Monday/Wednesday 15:30-17:00](https://calendly.com/vktrsmnv)
+### Instructor
+
+-   Viktoriia Semenova
+-   Ph.D. candidate and research associate
+-   Office: A5,6 B301
+-   Email: [`semenova@uni-mannheim.de`](mailto:semenova@uni-mannheim.de)
+-   Consultation: [Monday/Wednesday 15:30-17:00](https://calendly.com/vktrsmnv)
 :::
 
 ::: {.column width="50%"}
-### David 
-  - Teaching assistant for the class 
-  - MA student in Political Science program 
-  - Email: [`davagian@mail.uni-mannheim.de`](mailto:davagian@mail.uni-mannheim.de)
-:::
-:::
+### Teaching assistant
 
+-   David Avagian
+-   MA student in Political Science program
+-   Email: [`davagian@mail.uni-mannheim.de`](mailto:davagian@mail.uni-mannheim.de)
+:::
+:::
 
 ## What will you learn in this class
 
-- use the statistical programming language `R` for data wrangling and analysis
-- translate your social science theory into a statistical model
-- use directed acyclic graphs (DAGs) to build causal models and use them when building statistical models
-- create meaningful visualizations to communicate insights from statistical analysis
-- describe your analysis in research papers
-- use Quarto (and RMarkdown) to write reproducible reports
-- use `git` and GitHub for version control and collaboration
+-   use the statistical programming language `R` for data wrangling and analysis
+-   translate your social science theory into a statistical model
+-   use directed acyclic graphs (DAGs) to build causal models and use them when building statistical models
+-   create meaningful visualizations to communicate insights from statistical analysis
+-   describe your analysis in research papers
+-   use Quarto (and RMarkdown) to write reproducible reports
+-   use `git` and GitHub for version control and collaboration
+
+
+## What You Will Learn
+
+simulation text!
+
+
+DAG 
+
+
+
+## Your Expectations
+
+
+- Majority - no experience with R 
+- Issues most confusing and unclear about empirical analysis 
+
+> Choosing the right method of analysis (for the Research question) <br>
+> To find the right variables <br>
+> Being aware of the results and limitations <br>
+> Translating concepts into variables for OLS
+
+
+
+
+<!-- ```{r} -->
+<!-- responses <- read_csv("data/responses.csv") -->
+<!-- responses$`Have you taken any statistics classes before?` -->
+<!-- responses$`What part of the process of writing such paper(s) was the most confusing and unclear? Why?` -->
+
+
+<!-- ``` -->
+
+
 
 # Course Details
 
-## Course Overview
+## Schedule Overview {.smaller}
 
 ::: columns
 ::: {.column width="20%"}
-::: {.center}
+::: center
 **Monday**
 
 `r  icons::icon_style(icons::fontawesome("comment", style = "solid"), fill = "#003056")`
 
-Consultation 
-[15:30-17:00](https://calendly.com/vktrsmnv) 
-(A5, 6 B301)
+Consultation [15:30-17:00](https://calendly.com/vktrsmnv) (A5, 6 B301)
 :::
-::: 
+:::
+
 ::: {.column width="20%"}
-::: {.center}
+::: center
 **Tuesday**
 
-`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` 
+`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")`
 
-Problem sets 
-due at 22:00 
-(GitHub)
+Problem sets due at 22:00 (GitHub)
 :::
-::: 
-::: {.column width="20%"}
+:::
 
+::: {.column width="20%"}
 **Wednesday**
 
-::: {.center}
+::: center
 <!--  `r  icons::icon_style(icons::fontawesome("book"), fill = "#003056")`  -->
+
 <!-- Reading/videos  -->
+
 <!-- due before class  -->
-`r icons::icon_style(icons::fontawesome("laptop-code"), fill = "#003056")` 
-Class sessions
-13:45-15:15
-(A5,6 B317)
 
-`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` 
-Problem sets 
-distributed 
-(GitHub)
-18:00
+`r icons::icon_style(icons::fontawesome("laptop-code"), fill = "#003056")` Class sessions 13:45-15:15 (A5,6 B317)
 
+`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` Problem sets distributed (GitHub) 18:00
 :::
-::: 
+:::
+
 ::: {.column width="20%"}
-
-::: {.center}
-**Thursday** 
-
+::: center
+**Thursday**
 :::
-::: 
+:::
+
 ::: {.column width="20%"}
-::: {.center}
-**Friday** 
+::: center
+**Friday**
 
-`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` 
-Problem sets 
-evaluation due 
-22:00
-(GitHub)
-
-::: 
+`r  icons::icon_style(icons::fontawesome("laptop-house"), fill = "#003056")` Problem sets evaluation due 22:00 (GitHub)
+:::
 :::
 :::
 
+## Assessment and Grading {.smaller}
 
-## Assessment and Grading
+-   You need to show up and participate
 
+-   You need to pass all homework problem sets
 
-- You need to show up and participate
+    -   Weekly problem sets with coding and technical writing tasks, due Tuesday 22:00
+    -   First 2-3 are individual, then in groups of 2-3 students
+    -   Solutions are posted, *you* are evaluating yourselves by Friday 22:00
+    -   Evaluation is point-based, passing means \>50% points
+    -   Deadlines are hard
+    -   Bonus: student(s) with highest homework scores get(s) 0.3 improvement of the final course grade
 
-- You need to pass all homework problem sets 
-  
-  -  Weekly problem sets with coding and technical writing tasks, due Tuesday 22:00
-  -  First 2-3 are individual, then in groups of 2-3 students
-  -  Evaluation is point-based, passing means >50% points 
-  -  Deadlines are hard
-  -  Bonus: student(s) with highest homework scores get(s) 0.3 improvement of the final course grade 
+## Final Paper: Data Analysis Project {.smaller}
 
-
-
-## Final Paper: Data Analysis Project
-
-
-- You will get a dataset and a research question you could answer using it
-- You will need to apply the skills you learned in this class to answer the research question
-- The write-up should read like the results section of a research paper
-- You will have at least 10 days to complete the task, no late work accepted 
-- _Preliminary_ time frame: **December 6-December 20, 2023** 
-- If you want to work on a paper of your own instead, talk to me before **November 15, 2023**
+-   You will get a dataset and a research question you could answer using it
+-   You will need to apply the skills you learned in this class to answer the research question
+-   The write-up should read like the results section of a research paper
+-   You will have at least 10 days to complete the task, no late work accepted
+-   *Preliminary* time frame: **December 6-December 20, 2023**
+-   If you want to work on a paper of your own instead, talk to me before **November 15, 2023**
 
 ::: task
 The final paper grade is 100% of your course grade
 :::
 
-## Course Policies 
+## Course Policies {.smaller}
 
--  `r icons::fontawesome("clock")` Deadlines are hard 
--  `r icons::fontawesome("calendar-check")` Attendance is expected (as long as you're healthy!)
--   `r icons::fontawesome("cloud-upload-alt")` No recording during sessions or office hours
--   `r icons::fontawesome("robot")` Don't rely on ChatGPT
--   `r icons::fontawesome("scroll")` Check syllabus & website for updates regularly 
--   `r icons::fontawesome("envelope")` Check email/Slack regularly  
--   `r icons::fontawesome("comment-dots")` [Feedback and suggestions welcome anytime](https://viktoriiasemenova.typeform.com/to/A8mIv5vG)   
+`r icons::fontawesome("clock")` Deadlines are hard
 
+`r icons::fontawesome("calendar-check")` Attendance is expected (as long as you're healthy!)
 
-## Communication & Help
+`r icons::fontawesome("cloud-upload-alt")` No recording during sessions or office hours
+
+<!-- -   `r icons::fontawesome("robot")` Generative AI policy -->
+
+`r icons::fontawesome("scroll")` Check syllabus & website for updates regularly
+
+`r icons::fontawesome("envelope")` Check email/Slack regularly
+
+`r icons::fontawesome("comment-dots")` [Feedback and suggestions welcome anytime](https://viktoriiasemenova.typeform.com/to/A8mIv5vG)
+
+## Generative AI policy {.smaller}
+
+You should treat generative AI, such as ChatGPT, the same as other online resources. There are two guiding principles that govern how you can use AI in this course:[^1]
+
+[^1]: These guiding principles are based on [*Course Policies related to ChatGPT and other AI Tools*](https://docs.google.com/document/d/1WpCeTyiWCPQ9MNCsFeKMDQLSTsg1oKfNIH6MzoSFXqQ/preview) developed by Joel Gladd, Ph.D.
+
+\(1\) *Cognitive dimension:* Working with AI should not reduce your ability to think clearly. We will practice using AI to facilitate---rather than hinder---learning.
+
+\(2\) *Ethical dimension***:** Students using AI should be transparent about their use and make sure it aligns with academic integrity.
+
+-   **✅ AI tools for code:** You may make use of the technology for coding examples on assignments; if you do so, you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism.
+
+-   **❌ AI tools for narrative:** Unless instructed otherwise, you may not use generative AI to write narrative on assignments. In general, you may use generative AI as a resource as you complete assignments but not to answer the exercises for you. You are ultimately responsible for the work you turn in; it should reflect your understanding of the course content.
+
+## Communication & Help {.smaller}
 
 <!-- - Use [Discussions](https://github.com/orgs/unima-r4da-s23/discussions) in our GitHub class organisation  -->
 
-- Slack workspace is the primary forum for communication 
-  - `#course-announcements`: deadline updates, task clarifications, schedule/topic changes, etc. (please react so I see it reached you :D)
-  - `#github-updates`: automated notifications when new material is uploaded on GitHub
-  - `#help`: place for your questions and issues (ask & answer if you can)
-  - `#random`: place for various data/stats things 
-  - you can create _private_ channels for your teams or DM me 
+-   Slack workspace is the primary forum for communication
+    -   `#course-announcements`: deadline updates, task clarifications, schedule/topic changes, etc. (please react so I see it reached you :D)
+    -   `#github-updates`: automated notifications when new material is uploaded on GitHub
+    -   `#help`: place for your questions and issues (ask & answer if you can)
+    -   `#random`: place for various data/stats things
+    -   you can create *private* channels for your teams or DM me
+-   Email me ([semenova\@uni-mannheim.de](mailto:semenova@uni-mannheim.de)) for private matters (e.g., illness, accommodations, etc.)
+    -   Expect response within 48 hours Monday - Friday
+-   Office hours on Monday/Wednesday 15:30-17:00 in A5, 6, B301 ([please schedule in advance](https://calendly.com/vktrsmnv/r4da))
 
-- Email me ([semenova@uni-mannheim.de](mailto:semenova@uni-mannheim.de)) for private matters (e.g., illness, accommodations, etc.)
-  - Expect response within 48 hours Monday - Friday
+## Asking for Help {.smaller}
 
-- Office hours on Monday/Wednesday 15:30-17:00 in A5, 6, B301 ([please schedule in advance](https://calendly.com/vktrsmnv/r4da))
+1.  For software/installation questions: better come over during office hours
+2.  For `git`/`R`-related questions:
 
+-   *Read* the error message. Often the message includes suggestions on how to resolve it.
+-   Before posting, make sure the most recent version of your work is on GitHub (I will be able to download that exact version and see the issue)
+-   Attach screen shots/error message when first writing the message
+-   Use formatting for code parts (easier copypaste + aesthetics)
 
-## Asking for Help
+![](images/slack-formatting.png)
 
-1. For software/installation questions: better come over during office hours
-2. For `git`/`R`-related questions: 
-  0. *Read* the error message. Often the message includes suggestions on how to resolve it.
-  1. Before posting, make sure the most recent version of your work is on GitHub (I will be able to download that exact version and see the issue)
-  2. Attach screen shots/error message when first writing the message 
-  
-  
-  
-  
-  
-  
-  
+## Course website: <http://r4da.live/>
+
+<!-- ::: hand -->
+
+<!-- **R** for **D**ata **A**nalysis -->
+
+<!-- ::: -->
+
+![](images/r4da.png)
+
+# Meet the Toolkit
+
+## Class technology
+
+::: center
+<img src="https://datavizs22.classes.andrewheiss.com/slides/img/01/complexity-chart@4x.png" width="70%" height="70%"/>
+:::
+
+# Programming
+
+## R is a popular language
+
+![](images/tiobe-15.png){width="1176"}
+
+<center>
+
+.tiny\[Source: <https://www.tiobe.com/tiobe-index/>\]
+
+## Visualization Examples {.smaller}
+
+::: columns
+::: {.column width="20%"}
+[BBC Visual and Data Journalism team works with graphics in R](https://medium.com/bbc-visual-and-data-journalism/how-the-bbc-visual-and-data-journalism-team-works-with-graphics-in-r-ed0b35693535)
+
+So does [The Financial Times](https://blog.revolutionanalytics.com/2018/06/ft-bbc-uses-r.html)
+:::
+
+::: {.column width="80%"}
+![](https://miro.medium.com/max/3900/0*DDRU1L5LIJkgDBxd.png)
+:::
+:::
+
+## R and RStudio {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](images/r-logo.png){fig-alt="R logo" fig-align="center"}
+
+-   R is an open-source statistical **programming language**
+-   R is also an environment for statistical computing and graphics
+-   It's easily extensible with *packages*
+:::
+
+::: {.column .fragment width="50%"}
+![](images/rstudio-logo.png){fig-alt="RStudio logo"}
+
+-   RStudio is a convenient interface for R called an **IDE** (integrated development environment), e.g. *"I write R code in the RStudio IDE"*
+-   RStudio is not a requirement for programming with R, but it's very commonly used by R programmers and data scientists
+:::
+:::
+
+## R and RStudio
+
+![](https://r4da.live/files/img/prepare/r_vs_rstudio_1.png){fig-alt="On the left: a car engine. On the right: a car dashboard. The engine is labelled R. The dashboard is labelled RStudio." fig-align="center" width="1001"}
+
+::: aside
+Source: [Modern Dive](https://moderndive.com/1-getting-started.html).
+:::
+
+## Tour: R and RStudio
+
+![](images/tour-r-rstudio.png)
+
+## A short list (for now) of `R` essentials
+
+-   Functions are (most often) verbs, followed by what they will be applied to in parentheses:
+
+```{r}
+#| eval: false
+
+do_this(to_this)
+do_that(to_this, to_that, with_those)
+```
+
+. . .
+
+-   Packages are installed with the `install.packages()` function and loaded with the `library` function, once per session:
+
+```{r}
+#| eval: false
+
+install.packages("package_name") # once per device
+library(package_name) # once per session
+```
+
+## R essentials (continued)
+
+-   Columns (variables) in data frames are accessed with `$`:
+
+```{r}
+#| eval: false
+
+dataframe$var_name
+```
+
+. . .
+
+-   Object documentation can be accessed with `?`
+
+```{r}
+#| eval: false
+
+?mean
+```
+
+## Packages in R
+
+::: center
+<img src="https://evalf22.classes.andrewheiss.com/slides/img/01-class/02/packages-base.png" width="80%" height="80%"/>
+:::
+
+## Packages in R
+
+::: center
+<img src="https://evalf22.classes.andrewheiss.com/slides/img/01-class/02/packages-packages.png" width="80%" height="80%"/>
+:::
+
+## tidyverse
+
+::: columns
+::: {.column width="50%"}
+[![](images/tidyverse.png){fig-alt="Hex logos for dplyr, ggplot2, forcats, tibble, readr, stringr, tidyr, and purrr" width="573"}](https://tidyverse.org)
+:::
+
+::: {.column width="50%"}
+[tidyverse.org](https://www.tidyverse.org/)
+
+-   The **tidyverse** is an opinionated collection of R packages designed for data science
+-   All packages share an underlying philosophy and a common grammar
+:::
+:::
+
+<!-- ## Tidyverse  -->
+
+<!--  <br> -->
+
+<!-- ![](https://evalf22.classes.andrewheiss.com/slides/img/01/tidyverse-language.png){width="1451"} -->
+
+# Version Control
+
+## Git and GitHub
+
+::: columns
+::: {.column width="50%"}
+![](images/git-logo.png){fig-alt="Git logo" fig-align="center" width="200"}
+
+Git is a version control system, like "Track Changes" features from Microsoft Word but more powerful.
+:::
+
+::: {.column width="50%"}
+![](images/github-logo.png){fig-alt="GitHub logo" fig-align="center" width="200"}
+
+GitHub is the home for your Git-based projects on the internet, like Dropbox but much better.
+:::
+:::
+
+## Why `git`?
+
+::: center
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- <img src="https://pbs.twimg.com/media/C3maMplVYAAv-mf.jpg" width="60%" height="60%"> -->
+
+<!-- :::  -->
+
+<!-- ::: {.column width="50%"} -->
+
+![](https://r4da.live/files/img/prepare/lego-steps-commit-messages.png) <!-- ::: --> <!-- :::  -->
+:::
+
+## GitHub {.smaller}
+
+::: center
+::: large
+[`https://github.com/r4da-f23`](https://github.com/r4da-f23)
+:::
+:::
+
+<br>
+
+-   GitHub organization for the course
+
+-   All of your work and your membership (enrollment) in the organization is private
+
+-   Each assignment is a private repo on GitHub, I distribute the assignments on GitHub and you submit them there
+
+-   Feedback & solutions are also uploaded to your repos
+
+::: task
+Make your account **today** so I can distribute the first problem set to you. Use ILIAS login as a username so I can find you easily.
+:::
+
+## GitHub Workflow
+
+![](https://r4da.live/files/img/prepare/github-workflow-04.png)
+
+# Quarto
+
+## Quarto
+
+::: incremental
+-   Fully reproducible reports -- each time you render the analysis is ran from the beginning
+-   Code goes in chunks narrative goes outside of chunks
+-   A visual editor for a familiar / Google docs-like editing experience
+:::
+
+## Tour: Quarto
+
+![](images/tour-quarto.png){fig-alt="RStudio IDE with a Quarto document, source code on the left and output on the right. Annotated to show the YAML, a link, a header, and a code chunk." fig-align="center"}
