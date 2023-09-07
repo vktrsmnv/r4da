@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viktoriia Semenova">
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Writing Empirical Papers</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta property="og:title" content="R for Data Analysis - Writing Empirical Papers">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 14">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-essay-due-june-13-2023-2359" id="toc-data-essay-due-june-13-2023-2359" class="nav-link active" data-scroll-target="#data-essay-due-june-13-2023-2359">Data Essay: Due June 13, 2023, 23:59</a></li>
+  <li><a href="#empirical-paper-structure" id="toc-empirical-paper-structure" class="nav-link" data-scroll-target="#empirical-paper-structure">Empirical Paper Structure</a></li>
+  <li><a href="#empirical-strategy" id="toc-empirical-strategy" class="nav-link" data-scroll-target="#empirical-strategy">Empirical Strategy</a></li>
+  <li><a href="#empirical-startegy-i" id="toc-empirical-startegy-i" class="nav-link" data-scroll-target="#empirical-startegy-i">Empirical Startegy I</a></li>
+  <li><a href="#empirical-strategy-ii" id="toc-empirical-strategy-ii" class="nav-link" data-scroll-target="#empirical-strategy-ii">Empirical Strategy II</a></li>
+  <li><a href="#results-i-regression-results" id="toc-results-i-regression-results" class="nav-link" data-scroll-target="#results-i-regression-results">Results I: Regression Results</a></li>
+  <li><a href="#more-on-using-tables-and-figures" id="toc-more-on-using-tables-and-figures" class="nav-link" data-scroll-target="#more-on-using-tables-and-figures">More on Using Tables and Figures</a></li>
+  <li><a href="#results-ii-substantive-interpretation" id="toc-results-ii-substantive-interpretation" class="nav-link" data-scroll-target="#results-ii-substantive-interpretation">Results II: Substantive Interpretation</a></li>
+  <li><a href="#results-iii-robustness-and-limitations" id="toc-results-iii-robustness-and-limitations" class="nav-link" data-scroll-target="#results-iii-robustness-and-limitations">Results III: Robustness and Limitations</a></li>
+  <li><a href="#example-i" id="toc-example-i" class="nav-link" data-scroll-target="#example-i">Example I</a>
+  <ul>
+  <li><a href="#paper-with-observational-data-regression" id="toc-paper-with-observational-data-regression" class="nav-link" data-scroll-target="#paper-with-observational-data-regression">Paper with Observational Data &amp; Regression</a></li>
+  <li><a href="#empirical-strategy-data-description" id="toc-empirical-strategy-data-description" class="nav-link" data-scroll-target="#empirical-strategy-data-description">Empirical Strategy: Data Description</a></li>
+  <li><a href="#empirical-strategy-dependent-variable" id="toc-empirical-strategy-dependent-variable" class="nav-link" data-scroll-target="#empirical-strategy-dependent-variable">Empirical Strategy: Dependent Variable</a></li>
+  <li><a href="#empirical-strategy-independent-variables" id="toc-empirical-strategy-independent-variables" class="nav-link" data-scroll-target="#empirical-strategy-independent-variables">Empirical Strategy: Independent Variables</a></li>
+  <li><a href="#empirical-strategy-control-variables" id="toc-empirical-strategy-control-variables" class="nav-link" data-scroll-target="#empirical-strategy-control-variables">Empirical Strategy: Control Variables</a></li>
+  <li><a href="#empirical-strategy-statistical-model" id="toc-empirical-strategy-statistical-model" class="nav-link" data-scroll-target="#empirical-strategy-statistical-model">Empirical Strategy: Statistical Model</a></li>
+  <li><a href="#empirical-results" id="toc-empirical-results" class="nav-link" data-scroll-target="#empirical-results">Empirical Results</a></li>
+  </ul></li>
+  <li><a href="#example-ii" id="toc-example-ii" class="nav-link" data-scroll-target="#example-ii">Example II</a>
+  <ul>
+  <li><a href="#candidates-political-incentives-broockman-2013" id="toc-candidates-political-incentives-broockman-2013" class="nav-link" data-scroll-target="#candidates-political-incentives-broockman-2013">Candidates’ Political Incentives (Broockman 2013)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Writing Empirical Papers</h1>
+<p class="subtitle lead">Data Analytics and Visualization with R<br>Session 14</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Viktoriia Semenova 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="data-essay-due-june-13-2023-2359" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="data-essay-due-june-13-2023-2359">Data Essay: Due June 13, 2023, 23:59</h2>
+<ul>
+<li><p>The text should read like a research design and data analysis parts of a research paper, no longer than 3500 words (less is better)</p></li>
+<li><p>Your GitHub repo should contain all replication material</p>
+<ul>
+<li>All steps of the analysis should be performed in <code>R</code> and documented in a <code>qmd</code> file</li>
+<li>Your code should be well-documented, commented out and run smoothly</li>
+</ul></li>
+<li><p>Your essay in PDF format (with a signed statutory declaration) should be on ILIAS, too</p></li>
+<li><p>No collaboration allowed at this stage</p></li>
+<li><p>For conceptual questions, ask me via Slack DM or during office hours</p></li>
+<li><p>For <code>R</code>/<code>Git</code> errors, post on Slack <code>#help</code> channel</p></li>
+</ul>
+</section>
+<section id="empirical-paper-structure" class="level2 scrollable">
+<h2 class="scrollable anchored" data-anchor-id="empirical-paper-structure">Empirical Paper Structure</h2>
+<ul>
+<li>Introduction</li>
+<li>Literature Review</li>
+<li>Theory</li>
+<li><strong>Empirical Strategy (aka Research Design)</strong></li>
+<li><strong>Results</strong></li>
+<li><strong>Robustness Tests</strong></li>
+<li>Conclusion</li>
+</ul>
+</section>
+<section id="empirical-strategy" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy">Empirical Strategy</h2>
+<ul>
+<li>There are various ways to structure your this section. It depends on what you are doing in that paper.</li>
+<li>Often a good approach is to find a nice (i.e.&nbsp;published in good journal) paper that does something similar (e.g.&nbsp;also RDD or also matching), and loosely follow the <em>structure</em> of it</li>
+<li>Think of this section as:
+<ul>
+<li>guidance for replicating your analysis (i.e.&nbsp;no steps should be omitted in discussion, otherwise one cannot replicate it)</li>
+<li>justification that what you are doing is the best thing you can do with what you have
+<ul>
+<li>in this data essay, this means the best you can do <em>with the data given</em></li>
+<li>in general, when you also select datasets to test your hypotheses, justification of case/data selection is required</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="empirical-startegy-i" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-startegy-i">Empirical Startegy I</h2>
+<ul>
+<li><p>Discuss the data you are using to test the hypotheses:</p>
+<ul>
+<li>sources, coverage of the final dataset (geographical &amp; temporal): justify the selection</li>
+<li>mention any preprocessing step you make: did you drop any cases? did you select any subsamples for main analysis?</li>
+</ul></li>
+<li><p>Discuss the operationalization of your main variables</p>
+<ul>
+<li>level of measurement</li>
+<li>if there are alternatives for measurement, why you opt for this one (you may include others as robustness if there are no clear preferences though)</li>
+</ul></li>
+<li><p>Start with descriptive stats for main variables and general info, like the number of cases, etc.</p></li>
+<li><p>Do not put tables with descriptive stats for <em>all</em> variables you’re using in main text. Put the full table in Appendix</p></li>
+<li><p>In main text, use crosstabs for <em>main variables</em> for summary stats or Graphs for (conditional) distributions of DV: over time (if applicable), main IVs. Include the most informative option, not everything</p></li>
+</ul>
+</section>
+<section id="empirical-strategy-ii" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy-ii">Empirical Strategy II</h2>
+<ul>
+<li><p>Discuss how you plan to identify the relationship between your main IV and DV:</p>
+<ul>
+<li>Do you opt for regression or something else?<br>
+</li>
+<li>Papers that primarily utilize experimental data, diff-in-diff or RDD often state right away that they use it (see e.g.&nbsp;Broockman 2013)</li>
+<li>When working with regression, explain what control variables you include and why.</li>
+<li>Do you include fixed effects? What do they help to account for?</li>
+<li>When using matching, you can either do it from the start and explain why statistical control is a superior approach or start with a multiple regression and then use matching as a robustness check for your regression (if the results hold, of course)</li>
+<li>If you used a DAG for model building &amp; covariate selection, you can put it in the main text or, better, in Appendix</li>
+</ul></li>
+<li><p>When describing modeling approach, discuss which model you select (e.g., linear vs.&nbsp;logistic regression) and why (e.g.&nbsp;nature of the dependent variable)</p></li>
+<li><p>It may be helpful to include the complete regression equation to illustrate model specifications (see Problem Sets for examples)</p></li>
+</ul>
+</section>
+<section id="results-i-regression-results" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="results-i-regression-results">Results I: Regression Results</h2>
+<ul>
+<li>Explain what you have done step-by-step, building from simple to more complex</li>
+<li>Include all models into one well-formatted table (if you do different analyses, like with completely different sets of IVs, it may be a good idea to split tables). Report the models that are central for your argument</li>
+<li>Never leave tables/models and graphs hanging in the paper with no comments in the text. Make sure you refer to each table/model/figure (not necessarily in equal amount of detail)</li>
+<li>Focus on interpretation of the effects for your main independent variables in terms of sign, size (where possible), and statistical significance. Don’t go into much depth about controls</li>
+<li>There is usually no need to include a long discussion and plots for model diagnostics in the main text. Just mention that you have done the tests and whether the model assumptions hold (hopefully, they will, if not - respecify model). It will be a good idea, however, to put model diagnostics plots/tables into appendix and provide some comments there.</li>
+</ul>
+</section>
+<section id="more-on-using-tables-and-figures" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="more-on-using-tables-and-figures">More on Using Tables and Figures</h2>
+<ul>
+<li>Tables and figures should be clear, easily legible, and quickly understood by the reader</li>
+<li>Tables and figures should stand alone, and not require the reader to reference the text at all (but should still be described in text!)</li>
+<li>This requires a table/figure to minimally contain:
+<ul>
+<li>A title explaining the material concisely and clearly, with information about the outcome variable of other meaningful quantity of interest describe</li>
+<li>Information on the sample time period and number of observations included</li>
+<li>A note or notes that describe clearly what different cell entries or graphed material represents</li>
+<li>Meaningful variable names or labels, which clearly indicate meaning</li>
+<li>Clear and documented units of measurement</li>
+<li>Legends and captions that provide additional information when necessary</li>
+</ul></li>
+</ul>
+</section>
+<section id="results-ii-substantive-interpretation" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="results-ii-substantive-interpretation">Results II: Substantive Interpretation</h2>
+<ul>
+<li>When model coefficients are not easily interpretable, other more understandable quantities should be produced for the reader along with their estimation uncertainty</li>
+<li>Best option would be to use simulations for your main model</li>
+<li>Mention which model you picked and explain why (probably this would be your main model with all confounders included)</li>
+<li>Use appropriate quantities of interest and meaningful scenarios (e.g., typical case in the data)<br>
+</li>
+<li>Discuss the substantive magnitude of the effects as well the uncertainty surrounding those effects</li>
+<li>In the notes to the plot (or on the plot), mention the model you used to produce the plot and the level of confidence intervals</li>
+</ul>
+</section>
+<section id="results-iii-robustness-and-limitations" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="results-iii-robustness-and-limitations">Results III: Robustness and Limitations</h2>
+<ul>
+<li>Robustness: are your findings heavily dependent on the data/model you choose?</li>
+<li>Here you pretty much show that your results are not a result of you spending hours running models and carefully selecting the data/model/specification that produce significant results but they hold regardless of some changes in the empirical strategy
+<ul>
+<li>Try alternative measures for variables (e.g., different democracy scores)</li>
+<li>Try different model/specification: e.g., interaction/subsamples, etc.</li>
+<li>Try matching/IPW in addition to statistical control in regression if vyou suspect selection bias (you can dichotomize the IV if it’s continuous if you want to match on it)</li>
+</ul></li>
+<li>Limitations: what are the shortcomings of your analysis despite your best efforts?
+<ul>
+<li>Any data-related limitations? measurement?</li>
+<li>Any important but missing (maybe due to data availability) issues?</li>
+<li>Any alternative explanations for patters you find that you can’t rule out?</li>
+</ul></li>
+<li>Think of this part as a way to show that not only did you do the analysis but you also see what could be improved and that you have thought about these potential problems of your study.</li>
+</ul>
+</section>
+<section id="example-i" class="level1">
+<h1>Example I</h1>
+<section id="paper-with-observational-data-regression" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="paper-with-observational-data-regression">Paper with Observational Data &amp; Regression</h2>
+<p><a href="https://www.cogitatiopress.com/politicsandgovernance/article/view/919/919">On the Distinct Effects of Left-Wing and Right-Wing Populism on Democratic Quality</a></p>
+<ul>
+<li>An example of a well-structured empirical paper (not the <em>best</em> paper overall on the topic though)</li>
+</ul>
+<blockquote class="blockquote">
+<p>This study examines the differences and commonalities of how populist parties of the left and right relate to democracy. The focus is narrowed to the relationship between these parties and two aspects of democratic quality, minority rights and mutual constraints. Our argument is twofold: first, we contend that populist parties can exert distinct influences on minority rights, depending on whether they are left-wing or right-wing populist parties. Second, by contrast, we propose that the association between populist parties and mutual constraints is a consequence of the populist element and thus, we expect no differences between the left-wing and right-wing parties. We test our expectations against data from 30 European countries between 1990 and 2012. Our empirical findings support the argument for the proposed differences regarding minority rights and, to a lesser extent, the proposed similarities regarding mutual constraints. Therefore we conclude that, when examining the relationship between populism and democracy, populism should not be considered in isolation from its host ideology.</p>
+</blockquote>
+</section>
+<section id="empirical-strategy-data-description" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy-data-description">Empirical Strategy: Data Description</h2>
+<blockquote class="blockquote">
+<p>To test our theoretical arguments, we use a twofold strategy. First, we assess the differences between populist parties in government and opposition. Second, we distinguish between left-wing, center and right-wing populism to investigate the expected associations with minority rights and mutual constraints.</p>
+<p>Empirically, we use a pooled cross-sectional design. Since we use the role within a political system as well as a party’s host ideology, we opted for cabinets as the temporal unit of analysis. This approach allows us to determine whether a party is in government or opposition with great precision, while other approaches such as country-years are considerably more imprecise. Our data includes information from 30 European countries between 1990 and 2012. This time span captures major events for European populist parties, from their establishment through their rise. We exclude cabinets with duration of fewer than six months as we assume that any measurable impact is only evident after some time.</p>
+</blockquote>
+</section>
+<section id="empirical-strategy-dependent-variable" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy-dependent-variable">Empirical Strategy: Dependent Variable</h2>
+<ul>
+<li>Because the datasets mentioned here are large and well-known, it may be okay to include raw variable names as authors do. But better avoid doing this</li>
+<li>Better if summary stats/plots with (conditional) distribution were also included</li>
+</ul>
+<blockquote class="blockquote">
+<p>To measure democratic quality based on our concept of liberal democracy, we draw on three different sources. We measure aggregated liberal democratic quality by using the liberal democracy score (<code>v2x_libdem</code>) of the Varieties of Democracy Project (Coppedge et al., 2011). To capture the two subdimensions, mutual constraints, and minority rights, we rely on the Democracy Barometer. For mutual constraints, we use the aggregated dimension of horizontal checks (<code>MC_CHECKS</code>, Merkel et al., 2016, p.&nbsp;29) which measures the balance between executive and legislative (ratio of parliamentary seats controlled by government to parliamentary seats controlled by opposition), the balance of checks between executive and legislative (ratio of control instruments of legislative over executive to control instruments of executive over legislative), and the power of judicial branch to review political decisions. This measure taps into the checks-and-balances aspect. For minority rights, we use an indicator for the effective access to power for minorities (<code>REP_DR3</code>, Merkel et al., 2016, p.&nbsp;53) that measures the descriptive representation of minorities and the extent to which they have access to central power.</p>
+</blockquote>
+</section>
+<section id="empirical-strategy-independent-variables" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy-independent-variables">Empirical Strategy: Independent Variables</h2>
+<p><see paper=""></see></p>
+<ul>
+<li>Variable coding description (detailed, but not step-by-step coding description)</li>
+<li>Exclusions based on this variable mentioned</li>
+</ul>
+</section>
+<section id="empirical-strategy-control-variables" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy-control-variables">Empirical Strategy: Control Variables</h2>
+<ul>
+<li>Variables + unit measured; detailed justification saved for appendix</li>
+<li>If space allows, better include justification right in this section</li>
+</ul>
+<blockquote class="blockquote">
+<p>In addition to our central variables, we include a selected set of covariates that, in theory, may relate to both the presence of populist parties as well as the levels of our democratic measures. These variables are the level of democratic consolidation (time in years since democratization), cabinet duration (in years), cabinet composition (surplus governments, minimal winning coalitions, and minority governments), economic development (GDP per Capita in 1,000 US Dollar), and a dichotomous variable to distinguish between post-communist countries and other countries. A detailed rationale for the inclusion of these variables can be found in Appendix C.</p>
+</blockquote>
+</section>
+<section id="empirical-strategy-statistical-model" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-strategy-statistical-model">Empirical Strategy: Statistical Model</h2>
+<ul>
+<li>Techy description (don’t worry if you don’t get it)</li>
+<li>Linear is often the default and people don’t justify it. But if <em>not</em> using the linear model, justification is required</li>
+</ul>
+<blockquote class="blockquote">
+<p>To control for country-specific effects, we apply a <strong>linear</strong> mixed-effects model with cabinets nested under each country (Gelman &amp; Hill, 2007). The respective countries serve as groups. This particular model also allows us to compare both intra- and cross-country variance. Given our interest in the change in democratic quality as a consequence of the presence of populist parties, modeling intra-country variance allows us to approximate this process.</p>
+</blockquote>
+</section>
+<section id="empirical-results" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="empirical-results">Empirical Results</h2>
+<ul>
+<li>No table, instead the coefficient plot (table is still there in the Appendix) + description of the plot in text (see paper)</li>
+<li>No further quantities presented (okay as it’s a linear model)</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/cogitato.png" class="img-fluid figure-img" width="786"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="example-ii" class="level1">
+<h1>Example II</h1>
+<section id="candidates-political-incentives-broockman-2013" class="level2 smaller scrollable">
+<h2 class="smaller scrollable anchored" data-anchor-id="candidates-political-incentives-broockman-2013">Candidates’ Political Incentives (Broockman 2013)</h2>
+<ul>
+<li><p>Paper used in matching lab/problem set: <a href="https://onlinelibrary.wiley.com/doi/10.1111/ajps.12018" class="uri">https://onlinelibrary.wiley.com/doi/10.1111/ajps.12018</a></p></li>
+<li><p>Empirical Strategy:</p>
+<ul>
+<li>Description of the original experimental design in detail</li>
+<li>Identification Strategy: experiment allows to isolate effects due to randomization</li>
+<li>Data on Legislators and Excluded Observations: who were interviewed? who were dropped and why?</li>
+</ul></li>
+<li><p>Results:</p>
+<ul>
+<li>Single table with model specifications for main results</li>
+<li>Each model is described</li>
+<li>Matching as alternative to statistical control for non-random variable is included</li>
+</ul></li>
+<li><p>Robustness:</p>
+<ul>
+<li>Potential alternate explanations tested &amp; discussed and ruled out</li>
+</ul></li>
+</ul>
+<!-- ## Paper Argument in a Nutshell  {.smaller .scrollable} -->
+<!-- **When do politicians defect from the ruling party in electoral autocracies?** [(Reuter and Szakonyi 2019)](https://www.cambridge.org/core/journals/american-political-science-review/article/elite-defection-under-autocracy-evidence-from-russia/E1E472FF1EE7FD0E4747C35B890D8F14)  -->
+<!--   - In almost all dictatorships the leader is supported by a group of elites. These elites provide essential political services to the dictator, and the breakdown of elite coalitions is one of the main threats to authoritarian rule.  -->
+<!--   - *Electoral defection* is a situation when a regime-affiliated candidate not only leaves the ruling party (party supported by the dictator), but also challenges it by running for office with a different political affiliation (as an independent or as a member of any other political party). -->
+<!--   - Aligning with the regime offers significant advantages for politicians, including state backing during elections and access to rents. At the same time, affiliation can come at considerable cost. Regimes can force politicians to forgo their own political beliefs and constituency demands in order to toe the party line. Politicians also run the risk of being tainted by their association with an autocratic regime should the regime falter and rivals seek retribution. -->
+<!-- ## Paper Hypotheses  -->
+<!-- ## Data Description & Justification {.smaller .scrollable} -->
+<!-- We test our hypotheses using data on candidacies to regional legislative office in Russia during the period 1999–2016. Russia is a federal state containing 85 subnational units, colloquially called regions, each of which contains a directly elected legislature. Why should an analysis of elite defections look at Russian regional legislators? First, these legislatures contain a vivid cross section of the most important elites in a region. The most prominent regional figures—directors of large enterprises, representatives of state corporations, and the heads of major hospitals and research institutes—are all likely to be members of (or have representatives in) their region’s legislature. Regional legislatures are key fora of rent-seeking and spoil-sharing among the Russian regional elite. -->
+<!-- Next, the large number of regions in Russia provides a greater sample size than could be obtained by studying a national legislature. Since Russian regions vary on important political dimensions—including institutional configurations, levels of political competition, and the strength of United Russia’s regional branches—we are able to examine hypotheses about how regime-level factors affect defection. A number of scholars have made the convincing case that Russian regions can be treated as subnational political regimes (Lankina, Libman, and Obydenkova Reference Lankina, Libman and Obydenkova2016; Petrov and Titkov Reference Petrov and Titkov2013), a conceptual convention that is common in the study of other federations as well (Gibson Reference Gibson2005). At the same time, by looking at variation in defection rates within a single dominant party, we are able to hold constant some important factors, such as ideology and national political conditions. -->
+<!-- A final reason for examining Russian regional legislatures is practical. Given that our hypotheses make predictions about when elites leave the ruling party, we require an arena where data on partisan affiliations are available. While many bureaucrats carry partisan memberships, information on those affiliations is not public and is difficult to gather. For legislative candidates, the matter is simplified by the fact that candidates register their affiliation when they run for office. -->
+<!-- Our period of analysis begins at a time when United Russia was emerging as the dominant party in Russia. From 1999 to early 2003, central authorities had little involvement in regional legislative politics. Between 2001 and 2003, only 1.7% of candidates were affiliated with United Russia, which received backing from President Putin but was only starting to expand its position outside of Moscow. Beginning in 2003, the federal center—and United Russia—significantly increased its role in regional politics. By the late 2000s, all of Russia’s regional legislatures had United Russia majorities and the vast majority had super majorities. Between 2010 and 2016, 72% of all regional deputies held a UR affiliation. -->
+<!-- ## Example II: Candidates' Political Incentives (Broockman 2013) -->
+<!-- ## Closing Backdoors -->
+<!-- **Model-based vs. Design-based Identification** -->
+<!-- -   Option 1: Do our best to measure all confounding variables (and assume we -->
+<!--     did if that's plausible): *regression*, *matching*, *IPW* -->
+<!-- -   Option 2: Make comparisons *within* units with repeated measures of same -->
+<!--     units, thus controlling for unobserved things that stay constant in units -->
+<!--     over time: *fixed effects* -->
+<!-- -   Option 3: Look for quasi-experiments (**as-if** random assignment) -->
+<!--     -   Difference-in-difference -->
+<!--     -   Regression discontinuity design -->
+<!-- ## Each Method Has Pros and Cons -->
+<!-- ![](https://evalf22.classes.andrewheiss.com/slides/img/08-class/causality-continuum.png) -->
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

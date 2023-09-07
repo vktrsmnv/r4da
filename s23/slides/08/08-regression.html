@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viktoriia Semenova">
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Estimating Heterogeneous Effects</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<link href="../../../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
+<script src="../../../site_libs/countdown-0.4.0/countdown.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="R for Data Analysis - Estimating Heterogeneous Effects">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 8">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <ul>
+  <li><a href="#quiz-which-of-these-statements-are-correct" id="toc-quiz-which-of-these-statements-are-correct" class="nav-link" data-scroll-target="#quiz-which-of-these-statements-are-correct">Quiz: Which of these statements are correct?</a></li>
+  </ul></li>
+  <li><a href="#heterogeneous-effects" id="toc-heterogeneous-effects" class="nav-link" data-scroll-target="#heterogeneous-effects">Heterogeneous Effects</a>
+  <ul>
+  <li><a href="#which-of-these-hypotheses-specify-conditional-relationsip" id="toc-which-of-these-hypotheses-specify-conditional-relationsip" class="nav-link" data-scroll-target="#which-of-these-hypotheses-specify-conditional-relationsip">Which of These Hypotheses Specify Conditional Relationsip?</a></li>
+  <li><a href="#dataset-student-evaluations" id="toc-dataset-student-evaluations" class="nav-link" data-scroll-target="#dataset-student-evaluations">Dataset: Student Evaluations</a></li>
+  <li><a href="#baseline-model" id="toc-baseline-model" class="nav-link" data-scroll-target="#baseline-model">Baseline Model</a></li>
+  <li><a href="#baseline-model-1" id="toc-baseline-model-1" class="nav-link" data-scroll-target="#baseline-model-1">Baseline Model</a></li>
+  <li><a href="#heterogenous-effects-of-beauty" id="toc-heterogenous-effects-of-beauty" class="nav-link" data-scroll-target="#heterogenous-effects-of-beauty">Heterogenous Effects of Beauty</a></li>
+  <li><a href="#heterogenous-effects-of-beauty-1" id="toc-heterogenous-effects-of-beauty-1" class="nav-link" data-scroll-target="#heterogenous-effects-of-beauty-1">Heterogenous Effects of Beauty</a></li>
+  <li><a href="#heterogenous-effects-model-specification" id="toc-heterogenous-effects-model-specification" class="nav-link" data-scroll-target="#heterogenous-effects-model-specification">Heterogenous Effects: Model Specification</a></li>
+  <li><a href="#heterogenous-effects-model-specification-1" id="toc-heterogenous-effects-model-specification-1" class="nav-link" data-scroll-target="#heterogenous-effects-model-specification-1">Heterogenous Effects: Model Specification</a></li>
+  <li><a href="#working-with-interaction-effects" id="toc-working-with-interaction-effects" class="nav-link" data-scroll-target="#working-with-interaction-effects">Working with Interaction Effects</a></li>
+  <li><a href="#causal-interaction-vs.-effect-modification" id="toc-causal-interaction-vs.-effect-modification" class="nav-link" data-scroll-target="#causal-interaction-vs.-effect-modification">Causal Interaction vs.&nbsp;Effect Modification</a></li>
+  <li><a href="#alternative-using-subsets" id="toc-alternative-using-subsets" class="nav-link" data-scroll-target="#alternative-using-subsets">Alternative: Using Subsets</a></li>
+  <li><a href="#intractions-with-continous-variables" id="toc-intractions-with-continous-variables" class="nav-link" data-scroll-target="#intractions-with-continous-variables">Intractions with Continous Variables</a></li>
+  <li><a href="#quiz-what-is-the-marginal-effect-of-beauty" id="toc-quiz-what-is-the-marginal-effect-of-beauty" class="nav-link" data-scroll-target="#quiz-what-is-the-marginal-effect-of-beauty">Quiz: What is the Marginal Effect of <em>Beauty</em>?</a></li>
+  <li><a href="#plotting-interactions-with-continuous-variables" id="toc-plotting-interactions-with-continuous-variables" class="nav-link" data-scroll-target="#plotting-interactions-with-continuous-variables">Plotting Interactions with Continuous Variables</a></li>
+  <li><a href="#plotting-interactions-with-continuous-variables-1" id="toc-plotting-interactions-with-continuous-variables-1" class="nav-link" data-scroll-target="#plotting-interactions-with-continuous-variables-1">Plotting Interactions with Continuous Variables</a></li>
+  <li><a href="#plotting-interactions-with-continuous-variables-ii" id="toc-plotting-interactions-with-continuous-variables-ii" class="nav-link" data-scroll-target="#plotting-interactions-with-continuous-variables-ii">Plotting Interactions with Continuous Variables II</a></li>
+  </ul></li>
+  <li><a href="#appendix-using-simulations-for-interpretation" id="toc-appendix-using-simulations-for-interpretation" class="nav-link" data-scroll-target="#appendix-using-simulations-for-interpretation">Appendix: Using Simulations for Interpretation</a>
+  <ul>
+  <li><a href="#approaches-to-obtain-confidence-intervals" id="toc-approaches-to-obtain-confidence-intervals" class="nav-link" data-scroll-target="#approaches-to-obtain-confidence-intervals">Approaches to Obtain Confidence Intervals</a></li>
+  <li><a href="#draws-from-simulated-sampling-distributions" id="toc-draws-from-simulated-sampling-distributions" class="nav-link" data-scroll-target="#draws-from-simulated-sampling-distributions">Draws from Simulated Sampling Distributions</a></li>
+  <li><a href="#calculating-expected-values" id="toc-calculating-expected-values" class="nav-link" data-scroll-target="#calculating-expected-values">Calculating Expected Values</a></li>
+  <li><a href="#plotting-expected-values" id="toc-plotting-expected-values" class="nav-link" data-scroll-target="#plotting-expected-values">Plotting Expected Values</a></li>
+  <li><a href="#evaluating-the-effects-with-first-differences" id="toc-evaluating-the-effects-with-first-differences" class="nav-link" data-scroll-target="#evaluating-the-effects-with-first-differences">Evaluating the Effects with First Differences</a></li>
+  <li><a href="#using-simulations-for-interpretation" id="toc-using-simulations-for-interpretation" class="nav-link" data-scroll-target="#using-simulations-for-interpretation">Using Simulations for Interpretation</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Estimating Heterogeneous Effects</h1>
+<p class="subtitle lead">Data Analytics and Visualization with R<br>Session 8</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Viktoriia Semenova 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<section id="quiz-which-of-these-statements-are-correct" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="quiz-which-of-these-statements-are-correct">Quiz: Which of these statements are correct?</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="countdown" id="timer_04461012" data-update-every="1" tabindex="0" style="bottom:0;left:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ol type="1">
+<li><span class="math inline">\(R^2\)</span> is an important criterion only for the regression for the purpose of prediction, not for causal effect estimation.<br>
+</li>
+<li>If the variable is not statistically significant, it has no impact on the outcome and we can drop it from the regression equation.</li>
+<li>Holding all else constant, the estimates from more data would produce smaller confidence intervals.</li>
+<li>Overlapping confidence intervals for small and large values of <em>Beauty</em> mean that there is no significant difference between the teaching evaluations of male and female instructors.</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<div class="r-stack">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="heterogeneous-effects" class="level1">
+<h1>Heterogeneous Effects</h1>
+<section id="which-of-these-hypotheses-specify-conditional-relationsip" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="which-of-these-hypotheses-specify-conditional-relationsip">Which of These Hypotheses Specify Conditional Relationsip?</h2>
+<ol type="1">
+<li>Women representatives are more likely than men representatives to focus on issues of relative importance to women.</li>
+<li>The stronger the partisan identification of the voter, the stronger is anger in response to threat of electoral loss.</li>
+<li>For candidates that the voter has seen on posters, appearance has a stronger effect on vote choice than for candidates that the voter has not seen on posters.</li>
+<li>Women are more likely to substantively represent women if they were elected in districts with larger magnitude.</li>
+<li>Government parties are more likely to engage in constructive legislative review than opposition parties.</li>
+</ol>
+</section>
+<section id="dataset-student-evaluations" class="level2">
+<h2 class="anchored" data-anchor-id="dataset-student-evaluations">Dataset: Student Evaluations</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(evals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 463
+Columns: 9
+$ x1         &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20…
+$ eval       &lt;dbl&gt; 4.3, 4.5, 3.7, 4.3, 4.4, 4.2, 4.0, 3.4, 4.5, 3.9, 3.1, 4.0, 3.8, 3.4,…
+$ beauty     &lt;dbl&gt; 5.000000, 3.000000, 3.333333, 3.166667, 7.333333, 5.500000, 4.166667,…
+$ female     &lt;dbl&gt; 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, …
+$ age        &lt;dbl&gt; 36, 59, 51, 40, 31, 62, 33, 51, 33, 47, 35, 37, 42, 49, 37, 45, 56, 4…
+$ minority   &lt;dbl&gt; 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, …
+$ nonenglish &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, …
+$ lower      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, …
+$ course_id  &lt;dbl&gt; 3, 0, 4, 2, 0, 0, 4, 0, 0, 4, 4, 0, 0, 0, 9, 9, 10, 0, 0, 0, 9, 8, 10…</code></pre>
+</div>
+</div>
+</section>
+<section id="baseline-model" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="baseline-model">Baseline Model</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">3.893</td>
+<td style="text-align: right;">0.177</td>
+<td style="text-align: right;">22.016</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">3.545</td>
+<td style="text-align: right;">4.240</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beauty</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">4.422</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.109</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">-0.212</td>
+<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">-4.066</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">-0.315</td>
+<td style="text-align: right;">-0.110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">-0.885</td>
+<td style="text-align: right;">0.377</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">0.003</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nonenglish</td>
+<td style="text-align: right;">-0.334</td>
+<td style="text-align: right;">0.104</td>
+<td style="text-align: right;">-3.228</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">-0.538</td>
+<td style="text-align: right;">-0.131</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="baseline-model-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="baseline-model-1">Baseline Model</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in is.na(x): is.na() applied to non-(list or vector) of type 'expression'
+
+Warning in is.na(x): is.na() applied to non-(list or vector) of type 'expression'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values (`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-6-1.png" style="height:50.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="heterogenous-effects-of-beauty" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="heterogenous-effects-of-beauty">Heterogenous Effects of Beauty</h2>
+<!-- - The effect of beauty on course evaluations differs across male and female professors: -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 12%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">3.751</td>
+<td style="text-align: right;">0.193</td>
+<td style="text-align: right;">19.443</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">3.372</td>
+<td style="text-align: right;">4.130</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beauty</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">4.501</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.148</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">female</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">0.157</td>
+<td style="text-align: right;">0.356</td>
+<td style="text-align: right;">0.722</td>
+<td style="text-align: right;">-0.253</td>
+<td style="text-align: right;">0.365</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-0.002</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">-0.712</td>
+<td style="text-align: right;">0.477</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.003</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nonenglish</td>
+<td style="text-align: right;">-0.340</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">-3.289</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">-0.543</td>
+<td style="text-align: right;">-0.137</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beauty:female</td>
+<td style="text-align: right;">-0.060</td>
+<td style="text-align: right;">0.033</td>
+<td style="text-align: right;">-1.810</td>
+<td style="text-align: right;">0.071</td>
+<td style="text-align: right;">-0.124</td>
+<td style="text-align: right;">0.005</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="heterogenous-effects-of-beauty-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="heterogenous-effects-of-beauty-1">Heterogenous Effects of Beauty</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in is.na(x): is.na() applied to non-(list or vector) of type 'expression'
+
+Warning in is.na(x): is.na() applied to non-(list or vector) of type 'expression'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-8-1.png" style="height:50.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="heterogenous-effects-model-specification" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="heterogenous-effects-model-specification">Heterogenous Effects: Model Specification</h2>
+<p><span class="math display">\[
+\text{Evaluation}_i = \underbrace{\hat\beta_0}_{\text{Expected evaluation}\\\text{for males if}\\\text{beauty score = 0}} + \underbrace{\hat\beta_1}_{\text{Difference in}\\\text{evaluation between}\\\text{males and females}\\\text{if beauty score = 0}} \text{Female}_i + \underbrace{\hat\beta_2}_{\text{Effect of each}\\\text{additional point}\\\text{in score for males}} \text{Beauty}_i \\ +  \underbrace{\hat\beta_3}_{\text{Difference in}\\\text{effect of beauty}\\\text{between males}\\\text{and females}} \text{Female}_i \times \text{Beauty}_i
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\text{Female}_i\)</span> and <span class="math inline">\(\text{Beauty}_i\)</span>: constitutive terms</li>
+<li><span class="math inline">\(\text{Female}_i \times \text{Beauty}_i\)</span>: interaction term</li>
+</ul>
+</section>
+<section id="heterogenous-effects-model-specification-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="heterogenous-effects-model-specification-1">Heterogenous Effects: Model Specification</h2>
+<p>We are allowing the effects of beauty to vary across the subgroups:</p>
+<p>Male instructors:</p>
+<p><span class="math display">\[
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times [\text{Female}_i = 0] + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times [\text{Female}_i = 0] \times \text{Beauty}_i \\
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times 0 + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times 0 \times \text{Beauty}_i \\
+\text{Evaluation}_i = {\hat\beta_0} + {\hat\beta_2} \text{Beauty}_i
+\]</span></p>
+<p>Female instructors:</p>
+<p><span class="math display">\[
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times [\text{Female}_i = 1] + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times [\text{Female}_i = 1] \times \text{Beauty}_i \\
+\text{Evaluation}_i = (\hat\beta_0 + \hat\beta_1)  + (\hat\beta_2  +  \hat\beta_3 ) \times \text{Beauty}_i
+\]</span></p>
+</section>
+<section id="working-with-interaction-effects" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="working-with-interaction-effects">Working with Interaction Effects</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| results: asis</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(eval <span class="sc">~</span> beauty <span class="sc">*</span> female <span class="sc">+</span> age <span class="sc">+</span> nonenglish, <span class="at">data =</span> evals)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>equatiomatic<span class="sc">::</span><span class="fu">extract_eq</span>(m1, <span class="at">use_coefs =</span> T, <span class="at">terms_per_line =</span> <span class="dv">3</span>, <span class="at">coef_digits =</span> <span class="dv">3</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><span class="math display">\[
+\operatorname{\widehat{eval}} = 3.751 + 0.103(\operatorname{beauty}) + 0.056(\operatorname{female}) - 0.002(\operatorname{age}) - 0.34(\operatorname{nonenglish}) - 0.06(\operatorname{beauty} \times \operatorname{female})
+\]</span></p>
+</div>
+</div>
+<ul>
+<li>Include all constitutive terms (i.e.&nbsp;those variables that compose the interaction)</li>
+<li>Do not interpret the coefficients on constitutive terms as unconditional marginal effects:</li>
+</ul>
+<blockquote class="blockquote">
+<p>Wrong: On average, beauty score is associated with an increase in teaching evaluations, holding all else constant.<br>
+Wrong: On average, female instructors receive 0.05 points more in teaching evaluations than males, holding all else constant.<br>
+Right: On average, beauty tends to have smaller effect on teaching evaluations among female instructors in comparison to male instructors, holding all else constant.</p>
+</blockquote>
+</section>
+<section id="causal-interaction-vs.-effect-modification" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="causal-interaction-vs.-effect-modification">Causal Interaction vs.&nbsp;Effect Modification</h2>
+<p><span class="math display">\[
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Female}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Female}_i \times \text{Beauty}_i \\
+\]</span></p>
+<p>Mathematically, interactions allow us to tell two stories:</p>
+<ul>
+<li>the effect of <em>Beauty</em> on <em>Teaching Evaluations</em> differs between male and female instructors</li>
+<li>the effect of <em>Gender</em> on <em>Teaching Evaluations</em> differs across values of beauty score</li>
+</ul>
+<div class="task">
+<p>Interpret the interaction coefficients in line with your causal story and your selected control variables.</p>
+</div>
+</section>
+<section id="alternative-using-subsets" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="alternative-using-subsets">Alternative: Using Subsets</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(eval <span class="sc">~</span> beauty <span class="sc">+</span> age <span class="sc">+</span> nonenglish, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> evals <span class="sc">%&gt;%</span> <span class="fu">filter</span>(female <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m3, <span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">4.253</td>
+<td style="text-align: right;">0.259</td>
+<td style="text-align: right;">16.392</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">3.824</td>
+<td style="text-align: right;">4.682</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beauty</td>
+<td style="text-align: right;">0.034</td>
+<td style="text-align: right;">0.025</td>
+<td style="text-align: right;">1.376</td>
+<td style="text-align: right;">0.171</td>
+<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">0.075</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">0.005</td>
+<td style="text-align: right;">-2.409</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">-0.019</td>
+<td style="text-align: right;">-0.003</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nonenglish</td>
+<td style="text-align: right;">-0.117</td>
+<td style="text-align: right;">0.160</td>
+<td style="text-align: right;">-0.731</td>
+<td style="text-align: right;">0.466</td>
+<td style="text-align: right;">-0.382</td>
+<td style="text-align: right;">0.148</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(eval <span class="sc">~</span> beauty <span class="sc">+</span> age <span class="sc">+</span> nonenglish, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> evals <span class="sc">%&gt;%</span> <span class="fu">filter</span>(female <span class="sc">==</span> <span class="dv">0</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m4, <span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.9</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">3.499</td>
+<td style="text-align: right;">0.230</td>
+<td style="text-align: right;">15.215</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">3.119</td>
+<td style="text-align: right;">3.878</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beauty</td>
+<td style="text-align: right;">0.113</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">4.885</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.152</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0.002</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">0.664</td>
+<td style="text-align: right;">0.507</td>
+<td style="text-align: right;">-0.003</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nonenglish</td>
+<td style="text-align: right;">-0.443</td>
+<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">-3.237</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">-0.668</td>
+<td style="text-align: right;">-0.217</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Sample size: interactions rely on more data, hence smaller uncertainty</li>
+<li>Comparisons are easier across effects with one model</li>
+<li>Works straightforwardly when the moderator is categorical, continuous moderators require arbitrary decisions about cutoff points</li>
+<li>Best: do both to make sure your results are robust</li>
+</ul>
+</section>
+<section id="intractions-with-continous-variables" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="intractions-with-continous-variables">Intractions with Continous Variables</h2>
+<p><span class="math display">\[
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Age}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Age}_i \times \text{Beauty}_i \\
+\]</span></p>
+<ul>
+<li><p>Marginal effect of <em>Beauty</em> on <em>Teaching evaluation</em>: <span class="math inline">\(\hat\beta_2 + \hat\beta_3 \times \text{Age}_i\)</span></p></li>
+<li><p>Marginal effect of <em>Age</em> on <em>Teaching evaluation</em>: <span class="math inline">\(\hat\beta_1 + \hat\beta_3 \times \text{Beauty}_i\)</span></p></li>
+</ul>
+</section>
+<section id="quiz-what-is-the-marginal-effect-of-beauty" class="level2">
+<h2 class="anchored" data-anchor-id="quiz-what-is-the-marginal-effect-of-beauty">Quiz: What is the Marginal Effect of <em>Beauty</em>?</h2>
+<p><span class="math display">\[
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Age}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Age}_i \times \text{Beauty}_i \\
++ \hat\beta_4 \text{Female}_i +  \hat\beta_5 \times \text{Female}_i \times \text{Beauty}_i
+\]</span></p>
+<ol type="1">
+<li><span class="math inline">\(\hat\beta_2 + \hat\beta_3 \times \text{Age}_i\)</span></li>
+<li><span class="math inline">\(\hat\beta_2 + \hat\beta_3 \times \text{Age}_i + \hat\beta_5 \times \text{Female}_i\)</span></li>
+<li><span class="math inline">\(\hat\beta_2 + \hat\beta_5 \times \text{Female}_i\)</span></li>
+<li><span class="math inline">\(\hat\beta_3 \times \text{Age}_i + \hat\beta_5 \times \text{Female}_i\)</span></li>
+</ol>
+</section>
+<section id="plotting-interactions-with-continuous-variables" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="plotting-interactions-with-continuous-variables">Plotting Interactions with Continuous Variables</h2>
+<div class="cell" data-layout-align="center">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values (`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting-interactions-with-continuous-variables-1" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-interactions-with-continuous-variables-1">Plotting Interactions with Continuous Variables</h2>
+<div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 row containing missing values (`geom_line()`).</code></pre>
+</div>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="plotting-interactions-with-continuous-variables-ii" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-interactions-with-continuous-variables-ii">Plotting Interactions with Continuous Variables II</h2>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="appendix-using-simulations-for-interpretation" class="level1">
+<h1>Appendix: Using Simulations for Interpretation</h1>
+<section id="approaches-to-obtain-confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="approaches-to-obtain-confidence-intervals">Approaches to Obtain Confidence Intervals</h2>
+<ul>
+<li>So far, we used stats to calculate confidence intervals:
+<ul>
+<li>assumed sampling distributions are normal</li>
+<li>calculated point estimates and standard errors</li>
+<li>calculate confidence intervals from estimated SEs and critical values for <span class="math inline">\(\mathcal{N}(0, 1)\)</span></li>
+</ul></li>
+<li>Another approach utilizes simulations:
+<ul>
+<li>assumed sampling distributions are normal</li>
+<li>calculated point estimates and standard errors</li>
+<li>use these values to obtain sets of simulated coefficients</li>
+<li>use these simulated coefficients to make predictions</li>
+</ul></li>
+</ul>
+</section>
+<section id="draws-from-simulated-sampling-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="draws-from-simulated-sampling-distributions">Draws from Simulated Sampling Distributions</h2>
+<p>We would use our coefficient estimates and uncertainty about them to calculate sampling distributions (our best guesses about them based on our data)</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="calculating-expected-values" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="calculating-expected-values">Calculating Expected Values</h2>
+<p><span class="math display">\[{ \begin{array}{c}
+        \tilde{\beta}_0^1 \times 1+\tilde{\beta}_1^1 \times   \text{Age}_i  +\tilde{\beta}_2^1 \times \text{Beauty}_i + \tilde{\beta}_3^1 \times \text{Age}_i \times \text{Beauty}_i &amp;= \tilde{y}^1\\
+\tilde{\beta}_0^2 \times 1+\tilde{\beta}_1^2 \times   \text{Age}_i  +\tilde{\beta}_2^2 \times \text{Beauty}_i + \tilde{\beta}_3^2 \times \text{Age}_i \times \text{Beauty}_i &amp;= \tilde{y}^2\\
+  \tilde{\beta}_0^3 \times 1+\tilde{\beta}_1^3 \times   \text{Age}_i  +\tilde{\beta}_2^3 \times \text{Beauty}_i + \tilde{\beta}_3^3 \times \text{Age}_i \times \text{Beauty}_i &amp;= \tilde{y}^3\\
+        \dots \\
+        \tilde{\beta}_0^{1000} \times 1+\tilde{\beta}_1^{1000} \times \text{Age}_i  +\tilde{\beta}_2^{1000} \times \text{Beauty}_i + \tilde{\beta}_3^{1000} \times \text{Age}_i \times \text{Beauty}_i &amp;= \tilde{y}^{1000}\\
+    \end{array} }\]</span></p>
+</section>
+<section id="plotting-expected-values" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="plotting-expected-values">Plotting Expected Values</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for colour is already present.
+Adding another scale for colour, which will replace the existing scale.
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluating-the-effects-with-first-differences" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-the-effects-with-first-differences">Evaluating the Effects with First Differences</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for colour is already present.
+Adding another scale for colour, which will replace the existing scale.
+Scale for fill is already present.
+Adding another scale for fill, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-regression_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="using-simulations-for-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="using-simulations-for-interpretation">Using Simulations for Interpretation</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clarify)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(eval <span class="sc">~</span> beauty <span class="sc">*</span> female, <span class="at">data =</span> evals)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get draws from multivariate normal distribution </span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> clarify<span class="sc">::</span><span class="fu">sim</span>(m1)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># obtain predictions based on specified values</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">sim_setx</span>(sims, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="fu">list</span>(<span class="at">female =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">beauty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(results) </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>FD <span class="ot">&lt;-</span> <span class="fu">sim_setx</span>(sims,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> <span class="fu">list</span>(<span class="at">female =</span> <span class="dv">0</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">beauty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">-</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sim_setx</span>(sims,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="fu">list</span>(<span class="at">female =</span> <span class="dv">1</span>,</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">beauty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(FD) <span class="sc">+</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ylim(c(3, 5)) +</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title.position =</span> <span class="st">"plot"</span>) <span class="sc">+</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Difference in Average Teaching Evaluation"</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"First Difference between Male and Female Instructors"</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(FD) <span class="sc">+</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_color_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>) <span class="sc">+</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ylim(c(3, 5)) +</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title.position =</span> <span class="st">"plot"</span>) <span class="sc">+</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Difference in Average Teaching Evaluation"</span>,</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"First Difference between Male and Female Instructors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- # Intro -->
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- countdown(minutes = 4, color_background = "white", left = 1) -->
+<!-- ``` -->
+<!-- ::: columns -->
+<!-- ::: {.column width="30%"} -->
+<!-- ```{dot} -->
+<!-- //| echo: false -->
+<!-- //| fig-width: 3 -->
+<!-- //| fig-height: 3 -->
+<!-- //| out-width: 100% -->
+<!-- digraph D { -->
+<!--   node [shape=oval, fontname="AtkinsonHyperlegible-Regular"]; -->
+<!--   edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5]; -->
+<!--   a [label = "Beauty Score"]; -->
+<!--   b [label = "Evaluations"]; -->
+<!--   c [label = "Female"]; -->
+<!--   {rank=same a b}; -->
+<!--   {rank=sink c}; -->
+<!--   a->b; -->
+<!--   c->a; -->
+<!--   c->b; -->
+<!-- } -->
+<!-- ``` -->
+<!-- :::  -->
+<!-- ::: {.column width="70%"} -->
+<!-- 1.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Beauty Score* on *Evaluations* causally. -->
+<!-- 2.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Female* on *Evaluations* causally. -->
+<!-- 3. On average, a 5-point increase in *Beauty Score* would be associated with 0.4-point increase in *Teaching Evaluations*, for both female and female instructors.  -->
+<!-- 4. The effect of *Female* on *Teaching Evaluations* would be represented through the change in the slope of the regression coefficient for *Beauty Score*.  -->
+<!-- 5. For $evals = \beta_0 + \beta_1 \cdot Female$,  $\beta_1$ would be the equal to difference-in-means estimator.  -->
+<!-- :::  -->
+<!-- :::  -->
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

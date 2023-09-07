@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viktoriia Semenova">
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Fixed Effects</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="../../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="R for Data Analysis - Fixed Effects">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 11">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <ul>
+  <li><a href="#quiz-which-of-these-statements-are-correct" id="toc-quiz-which-of-these-statements-are-correct" class="nav-link" data-scroll-target="#quiz-which-of-these-statements-are-correct">Quiz: Which of these statements are correct?</a></li>
+  <li><a href="#common-support-assumption" id="toc-common-support-assumption" class="nav-link" data-scroll-target="#common-support-assumption">Common Support Assumption</a></li>
+  <li><a href="#matching-is-non-parametric" id="toc-matching-is-non-parametric" class="nav-link" data-scroll-target="#matching-is-non-parametric">Matching is Non-parametric</a></li>
+  </ul></li>
+  <li><a href="#fixed-effects" id="toc-fixed-effects" class="nav-link" data-scroll-target="#fixed-effects">Fixed Effects</a>
+  <ul>
+  <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap">Recap</a></li>
+  <li><a href="#dag-we-cannot-close-all-paths" id="toc-dag-we-cannot-close-all-paths" class="nav-link" data-scroll-target="#dag-we-cannot-close-all-paths">DAG: We Cannot Close All Paths</a></li>
+  <li><a href="#our-solution-fixed-effects" id="toc-our-solution-fixed-effects" class="nav-link" data-scroll-target="#our-solution-fixed-effects">Our Solution: Fixed Effects</a></li>
+  <li><a href="#fixed-effects-illustration" id="toc-fixed-effects-illustration" class="nav-link" data-scroll-target="#fixed-effects-illustration">Fixed Effects Illustration</a></li>
+  <li><a href="#example-gdp-per-capita-and-life-expectancy" id="toc-example-gdp-per-capita-and-life-expectancy" class="nav-link" data-scroll-target="#example-gdp-per-capita-and-life-expectancy">Example: GDP per capita and Life Expectancy</a></li>
+  <li><a href="#example-gdp-per-capita-and-life-expectancy-1" id="toc-example-gdp-per-capita-and-life-expectancy-1" class="nav-link" data-scroll-target="#example-gdp-per-capita-and-life-expectancy-1">Example: GDP per capita and Life Expectancy</a></li>
+  <li><a href="#gapminder-illustration" id="toc-gapminder-illustration" class="nav-link" data-scroll-target="#gapminder-illustration">Gapminder Illustration</a></li>
+  <li><a href="#we-control-for-multiple-confounders-at-once" id="toc-we-control-for-multiple-confounders-at-once" class="nav-link" data-scroll-target="#we-control-for-multiple-confounders-at-once">We Control For Multiple Confounders at Once</a></li>
+  <li><a href="#control-for-country" id="toc-control-for-country" class="nav-link" data-scroll-target="#control-for-country">Control for Country</a></li>
+  <li><a href="#how-fixed-effects-work" id="toc-how-fixed-effects-work" class="nav-link" data-scroll-target="#how-fixed-effects-work">How Fixed Effects Work</a></li>
+  <li><a href="#within-variation-one-country" id="toc-within-variation-one-country" class="nav-link" data-scroll-target="#within-variation-one-country">Within Variation: One Country</a></li>
+  <li><a href="#regression-equations-for-fixed-effects" id="toc-regression-equations-for-fixed-effects" class="nav-link" data-scroll-target="#regression-equations-for-fixed-effects">Regression Equations for Fixed Effects</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  <li><a href="#pooled-ordinary-least-squares" id="toc-pooled-ordinary-least-squares" class="nav-link" data-scroll-target="#pooled-ordinary-least-squares">Pooled Ordinary Least Squares</a></li>
+  <li><a href="#with-country-fixed-effects" id="toc-with-country-fixed-effects" class="nav-link" data-scroll-target="#with-country-fixed-effects">With Country Fixed Effects</a></li>
+  <li><a href="#when-to-use-fixed-effects" id="toc-when-to-use-fixed-effects" class="nav-link" data-scroll-target="#when-to-use-fixed-effects">When to Use Fixed Effects</a></li>
+  <li><a href="#two-way-fixed-effects" id="toc-two-way-fixed-effects" class="nav-link" data-scroll-target="#two-way-fixed-effects">Two-way Fixed Effects</a></li>
+  <li><a href="#clustered-standard-errors" id="toc-clustered-standard-errors" class="nav-link" data-scroll-target="#clustered-standard-errors">Clustered Standard Errors</a></li>
+  <li><a href="#what-fixed-effects-do-not-fix" id="toc-what-fixed-effects-do-not-fix" class="nav-link" data-scroll-target="#what-fixed-effects-do-not-fix">What Fixed Effects Do Not Fix</a></li>
+  <li><a href="#factor-varies-over-time" id="toc-factor-varies-over-time" class="nav-link" data-scroll-target="#factor-varies-over-time">Factor Varies Over Time</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#main-takeaways" id="toc-main-takeaways" class="nav-link" data-scroll-target="#main-takeaways">Main Takeaways</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fixed Effects</h1>
+<p class="subtitle lead">Data Analytics and Visualization with R<br>Session 11</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Viktoriia Semenova 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<!-- ## Housekeeping -->
+<!-- - Evaluations have started! Please check your email for details! -->
+<!-- - New deadline for PS10: Wednesday May 10, 23:59 -->
+<!-- - You need to pass 10 problem sets (not all ~~13~~ 12) -->
+<!-- - Which topics to review in the last week: [ask your questions here](https://viktoriiasemenova.typeform.com/to/JMDJOtYg) -->
+<section id="quiz-which-of-these-statements-are-correct" class="level2">
+<h2 class="anchored" data-anchor-id="quiz-which-of-these-statements-are-correct">Quiz: Which of these statements are correct?</h2>
+<!-- # ```{r} -->
+<!-- # #| echo: false -->
+<!-- # countdown(minutes = 4, color_background = "white") -->
+<!-- # ``` -->
+<ol type="1">
+<li>If there is no overlap in joint distributions of the matching variables, then it would not be possible to find a match, hence (exact) matching would not work.</li>
+<li>Propensity score depicts the probability of the unit being treated predicted with the main dependent variable.</li>
+<li>Matching works through adding the variation in confounders so that the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> can only be attributed to the variation in <span class="math inline">\(X\)</span>.</li>
+<li>Matching requires some correlation between the treatment assignment and the potential outcomes for it to work properly.</li>
+</ol>
+</section>
+<section id="common-support-assumption" class="level2">
+<h2 class="anchored" data-anchor-id="common-support-assumption">Common Support Assumption</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `&lt;scale&gt;` argument of `guides()` cannot be `FALSE`. Use "none" instead as of ggplot2
+3.3.4.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="matching-is-non-parametric" class="level2">
+<h2 class="anchored" data-anchor-id="matching-is-non-parametric">Matching is Non-parametric</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> d <span class="sc">+</span> x, <span class="at">data =</span> df)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 2.5 %     97.5 %
+(Intercept) 0.60253035 0.70733015
+d           0.13179296 0.24538616
+x           0.01373668 0.05222461</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cem_df <span class="ot">&lt;-</span> <span class="fu">matchit</span>(d <span class="sc">~</span> x,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> df,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"cem"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">match.data</span>()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> d <span class="sc">+</span> x, <span class="at">data =</span> cem_df,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">weights =</span> weights)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   2.5 %      97.5 %
+(Intercept) -0.176066150 -0.07082210
+d            0.915051908  1.03682727
+x            0.009702613  0.04379835</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="fixed-effects" class="level1">
+<h1>Fixed Effects</h1>
+<section id="recap" class="level2">
+<h2 class="anchored" data-anchor-id="recap">Recap</h2>
+<ul>
+<li>So far we talked about two ways to isolate the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, i.e.&nbsp;blocking back doors to identify an effect
+<ul>
+<li><strong>Statistical control</strong>: use <span class="math inline">\(W\)</span> to explain our <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> variables, then work with the residuals</li>
+<li><strong>Matching</strong>: restrict the data so that observations only have similar values in <span class="math inline">\(W\)</span> and compare <em>within</em> these values</li>
+</ul></li>
+<li>In both cases, we assumed we have the necessary variables to close the back doors (i.e.&nbsp;we assume <em>conditional independence</em>) <!-- - Either everything was measured or we have everything needed measured --></li>
+<li>But what if there are things we need to control but we cannot measure/observe them?</li>
+</ul>
+</section>
+<section id="dag-we-cannot-close-all-paths" class="level2">
+<h2 class="anchored" data-anchor-id="dag-we-cannot-close-all-paths">DAG: We Cannot Close All Paths</h2>
+<div class="cell" data-fig-width="7" data-fig-asp="0.7" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 279.01 188.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 275.01,-184 275.01,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="65.17" cy="-162" rx="50.93" ry="18"></ellipse> <text text-anchor="middle" x="65.17" y="-157.8" font-family="Times,serif" font-size="14.00">Treatment</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="180.17" cy="-162" rx="46.37" ry="18"></ellipse> <text text-anchor="middle" x="180.17" y="-157.8" font-family="Times,serif" font-size="14.00">Outcome</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M115.93,-162C118.4,-162 120.87,-162 123.34,-162"></path> <polygon fill="black" stroke="black" points="133.49,-162 123.49,-166.5 128.49,-162 123.49,-162 123.49,-162 123.49,-162 128.49,-162 123.49,-157.5 133.49,-162 133.49,-162"></polygon> </g> <!-- c --> <g id="node3" class="node">
+<title>
+c
+</title>
+<ellipse fill="none" stroke="black" cx="57.17" cy="-90" rx="57.33" ry="18"></ellipse> <text text-anchor="middle" x="57.17" y="-85.8" font-family="Times,serif" font-size="14.00">Confounder</text> </g> <!-- c&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+c-&gt;a
+</title>
+<path fill="none" stroke="black" d="M59.12,-108.1C60,-115.79 61.06,-125.05 62.04,-133.67"></path> <polygon fill="black" stroke="black" points="63.19,-143.7 57.58,-134.27 62.62,-138.73 62.05,-133.76 62.05,-133.76 62.05,-133.76 62.62,-138.73 66.52,-133.25 63.19,-143.7 63.19,-143.7"></polygon> </g> <!-- c&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+c-&gt;b
+</title>
+<path fill="none" stroke="black" d="M83.6,-106.04C101.93,-116.47 126.5,-130.46 146.27,-141.71"></path> <polygon fill="black" stroke="black" points="154.98,-146.67 144.06,-145.63 150.63,-144.19 146.29,-141.72 146.29,-141.72 146.29,-141.72 150.63,-144.19 148.51,-137.81 154.98,-146.67 154.98,-146.67"></polygon> </g> <!-- d --> <g id="node4" class="node">
+<title>
+d
+</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="69.17" cy="-18" rx="57.9" ry="18"></ellipse> <text text-anchor="middle" x="69.17" y="-13.8" font-family="Times,serif" font-size="14.00">Unobserved</text> </g> <!-- d&#45;&gt;b --> <g id="edge5" class="edge">
+<title>
+d-&gt;b
+</title>
+<path fill="none" stroke="black" d="M87.71,-35.25C98.64,-45.28 112.4,-58.75 123.17,-72 139.5,-92.1 155.15,-117.09 165.9,-135.47"></path> <polygon fill="black" stroke="black" points="170.92,-144.17 162.02,-137.75 168.42,-139.83 165.92,-135.5 165.92,-135.5 165.92,-135.5 168.42,-139.83 169.82,-133.25 170.92,-144.17 170.92,-144.17"></polygon> </g> <!-- d&#45;&gt;c --> <g id="edge4" class="edge">
+<title>
+d-&gt;c
+</title>
+<path fill="none" stroke="black" d="M66.23,-36.1C64.92,-43.79 63.33,-53.05 61.85,-61.67"></path> <polygon fill="black" stroke="black" points="60.13,-71.7 57.39,-61.08 60.98,-66.77 61.82,-61.84 61.82,-61.84 61.82,-61.84 60.98,-66.77 66.26,-62.6 60.13,-71.7 60.13,-71.7"></polygon> </g> <!-- e --> <g id="node5" class="node">
+<title>
+e
+</title>
+<ellipse fill="none" stroke="black" stroke-dasharray="5,2" cx="211.17" cy="-18" rx="59.68" ry="18"></ellipse> <text text-anchor="middle" x="211.17" y="-13.8" font-family="Times,serif" font-size="14.00">Unmeasured</text> </g> <!-- e&#45;&gt;a --> <g id="edge7" class="edge">
+<title>
+e-&gt;a
+</title>
+<path fill="none" stroke="black" d="M195.19,-35.65C177.75,-53.72 148.86,-83.3 123.17,-108 112.67,-118.09 100.83,-128.99 90.61,-138.26"></path> <polygon fill="black" stroke="black" points="83.15,-144.99 87.56,-134.95 86.86,-141.64 90.57,-138.29 90.57,-138.29 90.57,-138.29 86.86,-141.64 93.59,-141.63 83.15,-144.99 83.15,-144.99"></polygon> </g> <!-- e&#45;&gt;b --> <g id="edge6" class="edge">
+<title>
+e-&gt;b
+</title>
+<path fill="none" stroke="black" d="M208.26,-36.14C205.12,-54.11 199.81,-83.15 194.17,-108 192.24,-116.48 189.9,-125.66 187.7,-133.97"></path> <polygon fill="black" stroke="black" points="185.01,-143.89 183.28,-133.06 186.32,-139.06 187.62,-134.24 187.62,-134.24 187.62,-134.24 186.32,-139.06 191.97,-135.41 185.01,-143.89 185.01,-143.89"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+</section>
+<section id="our-solution-fixed-effects" class="level2">
+<h2 class="anchored" data-anchor-id="our-solution-fixed-effects">Our Solution: Fixed Effects</h2>
+<ul>
+<li>If we observe each <em>person</em>/<em>party</em>/<em>country</em>/etc. multiple times, then we can forget about controlling for the actual back-door variable we’re interested in</li>
+<li>And just control for <em>person</em>/<em>party</em>/<em>country</em>/etc. identity instead!</li>
+<li>This will control for <strong>everything</strong> unique to that individual, whether we can measure it or not!</li>
+</ul>
+</section>
+<section id="fixed-effects-illustration" class="level2">
+<h2 class="anchored" data-anchor-id="fixed-effects-illustration">Fixed Effects Illustration</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 800 rows containing missing values (`geom_vline()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 800 rows containing missing values (`geom_hline()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="example-gdp-per-capita-and-life-expectancy" class="level2">
+<h2 class="anchored" data-anchor-id="example-gdp-per-capita-and-life-expectancy">Example: GDP per capita and Life Expectancy</h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder) <span class="co"># built-in dataset</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(gapminder) <span class="co"># load data from it</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,704
+Columns: 6
+$ country   &lt;fct&gt; "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", "Afghanist…
+$ continent &lt;fct&gt; Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia…
+$ year      &lt;int&gt; 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, 2002, 2007…
+$ lifeExp   &lt;dbl&gt; 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.822, 41.674…
+$ pop       &lt;int&gt; 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12881816, 13…
+$ gdpPercap &lt;dbl&gt; 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, 978.0114, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(gapminder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Unique (#) </th>
+   <th style="text-align:right;"> Missing (%) </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> SD </th>
+   <th style="text-align:right;"> Min </th>
+   <th style="text-align:right;"> Median </th>
+   <th style="text-align:right;"> Max </th>
+   <th style="text-align:right;">    </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> year </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1979.5 </td>
+   <td style="text-align:right;"> 17.3 </td>
+   <td style="text-align:right;"> 1952.0 </td>
+   <td style="text-align:right;"> 1979.5 </td>
+   <td style="text-align:right;"> 2007.0 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="0.16" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="4.20" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.24" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="12.28" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="16.32" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="20.36" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.40" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.48" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.53" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="40.57" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="44.61" y="3.22" width="4.04" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> lifeExp </td>
+   <td style="text-align:right;"> 1626 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 59.5 </td>
+   <td style="text-align:right;"> 12.9 </td>
+   <td style="text-align:right;"> 23.6 </td>
+   <td style="text-align:right;"> 60.7 </td>
+   <td style="text-align:right;"> 82.6 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-0.93" y="11.64" width="3.77" height="0.026" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="2.83" y="11.61" width="3.77" height="0.053" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.60" y="10.87" width="3.77" height="0.79" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.37" y="9.23" width="3.77" height="2.43" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="14.13" y="6.89" width="3.77" height="4.78" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="17.90" y="6.78" width="3.77" height="4.88" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="21.66" y="7.36" width="3.77" height="4.30" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.43" y="7.10" width="3.77" height="4.57" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="29.20" y="7.55" width="3.77" height="4.12" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.96" y="5.65" width="3.77" height="6.02" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.73" y="3.22" width="3.77" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="40.50" y="7.65" width="3.77" height="4.01" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="44.26" y="11.11" width="3.77" height="0.55" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> pop </td>
+   <td style="text-align:right;"> 1704 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 29601212.3 </td>
+   <td style="text-align:right;"> 106157896.7 </td>
+   <td style="text-align:right;"> 60011.0 </td>
+   <td style="text-align:right;"> 7023595.5 </td>
+   <td style="text-align:right;"> 1318683096.0 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="3.37" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.15" y="11.44" width="3.37" height="0.22" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.52" y="11.62" width="3.37" height="0.047" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="11.89" y="11.65" width="3.37" height="0.010" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.26" y="11.65" width="3.37" height="0.010" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="18.63" y="11.65" width="3.37" height="0.016" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.00" y="11.65" width="3.37" height="0.016" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.37" y="11.65" width="3.37" height="0.016" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.74" y="11.65" width="3.37" height="0.010" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.11" y="11.65" width="3.37" height="0.010" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="35.48" y="11.65" width="3.37" height="0.016" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="38.85" y="11.65" width="3.37" height="0.010" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.22" y="11.65" width="3.37" height="0.010" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="45.59" y="11.66" width="3.37" height="0.0052" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gdpPercap </td>
+   <td style="text-align:right;"> 1704 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 7215.3 </td>
+   <td style="text-align:right;"> 9857.5 </td>
+   <td style="text-align:right;"> 241.2 </td>
+   <td style="text-align:right;"> 3531.8 </td>
+   <td style="text-align:right;"> 113523.1 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.68" y="3.22" width="3.92" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.61" y="10.19" width="3.92" height="1.47" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="9.53" y="10.97" width="3.92" height="0.70" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.45" y="11.39" width="3.92" height="0.27" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="17.38" y="11.61" width="3.92" height="0.051" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="21.30" y="11.66" width="3.92" height="0.0064" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.22" y="11.66" width="3.92" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="29.15" y="11.66" width="3.92" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.07" y="11.66" width="3.92" height="0.0064" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.99" y="11.66" width="3.92" height="0.0064" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="40.92" y="11.65" width="3.92" height="0.013" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="44.84" y="11.66" width="3.92" height="0.0064" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="example-gdp-per-capita-and-life-expectancy-1" class="level2">
+<h2 class="anchored" data-anchor-id="example-gdp-per-capita-and-life-expectancy-1">Example: GDP per capita and Life Expectancy</h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># remove the means</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> gapminder <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeExp_c =</span> lifeExp <span class="sc">-</span> <span class="fu">mean</span>(lifeExp),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">logGDP_c =</span> <span class="fu">log</span>(gdpPercap) <span class="sc">-</span> <span class="fu">mean</span>(<span class="fu">log</span>(gdpPercap))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># compare correlations</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(gapminder<span class="sc">$</span>lifeExp, <span class="fu">log</span>(gapminder<span class="sc">$</span>gdpPercap))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8076179</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(gapminder<span class="sc">$</span>lifeExp_c, gapminder<span class="sc">$</span>logGDP_c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6404051</code></pre>
+</div>
+</div>
+</section>
+<section id="gapminder-illustration" class="level2">
+<h2 class="anchored" data-anchor-id="gapminder-illustration">Gapminder Illustration</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in self$trans$transform(x): NaNs produced</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 21 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="we-control-for-multiple-confounders-at-once" class="level2">
+<h2 class="anchored" data-anchor-id="we-control-for-multiple-confounders-at-once">We Control For Multiple Confounders at Once</h2>
+<div class="cell" data-fig-width="7" data-fig-asp="0.7" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 318.44 233.66" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 229.66)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-229.66 314.44,-229.66 314.44,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="72.87" cy="-112.83" rx="70.63" ry="18"></ellipse> <text text-anchor="middle" x="72.87" y="-108.63" font-family="Times,serif" font-size="14.00">GDP per capita</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="235.87" cy="-112.83" rx="74.65" ry="18"></ellipse> <text text-anchor="middle" x="235.87" y="-108.63" font-family="Times,serif" font-size="14.00">Life Expectancy</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M143.54,-112.83C146.03,-112.83 148.51,-112.83 151,-112.83"></path> <polygon fill="black" stroke="black" points="161.21,-112.83 151.21,-117.33 156.21,-112.83 151.21,-112.83 151.21,-112.83 151.21,-112.83 156.21,-112.83 151.21,-108.33 161.21,-112.83 161.21,-112.83"></polygon> </g> <!-- c --> <g id="node3" class="node">
+<title>
+c
+</title>
+<ellipse fill="none" stroke="black" cx="55.87" cy="-196.25" rx="55.73" ry="29.33"></ellipse> <text text-anchor="middle" x="55.87" y="-200.45" font-family="Times,serif" font-size="14.00">Political</text> <text text-anchor="middle" x="55.87" y="-183.65" font-family="Times,serif" font-size="14.00">Institutions</text> </g> <!-- c&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+c-&gt;a
+</title>
+<path fill="none" stroke="black" d="M61.81,-166.77C63.56,-158.39 65.47,-149.24 67.2,-140.95"></path> <polygon fill="black" stroke="black" points="69.28,-131.02 71.64,-141.73 68.26,-135.91 67.23,-140.81 67.23,-140.81 67.23,-140.81 68.26,-135.91 62.83,-139.89 69.28,-131.02 69.28,-131.02"></polygon> </g> <!-- c&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+c-&gt;b
+</title>
+<path fill="none" stroke="black" d="M97.61,-176.36C126.26,-163.41 164.16,-146.26 193.04,-133.2"></path> <polygon fill="black" stroke="black" points="202.46,-128.94 195.2,-137.16 197.9,-131 193.35,-133.06 193.35,-133.06 193.35,-133.06 197.9,-131 191.49,-128.96 202.46,-128.94 202.46,-128.94"></polygon> </g> <!-- d --> <g id="node4" class="node">
+<title>
+d
+</title>
+<ellipse fill="none" stroke="black" cx="96.87" cy="-29.42" rx="40.01" ry="18"></ellipse> <text text-anchor="middle" x="96.87" y="-25.22" font-family="Times,serif" font-size="14.00">History</text> </g> <!-- d&#45;&gt;a --> <g id="edge4" class="edge">
+<title>
+d-&gt;a
+</title>
+<path fill="none" stroke="black" d="M91.87,-47.38C88.68,-58.18 84.49,-72.42 80.85,-84.76"></path> <polygon fill="black" stroke="black" points="77.96,-94.57 76.47,-83.7 79.37,-89.77 80.78,-84.97 80.78,-84.97 80.78,-84.97 79.37,-89.77 85.1,-86.25 77.96,-94.57 77.96,-94.57"></polygon> </g> <!-- d&#45;&gt;b --> <g id="edge5" class="edge">
+<title>
+d-&gt;b
+</title>
+<path fill="none" stroke="black" d="M120.23,-44.1C142,-56.85 174.77,-76.04 199.87,-90.75"></path> <polygon fill="black" stroke="black" points="208.74,-95.94 197.83,-94.77 204.42,-93.41 200.11,-90.89 200.11,-90.89 200.11,-90.89 204.42,-93.41 202.38,-87 208.74,-95.94 208.74,-95.94"></polygon> </g> <!-- e --> <g id="node5" class="node">
+<title>
+e
+</title>
+<ellipse fill="none" stroke="black" cx="222.87" cy="-29.42" rx="55.73" ry="29.33"></ellipse> <text text-anchor="middle" x="222.87" y="-33.62" font-family="Times,serif" font-size="14.00">Economic</text> <text text-anchor="middle" x="222.87" y="-16.82" font-family="Times,serif" font-size="14.00">Institutions</text> </g> <!-- e&#45;&gt;a --> <g id="edge7" class="edge">
+<title>
+e-&gt;a
+</title>
+<path fill="none" stroke="black" d="M184.76,-51.1C161.97,-63.47 133.13,-79.12 110.43,-91.44"></path> <polygon fill="black" stroke="black" points="101.43,-96.33 108.08,-87.6 105.83,-93.94 110.22,-91.56 110.22,-91.56 110.22,-91.56 105.83,-93.94 112.37,-95.51 101.43,-96.33 101.43,-96.33"></polygon> </g> <!-- e&#45;&gt;b --> <g id="edge6" class="edge">
+<title>
+e-&gt;b
+</title>
+<path fill="none" stroke="black" d="M227.41,-58.87C228.75,-67.23 230.2,-76.36 231.53,-84.64"></path> <polygon fill="black" stroke="black" points="233.11,-94.57 227.09,-85.4 232.32,-89.63 231.53,-84.69 231.53,-84.69 231.53,-84.69 232.32,-89.63 235.98,-83.98 233.11,-94.57 233.11,-94.57"></polygon> </g> <!-- f --> <g id="node6" class="node">
+<title>
+f
+</title>
+<ellipse fill="none" stroke="black" cx="157.87" cy="-196.25" rx="27.81" ry="18"></ellipse> <text text-anchor="middle" x="157.87" y="-192.05" font-family="Times,serif" font-size="14.00">War</text> </g> <!-- f&#45;&gt;a --> <g id="edge9" class="edge">
+<title>
+f-&gt;a
+</title>
+<path fill="none" stroke="black" d="M142.67,-180.69C130.15,-168.7 112.14,-151.44 97.55,-137.47"></path> <polygon fill="black" stroke="black" points="90.28,-130.51 100.61,-134.17 93.89,-133.97 97.5,-137.42 97.5,-137.42 97.5,-137.42 93.89,-133.97 94.38,-140.67 90.28,-130.51 90.28,-130.51"></polygon> </g> <!-- f&#45;&gt;b --> <g id="edge8" class="edge">
+<title>
+f-&gt;b
+</title>
+<path fill="none" stroke="black" d="M171.81,-180.69C183.2,-168.81 199.53,-151.76 212.85,-137.86"></path> <polygon fill="black" stroke="black" points="219.89,-130.51 216.22,-140.84 216.43,-134.12 212.97,-137.73 212.97,-137.73 212.97,-137.73 216.43,-134.12 209.72,-134.61 219.89,-130.51 219.89,-130.51"></polygon> </g> <!-- g --> <g id="node7" class="node">
+<title>
+g
+</title>
+<ellipse fill="none" stroke="black" cx="252.87" cy="-196.25" rx="49.23" ry="18"></ellipse> <text text-anchor="middle" x="252.87" y="-192.05" font-family="Times,serif" font-size="14.00">Pandemic</text> </g> <!-- g&#45;&gt;a --> <g id="edge11" class="edge">
+<title>
+g-&gt;a
+</title>
+<path fill="none" stroke="black" d="M224.96,-181.26C215.46,-176.58 204.74,-171.39 194.87,-166.83 169.25,-155 140.3,-142.39 117.03,-132.44"></path> <polygon fill="black" stroke="black" points="107.76,-128.49 118.73,-128.27 112.36,-130.45 116.96,-132.41 116.96,-132.41 116.96,-132.41 112.36,-130.45 115.2,-136.55 107.76,-128.49 107.76,-128.49"></polygon> </g> <!-- g&#45;&gt;b --> <g id="edge10" class="edge">
+<title>
+g-&gt;b
+</title>
+<path fill="none" stroke="black" d="M249.26,-177.98C247.03,-167.29 244.12,-153.34 241.58,-141.17"></path> <polygon fill="black" stroke="black" points="239.47,-131.07 245.92,-139.94 240.49,-135.97 241.51,-140.86 241.51,-140.86 241.51,-140.86 240.49,-135.97 237.11,-141.78 239.47,-131.07 239.47,-131.07"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+<ul>
+<li>If these factors stay constant within country, we don’t need a big long list of back doors.</li>
+</ul>
+</section>
+<section id="control-for-country" class="level2">
+<h2 class="anchored" data-anchor-id="control-for-country">Control for Country</h2>
+<div class="cell" data-fig-width="7" data-fig-asp="0.7" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 316.14 116.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 312.14,-112 312.14,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="70.57" cy="-90" rx="70.63" ry="18"></ellipse> <text text-anchor="middle" x="70.57" y="-85.8" font-family="Times,serif" font-size="14.00">GDP per capita</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="233.57" cy="-90" rx="74.65" ry="18"></ellipse> <text text-anchor="middle" x="233.57" y="-85.8" font-family="Times,serif" font-size="14.00">Life Expectancy</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M141.24,-90C143.73,-90 146.21,-90 148.7,-90"></path> <polygon fill="black" stroke="black" points="158.91,-90 148.91,-94.5 153.91,-90 148.91,-90 148.91,-90 148.91,-90 153.91,-90 148.91,-85.5 158.91,-90 158.91,-90"></polygon> </g> <!-- d --> <g id="node3" class="node">
+<title>
+d
+</title>
+<ellipse fill="none" stroke="black" cx="151.57" cy="-18" rx="42.88" ry="18"></ellipse> <text text-anchor="middle" x="151.57" y="-13.8" font-family="Times,serif" font-size="14.00">Country</text> </g> <!-- d&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+d-&gt;a
+</title>
+<path fill="none" stroke="black" d="M133.62,-34.51C123.05,-43.64 109.48,-55.38 97.63,-65.61"></path> <polygon fill="black" stroke="black" points="89.76,-72.41 94.39,-62.47 93.55,-69.14 97.33,-65.87 97.33,-65.87 97.33,-65.87 93.55,-69.14 100.27,-69.28 89.76,-72.41 89.76,-72.41"></polygon> </g> <!-- d&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+d-&gt;b
+</title>
+<path fill="none" stroke="black" d="M169.74,-34.51C180.54,-43.73 194.44,-55.6 206.52,-65.91"></path> <polygon fill="black" stroke="black" points="214.13,-72.41 203.61,-69.34 210.33,-69.16 206.53,-65.92 206.53,-65.92 206.53,-65.92 210.33,-69.16 209.45,-62.5 214.13,-72.41 214.13,-72.41"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+</section>
+<section id="how-fixed-effects-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-fixed-effects-work">How Fixed Effects Work</h2>
+<ul>
+<li>Ignoring the baseline differences between Germany, Britain, China, etc., in their GDP per capita and life expectancy, and just looking within each country</li>
+<li>We are comparing countries <em>to themselves</em> at different time periods</li>
+<li>We are ignoring all differences <em>between</em> countries and looking only at differences <em>within</em> countries</li>
+<li>Fixed Effects is sometimes also referred to as the <em>“within estimator”</em></li>
+</ul>
+<div class="task">
+<ul>
+<li><strong>Within variation:</strong> variation that occurs <em>within</em> an individual (usually) across different periods of time.<br>
+</li>
+<li><strong>Between variation:</strong> variation of a variable that occurs <em>between</em> different individuals, usually at the same period of time, or comparing over-time averages.</li>
+</ul>
+</div>
+</section>
+<section id="within-variation-one-country" class="level2">
+<h2 class="anchored" data-anchor-id="within-variation-one-country">Within Variation: One Country</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regression-equations-for-fixed-effects" class="level2">
+<h2 class="anchored" data-anchor-id="regression-equations-for-fixed-effects">Regression Equations for Fixed Effects</h2>
+<p><span class="math display">\[
+\text{Life Expectancy}_{it}  = \beta_{i} + \beta_1 \cdot \text{GDP per capita}_{it} +  \varepsilon_{it}
+\]</span></p>
+<p><span class="math display">\[
+\text{Life Expectancy}_{it}  = \beta_0 + \beta_1 \cdot \text{GDP per capita}_{it} + \beta_2 \cdot \text{Country}_{it} + \varepsilon_{it}
+\]</span></p>
+<ul>
+<li>Subscript <span class="math inline">\(it\)</span> indicates that the data varies both between countries (<span class="math inline">\(i\)</span>) and over time (<span class="math inline">\(t\)</span>)</li>
+<li>The intercept term has a subscript <span class="math inline">\(i\)</span> instead of an <span class="math inline">\(0\)</span>, making it <span class="math inline">\(\beta_{i}\)</span></li>
+<li>Units in the data are constrained to have the same slope (there’s no <span class="math inline">\(i\)</span> subscript on <span class="math inline">\(\beta_2\)</span>), but they have different intercepts</li>
+</ul>
+</section>
+<section id="interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
+<p><span class="math display">\[
+\text{Life Expectancy}_{it}  = \beta_0 + \beta_1 \cdot \text{GDP per capita}_{it} + \beta_2 \cdot \text{Country}_{it} + \varepsilon_{it}
+\]</span></p>
+<ul>
+<li>If we have fixed effects for country, we are comparing that country to itself over time</li>
+<li>And if we had fixed effects for continent, we are comparing country in that continent only to other country in that continent</li>
+<li>We can include more than one FE where needed</li>
+</ul>
+</section>
+<section id="pooled-ordinary-least-squares" class="level2">
+<h2 class="anchored" data-anchor-id="pooled-ordinary-least-squares">Pooled Ordinary Least Squares</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="with-country-fixed-effects" class="level2">
+<h2 class="anchored" data-anchor-id="with-country-fixed-effects">With Country Fixed Effects</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="11-fixed-effects_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="when-to-use-fixed-effects" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-fixed-effects">When to Use Fixed Effects</h2>
+<ul>
+<li><em>Panel data</em>: refers to situations where the number of time periods is quite short and the number of units quite high.
+<ul>
+<li>NES panel is like this: 2000 respondents asked questions at various points in time over the course of an election (or multiple elections).</li>
+</ul></li>
+<li><em>Time-series cross-sectional data</em>: has fewer units and many time periods (e.g., U.S. states over time or Western European countries over time)</li>
+</ul>
+</section>
+<section id="two-way-fixed-effects" class="level2">
+<h2 class="anchored" data-anchor-id="two-way-fixed-effects">Two-way Fixed Effects</h2>
+<ul>
+<li>We can include multiple fixed effects in one equation, e.g.&nbsp;for<br>
+</li>
+<li><em>Two-way fixed effects</em> is common for TSCS data
+<ul>
+<li>FE for both <em>individual</em> and <em>time</em></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[
+Y_{it} = \beta_i + \beta_t + \beta_1X_{it} + \varepsilon_{it}
+\]</span></p>
+<ul>
+<li>Here we are looking at variation <em>within</em> individual as well as <em>within</em> year, i.e.&nbsp;the variation that’s left as being variation relative to <em>what we’d expect given that individual, and given that year</em></li>
+<li>Estimator focuses more heavily on individuals that have a lot of variation over time</li>
+</ul>
+</section>
+<section id="clustered-standard-errors" class="level2">
+<h2 class="anchored" data-anchor-id="clustered-standard-errors">Clustered Standard Errors</h2>
+<ul>
+<li>Regression assumption: error terms are independent of each other, but with hierarchical data, this is likely violated</li>
+<li><em>Clustered SEs</em> account for any sort of correlation between errors <em>within</em> each grouping, e.g.&nbsp;country</li>
+<li>Including a control for a group indicator in the model vs.&nbsp;clustering at that group level are different but often complimentary
+<ul>
+<li>The indicator variable suggests that group membership is an important <em>predictor</em> of the outcome and possibly on an important back door</li>
+<li>Clustering suggests that group membership is related to the <em>ability of the model to predict</em> well</li>
+</ul></li>
+<li>Good practice: use theory and/or cluster at the level of treatment</li>
+<li>Often clustered SEs are default implementation</li>
+</ul>
+</section>
+<section id="what-fixed-effects-do-not-fix" class="level2">
+<h2 class="anchored" data-anchor-id="what-fixed-effects-do-not-fix">What Fixed Effects Do Not Fix</h2>
+<ul>
+<li>Reverse causality (e.g., crime rates vs.&nbsp;police spending per capita)</li>
+<li>Time-variant unobserved heterogeneity (e.g., war or pandemic)</li>
+<li>Fixed effects framework does not straightforwardly extend to non-linear models, especially when the number of groups is large
+<ul>
+<li>Approach 1: Use OLS</li>
+<li>Approach 2: Look for implementations, such as <code>feglm()</code>/<code>fenegbin()</code> in <code>fixest</code> package</li>
+</ul></li>
+</ul>
+</section>
+<section id="factor-varies-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="factor-varies-over-time">Factor Varies Over Time</h2>
+<div class="cell" data-fig-width="7" data-fig-asp="0.7" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 316.14 188.00" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 184)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-184 312.14,-184 312.14,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="70.57" cy="-90" rx="70.63" ry="18"></ellipse> <text text-anchor="middle" x="70.57" y="-85.8" font-family="Times,serif" font-size="14.00">GDP per capita</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="233.57" cy="-90" rx="74.65" ry="18"></ellipse> <text text-anchor="middle" x="233.57" y="-85.8" font-family="Times,serif" font-size="14.00">Life Expectancy</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M141.24,-90C143.73,-90 146.21,-90 148.7,-90"></path> <polygon fill="black" stroke="black" points="158.91,-90 148.91,-94.5 153.91,-90 148.91,-90 148.91,-90 148.91,-90 153.91,-90 148.91,-85.5 158.91,-90 158.91,-90"></polygon> </g> <!-- d --> <g id="node3" class="node">
+<title>
+d
+</title>
+<ellipse fill="none" stroke="black" cx="151.57" cy="-18" rx="42.88" ry="18"></ellipse> <text text-anchor="middle" x="151.57" y="-13.8" font-family="Times,serif" font-size="14.00">Country</text> </g> <!-- d&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+d-&gt;a
+</title>
+<path fill="none" stroke="black" d="M133.62,-34.51C123.05,-43.64 109.48,-55.38 97.63,-65.61"></path> <polygon fill="black" stroke="black" points="89.76,-72.41 94.39,-62.47 93.55,-69.14 97.33,-65.87 97.33,-65.87 97.33,-65.87 93.55,-69.14 100.27,-69.28 89.76,-72.41 89.76,-72.41"></polygon> </g> <!-- d&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+d-&gt;b
+</title>
+<path fill="none" stroke="black" d="M169.74,-34.51C180.54,-43.73 194.44,-55.6 206.52,-65.91"></path> <polygon fill="black" stroke="black" points="214.13,-72.41 203.61,-69.34 210.33,-69.16 206.53,-65.92 206.53,-65.92 206.53,-65.92 210.33,-69.16 209.45,-62.5 214.13,-72.41 214.13,-72.41"></polygon> </g> <!-- e --> <g id="node4" class="node">
+<title>
+e
+</title>
+<ellipse fill="none" stroke="black" cx="151.57" cy="-162" rx="27.81" ry="18"></ellipse> <text text-anchor="middle" x="151.57" y="-157.8" font-family="Times,serif" font-size="14.00">War</text> </g> <!-- e&#45;&gt;a --> <g id="edge4" class="edge">
+<title>
+e-&gt;a
+</title>
+<path fill="none" stroke="black" d="M135.56,-147.17C124.64,-137.73 109.92,-125.01 97.25,-114.06"></path> <polygon fill="black" stroke="black" points="89.67,-107.51 100.18,-110.64 93.45,-110.78 97.24,-114.05 97.24,-114.05 97.24,-114.05 93.45,-110.78 94.3,-117.45 89.67,-107.51 89.67,-107.51"></polygon> </g> <!-- e&#45;&gt;b --> <g id="edge5" class="edge">
+<title>
+e-&gt;b
+</title>
+<path fill="none" stroke="black" d="M167.77,-147.17C178.82,-137.73 193.73,-125.01 206.56,-114.06"></path> <polygon fill="black" stroke="black" points="214.23,-107.51 209.54,-117.43 210.42,-110.76 206.62,-114 206.62,-114 206.62,-114 210.42,-110.76 203.7,-110.58 214.23,-107.51 214.23,-107.51"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+<ul>
+<li>Solution: include <em>War</em> into regression model</li>
+</ul>
+</section>
+<section id="example" class="level2">
+<h2 class="anchored" data-anchor-id="example">Example</h2>
+<ul>
+<li>Suppose you want to know the effect of a teacher on the test scores of high school students</li>
+<li>Some potential back doors might go through: <em>parents’ intelligence</em>, <em>age</em>, <em>demographics</em>, <em>school</em>, <em>last year’s teacher</em></li>
+<li>If you used fixed effects for students, what back doors would still be open?</li>
+</ul>
+<!-- ## Example: Train Delays  -->
+<!-- ![](https://www.journals.uchicago.edu/na101/home/literatum/publisher/uchicago/journals/content/jop/2018/jop.2018.80.issue-4/698754/20180920/images/large/tb1_1.jpeg) -->
+</section>
+<section id="main-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="main-takeaways">Main Takeaways</h2>
+<ul>
+<li>Fixed Effects is essentially a dummy variable regression</li>
+<li>It is useful for panel data (i.e.&nbsp;when we have repeated observations across units) and it allows us to isolate the effect <em>within</em> individuals</li>
+<li>Fixed effects combines together lots of different <strong>constant-within-country</strong> back doors into something that lets us identify the model even if we can’t measure them all</li>
+<li>Use clustered SEs when working with FEs</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,14 @@
+{
+  "hash": "3fee00b250b4a800296034c95799d151",
+  "result": {
+    "markdown": "---\ntitle: \"Describing Variables\"\nsubtitle: \"R for Data Analysis<br>Session 2\"\ntitle-slide-attributes:\n  data-background-size: stretch\n  data-slide-number: none\nauto-stretch: false\ninstitute: \"University of Mannheim<br>Fall 2023\"\nauthor: \"Viktoriia Semenova\"\nfooter: \"[🔗 r4da.live](https://r4da.live/)\"\nlogo: images/logo.png\nformat:\n  revealjs:\n    theme: slides.scss\n    transition: fade\n    incremental: true   \n    slide-number: true\n    chalkboard: true\neditor: visual\nexecute:\n  echo: true\n---\n\n\n\n\n# Warm up \n\n## Course Overview\n\n<br>\n\n## Review {.smaller}\n\n- `R` universe\n- Quarto documents \n\n## Plan for Today\n\n\n## Getting Lab Material {.smaller}\n\n- Open `r4da-labs.Rproj` file to open the *labs* project. \n- Go into *Git* pane.\n- If there are any files you changed, you will see them in the window.\n  - Select all these files. \n  - Click on *Commit*, write a commit message, and save it. \n  - If you click on *Push*, it will give you a `git` error message  \n- Click on *Pull* to get the new files uploaded.  \n\n![](images/github-pull-success.png)\n\n\n\n\n\n\n## Wrap Up\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

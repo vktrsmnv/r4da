@@ -168,27 +168,27 @@ Searching for help with R on Google can sometimes be tricky because the program 
 
 We meet weekly from 13:45–15:15 on Wednesdays in B317 in A5, 6. There are **no PCs** in the room so to follow along during the labs, you will need to bring a laptop. Alternatively, you could work from a tablet with a [cloud version of Rstudio](/resource/install.html#cloud-version-of-rstudio), but this would be less convenient. 
 
-I expect you to come to the sessions prepared, which means having completed everything that is listed for the respective week in [Prepare](/prepare/) section of the website. We will have a short lecture-part and then we will move to code-along part and other activities. 
+I expect you to come to the sessions prepared, which means having completed everything that is listed for the respective week in [Material](/material/) section of the website. We will have a short lecture-part and then we will move to code-along part and other activities. 
 
 ### Homework Assignments
 
 The only way to learn programming is through practice, which means you will have coding homework assignments. These problem sets will not be long but will be frequent, so you will need to submit them weekly. To pass, you need to get more than half of the points for that assignment.
 
-Your first few assignments will be individual as it’s important that everyone gets comfortable with the workflow. As we progress during the semester, we will switch to group assignments but you can still work on your own if you prefer that. You can work in groups of 2-3 students. I will let you know more about this as the semester goes.
+Your first few assignments will be individual as it’s important that everyone gets comfortable with the workflow. As we progress during the semester, we will switch to group assignments. You *can* work in groups of 2-3 students, but if you prefer, you can continue working on your own. 
 
-I will distribute homework assignments via GitHub on Wednesdays. You will have until next Tuesday, 22:00 to complete the problem set. You will need to upload your solutions to GitHub by the deadline (this is known as to `push`, I will show you all the process in class).
+I will distribute homework assignments via GitHub on Wednesdays (usually by 18:00). You will have until next Tuesday, 22:00 to complete the problem set. You will need to upload your solutions to GitHub by the deadline.
 
-After the deadline, I will provide you with solutions and it will be your job to go over them and compare your answers. You will later upload the points you got via a survey by that week's Friday. The TA and I will randomly select a few assignments each week to verify that you did not over- or under-evaluated yourself. In case of more than a 2-point difference between our and your evaluations, that homework assignment will be granted zero points. You are more than welcome to ask me questions if you are not sure when evaluating yourselves.
+After the deadline, I will provide you with suggested solutions and it will be *your* job to go over them and compare your answers by that week's Friday (also via GitHub). The TA and I will randomly select a few assignments each week to verify that you did not over- or under-evaluate yourself. In case of more than a 2-point difference between our and your evaluations, that homework assignment will be granted zero points. You are more than welcome to ask me questions if you are not sure when evaluating yourselves.
 
 This approach allows for you to get the feedback quickly and for me to be sure that you have seen and understood the correct solutions without spending time on it in class.
 
 Content-wise, the problem sets will be primarily coding tasks, but they will also include theoretical questions related to readings and material we cover in class.
 
-You can find descriptions for all the assignments on the [assignments page](/assignment/).
+<!-- You can find descriptions for all the assignments on the [assignments page](/assignment/). -->
 
 ### Attendance and participation
 
-Attendance and participation are important to your success in this course. You're expected to come to class each Tuesday prepared—having read the material and watched the videos—and ready to discuss the content and work with `R`. 
+Attendance and participation are important to your success in this course. You're expected to come to class each Wednesday prepared—having read the material and watched the videos—and ready to discuss the content and work with `R`. 
 
 However, if you are sick, please just let me know you're not coming if you can (so I can adjust the activities in class if needed) and stay home. 
 
@@ -231,7 +231,7 @@ See [Late work and extensions](/syllabus.html#late-work-and-extensions) for more
 
 ### Late work and extensions
 
-The due dates for assignments are there to help you keep up with the course material and to ensure that you can get feedback in a timely manner. Since I will providing solutions for everyone after the deadline, this eliminates the possibility of individual extensions. If you require accommodations or extensions, please reach out to me in advance. 
+The due dates for assignments are there to help you keep up with the course material and to ensure that you can get feedback in a timely manner. Since I will be providing solutions for everyone after the deadline, this eliminates the possibility of individual extensions. If you require accommodations or extensions, please reach out to me in advance. 
 
 For the final project, the deadline is a hard one and as a rule no late work will be accepted. 
 
@@ -268,6 +268,15 @@ It is my goal that this class is an accessible and welcoming experience for all 
 <!-- ### Pronouns -->
 <!-- Pronouns are meaningful tools to communicate identities and experiences, and using pronouns supports a campus environment where all community members can thrive. Please update your gender pronouns in Slack.  -->
 
+### Use of generative artificial intelligence (AI)
+
+You should treat generative AI, such as ChatGPT, the same as other online resources. There are two guiding principles that govern how you can use AI in this course:[^1] (1) *Cognitive dimension:* Working with AI should not reduce your ability to think clearly. We will practice using AI to facilitate---rather than hinder---learning. (2) *Ethical dimension***:** Students using AI should be transparent about their use and make sure it aligns with academic integrity.
+
+    -   **AI tools for code:** You may make use of the technology for coding examples on assignments; if you do so, you must explicitly cite where you obtained the code. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism. You may use [these guidelines](https://guides.lib.monash.edu/c.php?g=219786&p=6972087) for citing AI-generated content.
+
+    -   **AI tools for narrative:** Unless instructed otherwise, you may *not* use generative AI to write narrative on assignments. In general, you may use generative AI as a resource as you complete assignments but not to answer the exercises for you. You are ultimately responsible for the work you turn in; it should reflect your understanding of the course content.
+
+[^1]: These guiding principles are based on [*Course Policies related to ChatGPT and other AI Tools*](https://docs.google.com/document/d/1WpCeTyiWCPQ9MNCsFeKMDQLSTsg1oKfNIH6MzoSFXqQ/preview) developed by Joel Gladd, Ph.D.
 
 ### Foods and drinks in class
 

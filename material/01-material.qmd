@@ -58,16 +58,16 @@ d |>
     align = "left",
     columns = c(event, material)
     ) |>
-  tab_style(
-    style = cell_borders(
-      sides = "right",
-      # color = "#D3D3D3",
-      style = "solid"
-    ),
-    locations = cells_body(
-      columns = c(date, time, event)
-    )
-  ) |>
+  # tab_style(
+  #   style = cell_borders(
+  #     sides = "right",
+  #     # color = "#D3D3D3",
+  #     style = "solid"
+  #   ),
+  #   locations = cells_body(
+  #     columns = c(date, time, event)
+  #   )
+  # ) |>
   fmt_markdown(
     columns = c(time, event, material)
   ) |>
@@ -98,17 +98,13 @@ d |>
 
 <!-- -   {{< fa fa-slack >}} Join Slack: Make sure you also join our Slack workspace. Check the welcome email for the invitation link. -->
 
-## Slides
-
-TBA
-
 ## Software
 
 In this course, we will use the open-source software `R` and RStudio as well as version control with `git` and GitHub. It would be best if you *try* installing all the necessary software *before* our class on Wednesday. First, I would like you to install both `R` and RStudio on your computer. Then, move to `git` and GitHub. Even if something with `R` does not work, set up a Github account. 
 
 -   Please follow these [instructions for Installing R, RStudio, git, and Connecting to GitHub](/resource/install.html).
 
--   Once you have your GitHub account, let me know your username via Slack so I can add you to the course organization (so you have access to all of the lab material and homework assignments). Please do so ASAP (teh sooner you do it, the sooner you get the access to all course material on GitHub).  
+-   Once you have your GitHub account, let me know your username via Slack so I can add you to the course organization (so you have access to all of the lab material and homework assignments). **Please do so ASAP** (the sooner you do it, the sooner you get the access to all course material on GitHub).  
 
 If everything works well--congrats, you are all set for the semester! If something doesn't work---don't worry, just talk to me before or after class and we'll figure it out together on Wednesday. You are also welcome to use the Cloud version of Rstudio for the first two weeks or so (see the [instructions](/resource/install.html) page as well), but you will have to switch to the desktop versions eventually.
 
@@ -125,3 +121,9 @@ And as a refresher on what is a good research question, so the starting point to
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ZPuEFjJ2us8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
 
 </iframe>
+
+## Slides
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../slides/01-slides.pdf)
+
+<iframe src="../slides/01-slides.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
