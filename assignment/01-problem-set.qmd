@@ -1,7 +1,7 @@
 ---
 title: "Problem Set 1"
 subtitle: "Total points: 20"
-date: "2023-02-20"
+date: "2023-09-12"
 ---
 
 ```{r setup, include=FALSE}
@@ -10,12 +10,11 @@ knitr::opts_chunk$set(fig.align = "center")
 
 
 
-This homework helps you with establishing the workflow with GitHub and Rstudio, as well as guides you through the first steps in working with Quarto documents and writing code with `R`. The guideline is rather detailed, but should you have any further questions or issues, do not hesitate to ask for help at the [Discussion forum](https://github.com/orgs/r4da-s23/discussions) or during the [office hours](https://calendly.com/vktrsmnv). 
+This homework helps you with establishing the workflow with GitHub and Rstudio, as well as guides you through the first steps in working with Quarto documents and writing code with `R`. 
 
 ## Task 1: Install the software (3 points)
 
 If you haven't done so, please install the software following the guidelines [on this page](resources/install.html). Do this as soon as you have the chance, ideally before Friday so you can come to the office hours if you need help. 
-
 
 ## Task 2: Load your first homework repo (2 points)
 
@@ -24,7 +23,7 @@ You will be working on homework assignments in *private* repositories, which mea
 
 #### Get the URL of the repo for homework assignment
 
-Go to the page of our [course organization on GitHub](https://github.com/orgs/r4da-s23) and open the repository `01_problem_set_[username]`. This repo contains all the relevant materials for your first homework assignment. 
+Go to the page of our [course organization on GitHub](https://github.com/orgs/r4da-f23) and open the repository `PS01-[username]`. This repo contains all the relevant materials for your first homework assignment. 
 
 Click on the green Code button and copy the HTTPS link for the repo by clicking on the clipboard icon. 
 
@@ -49,7 +48,7 @@ Sometimes RStudio (and other programs as well) has troubles with paths that cont
 
 3. Click on `Create Project`. 
 
-If everything worked fine, you should now have a subfolder `01_problem_set_[username]` in the folder our selected when downloading (aka "cloning") the project. 
+If everything worked fine, you should now have a subfolder `PS01-[username]` in the folder our selected when downloading (aka "cloning") the project. 
 
 
 ## Task 3: Practice committing to the repo (2 points)
@@ -58,14 +57,8 @@ Before we move to `R`, let's try uploading files into GitHub. The process here r
 
 #### Make some changes 
 
-Your first commit will be adding the dataset into the repo: 
+Your first commit will be adding your name to the YAML of the `qmd` file. Open the `qmd` and update the name on the top of the document. Don't forget to save your changes (`Ctrl + S`/`Cmd + S` or the save button). 
 
-- Create a subfolder named `data` in the project folder you just made. 
-- Download this `csv` file and place it in that folder:
-
-    - [{{< fa file-csv >}} `un_votes.csv`](/files/data/external_data/un_votes.csv)
-    
-    
 Now you are ready to make your first commit! Here are the steps you need to follow: 
 
 #### Upload the assignment to GitHub
@@ -74,7 +67,7 @@ Now you are ready to make your first commit! Here are the steps you need to foll
 
 2. Check all boxes that appear in the upper left pane next to files. By doing so, you are telling `git` *which* files you want to take a snapshot of (it doesn't always have to be all files you made changes to). In `git` lingo, this means moving the files into Staging Area. 
 
-3. Click on `Commit` to open the dialog window. 
+3. Click on `Commit` to open the dialog window. Note that for you, it will be the `qmd` file that is showing up there, not the data as shown on the image. 
 
 
 ```{r echo=FALSE, out.width = "100%", fig.align = "center"}
@@ -82,7 +75,7 @@ knitr::include_graphics("../files/img/assignments/commit-select-files.png")
 ```
 
 
-4. Write a _Commit Message_ in the window. **For this task, please use _"Added data folder and dataset"_ as your commit message**. Usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. 
+4. Write a _Commit Message_ in the window. **For this task, please use _"Add my name"_ as your commit message**. Usually, this should describe the work you did since your last commit so that at a later point in time, you can easily keep track of your process. 
 
 5. Click on `Commit`. By doing so, you are telling `git` to take a snapshot of the files you selected.  
 

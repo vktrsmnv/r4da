@@ -45,7 +45,6 @@ lapply(p_needed, library, character.only = TRUE)
 
 ### Meet the Toolkit
 
-
 ## Teaching team {.smaller}
 
 ::: columns
@@ -78,39 +77,94 @@ lapply(p_needed, library, character.only = TRUE)
 -   use Quarto (and RMarkdown) to write reproducible reports
 -   use `git` and GitHub for version control and collaboration
 
+## What will you learn in this class
 
-## What You Will Learn
-
-simulation text!
-
-
-DAG 
+![Poltical Campaigning Graph](https://www.andrewheiss.com/research/chapters/heiss-causal-inference-2021/money-votes-complex.png){height="600"}
 
 
-
-## Your Expectations
-
-
-- Majority - no experience with R 
-- Issues most confusing and unclear about empirical analysis 
-
-> Choosing the right method of analysis (for the Research question) <br>
-> To find the right variables <br>
-> Being aware of the results and limitations <br>
-> Translating concepts into variables for OLS
+## What will you learn in this class {.smaller}
 
 
+<!-- ::: {.fragment} -->
+<!-- Translate this: -->
+<!-- ::: -->
+
+::: {.fragment .strike}
+> The coefficient on education is positive and statistically significant at the 0.05 level.
+:::
+
+::: {.fragment .fade-in}
+>  Other things being equal, an additional year of education would increase your annual income by 1,500 USD on average, plus or minus about 500 USD.
+:::
+
+::: {.fragment}
+
+::: columns
+::: {.column width="50%"}
+![](images/repression_tab.png)
+:::
+
+::: {.column width="50%"}
+![](images/repression_fig.png)
+:::
+:::
+:::
+
+## [Our Starting Point & Your Expectations](https://viktoriiasemenova.typeform.com/report/c6lhg7Od/r1K8zSzrzuvRdXYX) {.smaller}
+
+-   Everyone has experience with Stata but many no experience with `R`
+-   Issues most confusing and unclear about empirical analysis:
+
+::: {.fragment}
+
+> Choosing the right method of analysis (for the Research question) <br> To find the right (control) variables <br> Being aware of the results and limitations <br> Translating concepts into variables for OLS <br> The interpretation of an own analysis 
+:::
 
 
+::: {.fragment}
+
+- Topics interested:
+
+> Impact and usage of LLMs like ChatGPT
+
+:::
+
+<!-- ::: {.fragment} -->
+<!-- ::: columns -->
+<!-- ::: {.column width="50%"} -->
+<!-- ::: {.center} -->
+<!-- **Regression for Prediction** -->
+
+<!-- Forecast the future -->
+
+<!-- Focus is on Y -->
+
+<!-- *Netflix trying to guess your next show* -->
+<!-- ::: -->
+<!-- ::: -->
+<!-- ::: {.column width="50%"} -->
+<!-- ::: {.center} -->
+<!-- **Regression for Explanation** -->
+
+
+<!-- Explain effect of X on Y -->
+
+<!-- Focus is on X -->
+
+<!-- *Netflix looking at the effect of the time of day on show selection* -->
+<!-- :::  -->
+<!-- :::  -->
+<!-- :::  -->
+<!-- ::: -->
 <!-- ```{r} -->
+
 <!-- responses <- read_csv("data/responses.csv") -->
+
 <!-- responses$`Have you taken any statistics classes before?` -->
+
 <!-- responses$`What part of the process of writing such paper(s) was the most confusing and unclear? Why?` -->
 
-
 <!-- ``` -->
-
-
 
 # Course Details
 
@@ -196,25 +250,23 @@ The final paper grade is 100% of your course grade
 
 ## Course Policies {.smaller}
 
-`r icons::fontawesome("clock")` Deadlines are hard
+##### `r icons::fontawesome("clock")` Deadlines are hard
 
-`r icons::fontawesome("calendar-check")` Attendance is expected (as long as you're healthy!)
+##### `r icons::fontawesome("calendar-check")` Attendance is expected (as long as you're healthy!)
 
-`r icons::fontawesome("cloud-upload-alt")` No recording during sessions or office hours
+##### `r icons::fontawesome("cloud-upload-alt")` No recording during sessions or office hours
 
-<!-- -   `r icons::fontawesome("robot")` Generative AI policy -->
+<!-- -   `r icons::fontawesome("robot")` Generative AI policy {height="600"} --> 
 
-`r icons::fontawesome("scroll")` Check syllabus & website for updates regularly
+##### `r icons::fontawesome("scroll")` Check syllabus & website for updates regularly
 
-`r icons::fontawesome("envelope")` Check email/Slack regularly
+##### `r icons::fontawesome("envelope")` Check email/Slack regularly
 
-`r icons::fontawesome("comment-dots")` [Feedback and suggestions welcome anytime](https://viktoriiasemenova.typeform.com/to/A8mIv5vG)
+##### `r icons::fontawesome("comment-dots")` [Feedback and suggestions welcome anytime](https://viktoriiasemenova.typeform.com/to/A8mIv5vG)
 
 ## Generative AI policy {.smaller}
 
-You should treat generative AI, such as ChatGPT, the same as other online resources. There are two guiding principles that govern how you can use AI in this course:[^1]
-
-[^1]: These guiding principles are based on [*Course Policies related to ChatGPT and other AI Tools*](https://docs.google.com/document/d/1WpCeTyiWCPQ9MNCsFeKMDQLSTsg1oKfNIH6MzoSFXqQ/preview) developed by Joel Gladd, Ph.D.
+You should treat generative AI, such as ChatGPT, the same as other online resources. There are two guiding principles that govern how you can use AI in this course:
 
 \(1\) *Cognitive dimension:* Working with AI should not reduce your ability to think clearly. We will practice using AI to facilitate---rather than hinder---learning.
 
@@ -248,7 +300,7 @@ You should treat generative AI, such as ChatGPT, the same as other online resour
 -   Attach screen shots/error message when first writing the message
 -   Use formatting for code parts (easier copypaste + aesthetics)
 
-![](images/slack-formatting.png)
+![](images/slack-formatting.png){height="200"}
 
 ## Course website: <http://r4da.live/>
 
@@ -258,7 +310,7 @@ You should treat generative AI, such as ChatGPT, the same as other online resour
 
 <!-- ::: -->
 
-![](images/r4da.png)
+![](images/r4da.png){height="600"}
 
 # Meet the Toolkit
 
@@ -276,7 +328,10 @@ You should treat generative AI, such as ChatGPT, the same as other online resour
 
 <center>
 
-.tiny\[Source: <https://www.tiobe.com/tiobe-index/>\]
+<!-- ::: aside -->
+<!-- Source: <https://www.tiobe.com/tiobe-index/>\] -->
+<!-- ::: -->
+
 
 ## Visualization Examples {.smaller}
 

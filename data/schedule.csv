@@ -1,6 +1,6 @@
 group,subgroup,date,date_end,title,deadline,prepare,session,lab,assignment,evaluation,note
-Intro to R,Week 1,2023-09-06,,Meet the Toolkit,,material/01-material,slides/01-slides,https://github.com/r4da-f23/week01-meet-the-toolkit,https://github.com/r4da-f23?q=PS01,,
-Intro to R,Week 2,2023-09-13,,Describing Variables,,material/02-material,slides/02-slides,,,,
+Intro to R,Week 1,2023-09-06,,Meet the Toolkit,,material/01-material,slides/01-slides,https://github.com/r4da-f23/r4da-labs,https://github.com/r4da-f23?q=PS01,,
+Intro to R,Week 2,2023-09-13,,Describing Variables,,material/02-material,slides/02-slides,https://github.com/r4da-f23/r4da-labs,,,
 Intro to R,Week 3,2023-09-20,,Describing Relationships,,,,,,,
 Data Management,Week 4,2023-09-27,,Data Wrangling,,,,,,,
 Data Management,Week 5,2023-10-04,,Data Merging,,,,,,,

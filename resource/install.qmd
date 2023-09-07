@@ -64,7 +64,7 @@ it in class.
 2.  Click on *Download R for Windows* and select *base*. This is the
     version you want when you are installing `R` for the first time,
 
-3.  Click on *Download R-4.2.2 for Windows*.
+3.  Click on *Download R-4.3.1 for Windows*.
 
 4.  Run the installation from the `.exe` file you just downloaded.
 
@@ -85,7 +85,7 @@ it in class.
 
 4.  Run the installation from the `.pkg` file you just downloaded.
 
-5.  Download and install XQuartz: https://www.xquartz.org/.
+5.  Download and install XQuartz: <https://www.xquartz.org/>.
 
 6.  Now that `R` is installed, proceed to installing RStudio.
 :::
@@ -109,7 +109,7 @@ it in class.
 
 1.  Go to <https://git-scm.com/downloads> and click on your operating
     system.
-2.  Download the latest release (at the time of writing, it is 2.39.0).
+2.  Download the latest release (at the time of writing, it is 2.42.0).
     Follow the instructions and install git.
     -   When asked about "Adjusting your PATH environment", make sure to
         select *"Git from the command line and also from 3rd-party
@@ -141,7 +141,7 @@ git config
 
 1.  Go to <https://git-scm.com/downloads> and click on your operating
     system.
-2.  Download the latest release (at the time of writing, it is 2.39.0).
+2.  Download the latest release (at the time of writing, it is 2.42.0).
     Follow the instructions and install git.
     -   When asked about "Adjusting your PATH environment", make sure to
         select *"Git from the command line and also from 3rd-party
@@ -214,8 +214,7 @@ usethis::create_github_token()
 ```
 
 This will open a new page on Github in your browser, where you'll need
-to select the validity period of your PAT - Expiration - (I usually do
-90 days), and click on **Generate Token** at the bottom of the page.
+to select the validity period of your PAT - Expiration (please keep the default 30 days for now), and click on **Generate Token** at the bottom of the page.
 
 Next page will give you the PAT. It will be a long string and will look
 something like this: `ghp_Kt33T3rXI1m4a9vxpBU0ngRU0`. Don't close this

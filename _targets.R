@@ -103,7 +103,7 @@ list(
   tar_target(schedule_file, here_rel("data", "schedule.csv"), format = "file"),
   tar_target(schedule_page_data, build_schedule_for_page(schedule_file)),
 
-  tar_target(schedule_file_s23, here_rel("data", "schedule-s23.csv"), format = "file"),
+  tar_target(schedule_file_s23, here_rel("data", "schedule.csv"), format = "file"),
   tar_target(schedule_page_data_s23, build_schedule_for_page(schedule_file_s23)),
   # tar_target(schedule_ical_data, build_ical(schedule_file, base_url, page_suffix, class_number)),
   # tar_target(schedule_ical_file,

@@ -130,16 +130,6 @@
       ],
       "Hash": "d1fa8fae6a47e88bb46d5152312bd8bd"
     },
-    "airports": {
-      "Package": "airports",
-      "Version": "0.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "14e997c91e0cdca32231b04143e0904c"
-    },
     "anytime": {
       "Package": "anytime",
       "Version": "0.3.9",
@@ -424,16 +414,6 @@
       ],
       "Hash": "147e4db6909d8814bb30f671b49d7e06"
     },
-    "cherryblossom": {
-      "Package": "cherryblossom",
-      "Version": "0.1.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "ef936debf27cd40d667339a6ad89cd75"
-    },
     "chk": {
       "Package": "chk",
       "Version": "0.8.1",
@@ -580,24 +560,6 @@
         "rlang"
       ],
       "Hash": "bb097fccb22d156624fd07cd2894ddb6"
-    },
-    "countdown": {
-      "Package": "countdown",
-      "Version": "0.4.0",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteUsername": "gadenbuie",
-      "RemoteRepo": "countdown",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "ed61a5a97ea596ad1538baeca1887a8c8a8300be",
-      "RemoteHost": "api.github.com",
-      "Requirements": [
-        "htmltools",
-        "prismatic",
-        "utils",
-        "whisker"
-      ],
-      "Hash": "a85f825b2faffebd8726791626337a05"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -1934,24 +1896,6 @@
       ],
       "Hash": "0984ce8da8da9ead8643c5cbbb60f83e"
     },
-    "openintro": {
-      "Package": "openintro",
-      "Version": "2.4.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "airports",
-        "cherryblossom",
-        "ggplot2",
-        "graphics",
-        "readr",
-        "rmarkdown",
-        "tibble",
-        "usdata"
-      ],
-      "Hash": "b392256e8a002162618cd58dc0381b67"
-    },
     "openssl": {
       "Package": "openssl",
       "Version": "2.0.6",
@@ -2143,19 +2087,6 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "95ef9167b75dde9d2ccc3c7528393e7e"
-    },
-    "prismatic": {
-      "Package": "prismatic",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "farver",
-        "grDevices",
-        "graphics"
-      ],
-      "Hash": "faa2193fdec94a45b4390aefc1280a62"
     },
     "processx": {
       "Package": "processx",
@@ -2938,17 +2869,6 @@
       ],
       "Hash": "b2e1cbce7c903eaf23ec05c58e59fb5e"
     },
-    "usdata": {
-      "Package": "usdata",
-      "Version": "0.2.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "tibble"
-      ],
-      "Hash": "9cc31e3592089bfd82c69a65260f1e37"
-    },
     "utf8": {
       "Package": "utf8",
       "Version": "1.2.3",
@@ -3075,13 +2995,6 @@
         "magrittr"
       ],
       "Hash": "cfd9342c76693ae53108a474aafa1641"
-    },
-    "whisker": {
-      "Package": "whisker",
-      "Version": "0.4.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "c6abfa47a46d281a7d5159d0a8891e88"
     },
     "withr": {
       "Package": "withr",
