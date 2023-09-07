@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viktoriia Semenova">
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Difference-in-Differences</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="../../../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
+<script src="../../../site_libs/countdown-0.4.0/countdown.js"></script>
+<script src="../../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="R for Data Analysis - Difference-in-Differences">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 12">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <ul>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz">Quiz</a></li>
+  <li><a href="#closing-backdoors" id="toc-closing-backdoors" class="nav-link" data-scroll-target="#closing-backdoors">Closing Backdoors</a></li>
+  <li><a href="#each-method-has-pros-and-cons" id="toc-each-method-has-pros-and-cons" class="nav-link" data-scroll-target="#each-method-has-pros-and-cons">Each Method Has Pros and Cons</a></li>
+  <li><a href="#natural-experiments-aka-quasi-experiments" id="toc-natural-experiments-aka-quasi-experiments" class="nav-link" data-scroll-target="#natural-experiments-aka-quasi-experiments">Natural Experiments (aka Quasi-Experiments)</a></li>
+  <li><a href="#recap-interactions" id="toc-recap-interactions" class="nav-link" data-scroll-target="#recap-interactions">Recap: Interactions</a></li>
+  </ul></li>
+  <li><a href="#diff-in-diff" id="toc-diff-in-diff" class="nav-link" data-scroll-target="#diff-in-diff">Diff-in-Diff</a>
+  <ul>
+  <li><a href="#what-is-difference-in-differences" id="toc-what-is-difference-in-differences" class="nav-link" data-scroll-target="#what-is-difference-in-differences">What is Difference-In-Differences</a></li>
+  <li><a href="#diff-in-diff-illustration" id="toc-diff-in-diff-illustration" class="nav-link" data-scroll-target="#diff-in-diff-illustration">Diff-in-Diff Illustration</a></li>
+  <li><a href="#dag-for-diff-in-diff" id="toc-dag-for-diff-in-diff" class="nav-link" data-scroll-target="#dag-for-diff-in-diff">DAG for Diff-in-Diff</a></li>
+  <li><a href="#example-minimum-wage-and-unemployment" id="toc-example-minimum-wage-and-unemployment" class="nav-link" data-scroll-target="#example-minimum-wage-and-unemployment">Example: Minimum Wage and Unemployment</a></li>
+  <li><a href="#card-krueger-study-dag" id="toc-card-krueger-study-dag" class="nav-link" data-scroll-target="#card-krueger-study-dag">Card &amp; Krueger Study DAG</a></li>
+  <li><a href="#outcome-matrix" id="toc-outcome-matrix" class="nav-link" data-scroll-target="#outcome-matrix">Outcome Matrix</a></li>
+  <li><a href="#outcome-matrix-within-units" id="toc-outcome-matrix-within-units" class="nav-link" data-scroll-target="#outcome-matrix-within-units">Outcome Matrix: ∆<sub>within units</sub></a></li>
+  <li><a href="#outcome-matrix-within-groups" id="toc-outcome-matrix-within-groups" class="nav-link" data-scroll-target="#outcome-matrix-within-groups">Outcome Matrix: ∆<sub>within groups</sub></a></li>
+  <li><a href="#problems" id="toc-problems" class="nav-link" data-scroll-target="#problems">Problems</a></li>
+  <li><a href="#outcome-matrix-within-units-within-groups" id="toc-outcome-matrix-within-units-within-groups" class="nav-link" data-scroll-target="#outcome-matrix-within-units-within-groups">Outcome Matrix: ∆<sub>within units</sub> − ∆<sub>within groups</sub></a></li>
+  <li><a href="#minimum-wage-and-unemployment-diff-in-diff" id="toc-minimum-wage-and-unemployment-diff-in-diff" class="nav-link" data-scroll-target="#minimum-wage-and-unemployment-diff-in-diff">Minimum Wage and Unemployment Diff-in-Diff</a></li>
+  <li><a href="#diff-in-diff-with-regression" id="toc-diff-in-diff-with-regression" class="nav-link" data-scroll-target="#diff-in-diff-with-regression">Diff-in-Diff with Regression</a></li>
+  <li><a href="#parallel-trend-assumption" id="toc-parallel-trend-assumption" class="nav-link" data-scroll-target="#parallel-trend-assumption">Parallel Trend Assumption</a></li>
+  <li><a href="#parallel-trend-assumption-1" id="toc-parallel-trend-assumption-1" class="nav-link" data-scroll-target="#parallel-trend-assumption-1">Parallel Trend Assumption</a></li>
+  <li><a href="#parallel-trend-assumption-violation" id="toc-parallel-trend-assumption-violation" class="nav-link" data-scroll-target="#parallel-trend-assumption-violation">Parallel Trend Assumption Violation</a></li>
+  <li><a href="#parallel-trend-assumption-violation-1" id="toc-parallel-trend-assumption-violation-1" class="nav-link" data-scroll-target="#parallel-trend-assumption-violation-1">Parallel Trend Assumption Violation</a></li>
+  <li><a href="#parallel-trend-assumption-holds" id="toc-parallel-trend-assumption-holds" class="nav-link" data-scroll-target="#parallel-trend-assumption-holds">Parallel Trend Assumption Holds</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Difference-in-Differences</h1>
+<p class="subtitle lead">Data Analytics and Visualization with R<br>Session 12</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Viktoriia Semenova 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<section id="quiz" class="level2">
+<h2 class="anchored" data-anchor-id="quiz">Quiz</h2>
+<!-- ## Quiz: Selecting Research Design -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="countdown" id="timer_cf638d22" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">06</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<p>You need to explore if women are more likely to quit politics after losing their first race than men. Discuss the following research design choices.</p>
+<ol type="1">
+<li><p>What candidates should be included in the sample? (e.g., only those who lost the election once? only those who decided to quit politics?)</p></li>
+<li><p>What would be the unit of analysis?</p></li>
+<li><p>What model would you use? Why?</p></li>
+</ol>
+<!-- You are interested in exploring the effect of election fraud perception on trust in government. You obtained data from multiple waves of WVS -->
+<!-- (2010-2020). -->
+<!-- Discuss the pros and cons of using each design. -->
+<!-- 1.  Multiple Linear Regression (MLR) with Statistical Control -->
+<!-- 2.  Matching -->
+<!-- 3.  MLR with fixed effects for countries and years -->
+</section>
+<section id="closing-backdoors" class="level2">
+<h2 class="anchored" data-anchor-id="closing-backdoors">Closing Backdoors</h2>
+<p><strong>Model-based vs.&nbsp;Design-based Identification</strong></p>
+<ul>
+<li>Option 1: Do our best to measure all confounding variables (and assume we did if that’s plausible): <em>regression</em>, <em>matching</em>, <em>IPW</em></li>
+<li>Option 2: Make comparisons <em>within</em> units with repeated measures of same units, thus controlling for unobserved things that stay constant in units over time: <em>fixed effects</em></li>
+<li>Option 3: Look for quasi-experiments (<strong>as-if</strong> random assignment)
+<ul>
+<li>Difference-in-difference</li>
+<li>Regression discontinuity design</li>
+</ul></li>
+</ul>
+</section>
+<section id="each-method-has-pros-and-cons" class="level2">
+<h2 class="anchored" data-anchor-id="each-method-has-pros-and-cons">Each Method Has Pros and Cons</h2>
+<p><img src="https://evalf22.classes.andrewheiss.com/slides/img/08-class/causality-continuum.png" class="img-fluid"></p>
+</section>
+<section id="natural-experiments-aka-quasi-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="natural-experiments-aka-quasi-experiments">Natural Experiments (aka Quasi-Experiments)</h2>
+<ul>
+<li>Situation in which there is random assignment of a treatment via a randomization device, but this assignment is not under the control of the researcher</li>
+<li>Randomization may be imperfect, but external validity is high</li>
+</ul>
+<div class="smaller">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><em>How did Vietnam draft vulnerability influence political attitudes?</em></li>
+<li>The 1969 Vietnam draft lottery assigned numbers to birth dates in order to determine which young men would be called to fight in Vietnam (<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/caught-in-the-draft-the-effects-of-vietnam-draft-lottery-status-on-political-attitudes/37B0E3788769BF032C516E6F93794F97">Erikson and Stoker 2011)</a></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><em>Do people continue to elect women after quotas are lifted?</em></li>
+<li>One third of seats to women candidates in India’s local elections are randomly reserved and change from one election to the next (<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/do-electoral-quotas-work-after-they-are-withdrawn-evidence-from-a-natural-experiment-in-india/0AA2DD658A2AFE3CE30108FFCF1FDCD3">Bhavnani 2009)</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="recap-interactions" class="level2">
+<h2 class="anchored" data-anchor-id="recap-interactions">Recap: Interactions</h2>
+<p><span class="math display">\[
+\widehat{\text{Running for Office}} = \hat\beta_0 + \hat\beta_1 \text{Losing Elections} + \hat\beta_2 \text{Female} +\\ \hat\beta_3 (\text{Losing Elections} \times \text{Female})
+\]</span></p>
+<ul>
+<li>The effect of <em>Losing Elections</em> on running for office is allowed to be different for <em>Men</em> vs.&nbsp;<em>Women</em></li>
+<li>Different intercepts + different slopes</li>
+</ul>
+<!-- - $\hat\beta_0$ is the expected vote share for non-incumbent & zero Policy Campaign Focus   -->
+<!-- - $\hat\beta_1$ is the effect of Policy Campaign Focus for non-incumbents on the expected vote share -->
+<!-- - $\hat\beta_2$ is the effect of incumbent status on the expected vote share when Policy Campaign Focus is zero  -->
+<!-- - $\hat\beta_3$ is difference in the effect of Policy Campaign Focus between incumbents and non-incumbents   -->
+</section>
+</section>
+<section id="diff-in-diff" class="level1">
+<h1>Diff-in-Diff</h1>
+<section id="what-is-difference-in-differences" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-difference-in-differences">What is Difference-In-Differences</h2>
+<ul>
+<li>We want to know the effect of some policy</li>
+<li>We look for cities/states/countries/etc. which implemented it and measure the outcome <em>before</em> and <em>after</em> the policy implementation (difference #1)</li>
+<li>These <em>before</em> and <em>after</em> comparisons would include the effect of policy but also other stuff that changes over time</li>
+<li>We find units that did <em>not</em> introduce the policy (which are similar to the “treated” one) and use them as controls: compare them for the same pre- and post-treatment times (difference #2)</li>
+<li>We then compare the changes in outcome for cases where policy was implemented (difference #1) to changes for control (difference #2) <span class="math inline">\(\Rightarrow\)</span> <strong>Difference-in-differences</strong></li>
+</ul>
+</section>
+<section id="diff-in-diff-illustration" class="level2">
+<h2 class="anchored" data-anchor-id="diff-in-diff-illustration">Diff-in-Diff Illustration</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values (`geom_text()`).</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead
+
+Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, : font family
+'Fira Sans Condensed Bold' not found, will use 'sans' instead</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12-diff-in-diff_files/figure-html/dd-graph-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dag-for-diff-in-diff" class="level2">
+<h2 class="anchored" data-anchor-id="dag-for-diff-in-diff">DAG for Diff-in-Diff</h2>
+<div class="cell" data-fig-width="7" data-fig-asp="0.7" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 222.42 138.83" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 134.83)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-134.83 218.42,-134.83 218.42,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="51.99" cy="-101.42" rx="51.98" ry="29.33"></ellipse> <text text-anchor="middle" x="51.99" y="-105.62" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Treatment</text> <text text-anchor="middle" x="51.99" y="-88.82" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">(Policy)</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="167.99" cy="-101.42" rx="46.37" ry="18"></ellipse> <text text-anchor="middle" x="167.99" y="-97.22" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Outcome</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M104.1,-101.42C106.4,-101.42 108.7,-101.42 110.99,-101.42"></path> <polygon fill="black" stroke="black" points="121.07,-101.42 111.07,-105.92 116.07,-101.42 111.07,-101.42 111.07,-101.42 111.07,-101.42 116.07,-101.42 111.07,-96.92 121.07,-101.42 121.07,-101.42"></polygon> </g> <!-- c --> <g id="node3" class="node">
+<title>
+c
+</title>
+<ellipse fill="none" stroke="black" cx="109.99" cy="-18" rx="31.33" ry="18"></ellipse> <text text-anchor="middle" x="109.99" y="-13.8" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Time</text> </g> <!-- c&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+c-&gt;a
+</title>
+<path fill="none" stroke="black" d="M98.58,-35.02C92.38,-43.72 84.46,-54.84 76.91,-65.43"></path> <polygon fill="black" stroke="black" points="70.98,-73.76 73.12,-63 73.88,-69.68 76.78,-65.61 76.78,-65.61 76.78,-65.61 73.88,-69.68 80.45,-68.22 70.98,-73.76 70.98,-73.76"></polygon> </g> <!-- c&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+c-&gt;b
+</title>
+<path fill="none" stroke="black" d="M121.31,-34.9C129.58,-46.5 140.93,-62.44 150.38,-75.69"></path> <polygon fill="black" stroke="black" points="156.25,-83.94 146.79,-78.41 153.35,-79.87 150.45,-75.8 150.45,-75.8 150.45,-75.8 153.35,-79.87 154.12,-73.18 156.25,-83.94 156.25,-83.94"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-minimum-wage-and-unemployment" class="level2">
+<h2 class="anchored" data-anchor-id="example-minimum-wage-and-unemployment">Example: Minimum Wage and Unemployment</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12-diff-in-diff_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/FBaP8R8XIAEycMC.jpeg" class="img-fluid figure-img" width="561"></p>
+</figure>
+</div>
+</section>
+<section id="card-krueger-study-dag" class="level2">
+<h2 class="anchored" data-anchor-id="card-krueger-study-dag">Card &amp; Krueger Study DAG</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>New Jersey raised their minimum wage in early 1992 ($4.25 → $5.05), but Pennsylvania didn’t</li>
+<li>Outcome variable: Average number of jobs per fast food restaurant in January 1992 and November 1992</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="cell" data-fig-width="5" data-fig-asp="0.7" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="480" height="480" viewbox="0.00 0.00 321.59 210.83" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 206.83)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-206.83 317.59,-206.83 317.59,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="76.47" cy="-101.42" rx="76.44" ry="29.33"></ellipse> <text text-anchor="middle" x="76.47" y="-105.62" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Minimum Wage</text> <text text-anchor="middle" x="76.47" y="-88.82" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Increase</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="242.47" cy="-101.42" rx="71.23" ry="18"></ellipse> <text text-anchor="middle" x="242.47" y="-97.22" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Unemployment</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M152.99,-101.42C155.64,-101.42 158.29,-101.42 160.94,-101.42"></path> <polygon fill="black" stroke="black" points="171.16,-101.42 161.16,-105.92 166.16,-101.42 161.16,-101.42 161.16,-101.42 161.16,-101.42 166.16,-101.42 161.16,-96.92 171.16,-101.42 171.16,-101.42"></polygon> </g> <!-- c --> <g id="node3" class="node">
+<title>
+c
+</title>
+<ellipse fill="none" stroke="black" cx="159.47" cy="-184.83" rx="31.33" ry="18"></ellipse> <text text-anchor="middle" x="159.47" y="-180.63" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Time</text> </g> <!-- c&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+c-&gt;a
+</title>
+<path fill="none" stroke="black" d="M144.25,-168.9C134.96,-159.79 122.68,-147.74 111.13,-136.42"></path> <polygon fill="black" stroke="black" points="103.69,-129.11 113.98,-132.9 107.26,-132.61 110.83,-136.12 110.83,-136.12 110.83,-136.12 107.26,-132.61 107.68,-139.33 103.69,-129.11 103.69,-129.11"></polygon> </g> <!-- c&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+c-&gt;b
+</title>
+<path fill="none" stroke="black" d="M174.7,-168.9C186.86,-156.97 204.13,-140.02 218.2,-126.22"></path> <polygon fill="black" stroke="black" points="225.63,-118.93 221.64,-129.15 222.06,-122.44 218.49,-125.94 218.49,-125.94 218.49,-125.94 222.06,-122.44 215.34,-122.72 225.63,-118.93 225.63,-118.93"></polygon> </g> <!-- d --> <g id="node4" class="node">
+<title>
+d
+</title>
+<ellipse fill="none" stroke="black" cx="159.47" cy="-18" rx="57.35" ry="18"></ellipse> <text text-anchor="middle" x="159.47" y="-13.8" font-family="AtkinsonHyperlegible-Regular" font-size="14.00">Being in NJ</text> </g> <!-- d&#45;&gt;a --> <g id="edge4" class="edge">
+<title>
+d-&gt;a
+</title>
+<path fill="none" stroke="black" d="M142.65,-35.5C133.56,-44.42 121.98,-55.77 111.07,-66.48"></path> <polygon fill="black" stroke="black" points="103.65,-73.76 107.64,-63.54 107.22,-70.26 110.79,-66.75 110.79,-66.75 110.79,-66.75 107.22,-70.26 113.94,-69.97 103.65,-73.76 103.65,-73.76"></polygon> </g> <!-- d&#45;&gt;b --> <g id="edge5" class="edge">
+<title>
+d-&gt;b
+</title>
+<path fill="none" stroke="black" d="M176.08,-35.29C188.12,-47.1 204.59,-63.25 218.11,-76.52"></path> <polygon fill="black" stroke="black" points="225.27,-83.55 214.98,-79.76 221.71,-80.04 218.14,-76.54 218.14,-76.54 218.14,-76.54 221.71,-80.04 221.29,-73.33 225.27,-83.55 225.27,-83.55"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="outcome-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="outcome-matrix">Outcome Matrix</h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">   </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Pre mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Post mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> <span class="color-light-5">∆ <span class="smaller">(post − pre)</span></span> </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Control </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>A</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>B</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>B − A</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Treatment </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>C</b><br><span class="small">(not yet treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>D</b><br><span class="small">(treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>D − C</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> ∆<br><span class="smaller">(treatment − control)</span> </td>
+   <td style="text-align:center;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>C − A</b> </td>
+   <td style="text-align:center;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>D − B</b> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;color: #FFFFFF !important;background-color: #FFFFFF !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <span class=""><b>(B − A) − (D − C)</b></span> <i>or</i><br><span class=""><b>(B − D) − (A − C)</b></span> </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="outcome-matrix-within-units" class="level2">
+<h2 class="anchored" data-anchor-id="outcome-matrix-within-units">Outcome Matrix: ∆<sub>within units</sub></h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">   </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Pre mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Post mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> ∆ <span class="smaller">(post − pre)</span> </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Control </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>A</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>B</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;"> <b>B − A</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Treatment </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>C</b><br><span class="small">(not yet treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>D</b><br><span class="small">(treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;"> <b>D − C</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> ∆<br><span class="smaller">(treatment − control)</span> </td>
+   <td style="text-align:center;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>A − C</b> </td>
+   <td style="text-align:center;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>B − D</b> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <span class=""><b>(B − A) − (D − C)</b></span> <i>or</i><br><span class=""><b>(B − D) − (A − C)</b></span> </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="outcome-matrix-within-groups" class="level2">
+<h2 class="anchored" data-anchor-id="outcome-matrix-within-groups">Outcome Matrix: ∆<sub>within groups</sub></h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">   </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Pre mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Post mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> <span class="color-light-5">∆ <span class="smaller">(post − pre)</span></span> </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Control </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>A</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>B</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>B − A</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Treatment </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>C</b><br><span class="small">(not yet treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>D</b><br><span class="small">(treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <b>D − C</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #DDDDDD !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> ∆<br><span class="smaller">(treatment − control)</span> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;"> <b>C − A</b> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;"> <b>D − B</b> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;color: #FFFFFF !important;background-color: #FFFFFF !important;"> <span class=""><b>(B − A) − (D − C)</b></span> <i>or</i><br><span class=""><b>(B − D) − (A − C)</b></span> </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="problems" class="level2">
+<h2 class="anchored" data-anchor-id="problems">Problems</h2>
+<ul>
+<li>Comparing only before/after ∆<sub>within units</sub>
+<ul>
+<li>You’re only looking at the treatment or control group separately</li>
+<li>Impossible to know if change happened because of treatment or just naturally</li>
+</ul></li>
+<li>Comparing only treatment/control ∆<sub>within groups</sub>
+<ul>
+<li>You’re only looking at post-treatment values across treatment &amp; control</li>
+<li>Impossible to know if change happened because of natural growth</li>
+</ul></li>
+</ul>
+</section>
+<section id="outcome-matrix-within-units-within-groups" class="level2">
+<h2 class="anchored" data-anchor-id="outcome-matrix-within-units-within-groups">Outcome Matrix: ∆<sub>within units</sub> − ∆<sub>within groups</sub></h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">   </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Pre mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Post mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> ∆ <span class="smaller">(post − pre)</span> </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Control </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>A</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>B</b><br><span class="small">(never treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;"> <b>B − A</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Treatment </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>C</b><br><span class="small">(not yet treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>D</b><br><span class="small">(treated) </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;"> <b>D − C</b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #DDDDDD !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> ∆<br><span class="smaller">(treatment − control)</span> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;"> <b>C − A</b> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;"> <b>D − B</b> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;background-color: #DDDDDD !important;"> <span class="color-5"><b>(D − C) − (B − A)</b></span> <i>or</i><br><span class="color-5"><b>(D − B) − (C − A)</b></span> </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="minimum-wage-and-unemployment-diff-in-diff" class="level2">
+<h2 class="anchored" data-anchor-id="minimum-wage-and-unemployment-diff-in-diff">Minimum Wage and Unemployment Diff-in-Diff</h2>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">   </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Pre mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Post mean </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> ∆ <span class="smaller">(post − pre)</span> </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Pennsylvania </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>23.33</b><br><span class="small">A </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>21.17</b><br><span class="small">B </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;"> <b>-2.16</b><br><span class="small">B − A </span>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> New Jersey </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>20.44</b><br><span class="small">C </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b>21.03</b><br><span class="small">D </span>
+</td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #DDDDDD !important;"> <b>0.59</b><br><span class="small">D − C </span>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #DDDDDD !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> ∆<br><span class="smaller">(NJ − PA)</span> </td>
+   <td style="text-align:center;background-color: #DDDDDD !important;"> <b>-2.89</b><br><span class="small">C − A </span>
+</td>
+   <td style="text-align:center;background-color: #DDDDDD !important;"> <b>-0.14</b><br><span class="small">D − B </span>
+</td>
+   <td style="text-align:center;background-color: #DDDDDD !important;background-color: #DDDDDD !important;"> <b>(0.59) − (−2.16) = <br><span class="color-5">2.75</span></b> </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<!-- ## Diff-in-Diff Illustration -->
+</section>
+<section id="diff-in-diff-with-regression" class="level2">
+<h2 class="anchored" data-anchor-id="diff-in-diff-with-regression">Diff-in-Diff with Regression</h2>
+<p><span class="math display">\[\begin{aligned}
+\color{#440154FF}{Y_{it}}\ =\ &amp;\alpha + \beta\ \color{#35608DFF}{\text{Group}_i} + \gamma\ \color{#22A884FF}{\text{Time}_t} + \delta\ \color{#800010}{(\text{Group}_i \times \text{Time}_t)} + \varepsilon_{it}
+\end{aligned}\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+</div>
+</div>
+<!-- [Group = 1 or TRUE if treatment]{style="color: #35608DFF"} -->
+<!-- [Time = 1 or TRUE if after]{style="color: #22A884FF"} -->
+<p><span style="color: #666666">α = Mean of control, pre-treatment</span></p>
+<p><span style="color: #35608DFF">β = Increase in outcome across groups</span></p>
+<p><span style="color: #22A884FF">γ = Increase in outcome over time within units</span></p>
+<p><span style="color: #800010">δ = Difference in differences!</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">   </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">  Pre mean  </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">  Post mean  </th>
+   <th style="text-align:center;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">  ∆ <span class="smaller">(post − pre)</span>  </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Control </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b><span style="color: #666666;">α</span></b> </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b><span style="color: #666666;">α</span> + <span style="color: #22A884FF;">γ</span></b> </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #EEEEEE !important;"> <b><span style="color: #22A884FF;">γ</span></b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #FFFFFF !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;"> Treatment </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b><span style="color: #666666;">α</span> + <span style="color: #35608DFF;">β</span></b> </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;"> <b><span style="color: #666666;">α</span> + <span style="color: #35608DFF;">β</span> + <span style="color: #22A884FF;">γ</span> + <span style="color: #800010">δ</span></b> </td>
+   <td style="text-align:center;background-color: #FFFFFF !important;background-color: #EEEEEE !important;"> <b><span style="color: #22A884FF;">γ</span> + <span style="color: #800010">δ</span></b> </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;background-color: #EEEEEE !important;font-weight: bold;color: #800010 !important;background-color: rgba(128, 0, 16, 0.31) !important;">  ∆ <span class="smaller">(trtmt − ctrl)</span>  </td>
+   <td style="text-align:center;background-color: #EEEEEE !important;"> <b><span style="color: #35608DFF;">β</span></b> </td>
+   <td style="text-align:center;background-color: #EEEEEE !important;"> <b><span style="color: #35608DFF;">β</span> + <span style="color: #800010">δ</span></b> </td>
+   <td style="text-align:center;background-color: #EEEEEE !important;background-color: #EEEEEE !important;"> <b><span style="color: #800010">δ</span></b> </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<!-- ## What is Diff-in-Diff? -->
+<!-- -   We combine untreated groups with fixed effects -->
+<!-- -   We have a treated group that we observe both *before* and *after* they're -->
+<!--     treated -->
+<!-- -   And we have an untreated group -->
+<!-- -   The treated and control groups probably aren't identical - there are back -->
+<!--     doors! So... we control for group like with fixed effects -->
+</section>
+<section id="parallel-trend-assumption" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-trend-assumption">Parallel Trend Assumption</h2>
+<ul>
+<li>Treatment and control groups might have different values at first, but we assume that the treatment group would have changed like the control group in the absence of treatment</li>
+<li>We are assuming is that Time affected the Treatment and Control groups equally</li>
+<li>Otherwise, our attempt to control for Time by using how it changed in Control won’t work</li>
+<li>We can test it if there is data available for <em>before</em> treatment</li>
+</ul>
+</section>
+<section id="parallel-trend-assumption-1" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-trend-assumption-1">Parallel Trend Assumption</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12-diff-in-diff_files/figure-html/plot-trends-1-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="parallel-trend-assumption-violation" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-trend-assumption-violation">Parallel Trend Assumption Violation</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12-diff-in-diff_files/figure-html/plot-trends-2-back-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="parallel-trend-assumption-violation-1" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-trend-assumption-violation-1">Parallel Trend Assumption Violation</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12-diff-in-diff_files/figure-html/plot-trends-3-back-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="parallel-trend-assumption-holds" class="level2">
+<h2 class="anchored" data-anchor-id="parallel-trend-assumption-holds">Parallel Trend Assumption Holds</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="12-diff-in-diff_files/figure-html/plot-trends-1-back-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

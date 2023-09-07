@@ -1,0 +1,95 @@
+---
+title: "Describing Variables"
+date: "2023-02-21"
+draft: false
+---
+
+
+## Required readings
+
+- {{< fa book >}} [Chapter 3 in *The Effect*](https://theeffectbook.net/ch-DescribingVariables.html) [@Huntington-Klein:2021]
+
+### Guiding questions 
+
+- What is a variable? What are the types of variables do we usually work with in social sciences? 
+- What is a distribution of a variable? What is the difference between the distributions of continuous and discrete variables? 
+- Why may we want to summarize a distribution? How can we do it? 
+- What is variation of a variable? How can we measure it?  
+- What is the difference between an empirical and a theoretical distribution? How do they both relate to the data generation process? 
+- What are the characteristics of a normal distribution? What kind of processes can generate it? 
+
+### Coding 
+
+And for a primer on what is a `ggplot2` and how we will be using it to plot data, check this out:
+
+- {{< fa book >}} [Chapter 2 Data Visualization in *Statistical Inference via Data Science*](https://moderndive.com/2-viz.html) [@IsmayKim:2018]
+
+One of the best things you can do to navigate the `ggplot2` package is to use [the cheatsheet](https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf). 
+
+
+<!-- ## Recommended readings -->
+
+
+
+<!-- Look through your notes on regression from your last stats class. Also, you can skim through these resources: -->
+
+<!-- - {{< fa book >}} 7.1–7.3 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
+<!-- - {{< fa book >}} 8.1 in *OpenIntro Statistics* [@DiezBarrCetinkaya-Rundel:2017] -->
+
+<!-- We'll review all this regression stuff in the videos, so *don't panic* if this all looks terrifying! Also, take advantage of the videos that accompany the *OpenIntro* chapters. And *also*, the *OpenIntro* chapters are heavier on the math—don't worry if you don't understand everything. -->
+
+## Videos 
+
+You can have a look at the following videos accompanying *The Effect* book. They cover the same material as the assigned chapter, so no need to do both. 
+
+
+
+
+
+<!-- ## Slides -->
+
+<!-- The slides for today's lesson are available online as an HTML file. Use the buttons below to open the slides either as an interactive website or as a static PDF (for printing or storing for later). You can also click in the slides below and navigate through them with your left and right arrow keys. -->
+
+
+<!-- :::{.callout-tip} -->
+<!-- **Fun fact**: If you type <kbd>?</kbd> (or <kbd>shift</kbd> + <kbd>/</kbd>) while going through the slides, you can see a list of special slide-specific commands. -->
+<!-- ::: -->
+
+
+<!-- ## Videos -->
+
+<!-- ```{r show-youtube-list, echo=FALSE, results="asis"} -->
+<!-- youtube_list(slide_details, playlist_id) -->
+<!-- ``` -->
+
+
+<!-- ## In-class stuff -->
+
+<!-- Here are all the materials we'll use in class: -->
+
+<!-- - [**Session 2 FAQ slides**](/slides/02-class.html) ([PDF](/slides/02-class.pdf)) -->
+<!-- - [Errors vs. warnings vs. messages](https://moderndive.com/1-getting-started.html#messages) (i.e. what to do when R shows you red text) -->
+<!-- - R Markdown examples: -->
+<!--     - Example R Markdown file used as a code-through or step-by-step teaching document: -->
+<!--         - Lots of [blog posts here](https://www.andrewheiss.com/blog/) -->
+<!--         - Julia Silge, ["Modeling human/computer interactions on Star Trek from #TidyTuesday with workflowsets"](https://juliasilge.com/blog/star-trek/) -->
+<!--         - Bob Rudis, ["Some Covid Donuts To End The Week"](https://rud.is/b/2021/08/13/some-covid-donuts-to-end-the-week/) -->
+<!--         - Holger K. von Jouanne-Diedrich, ["The “Youth Bulge” of Afghanistan: The Hidden Force behind Political Instability"](https://blog.ephorie.de/the-youth-bulge-of-afghanistan-the-hidden-force-behind-political-instability) -->
+<!--     - Example R Markdown file used as a publicly-consumable document:  -->
+<!--         - Click on the "Manuscript" menu item [at this site](https://stats.andrewheiss.com/cautioning-canary/) -->
+<!--         - See [the Rmd file here](https://github.com/andrewheiss/cautioning-canary/blob/master/manuscript/manuscript.Rmd) -->
+
+<!-- Hands-on R materials: -->
+
+<!-- - [{{< fa brands r-project >}}RStudio.cloud project](https://rstudio.cloud/spaces/269500/content/4377348) -->
+<!-- - [{{< fa file-zipper >}}Project `.zip` file](/projects/01-class.zip) -->
+<!-- - [{{< fa file-csv >}}Gapminder data](/files/data/package_data/gapminder.csv) -->
+<!-- - [Lab slides 1: Markdown and universal writing](/slides/01-class_01_markdown-writing.html) ([PDF](/slides/01-class_01_markdown-writing.pdf)) -->
+<!-- - [Lab slides 2: Getting started with R and RStudio](/slides/01-class_02-getting-started.html) ([PDF](/slides/01-class_02-getting-started.pdf)) -->
+<!-- - [Lab slides 3: Data basics](/slides/01-class_03_data-basics.html) ([PDF](/slides/01-class_03_data-basics.pdf)) -->
+<!-- - [Lab slides 4: Visualize data with ggplot2](/slides/01-class_04_visualize-data.html) ([PDF](/slides/01-class_04_visualize-data.pdf)) -->
+<!-- - [Lab slides 5: Transform data with dplyr](/slides/01-class_05_transform-data.html) ([PDF](/slides/01-class_05_transform-data.pdf)) -->
+<!-- - [{{< fa file-csv >}} `restaurant_inspections.csv`](https://vincentarelbundock.github.io/Rdatasets/csv/causaldata/restaurant_inspections.csv) -->
+
+
+

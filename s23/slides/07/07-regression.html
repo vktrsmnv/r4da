@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viktoriia Semenova">
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Uncertainty and Statistical Inference</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="R for Data Analysis - Uncertainty and Statistical Inference">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 7">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#agenda-for-today" id="toc-agenda-for-today" class="nav-link active" data-scroll-target="#agenda-for-today">Agenda for Today</a></li>
+  <li><a href="#error-term-in-regression-model" id="toc-error-term-in-regression-model" class="nav-link" data-scroll-target="#error-term-in-regression-model">Error Term in Regression Model</a>
+  <ul>
+  <li><a href="#errors-in-regression" id="toc-errors-in-regression" class="nav-link" data-scroll-target="#errors-in-regression">Errors in Regression</a></li>
+  <li><a href="#errors-in-regression-1" id="toc-errors-in-regression-1" class="nav-link" data-scroll-target="#errors-in-regression-1">Errors in Regression</a></li>
+  <li><a href="#error-variance-and-regression-standard-error" id="toc-error-variance-and-regression-standard-error" class="nav-link" data-scroll-target="#error-variance-and-regression-standard-error">Error Variance and Regression Standard Error</a></li>
+  </ul></li>
+  <li><a href="#model-conditions" id="toc-model-conditions" class="nav-link" data-scroll-target="#model-conditions">Model Conditions</a>
+  <ul>
+  <li><a href="#conditions-for-inference" id="toc-conditions-for-inference" class="nav-link" data-scroll-target="#conditions-for-inference">Conditions for Inference</a></li>
+  <li><a href="#linearity-assumption" id="toc-linearity-assumption" class="nav-link" data-scroll-target="#linearity-assumption">Linearity Assumption</a></li>
+  <li><a href="#linearity-assumption-violation" id="toc-linearity-assumption-violation" class="nav-link" data-scroll-target="#linearity-assumption-violation">Linearity Assumption Violation</a></li>
+  <li><a href="#independence-assumption" id="toc-independence-assumption" class="nav-link" data-scroll-target="#independence-assumption">Independence Assumption</a></li>
+  <li><a href="#normality-assumption" id="toc-normality-assumption" class="nav-link" data-scroll-target="#normality-assumption">Normality Assumption</a></li>
+  <li><a href="#constant-variance-assumption" id="toc-constant-variance-assumption" class="nav-link" data-scroll-target="#constant-variance-assumption">Constant Variance Assumption</a></li>
+  </ul></li>
+  <li><a href="#uncertainty" id="toc-uncertainty" class="nav-link" data-scroll-target="#uncertainty">Uncertainty</a>
+  <ul>
+  <li><a href="#statistical-inference" id="toc-statistical-inference" class="nav-link" data-scroll-target="#statistical-inference">Statistical Inference</a></li>
+  <li><a href="#sampling-in-real-life" id="toc-sampling-in-real-life" class="nav-link" data-scroll-target="#sampling-in-real-life">Sampling in Real Life</a></li>
+  <li><a href="#why-communicate-uncertainty" id="toc-why-communicate-uncertainty" class="nav-link" data-scroll-target="#why-communicate-uncertainty">Why Communicate Uncertainty</a></li>
+  <li><a href="#how-to-communicate-uncertainty" id="toc-how-to-communicate-uncertainty" class="nav-link" data-scroll-target="#how-to-communicate-uncertainty">How to Communicate Uncertainty</a></li>
+  <li><a href="#thought-experiment" id="toc-thought-experiment" class="nav-link" data-scroll-target="#thought-experiment">Thought Experiment</a></li>
+  <li><a href="#sampling-variability" id="toc-sampling-variability" class="nav-link" data-scroll-target="#sampling-variability">Sampling Variability</a></li>
+  <li><a href="#sampling-distributions" id="toc-sampling-distributions" class="nav-link" data-scroll-target="#sampling-distributions">Sampling Distributions</a></li>
+  <li><a href="#standard-error" id="toc-standard-error" class="nav-link" data-scroll-target="#standard-error">Standard Error</a></li>
+  <li><a href="#sample-size-and-precision" id="toc-sample-size-and-precision" class="nav-link" data-scroll-target="#sample-size-and-precision">Sample Size and Precision</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a></li>
+  <li><a href="#confidence-intervals-illustration" id="toc-confidence-intervals-illustration" class="nav-link" data-scroll-target="#confidence-intervals-illustration">Confidence Intervals Illustration</a></li>
+  <li><a href="#confidence-intervals-as-ring-toss" id="toc-confidence-intervals-as-ring-toss" class="nav-link" data-scroll-target="#confidence-intervals-as-ring-toss">Confidence Intervals as Ring Toss</a></li>
+  <li><a href="#communicating-uncertainty-examples" id="toc-communicating-uncertainty-examples" class="nav-link" data-scroll-target="#communicating-uncertainty-examples">Communicating Uncertainty: Examples</a></li>
+  <li><a href="#communicating-uncertainty" id="toc-communicating-uncertainty" class="nav-link" data-scroll-target="#communicating-uncertainty">Communicating Uncertainty</a></li>
+  <li><a href="#accuracy-vs.-precision-trade-off" id="toc-accuracy-vs.-precision-trade-off" class="nav-link" data-scroll-target="#accuracy-vs.-precision-trade-off">Accuracy vs.&nbsp;Precision Trade-off</a></li>
+  </ul></li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing">Hypothesis Testing</a>
+  <ul>
+  <li><a href="#decision-based-on-confidence-intervals" id="toc-decision-based-on-confidence-intervals" class="nav-link" data-scroll-target="#decision-based-on-confidence-intervals">Decision Based on Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow:</a></li>
+  </ul></li>
+  <li><a href="#hypothesis-testing-with-p-values" id="toc-hypothesis-testing-with-p-values" class="nav-link" data-scroll-target="#hypothesis-testing-with-p-values">Hypothesis Testing with <em>p-values</em></a>
+  <ul class="collapse">
+  <li><a href="#workflow-1" id="toc-workflow-1" class="nav-link" data-scroll-target="#workflow-1">Workflow:</a></li>
+  </ul></li>
+  <li><a href="#course-evals-of-english-natives-vs.-non-natives" id="toc-course-evals-of-english-natives-vs.-non-natives" class="nav-link" data-scroll-target="#course-evals-of-english-natives-vs.-non-natives">Course Evals of English Natives vs.&nbsp;Non-natives</a></li>
+  <li><a href="#null-words-with-permutation" id="toc-null-words-with-permutation" class="nav-link" data-scroll-target="#null-words-with-permutation">Null Words with Permutation</a></li>
+  <li><a href="#null-words-with-permutation-two-sided-p-value" id="toc-null-words-with-permutation-two-sided-p-value" class="nav-link" data-scroll-target="#null-words-with-permutation-two-sided-p-value">Null Words with Permutation: Two-sided p-value</a></li>
+  <li><a href="#null-words-with-permutation-slope-example" id="toc-null-words-with-permutation-slope-example" class="nav-link" data-scroll-target="#null-words-with-permutation-slope-example">Null Words with Permutation: Slope Example</a></li>
+  <li><a href="#main-take-aways" id="toc-main-take-aways" class="nav-link" data-scroll-target="#main-take-aways">Main Take Aways</a></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul>
+  <li><a href="#probabilistic-interpretation-of-cis" id="toc-probabilistic-interpretation-of-cis" class="nav-link" data-scroll-target="#probabilistic-interpretation-of-cis">Probabilistic Interpretation of CIs</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Uncertainty and Statistical Inference</h1>
+<p class="subtitle lead">Data Analytics and Visualization with R<br>Session 7</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Viktoriia Semenova 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- # Intro -->
+<!-- ## Quiz: Which of these statements are correct? {.smaller} -->
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- countdown(minutes = 4, color_background = "white", left = 1) -->
+<!-- ``` -->
+<!-- You are interested in the effect of *Beauty* on *Teaching Evaluations*. Suppose we have a DAG that looks something like this and we obtained the coefficient estimates of 3.74 for the *Intercept*, 0.08 for *Beauty* and -0.20 for *Female*. -->
+<!-- ::: columns -->
+<!-- ::: {.column width="30%"} -->
+<!-- ```{dot} -->
+<!-- //| echo: false -->
+<!-- //| fig-width: 3 -->
+<!-- //| fig-height: 3 -->
+<!-- //| out-width: 100% -->
+<!-- digraph D { -->
+<!--   node [shape=oval, fontname="AtkinsonHyperlegible-Regular"]; -->
+<!--   edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5]; -->
+<!--   a [label = "Beauty Score"]; -->
+<!--   b [label = "Evaluations"]; -->
+<!--   c [label = "Female"]; -->
+<!--   {rank=same a b}; -->
+<!--   {rank=sink c}; -->
+<!--   a->b; -->
+<!--   c->a; -->
+<!--   c->b; -->
+<!-- } -->
+<!-- ``` -->
+<!-- :::  -->
+<!-- ::: {.column width="70%"} -->
+<!-- 1.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Beauty Score* on *Evaluations* causally. -->
+<!-- 2.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Female* on *Evaluations* causally. -->
+<!-- 3. On average, a 5-point increase in *Beauty Score* would be associated with 0.4-point increase in *Teaching Evaluations*, for both female and female instructors.  -->
+<!-- 4. The effect of *Female* on *Teaching Evaluations* would be represented through the change in the slope of the regression coefficient for *Beauty Score*.  -->
+<!-- 5. For $evals = \beta_0 + \beta_1 \cdot Female$,  $\beta_1$ would be the equal to difference-in-means estimator.  -->
+<!-- :::  -->
+<!-- :::  -->
+<!-- ## Parallel Lines  -->
+<!-- ```{r, echo=FALSE} -->
+<!-- evals %>% -->
+<!--   mutate(female = if_else(female == 1, "Female", "Male")) %>% -->
+<!--   ggplot(aes(beauty, y = eval, color = (female))) + -->
+<!--   geom_jitter( -->
+<!--     size = 2, -->
+<!--     alpha = 0.5, -->
+<!--     width = 0.1 -->
+<!--   ) + -->
+<!--   labs( -->
+<!--     x = "Beauty", -->
+<!--     y = "Average Teaching Evaluation", -->
+<!--     title = "Relationship between Instructor Beauty and Course Evaluations", -->
+<!--     color = "Instructor is" -->
+<!--   ) + -->
+<!--   geom_line(aes(y = predict(lm(eval ~ beauty + female, data = evals))), -->
+<!--             size = 1.2) + # plots the parallel lines -->
+<!--   scale_color_viridis_d(end = 0.8) + -->
+<!--   theme(legend.position = "top") + -->
+<!--   scale_x_continuous(limits = c(1, 10), breaks = 1:10) + -->
+<!--   ylim(c(1, 5.5)) + # why not c(1, 5)? -->
+<!--   theme(panel.grid.minor = element_blank()) -->
+<!-- ``` -->
+<section id="agenda-for-today" class="level1">
+<h1>Agenda for Today</h1>
+<p><br></p>
+<p><strong>Model Assumptions</strong></p>
+<p><br></p>
+<p><strong>Sampling Variability and Sampling Distributions</strong></p>
+<p><br></p>
+<p><strong>Standard Errors, Confidence Intervals, p-values</strong></p>
+<p><br></p>
+<p><strong>Lab: Communicating Uncertainty</strong></p>
+</section>
+<section id="error-term-in-regression-model" class="level1">
+<h1>Error Term in Regression Model</h1>
+<section id="errors-in-regression" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="errors-in-regression">Errors in Regression</h2>
+<p>Random noise, the <em>stochastic</em> component of the model: the sum of “everything else” not in the systematic component of the model</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-1-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) -->
+</section>
+<section id="errors-in-regression-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="errors-in-regression-1">Errors in Regression</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-2-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="error-variance-and-regression-standard-error" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="error-variance-and-regression-standard-error">Error Variance and Regression Standard Error</h2>
+<p>Once we fit the model, we can use the residuals to estimate error variance (i.e.&nbsp;residual variance):</p>
+<p><span class="math display">\[
+\hat\sigma^2 = \frac{\overbrace{\sum_{i=1}^{n}\hat{e}_i^2}^{\text{sum of squared residuals}}}{
+\underbrace{
+\underbrace{n}_{\text{number of}\\\text{observations}}-\underbrace{k}_{\text{number of}\\\text{covariates}} - 1
+}_{\text{degrees of freedom}}
+}
+\]</span></p>
+<p>Regression standard error <span class="math inline">\(\sqrt{\hat\sigma^2}\)</span>:</p>
+<ul>
+<li>A measure of the average error (average difference between observed and predicted values of the outcome) in same units as the outcome variable</li>
+</ul>
+<!-- ## Model Fit Evaluation {.smaller} -->
+<!-- ##### Coefficient of Determination $R^2$ and Adjusted $R^2$ -->
+<!-- - Measure of the proportional reduction in error by the model, i.e. how well our model explain the variation in $Y$ -->
+<!-- - Measure of *in-sample* fit: how well your model predicts the data used to estimate it -->
+<!-- ::: columns -->
+<!-- ::: {.column width="50%"} -->
+<!-- $$R^2=\frac{ESS}{TSS}=\frac{TSS-RSS}{TSS}$$ -->
+<!-- - $R^2 \in [0,1]$ -->
+<!-- - Increases the more explanatory variables we add -->
+<!-- ::: -->
+<!-- ::: {.column width="50%"} -->
+<!-- $$Adj.R^2=1 - (1 - R^2)\frac{n-1}{n-k-1}$$ -->
+<!-- - May take negative values (bad model fit) -->
+<!-- - Adds penalty for including more variables $k$ (and sample size $n$) -->
+<!-- ::: -->
+<!-- ::: -->
+<!-- - *Out-of-sample fit*: how well your model predicts new data (our goal in predictive modeling) -->
+<!-- ## Poll -->
+<!-- The $R^2$  of the model for predicting course evaluation from average beauty score is 22.3%. Which of the following is the correct interpretation of this value? -->
+<!-- 1. Average beauty scores correctly predict 22.3% of course evaluations in University of Texas. -->
+<!-- 2. 22.3% of the variability in course evaluations in University of Texas can be explained by average beauty scores of the instructors. -->
+<!-- 3. 22.3% of the variability in average beauty scores can be explained by course evaluations in University of Texas. -->
+<!-- 4. 22.3% of the time course evaluations in University of Texas can be predicted by average beauty scores of the instructors. -->
+<!-- ::: -->
+</section>
+</section>
+<section id="model-conditions" class="level1">
+<h1>Model Conditions</h1>
+<section id="conditions-for-inference" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="conditions-for-inference">Conditions for Inference</h2>
+<ul>
+<li><em>Linearity:</em> There is a linear relationship between the outcome and predictor variables</li>
+<li><em>Independence:</em> The errors are independent from each other, i.e.&nbsp;knowing the error term for one observation doesn’t tell you anything about the error term for another observation</li>
+<li><em>Normality:</em> The distribution of errors is approximately normal <span class="math inline">\(\varepsilon|X \sim \mathcal{N}(0, \sigma^2)\)</span></li>
+<li><em>Constant variance:</em> The variability of the errors is equal for all values of the predictor variable, i.e.&nbsp;the errors are homeoscedastic</li>
+</ul>
+</section>
+<section id="linearity-assumption" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="linearity-assumption">Linearity Assumption</h2>
+<ul>
+<li><p>Check the plot of residuals vs.&nbsp;predicted values for patterns</p></li>
+<li><p>If you observe any patterns, you can look at individual plots of residuals vs.&nbsp;each predictor to try to identify the issue</p></li>
+<li><p>Look for patterns in predictors you treat as continuous, for binary predictors the assumption is always met</p></li>
+<li><p>Transformations of variables could sometimes address the problems</p></li>
+<li><p>Violation will bias the coefficients and pose problems for uncertainty measures and hypothesis testing</p></li>
+</ul>
+</section>
+<section id="linearity-assumption-violation" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="linearity-assumption-violation">Linearity Assumption Violation</h2>
+<div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 90 Columns: 7
+── Column specification ──────────────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): season, day_type
+dbl (5): volume, hightemp, avgtemp, cloudcover, precip
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="independence-assumption" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="independence-assumption">Independence Assumption</h2>
+<ul>
+<li><p>Examples of violation: if the observations are clustered, e.g.</p>
+<ul>
+<li>there are repeated measures from the same individual, as in longitudinal data</li>
+<li>if classrooms were first sampled followed by sampling individuals within classes</li>
+</ul></li>
+<li><p>We can often check the independence condition based on the context of the data and how the observations were collected</p></li>
+<li><p>If the data were collected in a particular order, examine a scatterplot of the residuals versus order in which the data were collected</p></li>
+<li><p>Violations may not bias the coefficient, but will pose problems for uncertainty measures and hypothesis testing</p></li>
+</ul>
+</section>
+<section id="normality-assumption" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="normality-assumption">Normality Assumption</h2>
+<ul>
+<li><p>At any given predictor value the distribution of outcome given predictor is assumed to be normal</p></li>
+<li><p>Compare the distributions of residuals to a normal distribution</p></li>
+<li><p>Violations may pose problems for uncertainty measures and hypothesis testing in small samples</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-4-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="constant-variance-assumption" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="constant-variance-assumption">Constant Variance Assumption</h2>
+<ul>
+<li><p>The vertical spread of the residuals is not constant across the plot</p></li>
+<li><p>Non-constant error variance could mean we predict some observations better (i.e.&nbsp;with less error) than others</p></li>
+<li><p>Violation results in inaccurate confidence intervals and p-values</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-5-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="uncertainty" class="level1">
+<h1>Uncertainty</h1>
+<section id="statistical-inference" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="statistical-inference">Statistical Inference</h2>
+<p>… is the process of using sample data to make conclusions about the underlying population the sample came from</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 211.89 113.77" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 109.77)">
+<title>
+G
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-109.77 207.89,-109.77 207.89,4 -4,4"></polygon> <!-- population --> <g id="node1" class="node">
+<title>
+population
+</title>
+<ellipse fill="none" stroke="black" cx="52.88" cy="-52.88" rx="52.77" ry="52.77"></ellipse> <text text-anchor="middle" x="52.88" y="-48.68" font-family="Times,serif" font-size="14.00">Population</text> </g> <!-- sample --> <g id="node2" class="node">
+<title>
+sample
+</title>
+<ellipse fill="none" stroke="black" cx="163.88" cy="-52.88" rx="40.01" ry="18"></ellipse> <text text-anchor="middle" x="163.88" y="-48.68" font-family="Times,serif" font-size="14.00">Sample</text> </g> <!-- population&#45;&gt;sample --> <g id="edge1" class="edge">
+<title>
+population-&gt;sample
+</title>
+<path fill="none" stroke="grey" d="M91.91,-16.72C108.88,-9.51 125.86,-13.44 142.83,-28.5"></path> <polygon fill="grey" stroke="grey" points="140.52,-31.13 150.11,-35.64 145.42,-26.14 140.52,-31.13"></polygon> <text text-anchor="start" x="117.37" y="-10.01" font-family="Times,serif" font-size="14.00" fill="grey"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Probability</text> </g> <!-- sample&#45;&gt;population --> <g id="edge2" class="edge">
+<title>
+sample-&gt;population
+</title>
+<path fill="none" stroke="black" d="M150.11,-70.13C134.04,-87.4 117.98,-94.69 101.91,-92.01"></path> <polygon fill="black" stroke="black" points="102.49,-88.53 91.91,-89.05 100.51,-95.24 102.49,-88.53"></polygon> <text text-anchor="middle" x="157.68" y="-85.27" font-family="Times,serif" font-size="14.00"> &nbsp;&nbsp;Inference</text> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sampling-in-real-life" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sampling-in-real-life">Sampling in Real Life</h2>
+<p><img src="https://sta210-s22.github.io/website/slides/images/lec-5/soup.png" class="img-fluid" width="365"></p>
+<ul>
+<li>When you taste a spoonful of soup and decide the spoonful you tasted isn’t salty enough, that’s exploratory analysis</li>
+<li>If you generalize and conclude that your entire soup needs salt, that’s an inference</li>
+<li>For your inference to be valid, the spoonful you tasted (the sample) needs to be representative of the entire pot (the population)</li>
+</ul>
+</section>
+<section id="why-communicate-uncertainty" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="why-communicate-uncertainty">Why Communicate Uncertainty</h2>
+<blockquote class="blockquote">
+<p>If you want to estimate a population parameter, do you prefer to report a range of values the parameter might be in, or a single value?</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>If we report a point estimate, we probably won’t hit the exact population parameter</li>
+</ul>
+<p><img src="images/darts.png" class="img-fluid" width="500"></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>If we report a range of plausible values, we have a good shot at capturing the parameter</li>
+</ul>
+<p><img src="images/rings.png" class="img-fluid" width="500"></p>
+</div>
+</div>
+</section>
+<section id="how-to-communicate-uncertainty" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="how-to-communicate-uncertainty">How to Communicate Uncertainty</h2>
+<ul>
+<li><em>Standard error</em>: since point estimates vary from sample to sample, we quantify this variability with what is called the <em>standard error</em> (SE). <em>Standard error</em> is a <em>standard deviation</em> of the sampling distribution of a statistic.</li>
+</ul>
+<p><span class="math display">\[
+SE(\hat\beta_1)= \sqrt{Var(\hat{\beta_1})}, \qquad Var(\hat{\beta_1}) = \frac{\overbrace{\hat\sigma^2}^{\text{estimated regression error}^2\\\text{a.k.a. residual variance}}}{\underbrace{\sum_{i=1}^{n}(x_i - \bar x)^2}_{\text{sum of squared deviations of } x}}
+\]</span></p>
+<ul>
+<li><em>Confidence interval</em>: a range of our best guesses about the point estimate. One way to calculate it is using the <em>standard error</em>.</li>
+</ul>
+<blockquote class="blockquote">
+<p>We call a confidence interval a <span class="math inline">\((1 - \alpha)\)</span>% confidence interval if it is constructed such that it contains the true parameter at least <span class="math inline">\((1 - \alpha)\)</span>% of the time if we repeat the experiment a large number of times.</p>
+</blockquote>
+</section>
+<section id="thought-experiment" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="thought-experiment">Thought Experiment</h2>
+<p>Suppose we had data for the whole population (100’000 students) and we could estimate the true parameter values:</p>
+<p><span class="math display">\[
+\text{Evaluations} = \beta_0 + \beta_1 \cdot \text{Beauty Score} + \varepsilon
+\]</span></p>
+<div class="cell" data-layout-align="center">
+
+</div>
+<p>Compare these values to estimates from a random sample of 500 students:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(term)`</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">parameter</th>
+<th style="text-align: right;">estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">3.691</td>
+<td style="text-align: right;">3.712</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beauty</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: right;">0.074</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="sampling-variability" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sampling-variability">Sampling Variability</h2>
+<p>Now let’s take 5000 samples (N = 1000) from this population of 100’000 students, run the same bivariate model on each of these samples, and plot the results:</p>
+<div class="cell" data-layout-align="center" data-hash="07-regression_cache/html/unnamed-chunk-9_0d030a40a11daee8334ba3965ee695e1">
+
+</div>
+<!-- - Sampling distributions are not observed in real life  -->
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sampling-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sampling-distributions">Sampling Distributions</h2>
+<ul>
+<li><p>Sampling distributions are <em>hypothetical</em> constructs, underlying the logic of frequentist approach to statistics. We never observe them in real life</p></li>
+<li><p>Sampling distributions (of many statistics) are approximately normally distributed (if the sample size is sufficiently large)</p></li>
+<li><p>Sampling distributions are centered at the true value of the population coefficient (the value we would get from linear modeling if we did indeed use the full population)</p></li>
+<li><p>The spread of the sampling distribution gives us a measure of the <em>precision</em> of our estimate:</p>
+<ul>
+<li>If the sampling distribution is very wide, then our estimate is imprecise; our estimate would vary widely from sample to sample</li>
+<li>If the sampling distribution is very narrow, then our estimate is precise; our estimate would not vary much from sample to sample</li>
+</ul></li>
+</ul>
+</section>
+<section id="standard-error" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="standard-error">Standard Error</h2>
+<p>Standard Error are Standard Deviations of Sampling Distributions:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SD of sampling distributions</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(term) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sd =</span> <span class="fu">sd</span>(estimate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  term            sd
+  &lt;chr&gt;        &lt;dbl&gt;
+1 (Intercept) 0.0545
+2 beauty      0.0114</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates SEs  </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 9
+  term        estimate std.error statistic       p.value conf.low conf.high n     sample
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
+1 (Intercept)   3.71      0.0533     69.6  0               3.61      3.82   1000      10
+2 beauty        0.0676    0.0112      6.01 0.00000000266   0.0455    0.0896 1000      10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates SEs  </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="dv">1000</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 9
+  term        estimate std.error statistic     p.value conf.low conf.high n     sample
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
+1 (Intercept)   3.78      0.0526     71.8  0             3.67      3.88   1000    1000
+2 beauty        0.0570    0.0114      4.99 0.000000724   0.0346    0.0795 1000    1000</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>If we took samples of N = 100 and not N = 1000, what should happen to the spread of sampling distributions?</p>
+</blockquote>
+</section>
+<section id="sample-size-and-precision" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sample-size-and-precision">Sample Size and Precision</h2>
+<p>Larger samples allow for more precise estimates (i.e.&nbsp;smaller standard errors)</p>
+<div class="cell" data-layout-align="center" data-hash="07-regression_cache/html/unnamed-chunk-13_7f9a95eab523517df9e09005601d5e9f">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-13-1.png" style="height:80.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>We cannot observe these distributions, but the SE provides us with the information about their variability<br>
+We can use this info to obtain a plausible range of estimates given our data, the confidence interval</p>
+</blockquote>
+</section>
+<section id="confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h2>
+<ul>
+<li>Range of our best guesses about the point estimate with X% confidence (accounting for sampling variability)</li>
+<li>If we have a large sample, we can estimate CIs from standard errors and quantiles for the standard normal distribution <span class="math inline">\(\mathcal{N}(\mu = 0, \sigma = 1)\)</span>: <span class="math inline">\(100 \cdot (1 - \alpha)\)</span>% confidence interval is <span class="math inline">\(CI_{(1 - \alpha)} = \hat \beta \pm \underbrace{z_{\alpha / 2} \cdot SE}_{\text{Margin of Error}}\)</span></li>
+</ul>
+<p><span class="math display">\[CI_{95} = \hat \beta \pm 1.96 SE = [ \hat \beta - 1.96 SE;  \hat\beta + 1.96 SE]\]</span></p>
+<ul>
+<li>The procedure of how 95% confidence intervals are constructed ensures that:
+<ul>
+<li>when we draw <em>repeated samples</em></li>
+<li>95% of CIs calculated with this formula <em>on the respective samples</em></li>
+<li>cover the true parameter</li>
+</ul></li>
+<li>one single calculated CI tells us <em>nothing</em> about:
+<ul>
+<li>parameters in other samples</li>
+<li>individual observations in our sample and/or population</li>
+</ul></li>
+</ul>
+<!-- > The confidence level does not mean that there is 95% probability of each CI including true value. Confidence level is a statement about the procedure in general, not each individual interval. -->
+</section>
+<section id="confidence-intervals-illustration" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-intervals-illustration">Confidence Intervals Illustration</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(term)`</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="confidence-intervals-as-ring-toss" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="confidence-intervals-as-ring-toss">Confidence Intervals as Ring Toss</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<ul>
+<li>Each sample gives a different CI or toss of the ring</li>
+<li>Some samples the ring will contain the target (the CI will contain the truth) other times it won’t
+<ul>
+<li>We don’t know if the CI for our sample contains the truth!</li>
+</ul></li>
+<li><em>Confidence level</em>: percent of the time our CI will contain the population parameter
+<ul>
+<li>Number of ring tosses that will hit the target.</li>
+<li>We get to choose, but typical values are 90%, 95%, and 99%</li>
+</ul></li>
+<li>The confidence level of a CI determine how often the CI will be wrong</li>
+</ul>
+<blockquote class="blockquote">
+<p>The confidence level does not mean that there is 95% probability of each CI including true value. Confidence level is a statement about the procedure in general, not each individual interval.</p>
+</blockquote>
+</div><div class="column" style="width:30%;">
+<p><img src="images/rings.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="communicating-uncertainty-examples" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="communicating-uncertainty-examples">Communicating Uncertainty: Examples</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sample_est <span class="ot">&lt;-</span> students_population <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(eval <span class="sc">~</span> beauty, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="sc">%T&gt;%</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)   3.65      0.0738     49.4  4.20e-194   3.50      3.79  
+2 beauty        0.0668    0.0159      4.19 3.33e-  5   0.0354    0.0981</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>95% confidence interval for the effect of <em>beauty</em> ranges from 0.04 to 0.1.<br>
+We are 95% confident that the effect of <em>beauty</em> on course eevaluations ranges from, on average, 0.04 to 0.1.<br>
+We are 95% confident that for each additional point in <em>beauty</em> score, we would expect course evaluations to increase by 0.04 to 0.1 points, on average.<br>
+<del>With 95% probability the expected increase in course evaluataions ranges between 0.04 to 0.1 points for each additional unit of beauty score.</del></p>
+</blockquote>
+</section>
+<section id="communicating-uncertainty" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="communicating-uncertainty">Communicating Uncertainty</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="accuracy-vs.-precision-trade-off" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="accuracy-vs.-precision-trade-off">Accuracy vs.&nbsp;Precision Trade-off</h2>
+<ul>
+<li>By design, confidence intervals of different levels vary in their width:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sample_m <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.95</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)   3.63      0.0765     47.4  8.11e-187   3.48       3.78 
+2 beauty        0.0866    0.0163      5.30 1.71e-  7   0.0545     0.119</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sample_m <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)   3.63      0.0765     47.4  8.11e-187   3.43       3.82 
+2 beauty        0.0866    0.0163      5.30 1.71e-  7   0.0444     0.129</code></pre>
+</div>
+</div>
+<ul>
+<li>This relates to the precision vs.&nbsp;accuracy of our interval estimates: the higher the level we choose, the more certain we will be to cover the true value</li>
+<li>But we also loose the precision of the estimate: wider ranges can become rather uninformative</li>
+</ul>
+<div class="center">
+<p><img src="images/download.png" class="img-fluid" width="600"></p>
+</div>
+<!-- ```{r} -->
+<!-- sample_m %>%  -->
+<!--   tidy(conf.int = T, conf.level = 1)  -->
+<!-- ``` -->
+</section>
+</section>
+<section id="hypothesis-testing" class="level1">
+<h1>Hypothesis Testing</h1>
+<section id="decision-based-on-confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="decision-based-on-confidence-intervals">Decision Based on Confidence Intervals</h2>
+<blockquote class="blockquote">
+<p>Do the data provide sufficient evidence that β1 (the true slope for the population) is different from 0?</p>
+</blockquote>
+<!-- - We start with our estimates and compare them to the value we are interested in. -->
+<ul>
+<li>Suppose we want to know if there is a linear effect of <em>beauty</em> on <em>evaluations</em> (<span class="math inline">\(H_A: \hat\beta_1 \neq 0\)</span>) or if there is no linear effect (<span class="math inline">\(H_0: \hat\beta_1 = 0\)</span>)</li>
+</ul>
+<section id="workflow" class="level3">
+<h3 class="anchored" data-anchor-id="workflow">Workflow:</h3>
+<ol type="1">
+<li>Calculate the standard error and confidence interval (e.g., 95% CI)</li>
+<li>Check if the confidence interval covers zero or not.</li>
+</ol>
+<ul>
+<li>If CI does not cover zero, we conclude that with 95% confidence, the slope coefficient is different from zero</li>
+<li>If CI covers zero, we conclude that with 95% confidence, the slope coefficient is not different from zero</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sample_est</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  term        estimate std.error statistic   p.value conf.low conf.high
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 (Intercept)   3.65      0.0738     49.4  4.20e-194   3.50      3.79  
+2 beauty        0.0668    0.0159      4.19 3.33e-  5   0.0354    0.0981</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="hypothesis-testing-with-p-values" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="hypothesis-testing-with-p-values">Hypothesis Testing with <em>p-values</em></h2>
+<ul>
+<li>Statistical hypothesis testing is a thought experiment: <em>What would the world look like if we knew the truth?</em></li>
+</ul>
+<blockquote class="blockquote">
+<p>Do the data provide sufficient evidence that β1 (the true slope for the population) is different from 0?</p>
+</blockquote>
+<section id="workflow-1" class="level4">
+<h4 class="anchored" data-anchor-id="workflow-1">Workflow:</h4>
+<ol type="1">
+<li>Start with a null hypothesis, <span class="math inline">\(H_0\)</span> that represents the “null-world”</li>
+<li>Set an alternative hypothesis, <span class="math inline">\(H_A\)</span> that represents the research question, i.e.&nbsp;what we’re testing for</li>
+<li>Conduct a hypothesis test under the assumption that the null hypothesis is true and calculate a p-value (probability of observed or more extreme outcome given that the null hypothesis is true)
+<ul>
+<li>if the test results suggest that the data do not provide convincing evidence for the alternative hypothesis, stick with the null hypothesis</li>
+<li>if they do, then reject the null hypothesis in favor of the alternative</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="course-evals-of-english-natives-vs.-non-natives" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="course-evals-of-english-natives-vs.-non-natives">Course Evals of English Natives vs.&nbsp;Non-natives</h2>
+<blockquote class="blockquote">
+<p>Are courses taught by English natives evaluated higher than courses of non-natives?</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>evals <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nonenglish) <span class="sc">%&gt;%</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_eval =</span> <span class="fu">mean</span>(eval)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  nonenglish avg_eval
+       &lt;dbl&gt;    &lt;dbl&gt;
+1          0     4.02
+2          1     3.69</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(eval <span class="sc">~</span> nonenglish, evals) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)    4.02     0.0264    152.   0      
+2 nonenglish    -0.329    0.107      -3.07 0.00229</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p><span class="math display">\[\hat\beta_1 = 3.69 - 4.02 = - 0.33\]</span></p>
+</section>
+<section id="null-words-with-permutation" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="null-words-with-permutation">Null Words with Permutation</h2>
+<blockquote class="blockquote">
+<p>How would the effect <span class="math inline">\(\hat\beta_1\)</span> look like if there was no difference?</p>
+</blockquote>
+<ul>
+<li>Shuffle the <code>eval</code> and <code>nonenglish</code> columns and calculate the difference in evaluations between natives and non-natives</li>
+<li>Repeat re-shuffling and estimation of the differences ↑ 1000 times</li>
+<li>Check <span class="math inline">\(\hat\beta_1\)</span> in the null world: what is the probability of observing data as or more extreme as our data under the null (i.e.&nbsp;the <em>p-value</em>)?</li>
+</ul>
+</section>
+<section id="null-words-with-permutation-two-sided-p-value" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="null-words-with-permutation-two-sided-p-value">Null Words with Permutation: Two-sided p-value</h2>
+<div class="cell" data-layout-align="center" data-hash="07-regression_cache/html/unnamed-chunk-22_77ef31f35606d029fc9871234586dd8b">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="null-words-with-permutation-slope-example" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="null-words-with-permutation-slope-example">Null Words with Permutation: Slope Example</h2>
+<p>Repeated permutations allow for quantifying the variability in the slope under the condition that there is no linear relationship (i.e., that the null hypothesis is true)</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="07-regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="main-take-aways" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="main-take-aways">Main Take Aways</h2>
+<ul>
+<li>Sampling variability implies uncertainty related to the estimation process: more data leads to more precise estimates (i.e.&nbsp;smaller SEs, narrower CIs)</li>
+<li>Confidence intervals quantify the uncertainty associated with the <em>average outcome</em>, not each individual prediction. Confidence level indicates how often, in the long run, the CI would be wrong (i.e.&nbsp;not contain the true value). We cannot know if the CI we obtained is a “good” or a “bad” one, though.<br>
+</li>
+<li>With hypothesis testing, we are comparing the null-world to our estimates. <span class="math inline">\(p\)</span>-values indicate the probability of us observing the data at least as extreme as we have in the null-world</li>
+</ul>
+</section>
+</section>
+<section id="appendix" class="level1">
+<h1>Appendix</h1>
+<section id="probabilistic-interpretation-of-cis" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="probabilistic-interpretation-of-cis">Probabilistic Interpretation of CIs</h2>
+<p><span class="math display">\[CI_{95}: [\bar x - 1.96 SE, \bar x + 1.96 SE]\]</span></p>
+<ul>
+<li><p>Randomness comes from the stage of drawing a sample (we only have one, but hypothetically, we draw them repeatedly)</p></li>
+<li><p><strong>After we draw the random sample</strong>, calculating the CI is a matter of procedure:</p>
+<ul>
+<li>there is no more randomness, it’s just applying the formula</li>
+<li>hence, we can think of this as a realized experiment</li>
+<li>if CI bounds are just numbers, the true fixed value is either inside (1) or not (0)</li>
+<li>we say: a single <em>calculated</em> CI contains the true parameter or not (and in real life, we don’t know if it does, so we hope it is one of the ones that cover the true value)</li>
+</ul></li>
+<li><p><strong>Before the random sample is drawn</strong>, we can apply probabilistic interpretation to CI:</p>
+<ul>
+<li>for a 95% confidence interval (<em>before</em> the sample for calculating that CI is drawn!), there is a 95% chance that a CI will contain <span class="math inline">\(\mu\)</span></li>
+<li>the <strong>random</strong> interval <span class="math inline">\([\bar x - 1.96 SE, \bar x + 1.96 SE]\)</span> contains <span class="math inline">\(\mu\)</span> with probability 0.95. It is a random interval, since the endpoints change with different samples (i.e., we don’t have not drawn the sample yet)</li>
+</ul></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

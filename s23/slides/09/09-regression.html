@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Viktoriia Semenova">
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Binary Dependent Variable</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="../../../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
+<script src="../../../site_libs/countdown-0.4.0/countdown.js"></script>
+<script src="../../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="R for Data Analysis - Binary Dependent Variable">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 9">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <ul>
+  <li><a href="#housekeeping" id="toc-housekeeping" class="nav-link" data-scroll-target="#housekeeping">Housekeeping</a></li>
+  <li><a href="#quiz-which-of-these-statements-are-correct" id="toc-quiz-which-of-these-statements-are-correct" class="nav-link" data-scroll-target="#quiz-which-of-these-statements-are-correct">Quiz: Which of these statements are correct?</a></li>
+  </ul></li>
+  <li><a href="#binary-dependent-variable" id="toc-binary-dependent-variable" class="nav-link" data-scroll-target="#binary-dependent-variable">Binary Dependent Variable</a>
+  <ul>
+  <li><a href="#does-tv-propaganda-affect-voting" id="toc-does-tv-propaganda-affect-voting" class="nav-link" data-scroll-target="#does-tv-propaganda-affect-voting">Does TV Propaganda Affect Voting?</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#linear-probability-model" id="toc-linear-probability-model" class="nav-link" data-scroll-target="#linear-probability-model">Linear Probability Model</a></li>
+  <li><a href="#out-of-bound-predictions" id="toc-out-of-bound-predictions" class="nav-link" data-scroll-target="#out-of-bound-predictions">Out-of-Bound Predictions</a></li>
+  <li><a href="#logistic-regression-solution" id="toc-logistic-regression-solution" class="nav-link" data-scroll-target="#logistic-regression-solution">Logistic Regression Solution</a></li>
+  <li><a href="#logistic-function" id="toc-logistic-function" class="nav-link" data-scroll-target="#logistic-function">Logistic Function</a></li>
+  <li><a href="#logistic-regression-model" id="toc-logistic-regression-model" class="nav-link" data-scroll-target="#logistic-regression-model">Logistic Regression Model</a></li>
+  <li><a href="#odds-and-probabilities-example" id="toc-odds-and-probabilities-example" class="nav-link" data-scroll-target="#odds-and-probabilities-example">Odds and Probabilities Example</a></li>
+  <li><a href="#probabilities-odds-and-log-odds" id="toc-probabilities-odds-and-log-odds" class="nav-link" data-scroll-target="#probabilities-odds-and-log-odds">Probabilities, Odds, and Log Odds</a></li>
+  <li><a href="#fitting-the-model-in-r" id="toc-fitting-the-model-in-r" class="nav-link" data-scroll-target="#fitting-the-model-in-r">Fitting the Model in <code>R</code></a></li>
+  <li><a href="#logit-coefficients-interpretation" id="toc-logit-coefficients-interpretation" class="nav-link" data-scroll-target="#logit-coefficients-interpretation">Logit Coefficients Interpretation</a></li>
+  <li><a href="#predicted-probabilities-plot" id="toc-predicted-probabilities-plot" class="nav-link" data-scroll-target="#predicted-probabilities-plot">Predicted Probabilities Plot</a></li>
+  <li><a href="#predicted-probabilities-by-hand" id="toc-predicted-probabilities-by-hand" class="nav-link" data-scroll-target="#predicted-probabilities-by-hand">Predicted Probabilities By Hand</a></li>
+  <li><a href="#predicted-values" id="toc-predicted-values" class="nav-link" data-scroll-target="#predicted-values">Predicted Values</a></li>
+  <li><a href="#model-predictions-vs.-actual-outomes" id="toc-model-predictions-vs.-actual-outomes" class="nav-link" data-scroll-target="#model-predictions-vs.-actual-outomes">Model Predictions vs.&nbsp;Actual Outomes</a></li>
+  </ul></li>
+  <li><a href="#uncertainty-and-inference" id="toc-uncertainty-and-inference" class="nav-link" data-scroll-target="#uncertainty-and-inference">Uncertainty and Inference</a>
+  <ul>
+  <li><a href="#model-plots-and-confidence-intervals" id="toc-model-plots-and-confidence-intervals" class="nav-link" data-scroll-target="#model-plots-and-confidence-intervals">Model Plots and Confidence Intervals</a></li>
+  <li><a href="#better-interpretation" id="toc-better-interpretation" class="nav-link" data-scroll-target="#better-interpretation">Better Interpretation</a></li>
+  <li><a href="#sampling-distributions" id="toc-sampling-distributions" class="nav-link" data-scroll-target="#sampling-distributions">Sampling Distributions</a></li>
+  <li><a href="#draws-from-simulated-sampling-distributions" id="toc-draws-from-simulated-sampling-distributions" class="nav-link" data-scroll-target="#draws-from-simulated-sampling-distributions">Draws from Simulated Sampling Distributions</a></li>
+  <li><a href="#simulated-sampling-distributions" id="toc-simulated-sampling-distributions" class="nav-link" data-scroll-target="#simulated-sampling-distributions">Simulated Sampling Distributions</a></li>
+  <li><a href="#simulated-sampling-distributions-1" id="toc-simulated-sampling-distributions-1" class="nav-link" data-scroll-target="#simulated-sampling-distributions-1">Simulated Sampling Distributions</a></li>
+  <li><a href="#log-odds-with-simulated-coefficients" id="toc-log-odds-with-simulated-coefficients" class="nav-link" data-scroll-target="#log-odds-with-simulated-coefficients">Log Odds with Simulated Coefficients</a></li>
+  <li><a href="#calculating-predicted-probabilities-for-chosen-scenarios" id="toc-calculating-predicted-probabilities-for-chosen-scenarios" class="nav-link" data-scroll-target="#calculating-predicted-probabilities-for-chosen-scenarios">Calculating Predicted Probabilities for Chosen Scenarios</a></li>
+  <li><a href="#summarize-predicted-probabilities" id="toc-summarize-predicted-probabilities" class="nav-link" data-scroll-target="#summarize-predicted-probabilities">Summarize Predicted Probabilities</a></li>
+  <li><a href="#expected-values-for-two-scenarios" id="toc-expected-values-for-two-scenarios" class="nav-link" data-scroll-target="#expected-values-for-two-scenarios">Expected Values for Two Scenarios</a></li>
+  <li><a href="#what-is-the-effect-of-russian-tv-propaganda" id="toc-what-is-the-effect-of-russian-tv-propaganda" class="nav-link" data-scroll-target="#what-is-the-effect-of-russian-tv-propaganda">What Is the Effect of Russian TV Propaganda?</a></li>
+  <li><a href="#multiple-scenarios-and-first-differences" id="toc-multiple-scenarios-and-first-differences" class="nav-link" data-scroll-target="#multiple-scenarios-and-first-differences">Multiple Scenarios and First Differences</a></li>
+  <li><a href="#multiple-scenarios" id="toc-multiple-scenarios" class="nav-link" data-scroll-target="#multiple-scenarios">Multiple Scenarios</a></li>
+  </ul></li>
+  <li><a href="#appendix-interpretation-of-coefficients-in-logit-models" id="toc-appendix-interpretation-of-coefficients-in-logit-models" class="nav-link" data-scroll-target="#appendix-interpretation-of-coefficients-in-logit-models">Appendix: Interpretation of Coefficients in Logit Models</a>
+  <ul>
+  <li><a href="#compare-the-odds-for-two-groups" id="toc-compare-the-odds-for-two-groups" class="nav-link" data-scroll-target="#compare-the-odds-for-two-groups">Compare the odds for two groups</a></li>
+  <li><a href="#compare-the-odds-for-two-groups-1" id="toc-compare-the-odds-for-two-groups-1" class="nav-link" data-scroll-target="#compare-the-odds-for-two-groups-1">Compare the odds for two groups</a></li>
+  <li><a href="#odds-ratio-with-vs.-without-exposure-to-russian-tv" id="toc-odds-ratio-with-vs.-without-exposure-to-russian-tv" class="nav-link" data-scroll-target="#odds-ratio-with-vs.-without-exposure-to-russian-tv">Odds Ratio: with vs.&nbsp;without exposure to Russian TV</a></li>
+  <li><a href="#coefficients-in-logit-model" id="toc-coefficients-in-logit-model" class="nav-link" data-scroll-target="#coefficients-in-logit-model">Coefficients in Logit Model</a></li>
+  <li><a href="#continous-predictors" id="toc-continous-predictors" class="nav-link" data-scroll-target="#continous-predictors">Continous Predictors</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals">Confidence Intervals</a></li>
+  </ul></li>
+  <li><a href="#appendix-fitting-logit-models" id="toc-appendix-fitting-logit-models" class="nav-link" data-scroll-target="#appendix-fitting-logit-models">Appendix: Fitting Logit Models</a>
+  <ul>
+  <li><a href="#maximum-likelihood-estimation-mle" id="toc-maximum-likelihood-estimation-mle" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-mle">Maximum Likelihood Estimation (MLE)</a></li>
+  <li><a href="#maximum-likelihood-estimation-mle-1" id="toc-maximum-likelihood-estimation-mle-1" class="nav-link" data-scroll-target="#maximum-likelihood-estimation-mle-1">Maximum Likelihood Estimation (MLE)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Binary Dependent Variable</h1>
+<p class="subtitle lead">Data Analytics and Visualization with R<br>Session 9</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    Viktoriia Semenova 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<section id="housekeeping" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="housekeeping">Housekeeping</h2>
+<ul>
+<li>Final paper: June 19-July 3, 2023 (?)</li>
+<li>Blog post extra assignment:
+<ul>
+<li>Pick a topic in Data visualization/wrangling area and make a 1-5-2 page tutorial</li>
+<li>Select an (polisci) dataset and make a visualization that answers a RQ with these data</li>
+<li>Alone or in pairs, by Monday May 29 latest</li>
+</ul></li>
+</ul>
+</section>
+<section id="quiz-which-of-these-statements-are-correct" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="quiz-which-of-these-statements-are-correct">Quiz: Which of these statements are correct?</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="countdown" id="timer_eb192bc1" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<p>Indridason and Bowler (2014) explore the determinants of cabinet size in parliamentary systems. Below you can find a plot based on one of their model. <!-- $$\widehat {Cabinet~Size} = \hat{\beta}_{0} + \hat{\beta}_{1}(\operatorname{Legislature Size}) + \hat{\beta}_{2}(\operatorname{Legislature Size}) + \hat{\beta}_{3}(\operatorname{Population Size}) + \hat{\beta}_{4}(\operatorname{EU membership}) + \epsilon$$ --></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ol type="1">
+<li>Systematic component of the model likely includes variable <em>Legislature Size</em> interacted with another variable.<br>
+</li>
+<li>Marginal effect of the variable <em>Legislature Size</em> is constant across all values of <em>Legislature Size</em> variable.</li>
+<li>The relationship between <em>legislature size</em> and <em>cabinet size</em> is strongest for smaller values of <em>legislature size</em>.</li>
+<li>For legislatures with sizes above 500, there is, on average, no significant effect of <em>legislature size</em> on <em>cabinet size</em>.</li>
+<li><em>Legislature size</em> seems to be inversely related to <em>cabinet size</em>.</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<div class="r-stack">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="binary-dependent-variable" class="level1">
+<h1>Binary Dependent Variable</h1>
+<section id="does-tv-propaganda-affect-voting" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="does-tv-propaganda-affect-voting">Does TV Propaganda Affect Voting?</h2>
+<div class="cell" data-out-width="100%">
+<div class="cell-output-display">
+<div>
+<p>
+<svg width="672" height="480" viewbox="0.00 0.00 301.77 161.66" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 157.66)">
+<title>
+D
+</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-157.66 297.77,-157.66 297.77,4 -4,4"></polygon> <!-- a --> <g id="node1" class="node">
+<title>
+a
+</title>
+<ellipse fill="none" stroke="black" cx="58.34" cy="-124.25" rx="58.17" ry="29.33"></ellipse> <text text-anchor="middle" x="58.34" y="-128.45" font-family="Times,serif" font-size="14.00">Russian TV</text> <text text-anchor="middle" x="58.34" y="-111.65" font-family="Times,serif" font-size="14.00">Reception</text> </g> <!-- b --> <g id="node2" class="node">
+<title>
+b
+</title>
+<ellipse fill="none" stroke="black" cx="214.34" cy="-124.25" rx="79.37" ry="18"></ellipse> <text text-anchor="middle" x="214.34" y="-120.05" font-family="Times,serif" font-size="14.00">Pro-Russian Vote</text> </g> <!-- a&#45;&gt;b --> <g id="edge1" class="edge">
+<title>
+a-&gt;b
+</title>
+<path fill="none" stroke="black" d="M116.84,-124.25C119.45,-124.25 122.06,-124.25 124.67,-124.25"></path> <polygon fill="black" stroke="black" points="134.74,-124.25 124.74,-128.75 129.74,-124.25 124.74,-124.25 124.74,-124.25 124.74,-124.25 129.74,-124.25 124.74,-119.75 134.74,-124.25 134.74,-124.25"></polygon> </g> <!-- c --> <g id="node3" class="node">
+<title>
+c
+</title>
+<ellipse fill="none" stroke="black" cx="136.34" cy="-29.42" rx="88.04" ry="29.33"></ellipse> <text text-anchor="middle" x="136.34" y="-33.62" font-family="Times,serif" font-size="14.00">Living within</text> <text text-anchor="middle" x="136.34" y="-16.82" font-family="Times,serif" font-size="14.00">25 km from Border</text> </g> <!-- c&#45;&gt;a --> <g id="edge2" class="edge">
+<title>
+c-&gt;a
+</title>
+<path fill="none" stroke="black" d="M113.05,-58.13C104.91,-67.82 95.67,-78.81 87.14,-88.97"></path> <polygon fill="black" stroke="black" points="80.48,-96.89 83.47,-86.34 83.7,-93.07 86.91,-89.24 86.91,-89.24 86.91,-89.24 83.7,-93.07 90.36,-92.13 80.48,-96.89 80.48,-96.89"></polygon> </g> <!-- c&#45;&gt;b --> <g id="edge3" class="edge">
+<title>
+c-&gt;b
+</title>
+<path fill="none" stroke="black" d="M159.43,-57.9C170.23,-70.76 183,-85.95 193.5,-98.45"></path> <polygon fill="black" stroke="black" points="200.03,-106.22 190.15,-101.46 196.81,-102.39 193.6,-98.56 193.6,-98.56 193.6,-98.56 196.81,-102.39 197.04,-95.67 200.03,-106.22 200.03,-106.22"></polygon> </g> </g>
+</svg>
+</p>
+</div>
+</div>
+</div>
+</section>
+<section id="data" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="data">Data</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Unique (#) </th>
+   <th style="text-align:right;"> Missing (%) </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> SD </th>
+   <th style="text-align:right;"> Min </th>
+   <th style="text-align:right;"> Median </th>
+   <th style="text-align:right;"> Max </th>
+   <th style="text-align:right;">    </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> russian_tv </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="4.99" width="4.44" height="6.67" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> pro_russian_vote </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="9.03" width="4.44" height="2.63" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> within_25km </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewbox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clippath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clippath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clippath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="5.36" width="4.44" height="6.30" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
+</td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<ul>
+<li><code>russian_tv</code>: indicator for whether voter’s precinct received Russian TV (1) or not (0)</li>
+<li><code>pro_russian_vote</code>: indicator for whether respondent voted for pro-Russian party in 2014 Ukrainian elections (1) or not (0)</li>
+<li><code>within_25km</code>: indicator for whether respondent’s precinct is within 25 kilometers from Russian border (1) or not (0)</li>
+</ul>
+</section>
+<section id="linear-probability-model" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="linear-probability-model">Linear Probability Model</h2>
+<p><span class="math display">\[\text{Pro-Russian Vote} \sim \beta_0 + \beta_1 \text{Russian TV} + \beta_2 \text{Living within 25km} + \varepsilon\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-6-1.png" style="height:80.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="out-of-bound-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="out-of-bound-predictions">Out-of-Bound Predictions</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `position_dodge()` requires non-overlapping x intervals</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-solution" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="logistic-regression-solution">Logistic Regression Solution</h2>
+<ul>
+<li><p>Apply a transformation to the <em>linear predictor</em> <span class="math inline">\(\beta_0 + \beta_1 \text{Russian TV} + \beta_2 \text{Living within 25km}\)</span>, to ensure that outcome is bounded between 0 and 1</p></li>
+<li><p>The inverse logit (aka sigmoid) function takes a value between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(+\infty\)</span> and maps it to a value between 0 and 1:</p></li>
+</ul>
+<p><span class="math display">\[
+logit^{-1}(x) = \frac{\exp(x)}{1+\exp(x)}
+\]</span></p>
+</section>
+<section id="logistic-function" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="logistic-function">Logistic Function</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-8-1.png" style="height:50.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-model" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="logistic-regression-model">Logistic Regression Model</h2>
+<ul>
+<li><span class="math inline">\(Y = 1:\)</span> yes, <span class="math inline">\(Y = 0:\)</span> no; two mutually exclusive outcomes</li>
+<li><span class="math inline">\(\pi = Pr(Y = 1)\)</span>: <strong>probability</strong> that <span class="math inline">\(Y=1\)</span></li>
+<li><span class="math inline">\(\frac{\pi}{1-\pi}\)</span>: <strong>odds</strong> that <span class="math inline">\(Y = 1\)</span></li>
+<li><span class="math inline">\(\log\Big(\frac{\pi}{1-\pi}\Big)\)</span>: <strong>log odds</strong></li>
+<li>Go from <span class="math inline">\(\pi\)</span> to <span class="math inline">\(\log\Big(\frac{\pi}{1-\pi}\Big)\)</span> using the <strong>logit transformation</strong></li>
+</ul>
+<div class="incremental">
+<p><span class="math display">\[\underbrace{\log\Big(\frac{\pi}{1-\pi}\Big)}_{\text{straight line}} = \underbrace{\beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k}_{\text{linear predictor}}\]</span></p>
+</div>
+</section>
+<section id="odds-and-probabilities-example" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="odds-and-probabilities-example">Odds and Probabilities Example</h2>
+<p>Suppose there is a <strong>70% chance</strong> it will rain tomorrow</p>
+<ul>
+<li>Probability it will rain is <span class="math inline">\(\pi = \mathbf{p = 0.7}\)</span></li>
+<li>Probability it won’t rain is <span class="math inline">\(1 - \pi = \mathbf{1 - p = 0.3}\)</span></li>
+<li>Odds <span class="math inline">\(\omega\)</span> it will rain are <strong>7 to 3</strong>, <strong>7:3</strong>, <span class="math inline">\(\omega = \frac{\pi}{1-\pi}= \mathbf{\frac{0.7}{0.3} \approx 2.33}\)</span></li>
+</ul>
+<div class="incremental">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pi <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">6</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(pi, <span class="dv">1</span> <span class="sc">-</span> pi, <span class="st">"odds"</span> <span class="ot">=</span> pi <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> pi), <span class="st">"log odds"</span> <span class="ot">=</span> <span class="fu">log</span>(pi <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> pi))) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> pi </th>
+   <th style="text-align:right;"> 1 - pi </th>
+   <th style="text-align:right;"> odds </th>
+   <th style="text-align:right;"> log odds </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+   <td style="text-align:right;"> -Inf </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 0.2500000 </td>
+   <td style="text-align:right;"> -1.3862944 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.6666667 </td>
+   <td style="text-align:right;"> -0.4054651 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.6 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:right;"> 1.5000000 </td>
+   <td style="text-align:right;"> 0.4054651 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.8 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:right;"> 4.0000000 </td>
+   <td style="text-align:right;"> 1.3862944 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1.0 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> Inf </td>
+   <td style="text-align:right;"> Inf </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="probabilities-odds-and-log-odds" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="probabilities-odds-and-log-odds">Probabilities, Odds, and Log Odds</h2>
+<p><strong>Odds</strong></p>
+<p><span class="math display">\[\omega = \frac{\pi}{1-\pi}  = \exp\Big\{\log\Big(\frac{\pi}{1-\pi}\Big)\Big\}
+= \exp\{\beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k\}\]</span></p>
+<p><strong>Log odds</strong></p>
+<p><span class="math display">\[\log(\omega) = \log\Big(\frac{\pi}{1-\pi}\Big) = \beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k\]</span></p>
+<p><strong>Probability</strong></p>
+<p><span class="math display">\[\pi = \frac{\omega}{1 + \omega}  = \frac{\exp\{\beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k\}}{1 + \exp\{\beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k\}}\]</span></p>
+<!-- (1) **Logistic model**: log odds = $\log\Big(\frac{\pi}{1-\pi}\Big) = \beta_0 + \beta_1~X$ -->
+<!-- (2) **Odds =** $\exp\Big\{\log\Big(\frac{\pi}{1-\pi}\Big)\Big\} = \frac{\pi}{1-\pi}$ -->
+<!-- (3) Combining (1) and (2) with what we saw earlier -->
+<!-- $$\text{Probability} = \pi = \frac{\exp\{\beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k\}}{1 + \exp\{\beta_0 + \beta_1~X_1 + \cdots + \beta_k~X_k\}}$$ -->
+<!-- ## Logistic Regression Recap -->
+<!-- -   Model for binary DV $\pi = Pr(Y = 1)$ -->
+<!-- -   Coefficients represent expected changes in **log-odds**, hence no intuitive -->
+<!--     interpretation as with linear models -->
+</section>
+<section id="fitting-the-model-in-r" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="fitting-the-model-in-r">Fitting the Model in <code>R</code></h2>
+<div class="cell" data-layout-align="center">
+
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> OLS </th>
+   <th style="text-align:center;"> Logit </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 0.196 </td>
+   <td style="text-align:center;"> −1.474 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.035) </td>
+   <td style="text-align:center;"> (0.214) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv </td>
+   <td style="text-align:center;"> 0.288 </td>
+   <td style="text-align:center;"> 1.790 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.077) </td>
+   <td style="text-align:center;"> (0.504) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> within_25km </td>
+   <td style="text-align:center;"> −0.208 </td>
+   <td style="text-align:center;"> −1.319 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.077) </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.493) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 358 </td>
+   <td style="text-align:center;"> 358 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 </td>
+   <td style="text-align:center;"> 0.039 </td>
+   <td style="text-align:center;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> R2 Adj. </td>
+   <td style="text-align:center;"> 0.034 </td>
+   <td style="text-align:center;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> −194.925 </td>
+   <td style="text-align:center;"> −188.738 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:center;"> 7.238 </td>
+   <td style="text-align:center;"> 6.534 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="logit-coefficients-interpretation" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="logit-coefficients-interpretation">Logit Coefficients Interpretation</h2>
+<p><span class="math display">\[
+\log\left[ \frac { \widehat{Pr( \text{Pro-russian Vote} = \operatorname{1} )} }{ 1 - \widehat{Pr(  \text{Pro-russian Vote} = \operatorname{1} )} } \right] = -1.474 + 1.79 \cdot\text{Russian TV} - 1.32\cdot\text{Living within 25 km}
+\]</span></p>
+<ul>
+<li>Sign and significance are straightforward to interpret</li>
+</ul>
+<div class="incremental">
+<blockquote class="blockquote">
+<p>The <strong>log-odds</strong> of voting for a pro-Russian party are expected to be 1.79 more for those exposed to Russian TV compared to those without exposure to Russian TV (the baseline group), holding all else constant.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>The <strong>odds</strong> of voting for a pro-Russian party or those exposed to Russian TV are expected to be 5.98 (<span class="math inline">\(e^{1.79}\)</span>) <strong>times</strong> the odds for those without exposure to Russian TV, holding all else constant.</p>
+</blockquote>
+<p><span class="math display">\[\text{Odds Ratio}  = e^{\hat{\beta}_j} = \exp\{\hat{\beta}_j\}\]</span></p>
+</div>
+</section>
+<section id="predicted-probabilities-plot" class="level2">
+<h2 class="anchored" data-anchor-id="predicted-probabilities-plot">Predicted Probabilities Plot</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `position_dodge()` requires non-overlapping x intervals</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="predicted-probabilities-by-hand" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="predicted-probabilities-by-hand">Predicted Probabilities By Hand</h2>
+<p><span class="math display">\[
+\log\left[ \frac { \widehat{Pr( \text{Pro-russian Vote} = \operatorname{1} )} }{ 1 - \widehat{Pr(  \text{Pro-russian Vote} = \operatorname{1} )} } \right] = -1.474 + 1.79 \cdot\text{Russian TV} - 1.32\cdot\text{Living within 25 km}
+\]</span></p>
+<div class="incremental">
+<p><span class="math display">\[
+\hat\pi = \widehat{Pr( \text{Pro-russian Vote} = \operatorname{1} )} =\frac{exp(-1.474
++ 1.79 \cdot \text{Russian TV} - 1.32\cdot\text{Living within 25 km})}{1 + exp(-1.474 + 1.79 \cdot \text{Russian TV}- 1.32\cdot\text{Living within 25 km})}
+\]</span></p>
+</div>
+<div class="incremental">
+<p><span class="math display">\[
+\widehat{Pr( \text{Pro-russian Vote} = \operatorname{1} |~\text{Russian TV} = 1,~\text{Living within 25 km} = 1)} \\=\frac{exp(-1.474 + 1.79  - 1.32)}{1 + exp(-1.474 + 1.79  - 1.32)}\\
+= \frac{exp(-1.004)}{1 + exp(1 -1.004)} \approx \frac{0.366}{1.996} \approx 0.18
+\]</span></p>
+</div>
+<div class="incremental">
+<p><span class="math display">\[
+\widehat{Pr( \text{Pro-russian Vote} = \operatorname{1} |~\text{Russian TV} = 0,~\text{Living within 25 km} = 1)} \\=\frac{exp(-1.474  - 1.32)}{1 + exp(-1.474   - 1.32)}\\
+= \frac{exp(-2.794)}{1 + exp(1 -2.794)} \approx \frac{0.061}{1.166} \approx 0.05
+\]</span></p>
+</div>
+</section>
+<section id="predicted-values" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="predicted-values">Predicted Values</h2>
+<ul>
+<li>Transforming probabilities <span class="math inline">\(\pi\)</span> back to 0/1 scale of the <em>response</em> variable <span class="math inline">\(Y\)</span></li>
+<li>Requires threshold for which values translate to <span class="math inline">\(Y = 1\)</span> and <span class="math inline">\(Y = 0\)</span>; <span class="math inline">\(\pi &gt; 0.5\)</span> most common</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> pro_russian_vote </th>
+   <th style="text-align:right;"> russian_tv </th>
+   <th style="text-align:right;"> within_25km </th>
+   <th style="text-align:right;"> .fitted </th>
+   <th style="text-align:right;"> prediction </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.1863569 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0.5783134 </td>
+   <td style="text-align:right;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="model-predictions-vs.-actual-outomes" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="model-predictions-vs.-actual-outomes">Model Predictions vs.&nbsp;Actual Outomes</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'prediction'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> prediction </th>
+   <th style="text-align:right;"> pro_russian_vote </th>
+   <th style="text-align:right;"> count </th>
+   <th style="text-align:left;">   </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 267 </td>
+   <td style="text-align:left;"> True Negatives </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:left;"> False Negatives </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:left;"> False Positives </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:left;"> True Positives </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+</section>
+<section id="uncertainty-and-inference" class="level1">
+<h1>Uncertainty and Inference</h1>
+<section id="model-plots-and-confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="model-plots-and-confidence-intervals">Model Plots and Confidence Intervals</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2, <span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.99</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(term, estimate, <span class="fu">starts_with</span>(<span class="st">"conf"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> conf.low </th>
+   <th style="text-align:right;"> conf.high </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.473858 </td>
+   <td style="text-align:right;"> -2.0605444 </td>
+   <td style="text-align:right;"> -0.9506684 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv </td>
+   <td style="text-align:right;"> 1.789712 </td>
+   <td style="text-align:right;"> 0.5610434 </td>
+   <td style="text-align:right;"> 3.1999490 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> within_25km </td>
+   <td style="text-align:right;"> -1.319124 </td>
+   <td style="text-align:right;"> -2.7003574 </td>
+   <td style="text-align:right;"> -0.1058402 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelplot</span>(m2, <span class="at">conf_level =</span> <span class="fl">0.99</span>) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li><p>[0.561, 3.20] is an interval for the difference in the log-odds between voters in precincts with and without Russian TV coverage, holding proximity to the border constant.</p></li>
+<li><p>Living in a precinct with Russian TV coverage is, on average, positively related to voting pro-Russian, controlling for the proximity to the border. This effect is significantly different from zero at 1% significance level.</p></li>
+</ul>
+</section>
+<section id="better-interpretation" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="better-interpretation">Better Interpretation</h2>
+<ul>
+<li>With 95% confidence, predicted probability to vote for a pro-Russian party when living within 25km to the border and being exposed to Russian propaganda ranges from 0.21 to 0.34.</li>
+<li>We are 95% confident that for voter living within 25km from the Russian border, exposure to Russian TV propaganda is associated with an increase in the probability to vote for a pro-Russian party of 12 to 27 percentage points.</li>
+<li>For those living in a precinct further than 25km from the border, the average effect of exposure to Russian TV propaganda on the probability of pro-Russian voting ranges from 16 to 59 percentage points.</li>
+</ul>
+</section>
+<section id="sampling-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="sampling-distributions">Sampling Distributions</h2>
+<ul>
+<li><p>The sampling distribution of a statistic is a probability distribution based on a large number of samples of size from a given population</p></li>
+<li><p>Sampling distributions represent the variability of our estimates: if we had taken different samples from the population, we would have obtained slightly different estimates</p></li>
+<li><p>Sampling distributions of most of the parameters are normal:</p>
+<ul>
+<li>Determined by two parameters, mean (center) and standard deviation (spread)</li>
+</ul></li>
+</ul>
+</section>
+<section id="draws-from-simulated-sampling-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="draws-from-simulated-sampling-distributions">Draws from Simulated Sampling Distributions</h2>
+<p>We can use our coefficient estimates and uncertainty about them to simulate sampling distributions:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-18-1.png" style="height:80.0%" width="2100" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="simulated-sampling-distributions" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="simulated-sampling-distributions">Simulated Sampling Distributions</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get draws from multivariate normal distribution </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> clarify<span class="sc">::</span><span class="fu">sim</span>(m2, <span class="at">n =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> (Intercept) </th>
+   <th style="text-align:right;"> russian_tv </th>
+   <th style="text-align:right;"> within_25km </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> -1.916805 </td>
+   <td style="text-align:right;"> 2.113583 </td>
+   <td style="text-align:right;"> -1.2053787 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -1.373905 </td>
+   <td style="text-align:right;"> 1.143104 </td>
+   <td style="text-align:right;"> -0.8299581 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -1.827432 </td>
+   <td style="text-align:right;"> 2.242678 </td>
+   <td style="text-align:right;"> -1.2927962 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -1.612314 </td>
+   <td style="text-align:right;"> 1.854074 </td>
+   <td style="text-align:right;"> -1.1262945 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -1.217560 </td>
+   <td style="text-align:right;"> 1.569573 </td>
+   <td style="text-align:right;"> -1.3917399 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -1.690160 </td>
+   <td style="text-align:right;"> 1.410358 </td>
+   <td style="text-align:right;"> -0.6638327 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="simulated-sampling-distributions-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="simulated-sampling-distributions-1">Simulated Sampling Distributions</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(sims<span class="sc">$</span>sim.coefs) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="at">.funs =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(.))) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> (Intercept)_mean </th>
+   <th style="text-align:right;"> russian_tv_mean </th>
+   <th style="text-align:right;"> within_25km_mean </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> -1.473347 </td>
+   <td style="text-align:right;"> 1.784857 </td>
+   <td style="text-align:right;"> -1.322555 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(sims<span class="sc">$</span>sim.coefs) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="at">.funs =</span> <span class="fu">list</span>(<span class="at">sd =</span> <span class="sc">~</span> <span class="fu">sd</span>(.))) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> (Intercept)_sd </th>
+   <th style="text-align:right;"> russian_tv_sd </th>
+   <th style="text-align:right;"> within_25km_sd </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0.2035962 </td>
+   <td style="text-align:right;"> 0.5138858 </td>
+   <td style="text-align:right;"> 0.5047867 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.473858 </td>
+   <td style="text-align:right;"> 0.2139185 </td>
+   <td style="text-align:right;"> -6.889812 </td>
+   <td style="text-align:right;"> 0.0000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv </td>
+   <td style="text-align:right;"> 1.789712 </td>
+   <td style="text-align:right;"> 0.5036063 </td>
+   <td style="text-align:right;"> 3.553791 </td>
+   <td style="text-align:right;"> 0.0003797 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> within_25km </td>
+   <td style="text-align:right;"> -1.319124 </td>
+   <td style="text-align:right;"> 0.4934381 </td>
+   <td style="text-align:right;"> -2.673332 </td>
+   <td style="text-align:right;"> 0.0075102 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="log-odds-with-simulated-coefficients" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="log-odds-with-simulated-coefficients">Log Odds with Simulated Coefficients</h2>
+<ul>
+<li>Now instead of one equation with <em>estimated</em> coefficients, we have many with similar, <em>simulated</em> coefficients</li>
+<li>Each equation will result in slightly different log odds value (and predicted probability, too)</li>
+</ul>
+<div class="incremental">
+<p><span class="math display">\[
+{ \begin{array}{c}
+        \tilde{\beta}_0^1 \times 1+\tilde{\beta}_1^1 \times   \text{Russian TV}_i  +\tilde{\beta}_2^1 \times \text{Living within 25km}_i &amp;= \log\Big(\dfrac{\tilde{\pi}^1}{1-\tilde{\pi}^1}\Big)\\
+\tilde{\beta}_0^2 \times 1+\tilde{\beta}_1^2 \times   \text{Russian TV}_i  +\tilde{\beta}_2^2 \times \text{Living within 25km}_i &amp;= \log\Big(\dfrac{\tilde{\pi}^2}{1-\tilde{\pi}^2}\Big)\\
+  \tilde{\beta}_0^3 \times 1+\tilde{\beta}_1^3 \times   \text{Russian TV}_i  +\tilde{\beta}_2^3 \times \text{Living within 25km}_i  &amp;= \log\Big(\dfrac{\tilde{\pi}^3}{1-\tilde{\pi}^3}\Big)\\
+        \dots \\
+        \tilde{\beta}_0^{1000} \times 1+\tilde{\beta}_1^{1000} \times \text{Russian TV}_i  +\tilde{\beta}_2^{1000} \times \text{Living within 25km}_i  &amp;= \log\Big(\dfrac{\tilde{\pi}^{1000}}{1-\tilde{\pi}^{1000}}\Big)\\
+    \end{array} }
+\]</span></p>
+</div>
+</section>
+<section id="calculating-predicted-probabilities-for-chosen-scenarios" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="calculating-predicted-probabilities-for-chosen-scenarios">Calculating Predicted Probabilities for Chosen Scenarios</h2>
+<p><span class="math display">\[
+{\text{Russian TV} = 0,~\text{Living within 25 km} = 1}
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># manually calculate the log odds (not predicted probabilities yet)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>lo1 <span class="ot">&lt;-</span> sims<span class="sc">$</span>sim.coefs[<span class="dv">1</span>,<span class="dv">1</span>] <span class="sc">+</span>  sims<span class="sc">$</span>sim.coefs[<span class="dv">1</span>,<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  sims<span class="sc">$</span>sim.coefs[<span class="dv">1</span>,<span class="dv">3</span>] <span class="sc">*</span> <span class="dv">1</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>lo2 <span class="ot">&lt;-</span> sims<span class="sc">$</span>sim.coefs[<span class="dv">2</span>,<span class="dv">1</span>] <span class="sc">+</span>  sims<span class="sc">$</span>sim.coefs[<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">*</span> <span class="dv">0</span> <span class="sc">+</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  sims<span class="sc">$</span>sim.coefs[<span class="dv">2</span>,<span class="dv">3</span>] <span class="sc">*</span> <span class="dv">1</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># and so on for every row in the matrix </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># custom inverse logit function </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>inv_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(x))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># transform log odds to probabilities </span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">inv_logit</span>(lo1) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept) 
+ 0.04220143 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inv_logit</span>(lo2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept) 
+ 0.09940411 </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with clarify </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>evs <span class="ot">&lt;-</span> <span class="fu">sim_setx</span>(<span class="at">sim =</span> sims, <span class="co"># object with simulated coefs  </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="fu">list</span>(<span class="at">russian_tv =</span> <span class="dv">0</span>, <span class="co"># scenario </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">within_25km =</span> <span class="dv">1</span>))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># compare to manual calculations </span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(evs) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">6</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0.0422014 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0994041 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0422805 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0607332 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0685423 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0867489 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="summarize-predicted-probabilities" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="summarize-predicted-probabilities">Summarize Predicted Probabilities</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0.0207833 </td>
+   <td style="text-align:right;"> 0.1448121 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<blockquote class="blockquote">
+<p>We are 95% confident that predicted probability to vote pro-Russian ranges from 0.02 to 0.14 percentage points in case <span class="math display">\[{\text{Russian TV} = 0,~\text{Living within 25 km} = 1}\]</span></p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="expected-values-for-two-scenarios" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="expected-values-for-two-scenarios">Expected Values for Two Scenarios</h2>
+<p><span class="math display">\[{\text{Russian TV} = 0,~\text{Living within 25 km} = 1}\]</span> <span class="math display">\[{\text{Russian TV} = 1,~\text{Living within 25 km} = 1}\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> russian_tv = 0 </th>
+   <th style="text-align:right;"> russian_tv = 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0.0422014 </td>
+   <td style="text-align:right;"> 0.2672538 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0994041 </td>
+   <td style="text-align:right;"> 0.2571643 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0422805 </td>
+   <td style="text-align:right;"> 0.2936858 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0607332 </td>
+   <td style="text-align:right;"> 0.2922390 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0685423 </td>
+   <td style="text-align:right;"> 0.2612027 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0867489 </td>
+   <td style="text-align:right;"> 0.2801668 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 0 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0.0207833 </td>
+   <td style="text-align:right;"> 0.1448121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0.2102465 </td>
+   <td style="text-align:right;"> 0.3318915 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="what-is-the-effect-of-russian-tv-propaganda" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="what-is-the-effect-of-russian-tv-propaganda">What Is the Effect of Russian TV Propaganda?</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fds <span class="ot">&lt;-</span> <span class="fu">transform</span>(evs, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">First Difference</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">russian_tv = 1</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">russian_tv = 0</span><span class="st">`</span>) </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fds <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 0 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0.0207833 </td>
+   <td style="text-align:right;"> 0.1448121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0.2102465 </td>
+   <td style="text-align:right;"> 0.3318915 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> First Difference </td>
+   <td style="text-align:right;"> 0.2105944 </td>
+   <td style="text-align:right;"> 0.1133236 </td>
+   <td style="text-align:right;"> 0.2741849 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<blockquote class="blockquote">
+<p>On average, for those living in precincts within 25km to the border, being exposed to Russian TV propaganda is associates with an increase in the probability to vote for a pro-Russian party of 0 percentage points. &nbsp;95% confidence interval for this quantity ranges from 0 to 0 percentage points, making the effect of Russian TV propaganda significantly different from zero.</p>
+</blockquote>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="multiple-scenarios-and-first-differences" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="multiple-scenarios-and-first-differences">Multiple Scenarios and First Differences</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>evs <span class="ot">&lt;-</span> <span class="fu">sim_setx</span>(<span class="at">sim =</span> sims, <span class="co"># object with simulated coefs  </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="fu">list</span>(<span class="at">russian_tv =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="co"># scenario with desired (plausible) values </span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">within_25km =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.matrix</span>(evs) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> russian_tv = 0, within_25km = 0 </th>
+   <th style="text-align:right;"> russian_tv = 1, within_25km = 0 </th>
+   <th style="text-align:right;"> russian_tv = 0, within_25km = 1 </th>
+   <th style="text-align:right;"> russian_tv = 1, within_25km = 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 0.1282183 </td>
+   <td style="text-align:right;"> 0.5490364 </td>
+   <td style="text-align:right;"> 0.0422014 </td>
+   <td style="text-align:right;"> 0.2672538 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.2019897 </td>
+   <td style="text-align:right;"> 0.4425544 </td>
+   <td style="text-align:right;"> 0.0994041 </td>
+   <td style="text-align:right;"> 0.2571643 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.1385445 </td>
+   <td style="text-align:right;"> 0.6023452 </td>
+   <td style="text-align:right;"> 0.0422805 </td>
+   <td style="text-align:right;"> 0.2936858 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="multiple-scenarios" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="multiple-scenarios">Multiple Scenarios</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>fds <span class="ot">&lt;-</span> <span class="fu">transform</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  evs,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">FD_within_25km = 0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">russian_tv = 1, within_25km = 0</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">russian_tv = 0, within_25km = 0</span><span class="st">`</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">FD_within_25km = 1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">russian_tv = 1, within_25km = 1</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">russian_tv = 0, within_25km = 1</span><span class="st">`</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fds) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 0, within_25km = 0 </td>
+   <td style="text-align:right;"> 0.1863569 </td>
+   <td style="text-align:right;"> 0.1315394 </td>
+   <td style="text-align:right;"> 0.2503005 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 1, within_25km = 0 </td>
+   <td style="text-align:right;"> 0.5783134 </td>
+   <td style="text-align:right;"> 0.3334135 </td>
+   <td style="text-align:right;"> 0.7823231 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 0, within_25km = 1 </td>
+   <td style="text-align:right;"> 0.0577046 </td>
+   <td style="text-align:right;"> 0.0207833 </td>
+   <td style="text-align:right;"> 0.1448121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> russian_tv = 1, within_25km = 1 </td>
+   <td style="text-align:right;"> 0.2682990 </td>
+   <td style="text-align:right;"> 0.2102465 </td>
+   <td style="text-align:right;"> 0.3318915 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_within_25km = 0 </td>
+   <td style="text-align:right;"> 0.3919565 </td>
+   <td style="text-align:right;"> 0.1467803 </td>
+   <td style="text-align:right;"> 0.5987365 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_within_25km = 1 </td>
+   <td style="text-align:right;"> 0.2105944 </td>
+   <td style="text-align:right;"> 0.1133236 </td>
+   <td style="text-align:right;"> 0.2741849 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- # custom function to generate starts  -->
+<!-- stats_fun <- function(x){ -->
+<!--   c(quantile(x, probs = 0.025), mean(x), quantile(x, probs = 0.975)) -->
+<!-- } -->
+<!-- as.data.frame(evs) %>% -->
+<!--   clean_names() %>% -->
+<!--   ggplot(aes(x = x1)) + -->
+<!--   geom_density(fill = "grey") + -->
+<!--   labs(x = "Predicted Probabilites of Voting Pro-Russian", -->
+<!--        y = "") + -->
+<!--   geom_vline(xintercept = as.numeric(evs) %>% stats_fun()) -->
+<!-- ``` -->
+<!-- ##  -->
+<!-- ```{r} -->
+<!-- # results <- sim_setx(sims,  -->
+<!-- #                     x = list(female = 0:1, -->
+<!-- #                              beauty = 1:10)) -->
+<!-- as.data.frame(evs) %>%  -->
+<!--   summarise_all(.funs = list(upr = ~ quantile(x = ., probs = 0.025), -->
+<!--                              mean = ~ mean(x = .), -->
+<!--                              lwr = ~ quantile(x = ., probs = 0.975))) %>%  -->
+<!--   ggplot(aes(x = mean, xmin = lwr, xmax = upr, y = 1)) + -->
+<!--   geom_pointrange() -->
+<!-- ``` -->
+<!-- ## tt  -->
+<!-- ```{r, eval=FALSE} -->
+<!-- m1 <- lm(primary_06 ~ treatment, data = shaming)  -->
+<!-- m2 <- glm(primary_06 ~ treatment, data = shaming, family = binomial) -->
+<!-- modelsummary::modelsummary(list(m1, m2)) -->
+<!-- ``` -->
+<!-- ## Models for Binary DV -->
+<!-- This model (called a logistic regression model) only produces predictions between 0 and 1. -->
+<!-- ```{r, eval=FALSE} -->
+<!-- lm(pro_russian_vote ~ russian_tv, data=UA) %>%  -->
+<!--   predict(interval = "c") -->
+<!-- lm(pro_russian_vote ~ russian_tv + within_25km, data=UA) %>%  -->
+<!--   predict(interval = "c", newdata = expand_grid(russian_tv = 0:1, -->
+<!--                         within_25km = 0:1)) %>% -->
+<!--   bind_cols(expand_grid(russian_tv = 0:1, -->
+<!--                         within_25km = 0:1)) %>% -->
+<!--   ggplot(aes(y = fit, ymin = lwr, -->
+<!--              ymax = upr, x = russian_tv)) + -->
+<!--   geom_pointrange() -->
+<!-- glm(pro_russian_vote ~ russian_tv + within_25km, data=UA, family = binomial) %>%  -->
+<!-- predict(type = "response") -->
+<!-- ``` -->
+<!-- ## How To Model Binary Variables: Review -->
+<!-- Based on the three GLM criteria we have: -->
+<!--   - $y_i \sim \text{Bernoulli}(\pi_i)$: our underlying distribution  -->
+<!--   - $X\beta = \beta_0+\beta_1 x_{1,i} + \cdots + \beta_n x_{n,i}$: our systematic component  -->
+<!--   - response function the response function to transform linear predictor: -->
+<!--       - $\pi_i = \frac{\exp(X\beta)}{1+\exp(X\beta)}$: for logit model (`plogis`) -->
+<!--       - $\pi_i = \Phi(X\beta)$: for probit model (`pnorm`) -->
+</section>
+</section>
+<section id="appendix-interpretation-of-coefficients-in-logit-models" class="level1">
+<h1>Appendix: Interpretation of Coefficients in Logit Models</h1>
+<section id="compare-the-odds-for-two-groups" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="compare-the-odds-for-two-groups">Compare the odds for two groups</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Russian TV</th>
+<th style="text-align: right;">Pro-Russian Vote</th>
+<th style="text-align: right;">No pro-Russian Vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">131</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">142</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>We want to compare the risk of Pro-Russian Vote for those with exposure to Russian TV and those without it.</li>
+<li>We’ll use the odds to compare the two groups</li>
+</ul>
+<p><span class="math display">\[\text{odds} = \frac{P(\text{success})}{P(\text{failure})} = \frac{\text{# of successes}}{\text{# of failures}}\]</span></p>
+</section>
+<section id="compare-the-odds-for-two-groups-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="compare-the-odds-for-two-groups-1">Compare the odds for two groups</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Russian TV</th>
+<th style="text-align: right;">Pro-Russian Vote</th>
+<th style="text-align: right;">No pro-Russian Vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">131</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">142</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Odds of voting pro-Russian with Russian TV exposure: <span class="math inline">\(\frac{58}{142} = 0.408\)</span></p></li>
+<li><p>Odds of voting pro-Russian without Russian TV exposure: <span class="math inline">\(\frac{27}{131} = 0.206\)</span></p></li>
+<li><p>Based on this, we see those with a Russian TV exposure had higher odds of voting pro-Russian than those without Russian propaganda exposure.</p></li>
+<li><p>We can summarize the relationship with odds ratio (OR): <span class="math inline">\(OR = \frac{\text{odds}_1}{\text{odds}_2} = \frac{\omega_1}{\omega_2}\)</span></p></li>
+</ul>
+</section>
+<section id="odds-ratio-with-vs.-without-exposure-to-russian-tv" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="odds-ratio-with-vs.-without-exposure-to-russian-tv">Odds Ratio: with vs.&nbsp;without exposure to Russian TV</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Russian TV</th>
+<th style="text-align: right;">Pro-Russian Vote</th>
+<th style="text-align: right;">No pro-Russian Vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">131</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">142</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Odds of voting pro-Russian with Russian TV exposure: <span class="math inline">\(\frac{58}{142} = 0.408\)</span></li>
+<li>Odds of voting pro-Russian without Russian TV exposure: <span class="math inline">\(\frac{27}{131} = 0.206\)</span></li>
+</ul>
+<p><span class="math inline">\(OR = \frac{\text{odds}_{with}}{\text{odds}_{without}} = \frac{0.408}{0.206} = 1.982\)</span></p>
+<p>The odds of voting pro-Russian are 1.982 times higher for those with exposure to Russian TV than those without exposure to Russian TV.</p>
+</section>
+<section id="coefficients-in-logit-model" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="coefficients-in-logit-model">Coefficients in Logit Model</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(pro_russian_vote <span class="sc">~</span> russian_tv,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> binomial,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> UA)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>m3<span class="sc">$</span>coefficients[<span class="dv">2</span>] <span class="co"># log odds </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>russian_tv 
+ 0.6839764 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>The log odds of voting pro-Russian are 0.684 higher for those with exposure to Russian TV compared to those without exposure to Russian TV.</p>
+</blockquote>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(m3<span class="sc">$</span>coefficients[<span class="dv">2</span>]) <span class="co"># odds </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>russian_tv 
+  1.981742 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>The odds of voting pro-Russian are 1.982 <strong>times</strong> higher for those with exposure to Russian TV than those without exposure to Russian TV.</p>
+</blockquote>
+</section>
+<section id="continous-predictors" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="continous-predictors">Continous Predictors</h2>
+<blockquote class="blockquote">
+<p>For each additional unit change in <span class="math inline">\(X_k\)</span>, the log-odds of Y are expected to increase by <span class="math inline">\(\beta_k\)</span> (holding all else contant).</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>For each additional unit change in <span class="math inline">\(X_k\)</span>, the odds of Y are expected to mulitply by a factor of <span class="math inline">\(e^{\beta_k}\)</span> (holding all else contant).</p>
+</blockquote>
+<p>OR</p>
+<blockquote class="blockquote">
+<p>For each additional unit change in <span class="math inline">\(X_k\)</span>, the odds of Y are expected to increase by <span class="math inline">\(e^{\beta_k}%\)</span> (holding all else contant).</p>
+</blockquote>
+</section>
+<section id="confidence-intervals" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="log-odds" class="level4">
+<h4 class="anchored" data-anchor-id="log-odds">Log Odds</h4>
+<p>We can calculate the <strong>C% confidence interval</strong> for <span class="math inline">\(\beta_k\)</span> as the following:</p>
+<p><span class="math display">\[
+\Large{\hat{\beta}_k \pm z^* SE_{\hat{\beta}_k}}
+\]</span></p>
+<p>where <span class="math inline">\(z^*\)</span> is calculated from the <span class="math inline">\(N(0,1)\)</span> distribution</p>
+<p>This is an interval for the change in the log-odds for every one unit increase in <span class="math inline">\(x_k\)</span>.</p>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="odds" class="level4">
+<h4 class="anchored" data-anchor-id="odds">Odds</h4>
+<p>The change in <strong>odds</strong> for every one unit increase in <span class="math inline">\(x_k\)</span>.</p>
+<p><span class="math display">\[
+\Large{e^{\hat{\beta}_k \pm z^* SE_{\hat{\beta}_k}}}
+\]</span></p>
+<div class="incremental">
+<p><strong>Interpretation:</strong> We are <span class="math inline">\(C\%\)</span> confident that for every one unit increase in <span class="math inline">\(x_k\)</span>, the odds multiply by a factor of <span class="math inline">\(e^{\hat{\beta}_k - z^* SE_{\hat{\beta}_k}}\)</span> to <span class="math inline">\(e^{\hat{\beta}_k + z^* SE_{\hat{\beta}_k}}\)</span>, holding all else constant.</p>
+</div>
+</section>
+</div>
+</div>
+</section>
+</section>
+<section id="appendix-fitting-logit-models" class="level1">
+<h1>Appendix: Fitting Logit Models</h1>
+<section id="maximum-likelihood-estimation-mle" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="maximum-likelihood-estimation-mle">Maximum Likelihood Estimation (MLE)</h2>
+<ul>
+<li>20 data points that we assume come from a normal distribution. We know that normal distribution has two parameters, mean and variance</li>
+<li>Which of the plotted distributions has most likely generated the data points?</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="maximum-likelihood-estimation-mle-1" class="level2 smaller">
+<h2 class="smaller anchored" data-anchor-id="maximum-likelihood-estimation-mle-1">Maximum Likelihood Estimation (MLE)</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>The points seem to be centered around zero and they range is between <span class="math inline">\([-2,2]\)</span></li>
+<li>Most likely, it is the violet distribution that has generated the points</li>
+<li>With MLE: (1) we observe the data, (2) assume a distribution it come from, and (3) look for the values of parameters defining this distribution that result in the curve that best fits the data</li>
+</ul>
+<hr>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'
+`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="09-regression_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- # Intro -->
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- countdown(minutes = 4, color_background = "white", left = 1) -->
+<!-- ``` -->
+<!-- ::: columns -->
+<!-- ::: {.column width="30%"} -->
+<!-- ```{dot} -->
+<!-- //| echo: false -->
+<!-- //| fig-width: 3 -->
+<!-- //| fig-height: 3 -->
+<!-- //| out-width: 100% -->
+<!-- digraph D { -->
+<!--   node [shape=oval, fontname="AtkinsonHyperlegible-Regular"]; -->
+<!--   edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5]; -->
+<!--   a [label = "Beauty Score"]; -->
+<!--   b [label = "Evaluations"]; -->
+<!--   c [label = "Female"]; -->
+<!--   {rank=same a b}; -->
+<!--   {rank=sink c}; -->
+<!--   a->b; -->
+<!--   c->a; -->
+<!--   c->b; -->
+<!-- } -->
+<!-- ``` -->
+<!-- :::  -->
+<!-- ::: {.column width="70%"} -->
+<!-- 1.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Beauty Score* on *Evaluations* causally. -->
+<!-- 2.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Female* on *Evaluations* causally. -->
+<!-- 3. On average, a 5-point increase in *Beauty Score* would be associated with 0.4-point increase in *Teaching Evaluations*, for both female and female instructors.  -->
+<!-- 4. The effect of *Female* on *Teaching Evaluations* would be represented through the change in the slope of the regression coefficient for *Beauty Score*.  -->
+<!-- 5. For $evals = \beta_0 + \beta_1 \cdot Female$,  $\beta_1$ would be the equal to difference-in-means estimator.  -->
+<!-- :::  -->
+<!-- :::  -->
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

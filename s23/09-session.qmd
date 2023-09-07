@@ -1,0 +1,17 @@
+---
+title: "Binary Dependent Variable"
+date: "2023-04-25"
+---
+
+## Slides
+
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../filesweek09_Binary_Dependent_Variable.pdff)
+
+<iframe src="../slides/09/09-Regression.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
+
+
+
+
+
+
