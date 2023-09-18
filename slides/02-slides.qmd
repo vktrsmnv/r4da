@@ -1,0 +1,632 @@
+---
+title: "Describing Variables"
+subtitle: "R for Data Analysis<br>Session 2"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  echo: true
+---
+
+```{r, include=FALSE}
+
+un_votes <- readr::read_csv("https://r4da.live/files/data/external_data/un_votes.csv")
+p_needed <- c("tidyverse", "scico", "icons") 
+
+# check if they are already installed, install if not installed 
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages)
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+```
+
+## Getting Lab Material {.smaller}
+
+-   Open `r4da-labs.Rproj` file to open the *labs* project.
+-   Go into *Git* pane.
+-   If there are any files you changed, you will see them in the window.
+    -   Select all these files.
+    -   Click on *Commit*, write a commit message, and save it.
+    -   If you click on *Push*, it will give you a `git` error message\
+-   Click on *Pull* to get the new files uploaded.
+
+<!-- ![](images/github-pull-success.png) -->
+
+## `tidyverse` package is a shortcut
+
+::: columns
+::: {.column width="50%"}
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+```         
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readr")
+install.packages("purrr")
+install.packages("tibble")
+install.packages("stringr")
+install.packages("forcats")
+install.packages("lubridate")
+install.packages("hms")
+install.packages("DBI")
+install.packages("haven")
+install.packages("httr")
+install.packages("jsonlite")
+install.packages("readxl")
+install.packages("rvest")
+install.packages("xml2")
+install.packages("modelr")
+install.packages("broom")
+```
+:::
+
+::: {.column width="50%"}
+```{r eval=FALSE}
+library("tidyverse")
+```
+
+```         
+library("ggplot2")
+library("dplyr")
+library("tidyr")
+library("readr")
+library("purrr")
+library("tibble")
+library("stringr")
+library("forcats")
+```
+:::
+:::
+
+# Describing Variables
+
+## Types of Data in Political Science {.smaller}
+
+-   **Cross-section:** a snapshot of a sample of units (e.g., people, countries, governments) at one point of time
+
+-   **Time series:** observations on variables over time
+
+-   **Pooled time series cross-section:** comparable time series data observed on variety of units (e.g., people, countries, governments)
+
+    -   Usually few cases, but long time series
+
+-   **Panel data:** large number of the same cross-sectional units (e.g., survey respondents) observed repeatedly
+
+    -   Usually many cases, but shorter time series
+
+------------------------------------------------------------------------
+
+## ![](https://openintro-ims.netlify.app/01-data-hello_files/figure-html/variables-1.png)
+
+## Types of Variables {.smaller}
+
+-   **Numerical (quantitative):** take on values sensible to add, subtract, take averages, etc. with these values
+    -   *Continuous:* take on any of an infinite number of values within a given range (e.g., vote share) `r icons::fontawesome("r-project")` `numeric`
+    -   *Discrete:* take on one of a specific set of numeric values (e.g., number of human fatalities in conflict) `r icons::fontawesome("r-project")` `integer`
+-   **Categorical (qualitative):** take on a limited number of distinct categories categories can be identified with numbers, but not sensible to do arithmetic operations `r icons::fontawesome("r-project")` `character` or `factor`
+    -   *Ordinal:* levels have an inherent ordering (e.g., Likert scales)
+    -   *Nominal:* levels have no inherent ordering (e.g., party choice: CDU, SPD, Greens, etc.)
+
+> Data types are conceptual
+
+## **Number of variables involved**
+
+-   Univariate data analysis - distribution of single variable
+
+-   Bivariate data analysis - relationship between two variables
+
+-   Multivariate data analysis - relationship between many variables at once, usually focusing on the relationship between two while conditioning for others
+
+## Describing shapes of numerical distributions
+
+-   shape:
+    -   skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
+    -   modality: unimodal, bimodal, multimodal, uniform
+-   center: mean (`mean`), median (`median`), mode (not always useful)
+-   spread: range (`range`), standard deviation (`sd`), inter-quartile range (IQR)
+-   unusual observations
+
+## Central Tendency: Mean
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+**Mean:** arithmetic average, the "typical" value, the best guess about the value drawn from the distribution
+
+$$\bar{x} = \frac{x_1 + x_2 + x_3 + ... + x_N}{N} = \frac{\sum_{i=1}^{N}x_i}{N}$$
+
+```{r}
+mean(x = un_votes$percent_yes)
+
+sum(un_votes$percent_yes) / length(un_votes$percent_yes)
+```
+
+## Central Tendency: Median
+
+**Median:** value of $x$ that falls in the middle position when observations are ordered ascending
+
+$$\widetilde{x} =\begin{cases}
+  x_\frac{N+1}{2}                                    & \text{if }N\text{ is odd}\\
+  \frac {1}{2}\left(x_{\frac{N}{2}} + x_{\frac{N}{2} + 1}\right) & \text{if }N \text{ is even}
+\end{cases}$$ <!-- :::  --> <!-- ::: {.column width="50%"} -->
+
+```{r}
+median(x = un_votes$percent_yes)
+summary(un_votes$percent_yes)
+```
+
+<!-- :::  -->
+
+<!-- :::  -->
+
+## Problems with Single Numbers
+
+```{r, echo=FALSE}
+set.seed(1234)
+animals <-
+  tibble(animal = c(rep(c(
+    "Small cat", "Big cat"
+  ), each = 250), rep("Dog", 500))) %>%
+  mutate(
+    weight = case_when(
+      animal == "Small cat" ~ rnorm(n(), 20, 5),
+      animal == "Big cat" ~ rnorm(n(), 60, 5),
+      animal == "Dog" ~ rnorm(n(), 40, 10)
+    )
+  ) %>%
+  mutate(animal_type = ifelse(str_detect(animal, "cat"), "Cats", "Dogs"))
+
+animals_mean <- animals %>%
+  group_by(animal_type) %>%
+  summarize(avg_weight = mean(weight))
+
+animals_mean %>%
+  knitr::kable(row.names = FALSE,
+        col.names = c("", "Average Weight"), format = "html")
+
+```
+
+::: columns
+::: {.column width="50%"}
+```{r animal-weight-bar, echo=FALSE, fig.dim=c(4.8, 3.75), out.width="100%"}
+ggplot(
+  animals_mean,
+  aes(x = animal_type, y = avg_weight, fill = animal_type)
+) +
+  geom_col() +
+  labs(x = NULL, y = "Weight") +
+  guides(fill = FALSE) +
+  theme_bw() +
+  scale_fill_manual(values = c("#c32e37", "#003056"))
+```
+:::
+
+::: {.column width="50%"}
+```{r animal-weight-points, echo=FALSE, fig.dim=c(4.8, 3.75), out.width="100%"}
+ggplot(animals, aes(x = animal_type, y = weight, color = animal_type)) +
+  geom_point(position = position_jitter(height = 0), size = 1) +
+  stat_summary(
+    geom = "point",
+    fun = "mean",
+    size = 5,
+    color = "#94b166"
+  ) +
+  labs(x = NULL, y = "Weight") +
+  guides(color = FALSE) +
+  theme_bw()  +
+  scale_color_manual(values = c("#c32e37", "#003056"))
+```
+:::
+:::
+
+## Sample Dispersion: Variance
+
+<!-- ::: {.column width="60%"} -->
+
+**Variance:** measure of the typical departure from the mean of a dataset
+
+$$
+s^2 = \frac{\sum_{i=1}^{N}(x_i - \bar{x})^2} {N - 1}
+$$
+
+```{r}
+var(x = un_votes$percent_yes)
+```
+
+## Variance Visually Explained
+
+![](https://tinystats.github.io/teacups-giraffes-and-statistics/04_variance_files/figure-html/unnamed-chunk-1-.gif){width="599"}
+
+## Population vs. Sample ($N$ vs $n−1$) {.center}
+
+![](https://tinystats.github.io/teacups-giraffes-and-statistics/04_variance_files/figure-html/unnamed-chunk-6-.gif){width="432"}
+
+## Population vs. Sample: Inherent Bias {.smaller}
+
+- The sum of squares from $\mu$ will *always* be greater than the $\bar x$ sum of squares 
+- $\bar x$'s location already minimizes the total distance of all the observations to the center by the definition of sample mean
+- A line at any other location would be a line that is not minimizing the distance for observations in our sample
+
+![](https://tinystats.github.io/teacups-giraffes-and-statistics/images/04_variance/Squares2.png){width="732"}
+
+## Sample Dispersion: Standard Deviation
+
+**Standard Deviation** $s$: measure of the typical departure from the mean of a dataset (intuitive scale)
+
+$$
+s = \sqrt{\frac{\sum_{i=1}^{N}(x_i - \bar{x})^2} {N - 1}} = \sqrt{s^2}
+$$ <!-- :::  --> <!-- ::: {.column width="40%"} -->
+
+```{r variance}
+sd(x = un_votes$percent_yes)
+```
+
+![](https://tinystats.github.io/teacups-giraffes-and-statistics/images/04_variance/General_empirical.jpg){width="732"}
+<!-- :::  -->
+
+## Quantiles and Range
+
+::: columns
+<!-- ::: {.column width="50%"} -->
+
+-   **Range:** difference between smallest and largest value
+
+<!-- $$range = x_{max} - x_{min}$$ -->
+
+-   **Interquantile Range:** range of the middle 50% of the data, distance between the first quartile (25th percentile) and third quartile (75th percentile)
+
+<!-- :::  -->
+
+<!-- ::: {.column width="50%"} -->
+
+```{r ranges}
+range(un_votes$percent_yes)
+
+range(un_votes$percent_yes) %>% 
+  diff() 
+
+summary(un_votes$percent_yes)
+
+IQR(x = un_votes$percent_yes)
+```
+
+<!-- :::  -->
+:::
+
+# Grammar of graphics: `ggplot2`
+
+## Data visualization
+
+> *"The simple graph has brought more information to the data analyst's mind than any other device." \-\-- John Tukey*
+
+-   Data visualization is the creation and study of the visual representation of data
+
+-   Many tools for visualizing data \-- `R` is one of them
+
+-   Many approaches/systems within `R` for making data visualizations \-- **ggplot2** is one of them, and that's what we're going to use
+
+------------------------------------------------------------------------
+
+![](images/minard.png)
+
+## Temperature
+
+![](https://datavizs22.classes.andrewheiss.com/slides/03-slides_files/figure-html/minard-temps-1.png)
+
+## Causalties
+
+![](https://datavizs22.classes.andrewheiss.com/slides/03-slides_files/figure-html/minard-deaths-1.png){width="50%"}
+
+------------------------------------------------------------------------
+
+## Grammar of Graphics Logic
+
+::: columns
+::: {.column width="60%"}
+-   Map *data* to *aesthetics*
+-   *Aesthetic*: visual property of the graph
+    -   position
+    -   shape
+    -   color
+    -   transparency
+:::
+
+::: {.column width="40%"}
+![](https://m.media-amazon.com/images/I/61-YvOkZN9L.jpg){fig-align="right"}
+:::
+:::
+
+## Mapping Data to Aesthetics
+
+::: panel-tabset
+### Description
+
+| Data           | Aesthetic         | Graphic/Geometry |
+|----------------|-------------------|------------------|
+| Longitude      | Position (x-axis) | Point            |
+| Latitude       | Position (y-axis) | Point            |
+| Army size      | Size              | Path             |
+| Army direction | Color             | Path             |
+| Date           | Position (x-axis) | Line + text      |
+| Temperature    | Position (y-axis) | Line + text      |
+
+### Image
+
+![](images/minard.png)
+:::
+
+## ggplot2 ∈ tidyverse
+
+::: columns
+::: {.column width="40%"}
+![](images/ggplot2-part-of-tidyverse.png){fig-align="left"}
+:::
+
+::: {.column width="60%"}
+-   **ggplot2** is tidyverse's data visualization package
+
+-   `gg` in **ggplot2** stands for Grammar of Graphics
+
+<!-- -   `ggplot()` is the main function -->
+
+-   Installation:
+
+    ``` r
+    install.packages("tidyverse")
+    library(ggplot2)
+    ```
+
+-   For help with ggplot2, see [ggplot2.tidyverse.org](http://ggplot2.tidyverse.org/)
+:::
+:::
+
+<!-- ::: aside -->
+
+<!-- Source: [BloggoType](http://bloggotype.blogspot.com/2016/08/holiday-notes2-grammar-of-graphics.html) -->
+
+<!-- ::: -->
+
+## Plotting with layers
+
+::: columns
+::: {.column width="45%"}
+![](images/ggplot-layers@4x.png){fig-align="left"}
+:::
+
+::: {.column width="55%"}
+```{r}
+#| eval: false
+ggplot(data = [dataset],
+       mapping = aes(
+         x = [x - variable],
+         y = [y - variable]
+         )
+       ) +
+  geom_xxx() +
+  other options
+```
+:::
+:::
+
+## Possible aesthetics
+
+::: columns
+::: {.column width="33%"}
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+**`color` discrete**
+
+```{r aes-color-discrete, echo=FALSE, fig.dim=c(4, 2), out.width="100%"}
+eg <- tribble(
+  ~x, ~y, ~size, ~x1,
+  "A", 1, 5, 1,
+  "B", 1, 10, 2,
+  "C", 1, 15, 3
+)
+
+# Color, discrete
+ggplot(eg, aes(x = x, y = y, color = x)) +
+  geom_point(size = 30) +
+  guides(color = "none") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+
+**`color` continuous**
+
+```{r aes-color-continuous, echo=FALSE, fig.dim=c(4, 2), out.width="100%"}
+# Color, continuous
+ggplot(eg, aes(x = x1, y = y, color = x1)) +
+  geom_point(size = 30) +
+  guides(color = "none") +
+  coord_cartesian(xlim = c(0.5, 3.5)) +
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+:::
+
+::: {.column width="33%"}
+`size`
+
+```{r aes-size, echo=FALSE, fig.dim=c(4, 2), out.width="100%"}
+# Size
+ggplot(eg, aes(x = x, y = y, size = x)) +
+  geom_point() +
+  scale_size_discrete(range = c(2, 30)) +
+  guides(size = "none") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+
+`fill`
+
+```{r aes-fill, echo=FALSE, fig.dim=c(4, 2), out.width="100%"}
+# Fill
+ggplot(eg, aes(x = x, y = y, fill = x)) +
+  geom_point(size = 30, pch = 21, stroke = 5) +
+  guides(fill = "none") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+:::
+
+::: {.column width="33%"}
+`shape`
+
+```{r aes-shape, echo=FALSE, fig.dim=c(4, 2), out.width="100%"}
+# Shape
+ggplot(eg, aes(x = x, y = y, shape = x)) +
+  geom_point(size = 30) +
+  guides(shape = "none") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+
+`alpha`
+
+```{r aes-alpha, echo=FALSE, fig.dim=c(4, 2), out.width="100%"}
+# Alpha
+ggplot(eg, aes(x = x, y = y, alpha = x)) +
+  geom_point(size = 30) +
+  guides(alpha = "none") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank())
+```
+:::
+:::
+
+## Example geoms
+
+<br>
+
+|                                          |                  |            |
+|------------------------------------------|------------------|:----------:|
+| ![](images/geom_bar.png){width="50"}     | `geom_col()`     | Bar charts |
+| ![](images/geom_text.png){width="50"}    | `geom_text()`    |    Text    |
+| ![](images/geom_point.png){width="50"}   | `geom_point()`   |   Points   |
+| ![](images/geom_boxplot.png){width="50"} | `geom_boxplot()` |  Boxplots  |
+| ![](images/geom_sf.png){width="50"}      | `geom_sf()`      |    Maps    |
+
+## Additional layers
+
+-   *scales* change properties of variable mapping
+-   *facets* show subplots for different subsets of data
+-   *coordinates* change the coordinate system
+-   *labels* add labels to the plot
+-   *theme* changes the appearance of anything in the plot
+-   *theme options* make adjustments to existing *themes*
+
+## Tidy data
+
+-   For `ggplot()` to work, your data needs to be in a *tidy* format
+-   This doesn't mean that it's clean, it refers to the structure of the data
+-   All the packages in the *tidyverse* work best with tidy data; that why it's called that!
+
+## Tidy means:
+
+-   Each variable has its own column
+-   Each observation has its own row
+-   Each value has its own cell
+
+![](https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png)
+
+## Same Data, Different Formats
+
+::: columns
+::: {.column width="50%"}
+Untidy Data
+
+![](https://datavizs22.classes.andrewheiss.com/slides/img/03/untidy-example.png)
+:::
+
+::: {.column width="50%"}
+Tidy data ![](https://datavizs22.classes.andrewheiss.com/slides/img/03/tidy-example.png)
+:::
+:::
+
+## Tidy is Long Data
+
+![](https://datavizs22.classes.andrewheiss.com/slides/img/03/original-dfs-tidy.png){width="800"}
+
+## Styling the Code: Why
+
+```{r, eval=FALSE}
+un_votes %>% 
+  filter(un_votes > 5, issue == "Human rights")
+
+
+un_votes %>% filter(un_votes > 5, issue == "Human rights")
+
+un_votes %>% 
+  filter(un_votes > 5, 
+         issue == "Human rights")
+
+
+un_votes %>% filter(un_votes>5,issue=="Human rights")
+
+un_votes %>% 
+  filter(un_votes > 5,       issue == "Human rights")
+```
+
+## Styling the Code: How
+
+```{r, eval=FALSE}
+install.packages("styler")
+library(styler)
+
+install.packages("lint")
+library(lint)
+```
+
+![](images/styler.png){width="80%"} - More on styling [on course website](https://r4da.live/resource/style.html)
+
+<!-- ## Tables for Descriptive Statistics -->
+
+<!-- -   `stargazer`: PDF + HTML (solid general descriptive stats tables) !refuses to work with tibbles -->
+
+<!-- -   `skimr`: good for overall dataset description -->
+
+<!-- -   `modelsummary`: flexible tables -->
+
+## Saving Your Plots: Bitmaps vs Vector
+
+::: columns
+::: {.column width="50%"}
+![](https://datavizs22.classes.andrewheiss.com/slides/img/02/example-bitmap.png)
+
+-   JPEG: Photographs
+
+-   PNG/GIF: Images with limited colors
+:::
+
+::: {.column width="50%"}
+![](https://datavizs22.classes.andrewheiss.com/slides/img/02/example-vector.png)
+
+-   PDF: Anything vector based
+
+-   SVG: Vectors online
+:::
+:::
+
+**Save your plots as PNG or SVG (Web) or PDF (Print)**
+
+

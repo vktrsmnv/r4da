@@ -208,11 +208,7 @@ Your final project will be a data essay: you will get raw dataset(s), a research
 Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me **before November 15, 2023**, so we can agree on the option that would be a relevant evaluation for this class but also helpful for _you_.  Please beware that this option is potentially more time- and effort-consuming, so make the decision taking this into account. 
 
 
-I can only evaluate the final papers if you *pass* all the coursework requirements during the lecture period. This means two things:
-
-### Active Participation 
-
-Should you miss more than two classes, it is your responsibility to reach out to me timely so we can agree on the way to compensate for the the missing session.  
+I can only evaluate the final papers if you *pass* all the coursework requirements during the lecture period. This means passing every homework assignment (aka problem set):
 
 ### Homework assignments
 
