@@ -1,0 +1,982 @@
+---
+title: "Linear Regression"
+subtitle: "R for Data Analysis<br>Session 7"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  echo: true
+---
+
+```{r setup, include=FALSE}
+p_needed <- c("tidyverse", "janitor", "icons", 
+              "countdown", "showtext", "ggdag", 
+              "gt", "plotly", "broom", "patchwork")
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 6.5, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) +
+  theme(plot.title = element_text(face = "bold"))
+
+# governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+# trains <- readr::read_tsv("../data/trains.tsv") %>% clean_names()
+set.seed(2508)
+```
+
+# Intro
+
+
+## Agenda for Today
+
+<br>
+
+**Fitting the line with OLS**
+
+<br>
+
+**Interpretation of Regression Coefficients**
+
+
+<!-- ## Cookies and Happiness -->
+
+```{r make-cookies, include=FALSE}
+cookies <- tibble(
+  happiness = c(0.5, 2.1, 1, 2.5, 3, 1.5, 2.2, 2.5, 1.8, 3),
+  cookies = 1:10
+)
+
+cookies_data <- cookies
+cookies_model <- lm(happiness ~ cookies, data = cookies)
+cookies_fitted <- broom::augment(cookies_model)
+```
+
+```{r, echo=FALSE, message=FALSE, include=FALSE}
+cookies_base <- ggplot(cookies_fitted, aes(x = cookies, y = happiness)) +
+  geom_point(size = 3) +
+  coord_cartesian(xlim = c(0, 10), ylim = c(0, 3.5)) +
+  scale_x_continuous(breaks = 0:10) +
+  labs(x = "Cookies eaten", y = "Level of happiness") +
+  # theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold")
+  ) 
+
+# cookies_base
+```
+
+
+## Cookies and Happiness: OLS Regression Line {.smaller}
+
+```{r cookies-lm, echo=FALSE, message=FALSE, out.width="100%"}
+cookies_base +
+  stat_smooth(method = "lm", color = "#800010", se = FALSE)
+```
+
+## Regression Line Anatomy {.smaller}
+
+```{r  echo=FALSE, message=FALSE, out.width="100%"}
+ cookies_base +
+  stat_smooth(method = "lm", color = "#800010", se = FALSE, fullrange = T) +
+  geom_segment(aes(xend = cookies, yend = .fitted),
+    color = "#80001090",
+    size = 1
+  ) +
+    geom_point(size = 3) +
+  ggbrace::geom_brace(
+    aes(
+      x = c(cookies$cookies[1] + 0.3, cookies$cookies[1]),
+      y = c(cookies$happiness[1], fitted(cookies_model)[1])
+    ),
+    inherit.data = F,
+    rotate = 90,
+    color = "#800010"
+  ) +
+  annotate(
+    "text",
+    x = 2,
+    y = c(cookies$happiness[1], fitted(cookies_model)[1]) %>% mean(),
+    label = "Residual",
+    family = "Gochi Hand",
+        color = "#800010"
+  ) +
+  geom_point(aes(y = .fitted),
+             size = 3,
+             color = "#800010"
+               ) +
+  geom_curve(
+  aes(x = 0.5 + seq(0, 1.5, length.out = 10),
+    y = 2.6 + seq(0.1, 0.35, length.out = 10),
+    xend = cookies,
+    yend = .fitted),
+  curvature = -0,
+  arrow = arrow(type = "closed",
+                length = unit(0.03, "npc"),
+                angle=10),
+      color = "#800010",
+  alpha = 0.5
+) +
+    annotate(
+    "text",
+    x = 0.6,
+    y = 3,
+    label = "Predicted happiness\n(Fitted Values)",
+    family = "Gochi Hand",
+        color = "#800010"
+  ) +
+  xlim(c(0, 10)) +
+  geom_point(aes(y = 1.16,
+                 x = 0),
+             size = 3,
+             color = "#800010"
+               ) +
+    annotate(
+    "text",
+    x = 0,
+    y = 0.2,
+    label = "Intercept",
+    family = "Gochi Hand",
+        color = "#800010"
+  ) +
+  geom_curve(
+    data = NULL,
+  aes(x = 0.1,
+    y = 0.3,
+    xend = 0,
+    yend = 1.16),
+  curvature = -0.01,
+  arrow = arrow(type = "closed",
+                length = unit(0.03, "npc"),
+                angle=10),
+      color = "#80001050") +
+    coord_cartesian(xlim = c(0, 10), ylim = c(0, 3.5)) +
+  scale_x_continuous(breaks = 0:10) 
+
+# cookies_with_residual
+```
+
+# Fitting and Interpreting Models
+
+<!-- ## Workflow -->
+<!-- <br> -->
+
+<!-- ```{dot} -->
+<!-- //| echo: false -->
+<!-- digraph G { -->
+<!--   forcelabels=true; -->
+<!--   splines=false; -->
+<!--   fontname="AtkinsonHyperlegible-Regular"; -->
+<!--   causal [ -->
+<!--     label = "Causal Estimand"; -->
+<!--     shape = rect;  -->
+<!--     group=a; -->
+<!--   ]; -->
+<!--   stats [ -->
+<!--     label = "Statistical Estimand"; -->
+<!--     shape = rect; -->
+<!--      group=a; -->
+<!--   ]; -->
+<!--   est [ -->
+<!--     label = "Estimate"; -->
+<!--     shape = rect; -->
+<!--      group=a; -->
+<!--   ]; -->
+<!--   mod [ -->
+<!--     label = "Causal Model"; -->
+<!--     shape = oval; -->
+<!--      group=b; -->
+<!--   ]; -->
+<!--   data [ -->
+<!--     label = "Data"; -->
+<!--     shape = oval; -->
+<!--     group=b; -->
+<!--   ]; -->
+
+<!--   causal -> stats [xlabel = "Identification    " ]; -->
+<!--   stats -> est [ xlabel = "Estimation   "; dir = "backward"]; -->
+<!--   mod -> stats; -->
+<!--   data -> est; -->
+
+<!-- { -->
+<!--     rank=same; -->
+<!--     causal; mod;  -->
+<!--   } -->
+<!--   { -->
+<!--     rank=same; -->
+<!--     stats; data;  -->
+<!--   } -->
+
+
+<!-- } -->
+
+<!-- ``` -->
+
+
+## Language of Models {.smaller}
+
+
+-   **True Model**
+    $y = \underbrace{\beta_0}_{\text{intercept}} + \underbrace{\beta_1}_{\text{slope}} x + \underbrace{\varepsilon}_{\text{error}}$
+    -   Population parameters $\beta$: truth (estimand), unknown to us
+-   **Estimated Model**
+    $y = \underbrace{\hat\beta_0}_{\text{intercept}} + \underbrace{\hat\beta_1}_{\text{slope}} x + \underbrace{\hat\varepsilon}_{\text{residual}}$
+    -   Estimates $\hat{\beta}$: our best guess about the estimand given the
+        data
+-   A model has two parts:
+    -   **Systematic Component** of a linear model:
+        $\underbrace{\hat y}_{\text{fitted}\\\text{value}} = \underbrace{\hat\beta_0}_{\text{intercept}} + \underbrace{\hat\beta_1}_{\text{slope}} x$
+    -   **Stochastic Component** of a linear model: $\hat\varepsilon$
+
+
+## Vocabulary
+
+$$
+y = \hat \beta_0 + \hat \beta_1 x_1 + \hat \varepsilon
+$$
+
+-   $y$: dependent variable, outcome
+-   $x$: independent variable, treatment, explanatory variable, treatment,
+    predictor, feature
+-   $\hat y$: predicted values of y, y-hat, fitted values, regression line\
+-   $\hat \beta_0$: intercept, prediction when all $x=0$, constant
+-   $\hat \beta_k$: slope, the effect of $k$-th variable
+
+
+
+<!-- ## Modeling Happiness with Cookies -->
+
+
+<!-- $$ -->
+<!-- y = \hat \beta_0 + \hat \beta_1 x_1 + \hat \varepsilon -->
+<!-- $$ -->
+
+<!-- $$ -->
+<!-- \begin{aligned} -->
+<!-- &{\text{Happiness}} =  \hat \beta_0 +  \hat \beta_1 \text{Cookies} + \hat \varepsilon -->
+<!-- \end{aligned} -->
+<!-- $$ -->
+
+<!-- $$ -->
+<!-- \begin{aligned} -->
+<!-- &\widehat{\text{Happiness}} =  \hat \beta_0 +  \hat \beta_1 \text{Cookies}  -->
+<!-- \end{aligned} -->
+<!-- $$ -->
+
+<!-- :::task -->
+
+<!-- What are the differences between equations? -->
+
+<!-- ::: -->
+
+## Interpreting Slope Coefficient Poll {.normal}
+
+
+`r equatiomatic::extract_eq(cookies_model, intercept = "beta", use_coefs = TRUE, coef_digits = 3, swap_var_names = c("cookies" = "Number of Cookies Eaten", "happiness" = "Happiness"))`
+
+The slope of the model for predicting happiness score from number of consumed
+cookies is `r round(cookies_model$coefficients["cookies"], 3)`. Which of the
+following is the best interpretation of this value?
+
+1.  For every additional cookie eaten, the happiness score goes up by
+    `r round(cookies_model$coefficients["cookies"], 3)` points, on average.
+2.  For every additional cookie eaten, we expect the happiness score to be
+    higher by `r round(cookies_model$coefficients["cookies"], 3)` points, on
+    average.
+3.  For every additional cookie eaten, the happiness score goes up by
+    `r round(cookies_model$coefficients["cookies"], 3)` points.
+4.  For every one point increase in happiness score, the number of cookies eaten
+    goes up by `r round(cookies_model$coefficients["cookies"], 3)` points, on
+    average.
+
+
+```{r}
+#| echo: false
+countdown(minutes = 1.5, color_background = "white", font_size = 2, top = 0)
+```
+
+## Interpreting Slope and Intercept
+
+::: small
+`r equatiomatic::extract_eq(cookies_model, intercept = "beta", use_coefs = TRUE, coef_digits = 3, swap_var_names = c("cookies" = "Number of Cookies Eaten", "happiness" = "Happiness"))`
+
+> Slope: For every additional cookie eaten, we expect the happiness score to be
+> higher by `r round(cookies_model$coefficients["cookies"], 3)` points, on
+> average.
+
+-   Each additional cookie has the same effect on happiness, i.e. *marginal
+    effect* is constant
+    -   Associated increase in happiness is 0.155 for the first and, say, tenth
+        cookie
+
+> Intercept: If the number of eaten cookies is 0, we expect the happiness score
+> to be `r round(cookies_model$coefficients[1], 3)` points.
+
+-   Intercept is meaningful in the context of data because the predictor can
+    feasibly take values equal to or near zero
+:::
+
+
+# Mechanics of Linear Regression 
+
+<!-- ## Errors/Residuals in Regression {.smaller} -->
+
+<!-- - Random noise, the *stochastic* component of the model: the sum of “everything else” not in the systematic component of the model -->
+<!-- <!-- - We assume errors to be, on average, zero given every value of X: $\mathbb{E}(\varepsilon|X) = 0$ --> 
+
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| out-height: 90% -->
+<!-- m_cookies <- lm(happiness ~ cookies, data = cookies) -->
+<!-- cookies_fitted <- augment(m_cookies)  -->
+
+<!-- ggplot( -->
+<!--   cookies_fitted, -->
+<!--   aes(y = .resid, x = cookies) -->
+<!-- ) + -->
+<!--   geom_point() + -->
+<!--   geom_hline( -->
+<!--     yintercept = 0, -->
+<!--     linetype = "dashed" -->
+<!--   ) + -->
+<!--   labs( -->
+<!--     x = "Cookies eaten", -->
+<!--     y = "Residuals" -->
+<!--   ) -->
+<!-- ``` -->
+
+
+<!-- ## Regression Standard Error -->
+
+<!-- Once we fit the model, we can use the residuals to estimate error variance (i.e. residual variance): -->
+
+<!-- $$ -->
+<!-- \hat\sigma^2 = \frac{\overbrace{\sum_{i=1}^{n}\hat{e}_i^2}^{\text{sum of squared residuals}}}{ -->
+<!-- \underbrace{ -->
+<!-- \underbrace{n}_{\text{number of}\\\text{observations}}-\underbrace{k}_{\text{number of}\\\text{covariates}} - 1 -->
+<!-- }_{\text{degrees of freedom}} -->
+<!-- } -->
+<!-- $$ -->
+
+<!-- Regression standard error  $\sqrt{\hat\sigma^2}$: -->
+
+<!-- -  A measure of the average error (average difference between observed and  predicted values of the outcome) in same units as the outcome variable -->
+
+
+<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) --> 
+
+<!-- ```{r, echo=FALSE} -->
+<!-- #| out-height: 80% -->
+<!-- set.seed(0) -->
+<!-- dat <- data.frame(x=(x=runif(10000, 0, 50)), -->
+<!--                   y=rnorm(10000, 10*x, 100)) -->
+<!-- ## breaks: where you want to compute densities -->
+<!-- breaks <- seq(0, max(dat$x), len=5) -->
+<!-- dat$section <- cut(dat$x, breaks) -->
+<!-- ## Get the residuals -->
+<!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+<!-- ## Compute densities for each section, flip the axes, add means of sections -->
+<!-- ## Note: densities need to be scaled in relation to section size (2000 here) -->
+<!-- dens <- do.call(rbind, lapply(split(dat, dat$section), function(x) { -->
+<!--   d <- density(x$res, n=5000) -->
+<!--   res <- data.frame(x=max(x$x)- d$y*2000, y=d$x+mean(x$y)) -->
+<!--   res <- res[order(res$y), ] -->
+<!--   ## Get some data for normal lines as well -->
+<!--   xs <- seq(min(x$res), max(x$res), len=5000) -->
+<!--   res <- rbind(res, data.frame(y=xs , -->
+<!--                                x=max(x$x) - 2000*dnorm(xs, 0, sd(x$res)))) -->
+<!--   res$type <- rep(c("empirical", "normal"), each=5000) -->
+<!--   res -->
+<!-- })) -->
+<!-- dens$section <- rep(levels(dat$section), each=10000) -->
+<!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+<!-- ggplot(dat, aes(x, res)) + -->
+<!--   geom_point(size = 0.1, alpha = 0.25) + -->
+<!--   geom_hline(yintercept = 0) + -->
+<!--   geom_path( -->
+<!--     data = dens[dens$type == "normal", ], -->
+<!--     aes(x, y, group = section), -->
+<!--     color = "#003056", -->
+<!--     lwd = 0.8 -->
+<!--   ) + -->
+<!--   theme(axis.text.x = element_blank()) + -->
+<!--   scale_y_continuous(breaks = 0) + -->
+<!--     labs(y = "Residuals", -->
+<!--        x = "X")  -->
+
+
+<!-- ``` -->
+
+
+## Explained vs. Unexplained Variation in Y
+
+::: r-stack
+```{r echo=FALSE, message=FALSE, out.width="100%"}
+# cookies_with_residual <- 
+   cookies_base +
+  # geom_smooth(method = "lm", color = "#800010", se = FALSE) +
+  # geom_segment(aes(xend = cookies, yend = .fitted),
+  #   color = "#80001090",
+  #   size = 1
+  # ) +
+    geom_point(size = 3) +
+  geom_hline(yintercept = mean(cookies_fitted$happiness),
+             color = "#000000") +
+  geom_text(aes(x = 0, y = mean(cookies_fitted$happiness) + 0.1),
+            label  = expression(bar("Y"))
+                        )
+
+# cookies_with_residual
+
+```
+
+::: fragment
+```{r echo=FALSE, message=FALSE, out.width="100%"}
+cookies_base +
+  geom_point(size = 3) +
+  geom_hline(yintercept = mean(cookies_fitted$happiness),
+             color = "#000000") +
+    geom_text(aes(x = 0, y = mean(cookies_fitted$happiness) + 0.1),
+            label  = expression(bar("Y"))
+                        ) +
+
+  # geom_text(aes(x = 0, y = mean(cookies_fitted$happiness) + 0.1, label  = expression(bar("Y")))) +
+  geom_segment(aes(xend = cookies, yend = mean(cookies_fitted$happiness)),
+               color = "#00000030",
+               size = 3) +
+  annotate(
+    "text",
+    x = 0.05,
+    y = c(cookies$happiness[1], cookies$happiness %>% mean()) %>% mean(),
+    family = "Gochi Hand",
+      label = "Total\nVariation"
+  ) +
+  ggbrace::geom_brace(aes(
+    x = c(cookies$cookies[1] - 0.3, cookies$cookies[1]),
+    y = c(cookies$happiness[1], cookies$happiness %>% mean())
+  ),
+  inherit.data = F, rotate = 270)
+
+# cookies_with_residual
+```
+:::
+
+::: fragment
+```{r echo=FALSE, message=FALSE, out.width="100%"}
+ cookies_base +
+  geom_smooth(method = "lm", color = "#800010", se = FALSE) +
+  geom_segment(aes(xend = cookies, yend = .fitted),
+    color = "#80001090",
+    size = 1
+  ) +
+    geom_point(size = 3) +
+  geom_hline(yintercept = mean(cookies_fitted$happiness),
+             color = "#000000") +
+  geom_text(aes(x = 0, y = mean(cookies_fitted$happiness) + 0.1), 
+            label  = expression(bar("Y"))) +
+    geom_text(aes(x = 9.5, y = predict(object = cookies_model, newdata  = data.frame(cookies = 9.5))+ 0.09), 
+            label  = expression(hat("Y")),
+            color = "#003056") +
+   geom_segment(aes(xend = cookies, yend = mean(cookies_fitted$happiness)),
+    color = "#00000030",
+    size = 3
+  ) +
+  annotate(
+    "text",
+    x = 0.05,
+    y = c(cookies$happiness[1], cookies$happiness %>% mean()) %>% mean(),
+    label = "Total\nVariation",
+    family = "Gochi Hand"
+  ) +
+  ggbrace::geom_brace(aes(
+    x = c(cookies$cookies[1] - 0.3, cookies$cookies[1]),
+    y = c(cookies$happiness[1], cookies$happiness %>% mean())
+  ),
+  inherit.data = F, rotate = 270) +
+  ggbrace::geom_brace(
+    aes(
+      x = c(cookies$cookies[1] + 0.3, cookies$cookies[1]),
+      y = c(cookies$happiness[1], fitted(cookies_model)[1])
+    ),
+    inherit.data = F,
+    rotate = 90,
+    color = "#003056"
+  ) +
+  annotate(
+    "text",
+    x = 2,
+    y = c(cookies$happiness[1], fitted(cookies_model)[1]) %>% mean(),
+    label = "Residual",
+    family = "Gochi Hand",
+        color = "#800010"
+  ) 
+
+```
+:::
+
+::: fragment
+```{r echo=FALSE, message=FALSE, out.width="100%"}
+ cookies_base +
+  geom_smooth(method = "lm", color = "#800010", se = FALSE) +
+  geom_segment(aes(xend = cookies, yend = .fitted),
+    color = "#80001090",
+    size = 1
+  ) +
+    geom_point(size = 3) +
+  geom_hline(yintercept = mean(cookies_fitted$happiness),
+             color = "#000000") +
+  geom_text(aes(x = 0, y = mean(cookies_fitted$happiness) + 0.1), 
+            label  = expression(bar("Y"))) +
+    geom_text(aes(x = 9.5, y = predict(object = cookies_model, newdata  = data.frame(cookies = 9.5))+ 0.09), 
+            label  = expression(hat("Y")),
+            color = "#003056") +
+   geom_segment(aes(xend = cookies, yend = mean(cookies_fitted$happiness)),
+    color = "#00000030",
+    size = 3
+  ) +
+  annotate(
+    "text",
+    x = 0.05,
+    y = c(cookies$happiness[1], cookies$happiness %>% mean()) %>% mean(),
+    label = "Total\nVariation",
+    family = "Gochi Hand"
+  ) +
+  ggbrace::geom_brace(aes(
+    x = c(cookies$cookies[1] - 0.3, cookies$cookies[1]),
+    y = c(cookies$happiness[1], cookies$happiness %>% mean())
+  ),
+  inherit.data = F, rotate = 270) +
+  ggbrace::geom_brace(
+    aes(
+      x = c(cookies$cookies[1] + 0.3, cookies$cookies[1]),
+      y = c(cookies$happiness[1], fitted(cookies_model)[1])
+    ),
+    inherit.data = F,
+    rotate = 90,
+    color = "#003056"
+  ) +
+  annotate(
+    "text",
+    x = 2,
+    y = c(cookies$happiness[1], fitted(cookies_model)[1]) %>% mean(),
+    label = "Residual",
+    family = "Gochi Hand",
+        color = "#800010"
+  ) +
+    ggbrace::geom_brace(
+    aes(
+      x = c(cookies$cookies[1] + 0.3, cookies$cookies[1]),
+      y = c(fitted(cookies_model)[1], cookies$happiness %>% mean())
+    ),
+    inherit.data = F,
+    rotate = 90,
+    color = "#003056"
+  ) +
+    annotate(
+    "text",
+    x = 2,
+    y = 2.55,
+    label = "Explained\nVariation",
+    family = "Gochi Hand",
+        color = "#003056"
+  ) +
+  # annotate(
+  #   "segment",
+  #   x = 2,
+  #   y = 2.4,
+  #   xend = cookies$cookies[1] + 0.3,
+  #   yend = c(fitted(cookies_model)[1], cookies$happiness %>% mean()) %>% mean(),
+  #   arrow = grid::arrow(angle = 10),
+  #   family = "Gochi Hand",
+  #   color = "#003056"
+  # )+
+  geom_curve(
+  aes(x = 2,
+    y = 2.4,
+    xend = 1.3,
+    yend = 1.662273),
+  curvature = -0.1,
+  arrow = arrow(type = "closed",
+                length = unit(0.03, "npc"),
+                angle=10),
+      color = "#003056"
+)
+
+```
+:::
+:::
+
+
+
+```{r make-more-cookies, include=FALSE}
+set.seed(250895)
+cookies_data <- cookies
+cookies_model <- lm(happiness ~ cookies, data = cookies)
+more_cookies = data.frame(cookies = rbinom(100, size = 10, prob = 0.4))
+more_cookies$weekend <- ifelse(more_cookies$cookies > 4, 0.2, 0.9)
+more_cookies$weekend <- rbinom(100, size = 1, prob = more_cookies$weekend)
+more_cookies$happiness <-
+  predict(cookies_model, more_cookies) + 1.3 * more_cookies$weekend + rnorm(100, sd = 0.2) - 1
+more_cookies$happiness_score <-
+  predict(cookies_model, more_cookies) + rnorm(100, sd = 0.4) 
+# cookies_fitted <- broom::augment(cookies_model)
+```
+
+## Fitting Line Example I {.smaller}
+
+$$
+\begin{aligned}
+&\widehat{\text{Happiness}} =  2 - 0.1 \cdot \text{Cookies} 
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+#| fig-asp: 0.42
+p1 <-  cookies_base +
+  geom_smooth(method = "lm",
+              color = "#800010",
+              se = FALSE) +
+  geom_segment(aes(xend = cookies, yend = .fitted),
+               color = "#80001090",
+               size = 1) +
+  geom_point(size = 3) +
+  geom_rect(
+    mapping = aes(
+      xmin = cookies,
+      xmax = cookies - abs(.resid),
+      ymin = .fitted,
+      ymax = happiness
+    ),
+    color = "black",
+    alpha = 0.5
+  ) +
+  geom_label(aes(
+    x = (cookies + cookies - abs(.resid)) / 2,
+    y = (.fitted + happiness) / 2,
+    label = .resid ^ 2 %>% round(2))
+  , label.size = 0.1) +
+  ylim(c(0, 4)) +
+  labs(title = paste0("Sum of Squared Residuals = ", sum(cookies_fitted$.resid ^ 2) %>%
+                        round(2)))
+p2 <- (cookies_base +
+  geom_abline(
+    intercept = 2,
+    slope = 0,
+    color = "#800010"
+  ) +
+  geom_point(size = 3) +
+  geom_rect(
+    mapping = aes(
+      xmin = cookies,
+      xmax = cookies - abs(2 - happiness),
+      ymin = 2,
+      ymax = happiness
+    ),
+    color = "black",
+    alpha = 0.5
+  ) +
+  geom_label(aes(
+    x = cookies,
+    y = (2 + happiness) / 2,
+    label = (happiness - 2)^2 %>% round(2),
+    ),
+     nudge_x = -0.5,label.size = 0.1,
+    direction = "x",
+    
+    nudge_y = 0.2) +
+  ylim(c(0, 4)) +
+  labs(title = paste0("Sum of Squared Residuals = ", sum((
+    cookies_fitted$happiness - 2
+  )^2) %>%
+    round(2)))) 
+
+p3 <- cookies_base +
+  geom_abline(
+    intercept = mean(cookies_data$happiness),
+    slope = -0.1,
+    color = "#800010"
+  ) +
+  geom_rect(
+    mapping = aes(
+      xmin = cookies,
+      xmax = cookies - (abs(2 - 0.1 * cookies - happiness)),
+      ymin = happiness,
+      ymax = 2 - 0.1 * cookies
+    ),
+    color = "black",
+    alpha = 0.5
+  ) +
+  geom_label(aes(
+    x = (cookies + cookies - (abs(
+      happiness - (mean(cookies_data$happiness) - 0.1 * cookies_fitted$cookies)
+    ))) / 2,
+    y = (happiness + (
+      mean(cookies_data$happiness) - 0.1 * cookies
+    )) /
+      2,
+    label = (happiness - (
+      mean(cookies_data$happiness) - 0.1 * cookies
+    )) ^
+      2 %>% round(2)
+  ),
+  label.size = 0.1
+  # nudge_x = 0.05) +
+  # ylim(c(0, 4)
+  ) +
+  labs(title = paste0("Sum of Squared Residuals = ", sum((
+    cookies_fitted$happiness - (mean(cookies_data$happiness) - 0.1 * cookies)
+  ) ^ 2) %>%
+    round(2)))
+
+p4 <- cookies_base +
+  geom_abline(
+    intercept = 1.1,
+    slope = 0.1,
+    color = "#800010"
+  ) +
+  geom_rect(
+    mapping = aes(
+      xmin = cookies,
+      xmax = cookies - (abs(1.1 + 0.1 * cookies - happiness)),
+      ymin = happiness,
+      ymax = 1.1 + 0.1 * cookies
+    ),
+    color = "black",
+    alpha = 0.5
+  ) +
+  geom_label(aes(
+    x = (cookies + cookies - (abs(happiness - (1.1 + 0.1 * cookies)))) / 2,
+    y = (happiness + (1.1 + 0.1 * cookies))/
+      2,
+    label = (happiness - (1.1 + 0.1 * cookies)) ^
+      2 %>% round(2)),
+    label.size = 0.1
+        # nudge_x = 0.05
+) +
+  # ylim(c(0, 4)) +
+  labs(title = paste0("Sum of Squared Residuals = ", sum((cookies_fitted$happiness - (1.1 + 0.1 * cookies_fitted$cookies)) ^2) %>%
+    round(2)))
+p3
+```
+
+## Fitting Line Example II {.smaller}
+
+
+$$
+\begin{aligned}
+&\widehat{\text{Happiness}} =  2 + 0 \cdot \text{Cookies} = \overline{\text{Happiness}} 
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+#| fig-asp: 0.42
+p2
+
+```
+
+## Fitting Line Example III {.smaller}
+
+
+
+$$
+\begin{aligned}
+&\widehat{\text{Happiness}} = 1.1 + 0.1 \cdot \text{Cookies}
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+#| fig-asp: 0.42
+p4
+
+```
+
+## Fitting Line Example IV: OLS Solution {.smaller}
+
+$$
+\begin{aligned}
+&\widehat{\text{Happiness}} =   1.16 + 0.155 \cdot \text{Cookies} 
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+#| fig-asp: 0.42
+p1
+
+```
+
+
+## Explained vs. Unexplained Variation in Y
+
+::: smaller
+**Explained Variance (Sum of Squares):** 
+$$ESS = \sum^{n}_{i=1}(\hat y_i - \bar y)^2$$
+
+**Sum of Squared Residuals:**
+$$RSS = \sum^n_{i=1}\hat{\varepsilon_i}^2 = \sum^n_{i=1}(y_i - \hat{y_i})^2$$
+
+**Total Sum of Squares:** 
+$$TSS = \sum^{n}_{i=1}(y_i - \bar y)^2 = ESS + RSS$$
+:::
+
+
+
+
+
+## What Are Coefficient Values in OLS {.small}
+
+::: columns
+::: {.column width="50%"}
+
+$$\text{Sum of Squared Residuals (SSR)} \\= \sum^n_{i=1}\hat{\varepsilon_i}^2 \\ = \sum^n_{i=1}(y_i - \hat{y_i})^2 \\ = \sum^n_{i=1}(y_i - \hat{\beta_0} - \hat{\beta_1} x_i)^2$$
+
+-   OLS estimator finds values of $\hat\beta$ which minimize $SSR$, the
+    unexplained variance\
+-   We use differential calculus to find these values of $\hat{\beta}$ ([full derivation](https://r4da.live/resource/slr.html))
+
+:::
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| out-width: 100%
+#| out-height: 100%
+#| fig-width: 3
+
+knitr::include_graphics("images/coefs.png")
+# x <-  seq(-0.9, 0.9, length = 30)
+# y <- seq(-1, 1, length = 30)
+# cone <- function(x, y){
+# (y^2 + x^2)
+# }
+# z <- outer(x, y, cone) 
+# 
+# plot_ly(x = x, y = y, z = z) %>%
+#   add_surface() %>%
+#   layout(
+#     title = "",
+#     scene = list(
+#       xaxis = list(title = "\u03b2\u2080",showticklabels=F),
+#       yaxis = list(title = "\u03B2\u2081",showticklabels=F),
+#       zaxis = list(title = "Sum of Squared Residuals",showticklabels=F)
+#     )) %>% 
+#   hide_guides() %>%
+#   plotly::hide_legend()
+```
+:::
+:::
+
+
+
+<!-- ## Regression Standard Error -->
+
+<!-- Once we fit the model, we can use the residuals to estimate error variance (i.e. residual variance): -->
+
+<!-- $$ -->
+<!-- \hat\sigma^2 = \frac{\overbrace{\sum_{i=1}^{n}\hat{e}_i^2}^{\text{sum of squared residuals}}}{ -->
+<!-- \underbrace{ -->
+<!-- \underbrace{n}_{\text{number of}\\\text{observations}}-\underbrace{k}_{\text{number of}\\\text{covariates}} - 1 -->
+<!-- }_{\text{degrees of freedom}} -->
+<!-- } -->
+<!-- $$ -->
+
+<!-- Regression standard error  $\sqrt{\hat\sigma^2}$: -->
+
+<!-- -  A measure of the average error (average difference between observed and  predicted values of the outcome) in same units as the outcome variable -->
+
+
+<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) --> 
+
+<!-- ```{r, echo=FALSE} -->
+<!-- #| out-height: 80% -->
+<!-- set.seed(0) -->
+<!-- dat <- data.frame(x=(x=runif(10000, 0, 50)), -->
+<!--                   y=rnorm(10000, 10*x, 100)) -->
+<!-- ## breaks: where you want to compute densities -->
+<!-- breaks <- seq(0, max(dat$x), len=5) -->
+<!-- dat$section <- cut(dat$x, breaks) -->
+<!-- ## Get the residuals -->
+<!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+<!-- ## Compute densities for each section, flip the axes, add means of sections -->
+<!-- ## Note: densities need to be scaled in relation to section size (2000 here) -->
+<!-- dens <- do.call(rbind, lapply(split(dat, dat$section), function(x) { -->
+<!--   d <- density(x$res, n=5000) -->
+<!--   res <- data.frame(x=max(x$x)- d$y*2000, y=d$x+mean(x$y)) -->
+<!--   res <- res[order(res$y), ] -->
+<!--   ## Get some data for normal lines as well -->
+<!--   xs <- seq(min(x$res), max(x$res), len=5000) -->
+<!--   res <- rbind(res, data.frame(y=xs , -->
+<!--                                x=max(x$x) - 2000*dnorm(xs, 0, sd(x$res)))) -->
+<!--   res$type <- rep(c("empirical", "normal"), each=5000) -->
+<!--   res -->
+<!-- })) -->
+<!-- dens$section <- rep(levels(dat$section), each=10000) -->
+<!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+<!-- ggplot(dat, aes(x, res)) + -->
+<!--   geom_point(size = 0.1, alpha = 0.25) + -->
+<!--   geom_hline(yintercept = 0) + -->
+<!--   geom_path( -->
+<!--     data = dens[dens$type == "normal", ], -->
+<!--     aes(x, y, group = section), -->
+<!--     color = "#003056", -->
+<!--     lwd = 0.8 -->
+<!--   ) + -->
+<!--   theme(axis.text.x = element_blank()) + -->
+<!--   scale_y_continuous(breaks = 0) + -->
+<!--     labs(y = "Residuals", -->
+<!--        x = "X")  -->
+
+
+<!-- ``` -->
+
+
+## Properties of Least Squares Regression
+
+::: smaller
+-   The regression line goes through the center of mass point, the coordinates
+    corresponding to average $X$ and average $Y$, $(\bar{X}, \bar{Y})$:
+
+$$\bar{Y} = \hat \beta_0 + \hat \beta_1 \bar{X} ~ \rightarrow ~ \hat \beta_0 = \bar{y} - \hat \beta_1 \bar{x}$$
+
+-   The slope has the same sign as the correlation coefficient:
+    $\beta_X = Corr(X,Y) \dfrac{{\sigma_Y}}{{\sigma_X}}$
+
+-   The sum of the residuals is zero (by design): $\sum_{i = 1}^n e_i = 0$
+:::
+
+
+

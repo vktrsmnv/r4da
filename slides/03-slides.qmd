@@ -1,0 +1,844 @@
+---
+title: "Describing Relationships"
+subtitle: "R for Data Analysis<br>Session 3"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  echo: true
+---
+
+```{r, include=FALSE}
+
+un_votes <- readr::read_csv("https://r4da.live/files/data/external_data/un_votes.csv")
+p_needed <- c("tidyverse", "janitor", "icons") 
+
+# check if they are already installed, install if not installed 
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages)
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) +
+  theme(plot.title = element_text(face = "bold"))
+
+# governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+trains <- readr::read_tsv("data/trains.tsv") %>% clean_names()
+pei <- haven::read_dta("data/PEI country-level data (PEI_9.0).dta")
+
+```
+
+# Intro 
+
+## Plan for Today
+
+- Organisation & Homework Issues 
+- Refresher on quantifying relationships between variables 
+- More visualization with `ggplot2` and some data wrangling with `dplyr`
+
+## Organisation
+
+- Start problem sets earlier (come on Monday if you have questions/problems!)
+- By next Wednesday class (September 27, 2023) find teammates 
+  - 2-3 people per group 
+  - Problem sets will ask for explicit contributions from both 
+  - You can still work on your own if you strongly prefer that 
+
+## Workflow: Projects  
+
+- Make sure you are in the correct project: 
+  - you cannot push to `r4da-labs`, only to your problem sets 
+  - if you are _not_ in a project, you may not have the *Git* pane 
+- Project knows your working directory, you don't need the `setwd()` 
+- Do not multiply `problem_set.qmd` (or other) files 
+  - the whole point of `git` is to prevent that from happening
+  - commit and push regularly and if you need a previous version of your project, you can find it in history 
+  
+## Workflow: Naming 
+
+- Object names must:
+  - start with a letter
+  - can only contain letters, numbers, `_`, and `.`
+  - be be descriptive
+  
+- `janitor` package helps with cleaning the variable names in datasets 
+  - `df <- clean_names(df)`
+
+
+## Workflow: Git
+
+![](https://ohi-science.org/assets/blog_images/workflow.jpg)
+
+- `git` does not track some of the files in your folders/repos
+  - untracked files are listed in `.gitignore`
+  - you can edit this file if necessary 
+- GitHub blocks files larger than 100 MB 
+  - Do not commit large files 
+  - Add large files' names to `.gitignore`, commit the updated `.gitignore` file
+
+
+##  Workflow: Code Style 
+
+> Good coding style is like correct punctuation: you can manage without it, butitsuremakesthingseasiertoread.
+
+
+```{r, eval=FALSE}
+un_votes %>% 
+  filter(un_votes > 5, issue == "Human rights")
+
+un_votes %>% filter(un_votes > 5, issue == "Human rights")
+
+un_votes %>% 
+  filter(un_votes > 5, 
+         issue == "Human rights")
+
+un_votes %>% filter(un_votes>5,issue=="Human rights")
+
+un_votes %>% 
+  filter(un_votes > 5,       issue == "Human rights")
+
+un_votes %>%
+  filter(
+    un_votes > 5, 
+    issue == "Human rights"
+    )
+```
+
+##  Workflow: Code Style Tools {.smaller}
+
+1. Select the code inside the chunk 
+2. Use **CTRL/CMD + SHIFT + A** 
+
+There are also packages like `styler` that allow you to style the entire file or even all files in a directory:
+
+```{r, eval=FALSE}
+install.packages("styler")
+library(styler)
+```
+
+Especially when rendering to PDF, you will want to make sure that your code is not getting cut off on the page. `lint` package shows you which lines are problematic so that you can adjust them (as well as many other things):
+
+```{r, eval=FALSE}
+install.packages("lint")
+library(lint)
+```
+
+More on styling [on course website](https://r4da.live/resource/style.html)
+
+
+
+## Quiz: Using Packages 
+
+- What is the difference between these lines of code?
+- Which lines print out the dataset but not store the object in the environment?
+- Which lines require installed `readr` package and which do not? 
+- Which lines require loaded `readr` package and which do not? 
+
+```{r, eval=FALSE}
+readr::read_csv("data/beauty.csv")
+
+df <- read_csv("data/beauty.csv")
+
+beauty <- read_csv("/Users/vktrsmnv/Desktop/r4da/website/data/beauty.csv")
+
+df <- read.csv("data/beauty.csv")
+```
+
+
+## Quiz: Plots 
+
+- Will these two graphs look different?
+
+::: columns
+::: {.column width="50%"}
+### Plot A
+```{r, eval=FALSE}
+ggplot(
+  data = governors,
+  mapping = aes(
+    x = year,
+    y = lived_after
+  )
+)
++
+  geom_point(alpha = 0.5)
+```
+
+::: 
+::: {.column width="50%"}
+
+### Plot B
+```{r, eval=FALSE}
+ggplot() +
+  geom_point(
+    governors, 
+    aes(
+      x = year, 
+      y = lived_after
+      ),
+    alpha = 0.5
+  )
+```
+  
+::: 
+::: 
+  
+
+# Association and Relationships 
+
+## Conditional (Marginal) Distributions
+
+A *conditional distribution* is the distribution of one variable given the value of another variable
+
+```{r, echo=FALSE}
+ggplot(
+  data = pei,
+  mapping = aes(
+    x = PEIIndexi,
+    y = if_else(oecd == 1, "OECD", "Non-OECD")
+    )
+) +
+  # geom_violin(alpha = 0.5) +
+  geom_boxplot(alpha = 0.5, width=0.5) +
+  # geom_jitter(alpha = 0.5, height =0.2) +
+  theme_minimal() +
+  labs(
+    title = "Conditional Distribution of Perceptions of Election Integrity Scores",
+    caption = "Data source: Election Integrity Project (2023)",
+    x = "PEI index, imputed",
+    y = ""
+  ) 
+```
+
+<!-- ## Cookies and Happiness -->
+
+```{r make-cookies0, include=FALSE}
+cookies <- tibble(
+  happiness = c(0.5, 2, 1, 2.5, 3, 1.5, 2, 2.5, 2, 3),
+  cookies = 1:10,
+  time = c(rep("Morning", 5), rep("Afternoon", 5))
+)
+
+cookies_data <- cookies
+cookies_model <- lm(happiness ~ cookies, data = cookies)
+cookies_fitted <- broom::augment(cookies_model)
+```
+<!-- ![](https://theeffectbook.net/the-effect_files/figure-html/describingrelationships-smoking-1.png) -->
+<!-- ![](https://r4da.live/files/img/assignments/prior_attitudes_balance.png) -->
+
+## Conditional Means
+
+- Summarizes conditional distributions  
+- Conditional expectation $E[Y|X]$: 
+    - Expected (typical/average) $Y$, given the value of $X$ 
+- Independence (no relationship) $E[Y|X] = E[Y]$:
+    - "Knowing $X$ doesn't affect my expectation of $Y$"
+    - Learning about $X$ does not help us to predict $Y$
+    - Our best guess remains the typical value of $Y$ 
+
+```{r, echo=FALSE}
+pei %>%
+  group_by(oecd) %>% 
+  summarise(avg_PEIIndexi = mean(PEIIndexi)
+            ) %>%
+  knitr::kable()
+```
+
+# Relationships
+
+## What Does it Mean to Be Related?
+
+-   We would consider two variables to be *related* if knowing something about one of them tells you something about the other
+-   Variables are *dependent* on each other if telling you the value of one gives you information about the distribution of the other
+-   Variables are *correlated* if knowing whether one of them is unusually high gives you information about whether the other is unusually high (positive correlation) or unusually low (negative correlation)
+-   Explaining one variable Y with another X means *predicting* your Y by looking at the distribution of Y for your value of X
+
+## Which of These Statements Describe Relationships?
+
+1.  Voters who donate money to political candidates are usually wealthy.
+2.  Cities with more crime tend to hire more police officers.
+3.  Female legislators on average speak more emotionally about women-related issues as compared to male parliamentarians.
+4.  Most candidate who win political office received a lot of campaign donations.
+
+
+# Measuring Association
+
+
+## Covariance
+
+$$Cov(X,Y) = \frac{\overbrace{\sum^N_{i = 1}\overbrace{(X_i - \bar{x})}^{\text{Deviation of }X_i\\\text{from mean of X}} \times\overbrace{(Y_i-\bar{y})}^{\text{Deviation of }Y_i\\\text{from mean of Y}}}^{\text{Sum of the product of the deviations}\\\text{across all observations}}}{\underbrace{N}_{\text{Number of observations}}}$$
+
+-   conveys information about co-occurrence of the values in variables
+-   positive values indicate direct relationship (positive correlation)
+-   negative values indicate inverse relationship (negative correlation)
+
+## Covariance: Example
+
+::: columns
+
+::: {.column width="50%"}
+
+```{r}
+x <- c(4, 13, 19, 25, 29, 10, 30)
+y <- c(10, 12, 28, 32, 38, 35, 11)
+data <- data.frame(x, y)
+knitr::kable(data)
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+data %>%
+  summarise_all(mean)
+
+cov(x, y)
+```
+
+:::
+
+::: 
+
+
+## Covariance: Illustration
+
+::: r-stack
+<!-- ::: fragment -->
+<!-- ##### Scatterplot  -->
+
+```{r}
+#| echo: false
+p <- ggplot(aes(x = x, y = y), data = data) +
+  geom_point() +
+  geom_text(aes(x = x + 0.7, y = y + 0.7), label = 1:7) +
+  scale_color_manual(values = c("#000000", "#800010"), labels = c("Negative", "Positive")) +
+  scale_fill_manual(values = c("#000000", "#800010"), labels = c("Negative", "Positive")) +
+  labs(
+    color = "Sign of the Deviation",
+    fill = "Sign of the Product of Deviations"
+  ) +
+  theme(
+    legend.position = "top",
+    legend.box = "vertical", legend.margin = margin()
+  ) +
+  guides(
+    color = "none",
+    fill = "none"
+  ) +
+  xlim(3, 31) +
+  ylim(9, 40)
+p
+```
+<!-- ::: -->
+
+::: fragment
+<!-- ##### Add Mean of X -->
+
+```{r}
+#| echo: false
+p <- p + geom_vline(xintercept = mean(x), linetype = "dotted") +
+  geom_text(mapping = aes(x = mean(x) + 0.7, y = 10), size = 5, 
+            label = expression(bar("X")))
+p
+```
+:::
+
+::: fragment
+<!-- ##### Add Mean of Y -->
+
+```{r}
+#| echo: false
+p <- p +
+  geom_hline(yintercept = mean(y), linetype = "dashed") +
+  geom_text(mapping = aes(y = mean(y) + 0.7, x = 4.5), size = 5, 
+            label = expression(bar("Y")))
+p
+```
+:::
+
+::: fragment
+<!-- ##### Calculate the Deviations from Mean of X -->
+
+```{r}
+#| echo: false
+p <- p +
+  geom_segment(aes(x = mean(x), xend = x, yend = y, colour = x > mean(x))) +
+  annotate("text", x = c(13, 17, 16), y = c(9, 11, 36), label = "(-)", family = "Gochi Hand") +
+  annotate("text", x = c(24, mean(x) + 0.1, 22, 26), y = c(10, 29, 33, 39), label = "(+)", family = "Gochi Hand", color = "#800010")
+p
+```
+:::
+
+::: fragment
+<!-- ##### Calculate the Deviations from Mean of Y -->
+
+```{r}
+#| echo: false
+p <- p +
+  geom_segment(aes(y = mean(y), xend = x, yend = y, colour = y > mean(y))) +
+  annotate("text", x = c(9, 20, 26, 30), y = c(30, 25, 26, 33), label = "(+)", family = "Gochi Hand", color = "#800010") +
+  annotate("text", x = c(3.5, 13.5, 29.3), y = c(15, 16, 17), label = "(-)", family = "Gochi Hand")
+p
+```
+:::
+
+::: fragment
+<!-- ##### Multiply the Deviations -->
+
+```{r}
+#| echo: false
+p <- p +
+  geom_rect(
+    aes(
+      xmin = ifelse(x > mean(x), mean(x), x),
+      xmax = ifelse(x > mean(x), x, mean(x)),
+      ymin = ifelse(y > mean(y), mean(y), y),
+      ymax = ifelse(y > mean(y), y, mean(y)),
+      fill = (x - mean(x)) * (y - mean(y)) > 0
+    ),
+    alpha = 0.1
+  ) +
+  geom_point()
+p
+```
+:::
+
+::: fragment
+<!-- ##### Product Sign Tells How X & Y Move Relative to Their Means -->
+
+```{r}
+#| echo: false
+p +
+  annotate("text", x = 14.5, y = 30, label = "product of deviations \nis negative", family = "Gochi Hand") +
+  annotate("segment",
+    x = 16, y = 27, xend = 25, yend = 15,
+    arrow = grid::arrow(angle = 20), family = "Gochi Hand"
+  )
+# annotate("text", x = 8.5, y = 15, label = "product of deviations \nis positive", family="Gochi Hand") +
+# annotate("segment", x = 11, y = 17, xend = 22, yend = 26.71429,
+#            arrow = grid::grid::arrow(angle = 20), family="Gochi Hand")
+```
+:::
+
+::: fragment
+```{r}
+#| echo: false
+p +
+  annotate("text", x = 14.5, y = 30, label = "product of deviations \nis negative", family = "Gochi Hand") +
+  annotate("segment",
+    x = 16, y = 27, xend = 25, yend = 15,
+    arrow = grid::arrow(angle = 20), family = "Gochi Hand"
+  ) +
+  annotate("text", x = 8.5, y = 15, label = "product of deviations \nis positive", family = "Gochi Hand", color = "#800010") +
+  annotate("segment",
+    x = 11, y = 17, xend = 22, yend = 26.71429,
+    arrow = grid::arrow(angle = 20), family = "Gochi Hand", color = "#800010"
+  )
+```
+:::
+:::
+
+<!-- :::  -->
+
+<!-- :::  -->
+
+## Correlation Coefficient
+
+$$corr(X,Y)=\frac{Cov(X,Y)}{\underbrace{\sigma_X}_{\text{Standard }\\\text{Deviation }\\\text{of X}}\underbrace{\sigma_Y}_{\text{Standard}\\\text{Deviation}\\\text{of Y}}}$$
+
+-   rescaled covariance to $corr(X,Y) \in [-1,1]$: extreme values indicate stronger relationship
+-   sometimes denoted by letter $r$
+-   says nothing about *how much* $Y$ changes when $X$ changes
+-   has no units and will not be affected by a linear change in the units (e.g., going from centimeters to inches)
+
+## Correlation Values
+
+\
+
+::: columns
+::: {.column width="50%"}
+| r         | Rough meaning |
+|-----------|---------------|
+| ±0.1--0.3 | Modest        |
+| ±0.3--0.5 | Moderate      |
+| ±0.5--0.8 | Strong        |
+| ±0.8--0.9 | Very strong   |
+:::
+
+::: {.column width="50%"}
+```{r correlation-grid, echo=FALSE, fig.dim=c(4.8, 4.2), out.width="100%"}
+make_correlated_data <- function(r, n = 200) {
+  MASS::mvrnorm(n = n, 
+                mu = c(0, 0), 
+                Sigma = matrix(c(1, r, r, 1), nrow = 2), 
+                empirical = TRUE) %>% 
+    magrittr::set_colnames(c("x", "y")) %>% 
+    as_tibble()
+}
+
+cor_grid <- tibble(r = c(0.2, 0.4, 0.75, 0.9)) %>% 
+  mutate(data = map(r, make_correlated_data)) %>% 
+  unnest(data)
+
+ggplot(cor_grid, aes(x = x, y = y)) +
+  geom_point(size = 2, color = "white", fill = "black", pch = 21) +
+  facet_wrap(vars(r), labeller = label_both) +
+  # theme_minimal() +
+  theme(strip.text = element_text(face = "bold", size = rel(1.3), hjust = 0))
+```
+:::
+:::
+
+
+## Correlograms
+
+::: columns
+::: {.column width="50%"}
+
+### Heatmaps
+```{r cor-heatmap, echo=FALSE, message=FALSE,  out.width="100%"}
+cars_cor <- trains %>% 
+  select(att_start, att_end, age, ideology_start, ideology_end) %>% 
+  cor(use = "complete.obs")
+
+cars_cor[lower.tri(cars_cor)] <- NA
+
+cars_cor_long <- cars_cor %>% 
+  as.data.frame() %>% 
+  rownames_to_column("measure2") %>% 
+  pivot_longer(cols = -measure2,
+               names_to = "measure1",
+               values_to = "cor") %>% 
+  mutate(nice_cor = round(cor, 2)) %>% 
+  mutate(measure1 = fct_inorder(measure1),
+         measure2 = fct_inorder(measure2)) %>% 
+  filter(!is.na(cor)) %>% 
+  filter(measure2 != measure1)
+
+ggplot(cars_cor_long, aes(x = measure2, y = measure1, fill = cor)) +
+  geom_tile() +
+  geom_text(aes(label = nice_cor)) +
+  scale_fill_gradient2(low = "#E16462", mid = "white", high = "#0D0887",
+                       limits = c(-1, 1)) +
+  labs(x = NULL, y = NULL) +
+  coord_equal() +
+  theme_minimal() +
+  theme(panel.grid = element_blank())
+```
+::: 
+::: {.column width="50%"}
+
+### Points
+
+```{r cor-points, echo=FALSE, message=FALSE, out.width="100%"}
+ggplot(cars_cor_long, aes(x = measure2, y = measure1, color = cor)) +
+  geom_point(aes(size = abs(cor))) +
+  scale_color_gradient2(low = "#E16462", mid = "white", high = "#0D0887",
+                        limits = c(-1, 1)) +
+  scale_size_area(max_size = 15, limits = c(-1, 1), guide = "none") +
+  labs(x = NULL, y = NULL) +
+  coord_equal() +
+  theme_minimal() +
+  theme(panel.grid = element_blank())
+```
+
+::: 
+:::
+
+## Example: Does Time of Day Help Predict Happiness? 
+
+::: columns
+
+::: {.column width="50%"}
+```{r}
+cookies_data
+```
+
+::: 
+
+::: {.column width="50%"}
+```{r}
+cookies_data %>%
+  group_by(time) %>% 
+  summarise_all(mean)
+```
+
+::: 
+
+::: 
+
+
+## Slope of the Regression Line 
+
+$$\beta_X = \frac{Cov(X,Y)}{\underbrace{\sigma_X}_{\text{Standard }\\\text{Deviation }\\\text{of X}}}$$
+
+> How much $Y$ changes, on average, as $X$ increases by one unit
+
+
+# Regression Line as Conditional Mean
+
+## Cookies and Happiness (again)
+
+```{r make-cookies, include=FALSE}
+cookies <- tibble(
+  happiness = c(0.5, 2, 1, 2.5, 3, 1.5, 2, 2.5, 2, 3),
+  cookies = 1:10
+)
+
+cookies_data <- cookies
+cookies_model <- lm(happiness ~ cookies, data = cookies)
+cookies_fitted <- broom::augment(cookies_model)
+```
+
+```{r, echo=FALSE, message=FALSE}
+cookies_base <- ggplot(cookies_fitted, aes(x = cookies, y = happiness)) +
+  geom_point(size = 3) +
+  coord_cartesian(xlim = c(0, 10), ylim = c(0, 3.5)) +
+  scale_x_continuous(breaks = 0:10) +
+  labs(x = "Cookies eaten", y = "Level of happiness") +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold")
+  ) 
+
+cookies_base
+```
+
+
+# Goal: Draw a line that approximates the relationship {.smaller}
+
+
+## Prediction Ignoring Number of Cookies Eaten
+
+```{r cookies-no-info, echo=FALSE, message=FALSE, out.width="100%"}
+ggplot(cookies_fitted, aes(x = cookies, y = happiness)) +
+  geom_point(size = 3) +
+  coord_cartesian(xlim = c(0, 10), ylim = c(0, 3.5)) +
+  scale_x_continuous(breaks = 0:10) +
+  labs(x = "Cookies eaten", y = "Level of happiness") +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold")
+  ) +
+  ylim(0, 4) +
+  geom_hline(yintercept = mean(cookies_fitted$happiness), color = "#800010")
+# geom_smooth(method = "lm", color = "#800010", se = FALSE)
+```
+
+## Fitting the Line Through Every Observation
+
+```{r cookies-spline, echo=FALSE, message=FALSE,  out.width="100%"}
+cookies_base +
+  geom_smooth(method = lm, color = "#800010", formula = y ~ splines::bs(x, 9), se = FALSE)
+```
+
+## LOESS (Locally Estimated Scatterplot Smoothing) Curve
+
+```{r cookies-loess, echo=FALSE, message=FALSE,  out.width="100%"}
+cookies_base +
+  geom_smooth(method = "loess", color = "#800010", se = FALSE)
+```
+
+## OLS Regression Line
+
+```{r cookies-lm, echo=FALSE, message=FALSE, out.width="100%"}
+cookies_base +
+  geom_smooth(method = "lm", color = "#800010", se = FALSE)
+```
+
+## Regression Line Minimzes the Errors of Prediction
+
+```{r  echo=FALSE, message=FALSE, out.width="100%"}
+cookies_with_residual <- cookies_base +
+  geom_smooth(method = "lm", color = "#800010", se = FALSE) +
+  geom_segment(aes(xend = cookies, yend = .fitted),
+    color = "#80001090",
+    size = 1
+  )
+
+cookies_with_residual
+```
+
+<!-- ## Explained vs. Unexplained Variance  -->
+
+<!-- ::: r-stack -->
+
+<!-- ::: fragment -->
+
+<!-- ```{r echo=FALSE, message=FALSE, out.width="100%"} -->
+<!-- cookies_with_residual <- cookies_with_residual + -->
+<!--   geom_hline(yintercept = mean(cookies_fitted$happiness), -->
+<!--              color = "#000000") + -->
+<!--   geom_text(aes(x = 0, y = mean(cookies_fitted$happiness) + 0.09),  -->
+<!--             label  = expression(bar("X"))) -->
+
+<!-- cookies_with_residual -->
+
+<!-- ``` -->
+
+<!-- ::: -->
+<!-- ::: fragment -->
+
+
+<!-- ```{r echo=FALSE, message=FALSE, out.width="100%"} -->
+<!-- cookies_with_residual <- cookies_with_residual + -->
+<!--    geom_segment(aes(xend = cookies, yend = mean(cookies_fitted$happiness)), -->
+<!--     color = "#00000030", -->
+<!--     size = 3 -->
+<!--   )  -->
+
+<!-- cookies_with_residual -->
+<!-- ``` -->
+
+<!-- ::: -->
+<!-- ::: fragment -->
+<!-- ```{r echo=FALSE, message=FALSE, out.width="100%"} -->
+<!-- cookies_with_residual + -->
+<!--    geom_segment(aes(xend = cookies, yend = mean(cookies_fitted$happiness)), -->
+<!--     color = "#00000030", -->
+<!--     size = 3 -->
+<!--   )  -->
+
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: -->
+
+
+# Visualizing Relationships
+
+## The Dangers of Dual y-axes
+
+<figure>
+
+<img src="images/dual-axis.png" title="Spurious correlation between divorce rate and margarine consumption" alt="Spurious correlation between divorce rate and margarine consumption" width="100%"/>
+
+<figcaption>Source: <a href="https://www.tylervigen.com/spurious-correlations" target="_blank">Tyler Vigen's spurious correlations</a></figcaption>
+
+</figure>
+
+## The Problem: Too Much Freedom
+
+-   We have to choose where the y-axes start and stop
+-   We can force the two trends to line up however we want
+
+<!-- ## Relationships and Two Axis -->
+
+<!-- ![](images/two-y-by-four-sm.jpeg) -->
+
+## Example from *The Economist*
+
+<br> <!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+![](https://datavizs22.classes.andrewheiss.com/slides/img/07/economist-dogs.png) <!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- ![](images/PS01_by_wday.png) -->
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+## Fine When They Measure the Same Thing
+
+```{r atl-weather-dual-nice, echo=FALSE, message=FALSE, fig.dim=c(8, 3.5), out.width="100%"}
+weather <- read_csv2("data/weather_ma.csv") %>%
+  filter(
+    datetime > "2021-01-01",
+    datetime < "2021-12-31"
+  )
+weather %>%
+  ggplot(aes(x = datetime, y = tempmax)) +
+  geom_line() +
+  geom_smooth() +
+  scale_y_continuous(
+    sec.axis =
+      sec_axis(
+        trans = ~ (. * 9 / 5) + 32,
+        name = "Fahrenheit"
+      )
+  ) +
+  labs(
+    x = NULL, y = "Celsius",
+    title = "Daily high temperatures in Mannheim",
+    subtitle = "January 1 2021–December 31, 2021",
+    caption = "Data source: visualcrossing.com"
+  )
+```
+
+
+
+## Alternative: Use Multiple Plots
+
+::: columns
+::: {.column width="60%"}
+```{r}
+#| ref.label: weather-humidity
+#| echo: false
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| label: weather-humidity
+#| fig-show: hide
+library(patchwork)
+temp_plot <- ggplot(
+  weather,
+  aes(x = datetime, y = tempmax)
+) +
+  geom_line() +
+  geom_smooth() +
+  labs(
+    x = NULL,
+    y = "Temperature (ºC)"
+  )
+
+humid_plot <- ggplot(
+  weather,
+  aes(x = datetime, y = humidity)
+) +
+  geom_line() +
+  geom_smooth() +
+  labs(
+    x = NULL,
+    y = "Humidity (%)"
+  )
+
+temp_plot + humid_plot +
+  plot_layout(
+    ncol = 1,
+    heights = c(0.7, 0.3)
+  )
+```
+:::
+:::
+
+## Getting Lab Material {.smaller}
+
+-   Open `r4da-labs.Rproj` file to open the *labs* project.
+-   Go into *Git* pane.
+-   If there are any files you changed, you will see them in the window.
+    -   Select all these files.
+    -   Click on *Commit*, write a commit message, and save it.
+    -   If you click on *Push*, it will give you a `git` error message\
+-   Click on *Pull* to get the new files uploaded.
+
