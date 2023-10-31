@@ -91,34 +91,3 @@ d |>
 
 There are no slides this week since we are diving deeper into coding :D 
 
-<!-- ### Organisation -->
-
-<!-- -   {{< fa scroll >}} [Syllabus](/syllabus.html): Make sure to get yourself acquainted with the formalities by reading the syllabus for the class. -->
-
-<!-- -   {{< fa question >}} [Welcome Survey](https://viktoriiasemenova.typeform.com/c/c6lhg7Od): It would be great if you answered a couple of questions to help me get to know you a bit better. -->
-
-<!-- -   {{< fa fa-slack >}} Join Slack: Make sure you also join our Slack workspace. Check the welcome email for the invitation link. -->
-
-<!-- ## Software -->
-
-<!-- In this course, we will use the open-source software `R` and RStudio as well as version control with `git` and GitHub. It would be best if you *try* installing all the necessary software *before* our class on Wednesday. First, I would like you to install both `R` and RStudio on your computer. Then, move to `git` and GitHub. Even if something with `R` does not work, set up a Github account.  -->
-
-<!-- -   Please follow these [instructions for Installing R, RStudio, git, and Connecting to GitHub](/resource/install.html). -->
-
-<!-- -   Once you have your GitHub account, let me know your username via Slack so I can add you to the course organization (so you have access to all of the lab material and homework assignments). Please do so ASAP (teh sooner you do it, the sooner you get the access to all course material on GitHub).   -->
-
-<!-- If everything works well--congrats, you are all set for the semester! If something doesn't work---don't worry, just talk to me before or after class and we'll figure it out together on Wednesday. You are also welcome to use the Cloud version of Rstudio for the first two weeks or so (see the [instructions](/resource/install.html) page as well), but you will have to switch to the desktop versions eventually. -->
-
-<!-- ## Recommended material -->
-
-<!-- If you wanna get a head start on the `R`-related material of the first week, you can look through these pages: -->
-
-<!-- -   {{< fa book >}} [Getting Started with Data in R](https://moderndive.com/1-getting-started.html) [@IsmayKim:2018] -->
-
-<!-- And as a refresher on what is a good research question, so the starting point to our empirical analysis, have a look at this chapter and/or watch the video of the author of the book provided below: -->
-
-<!-- -   {{< fa book >}} [Chapter 2 in *The Effect*](https://theeffectbook.net/ch-ResearchQuestions.html) [@Huntington-Klein:2021] -->
-
-<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/ZPuEFjJ2us8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen> -->
-
-<!-- </iframe> -->
