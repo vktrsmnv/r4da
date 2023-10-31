@@ -61,138 +61,6 @@ evals <- read_csv("../data/beauty.csv") %>% clean_names()
 set.seed(2508)
 ```
 
-# Intro
-
-## Quiz: Which of these statements are correct? {.smaller}
-
-```{r}
-#| echo: false
-countdown(minutes = 4, color_background = "white", left = 0)
-```
-
-
-::: columns
-::: {.column width="50%"}
-1. $R^2$ is an important criterion only for the regression for the purpose of prediction, not for causal effect estimation.  
-2. If the variable is not statistically significant, it has no impact on the outcome and we can drop it from the regression equation. 
-3. Holding all else constant, the estimates from more data would produce smaller confidence intervals. 
-4. Overlapping confidence intervals for small and large values of *Beauty* mean that there is no significant difference between the teaching evaluations of male and female instructors.  
-
-::: 
-::: {.column width="50%"}
-
-::: {.r-stack}
-```{r}
-#| echo: false
-#| fig-asp: 1
-m0 <- lm(eval ~ beauty + female + age + minority + nonenglish, data = evals)
-
-# create a grid for all possible combinations 
-# tibble() only allows for different values in one variable 
-plt <- expand_grid(
-  beauty = 1:10,
-  female = 0:1,
-  age = mean(evals$age, na.rm = T),
-  minority = 0,
-  nonenglish = 0
-) 
-
-predict(m0,
-        interval = "confidence",
-        newdata = plt,
-        level = 0.95) %>%
-  bind_cols(plt) %>%
-    mutate(female = if_else(female == 1, "Female", "Male")) %>%
-  ggplot(aes(beauty, y = fit, 
-             color = as_factor(female),
-             fill  = as_factor(female))) +
-  labs(
-    x = "Beauty",
-    y = "Average Teaching Evaluation",
-    title = "Relationship between Instructor Beauty\nand Course Evaluations",
-    # subtitle = "Intercept Shift with Same Slope",
-    color = "Instructor is",
-    fill = "Instructor is"
-  ) +
-  geom_line() +
-  geom_ribbon(aes(ymin = lwr,
-                  ymax = upr), 
-                ) +
-  # geom_pointrange(aes(y = fit, ymin = lwr, ymax = upr)) + # plots the parallel lines
-  scale_color_viridis_d(end = 0.8, alpha = 0.8) +
-  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
-  theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
-  ylim(c(1, 5)) +
-  theme(panel.grid.minor = element_blank(),
-        plot.title.position = "plot",
-        text = element_text(size = 20))
-  #  geom_rug(
-  #    data = augment(m0) %>%
-  #   mutate(female = if_else(female == 1, "Female", "Male")),
-  #    aes(x = beauty, y = eval),
-  #   alpha = 0.3,
-  #   sides = "b",
-  #   position = "jitter",
-  #   # size = 4,
-  #   length = unit(0.05, "npc")
-  # )
-```
-
-::: {.fragment}
-
-```{r}
-#| echo: false
-#| fig-asp: 1
-predict(m0,
-        interval = "confidence",
-        newdata = plt,
-        level = 0.95) %>%
-  bind_cols(plt) %>%
-    mutate(female = if_else(female == 1, "Female", "Male")) %>%
-  ggplot(aes(beauty, y = fit, 
-             color = as_factor(female),
-             fill  = as_factor(female))) +
-  labs(
-    x = "Beauty",
-    y = "Average Teaching Evaluation",
-    title = "Relationship between Instructor Beauty\nand Course Evaluations",
-    # subtitle = "Intercept Shift with Same Slope",
-    color = "Instructor is",
-    fill = "Instructor is"
-  ) +
-  geom_line() +
-  geom_ribbon(aes(ymin = lwr,
-                  ymax = upr), 
-                ) +
-  # geom_pointrange(aes(y = fit, ymin = lwr, ymax = upr)) + # plots the parallel lines
-  scale_color_viridis_d(end = 0.8, alpha = 0.8) +
-  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
-  theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
-  ylim(c(1, 5)) +
-  theme(panel.grid.minor = element_blank(),
-        plot.title.position = "plot",
-        text = element_text(size = 20)) +
-   geom_rug(
-     data = augment(m0) %>%
-    mutate(female = if_else(female == 1, "Female", "Male")),
-     aes(x = beauty, y = eval),
-    alpha = 0.3,
-    sides = "b",
-    position = "jitter",
-    # size = 4,
-    length = unit(0.05, "npc")
-  )
-```
-:::
-:::
-::: 
-:::
-
-
-# Heterogeneous Effects 
-
 ## Which of These Hypotheses Specify Conditional Relationsip? {.smaller}
 
 1. Women representatives are more likely than men representatives to focus on issues of relative importance to women.
@@ -200,7 +68,6 @@ predict(m0,
 3. For candidates that the voter has seen on posters, appearance has a stronger effect on vote choice than for candidates that the voter has not seen on posters.
 4. Women are more likely to substantively represent women if they were elected in districts with larger magnitude.
 5. Government parties are more likely to engage in constructive legislative review than opposition parties.
-
 
 ## Dataset: Student Evaluations 
 
@@ -407,7 +274,13 @@ tidy(m1, conf.int = T) %>%
 ```{r}
 #| echo: false
 #| out-height: 50%
-
+plt <- expand_grid(
+  beauty = 0:10,
+  female = 0:1,
+  age = mean(evals$age, na.rm = T),
+  minority = 0,
+  nonenglish = 0
+) 
 m0 <- lm(eval ~ beauty * female, data = evals)
 
 vidata1 <- data.frame(beauty = 6, female = 0)
@@ -437,7 +310,7 @@ predict(m0,
     "text",
     x = 8.5,
     y = 4.3,
-    label = expression("β"[2] + paste("β"[3], "Beauty")),
+    label = expression("β"[2] + paste("β"[3])),
     size = 5
   ) +
   annotate(
@@ -524,7 +397,7 @@ geom_segment(aes(x= 1,xend = 4,y= predict(m0, newdata = gredata2),yend= predict(
   scale_color_viridis_d(end = 0.8) +
   scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
   theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
+  scale_x_continuous(limits = c(0, 10), breaks = 0:10) +
   ylim(c(3, 4.5)) +
   theme(panel.grid.minor = element_blank(),
         plot.title.position = "plot")
@@ -589,21 +462,303 @@ $$
 \text{Evaluation}_i = (\hat\beta_0 + \hat\beta_1)  + (\hat\beta_2  +  \hat\beta_3 ) \times \text{Beauty}_i 
 $$
 
-## Working with Interaction Effects {.smaller}
+## Working with Models with Interaction Effects I {.smaller}
 
-```{r}
-#| results: asis
-#| echo: fenced
-m1 <- lm(eval ~ beauty * female + age + nonenglish, data = evals)
-equatiomatic::extract_eq(m1, use_coefs = T, terms_per_line = 3, coef_digits = 3)
-```
+$$
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Female}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Female}_i \times \text{Beauty}_i \\
+$$
 
-- Include all constitutive terms (i.e. those variables that compose the interaction)
-- Do not interpret the coefficients on constitutive terms as unconditional marginal effects:
+**Include all constitutive terms (i.e. those variables that compose the interaction)**, even if you expect that a specific constitutive term alone has no effect on $Y$
+
+- Omitting a constitutive term forces the model to set the value of the omitted coefficient to zero: e.g., if we estimated 
+$\text{Evaluation}_i = \hat\beta_0 + \hat\beta_2 [\text{Beauty}_i = 1]  +  \hat\beta_3 [\text{Female}_i = 1] \times \text{Beauty}_i$ instead of the original model, we assumed the $\hat\beta_1 = 0$  
+- However, $\hat\beta_1$ is not the _average_ effect of *Female* for the entire sample but it only shows the effect of *Female* if *Beauty = 0*, a subgroup of the sample. It can be the case that on average, the effect of *Female* is still zero 
+- $\hat\beta_2$ captures the change in the intercepts of the regression lines between the categories of male vs. female instructors. If instead of group-specific intercept we only have one common intercept for both subgroups, the slopes may get distorted 
+
+## Working with Models with Interactions Effects II {.smaller}
+
+**Do not interpret the coefficients on constitutive terms as unconditional marginal effects:**
+
+  - the coefficient on X only captures the effect of X on Y when Z is zero 
+  - the coefficient on Z only captures the effect of Z on Y when X is zero
+
+- E.g., it is **incorrect** to say that a positive and significant coefficient on $X$ (or $Z$) means that an increase in $X$ (or $Z$) is expected to lead to an increase in $Y$  
 
 > Wrong: On average, beauty score is associated with an increase in teaching evaluations, holding all else constant. \
 > Wrong: On average, female instructors receive 0.05 points more in teaching evaluations than males, holding all else constant. \
 > Right: On average, beauty tends to have smaller effect on teaching evaluations among female instructors in comparison to male instructors, holding all else constant.  
+
+-  To know the average effect of $X$ on $Y$ we would have to know how frequently condition $Z$ is present in our sample
+
+```{r}
+#| eval: false
+#| echo: false
+#| out-height: 50%
+
+plt <- expand_grid(
+  beauty = 0:10,
+  female = 0:1,
+  age = mean(evals$age, na.rm = T),
+  minority = 0,
+  nonenglish = 0
+) 
+m33 <- lm(eval ~ beauty : female + beauty, data = evals)
+
+vidata1 <- data.frame(beauty = 6, female = 0)
+vidata2 <- data.frame(beauty = 7, female = 0)
+gredata1<- data.frame(beauty = 3,female = 1)
+gredata2<- data.frame(beauty = 4,female = 1)
+
+predict(m0,
+        interval = "confidence",
+        newdata = plt,
+        level = 0.95) %>%
+    bind_cols(plt) %>%
+    mutate(female = if_else(female == 1, "Female", "Male")) %>%
+    ggplot(aes(beauty, y = fit,
+               color = as_factor(female),
+               fill  = as_factor(female))) +
+    labs(
+        x = "Beauty",
+        y = "Average Teaching Evaluation",
+        title = "Relationship between Instructor Beauty and Course Evaluations",
+        subtitle = "Intercept Shift with Same Slope",
+        color = "Instructor is",
+        fill = "Instructor is"
+    ) +
+  geom_line()
+
+ttt <- predict(m33,
+  interval = "confidence",
+  newdata = plt,
+  level = 0.95
+) %>%
+  bind_cols(plt) %>%
+  mutate(female = if_else(female == 1, "Female", "Male"),
+         underspecified = "Underspecified") 
+
+ttt <- predict(m0,
+        interval = "confidence",
+        newdata = plt,
+        level = 0.95) %>%
+    bind_cols(plt) %>%
+    mutate(female = if_else(female == 1, "Female", "Male"),
+         underspecified = "Full") %>% 
+  bind_rows(ttt)
+
+ttt %>%
+  ggplot(aes(beauty,
+    y = fit,
+    color = as_factor(female),
+    linetype = as_factor(underspecified)
+  )) +
+  labs(
+    x = "Beauty",
+    y = "Average Teaching Evaluation",
+    title = "Relationship between Instructor Beauty and Course Evaluations",
+    subtitle = "No Intercept Shift with Same Slope",
+    color = "Instructor is",
+    linetype = "Model"
+  ) +
+  # annotate(
+  #   "text",
+  #   x = 7.8,
+  #   y = 4.3,
+  #   label = expression("β"[2] + paste("β"[3])),
+  #   size = 5
+  # ) +
+  # annotate(
+  #   "point",
+  #   x = 7,
+  #   y = predict(m33, newdata = vidata2),
+  #   size = 1.5,
+  #   color = viridis::viridis(2)[1]
+  # ) +
+  # geom_segment(
+  #   aes(
+  #     x = 3,
+  #     y = 3.5,
+  #     xend = 4,
+  #     yend = 3.5
+  #   ),
+  #   col = "black",
+  #   arrow = arrow(
+  #     length = unit(0.15, "cm"),
+  #     ends = "both",
+  #     type = "closed"
+  #   )
+  # ) +
+  # geom_segment(
+  #   aes(
+  #     x = 7,
+  #     y = 3.5,
+  #     xend = 6,
+  #     yend = 3.5
+  #   ),
+  #   col = "black",
+  #   arrow = arrow(
+  #     length = unit(0.15, "cm"),
+  #     ends = "both",
+  #     type = "closed"
+  #   )
+  # ) +
+  # geom_segment(
+  #   aes(
+  #     x = 4,
+  #     predict(m33, newdata = gredata2),
+  #     xend = 4,
+  #     yend = predict(m33, newdata = gredata1)
+  #   ),
+  #   col = "black",
+  #   arrow = arrow(
+  #     length = unit(0.1, "cm"),
+  #     ends = "both",
+  #     type = "closed"
+  #   )
+  # ) +
+  # geom_segment(
+  #   aes(
+  #     x = 7,
+  #     y = predict(m33, newdata = vidata1),
+  #     xend = 7,
+  #     yend = predict(m33, newdata = vidata2)
+  #   ),
+  #   col = "black",
+  #   arrow = arrow(
+  #     length = unit(0.1, "cm"),
+  #     ends = "both",
+  #     type = "closed"
+  #   )
+  # ) +
+  # geom_segment(aes(x = 2, y =  predict(m0, newdata = vidata2), xend = 2, yend =  predict(m0, newdata = vidata1)), col = "black",
+  #                arrow = arrow(length = unit(0.1, "cm"))) +
+  # geom_segment(aes(x = 4, xend = 4, y = 3, yend = predict(m33, newdata = gredata2)), color = "black", linetype = "dashed", size = 0.2) +
+  # annotate("point", x = 6, y = predict(m33, newdata = vidata1), size = 1.5, color = "darkviolet") +
+  # geom_segment(aes(x = 3, xend = 3, y = 3, yend = predict(m33, newdata = gredata1)), color = "black", linetype = "dashed", size = 0.2) +
+  # geom_segment(aes(x = 6, xend = 6, y = 3, yend = predict(m33, newdata = vidata1)), color = "black", linetype = "dashed", size = 0.2) +
+  # geom_segment(aes(x = 7, xend = 7, y = 3, yend = predict(m33, newdata = vidata2)), color = "black", linetype = "dashed", size = 0.2) +
+  # annotate("text", x = 4.25, y = 3.8, label = expression("β"[2]), size = 5) +
+  # annotate("point", x = 3, y = predict(m33, newdata = gredata1), size = 1.5, color = "darkgreen") +
+  # annotate("point", x = 4, y = predict(m33, newdata = gredata2), size = 1.5, color = "darkgreen") +
+  # annotate("point", x = 0, y = 3.647301, size = 1.5, color = "darkgreen") +
+  # geom_segment(aes(x = 6, xend = 7, y = predict(m33, newdata = vidata1), yend = predict(m33, newdata = vidata1)), color = "black", linetype = "dashed", size = 0.2) +
+  # geom_segment(aes(x = 1, xend = 7, y = predict(m33, newdata = vidata2), yend = predict(m33, newdata = vidata2)), color = "black", linetype = "dashed", size = 0.2) +
+  # geom_segment(aes(x = 3, xend = 4, y = predict(m33, newdata = gredata1), yend = predict(m33, newdata = gredata1)), color = "black", linetype = "dashed", size = 0.2) +
+  # geom_segment(aes(x = 1, xend = 4, y = predict(m33, newdata = gredata2), yend = predict(m33, newdata = gredata2)), color = "black", linetype = "dashed", size = 0.2) +
+  geom_line(size = 1) +
+  # geom_ribbon(aes(ymin = lwr,
+  #                 ymax = upr)) +
+  # geom_pointrange(aes(y = fit, ymin = lwr, ymax = upr)) + # plots the parallel lines
+  scale_color_viridis_d(end = 0.8) +
+  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
+  theme(legend.position = "top") +
+  scale_x_continuous(limits = c(0, 3), breaks = 0:3) +
+  ylim(c(3.5, 4)) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title.position = "plot"
+  ) +
+  annotate(
+    "point",
+    x = 0,
+    y = predict(m33, newdata = data.frame(female = 0, beauty = 0)),
+    size = 4,
+    color = viridis::viridis(7)[4]
+  ) +
+  annotate(
+    "point",
+    x = 1,
+    y = predict(m0, newdata = data.frame(female = 0, beauty = 1)),
+    size = 4,
+    color = viridis::viridis(7)[4]
+  )
+```
+
+
+## Working with Models with Interactions Effects III {.smaller}
+
+$$
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Female}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Female}_i \times \text{Beauty}_i \\
+$$
+
+**Provide a substantively meaningful description of the marginal effects**
+
+- For linear models _without_ interactions, regression coefficients alone are the quantities of interest since the coefficients represent constant (marginal) effects of variables (i.e. the effects do not depend on values of other variables and can be straightforwardly interpreted)
+- For linear models _with_ interactions, reporting only the coefficients means reporting marginal effect of $X$ when the conditioning variable $Z = 0$ 
+- However, it is possible we never even observe real-world situations in which $Z = 0$ (e.g., *Beauty score* ranges from 1 to 10, hence the effect of *Female* ($\hat\beta_1$) alone does not tell us anything meaningful, as we always need to have at least $\hat\beta_1 + \hat\beta_3 \times 1$ to compare the differences even for the lowest possible value of beauty score) 
+- While we can do some calculations for marginal effects based on the coefficients alone, we do not have enough information from these tables to also calculate uncertainty measures (e.g., standard errors) for these marginal effects 
+
+## Working with Models with Interactions Effects IV {.smaller}
+
+**Do not drop interactions based on the insignificance of the interaction term coefficient**
+
+- Insignificant interaction term coefficient $\neq$ insignificant marginal effect of $X$ on $Y$ for substantively relevant values of the modifying variable $Z$ 
+
+::: columns
+::: {.column width="50%"}
+
+```{r, echo=FALSE,  fig.asp = 1}
+predict(m0,
+        interval = "confidence",
+        newdata = plt,
+        level = 0.95) %>%
+  bind_cols(plt) %>%
+      mutate(female = if_else(female == 1, "Female", "Male")) %>%
+  ggplot(aes(beauty, y = fit, 
+             color = as_factor(female),
+             fill = as_factor(female))) +
+  labs(
+    x = "Beauty",
+    y = "Average Teaching Evaluation",
+    title = "Relationship between Instructor Beauty and Course Evaluations",
+    # subtitle = "Intercept Shift with Different Slopes",
+    color = "Instructor is",
+    fill = "Instructor is" 
+    ) +
+  geom_line() +
+  geom_ribbon(aes(ymin = lwr,
+                  ymax = upr)) +
+  # geom_pointrange(aes(y = fit, ymin = lwr, ymax = upr)) + # plots the parallel lines
+  scale_color_viridis_d(end = 0.8) +
+  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
+  theme(legend.position = "top") +
+  scale_x_continuous(limits = c(0, 10), breaks = 0:10) +
+  ylim(c(3, 5)) +
+  theme(panel.grid.minor = element_blank(),
+        plot.title.position = "plot") +
+  geom_rug(
+    data = evals %>% mutate(female = if_else(female == 1, "Female", "Male")), 
+    aes(y = eval, x = beauty, color = female), 
+    alpha = 0.3, 
+    sides = "b",
+    position = "jitter",
+    length = unit(0.05, "npc")
+  )
+```
+
+::: 
+::: {.column width="50%"}
+
+```{r, echo=FALSE, eval = FALSE}
+modelsummary::modelsummary((m0), digits = 3, 
+             estimate = "{estimate} ({std.error}){stars}",statistic = NULL,
+             gof_map = "none", notes = list('* p < 0.05, ** p < 0.01, *** p < 0.001'), output = "markdown")
+```
+
+|                           | Estimate (SE)    |
+|:--------------------------|:----------------:|
+|Intercept ($\beta_0$)      | 3.622 (0.100)*** |
+|beauty ($\beta_1$)         | 0.105 (0.022)*** |
+|female ($\beta_2$)         |  0.061 (0.156)   |
+|beauty × female ($\beta_3$)| -0.059 (0.033)  |
+
+__Note:__
+* p < 0.05, ** p < 0.01, *** p < 0.001
+
+E.g., based on an insignificant $\beta_3$ we cannot say that there is no significant difference between male vs. female instructors because for certain values in beauty score, we may still observe significant differences between male and female instructors 
+
+::: 
+::: 
 
 ## Causal Interaction vs. Effect Modification {.smaller}
 
@@ -661,7 +816,7 @@ $$
 
 - Marginal effect of *Age* on *Teaching evaluation*: $\hat\beta_1  +  \hat\beta_3 \times \text{Beauty}_i$
 
-## Quiz: What is the Marginal Effect of *Beauty*?
+## What is the Marginal Effect of *Beauty*?
 
 $$
 \text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Age}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Age}_i \times \text{Beauty}_i \\
@@ -877,202 +1032,12 @@ predict(m2,
         plot.title.position = "plot") 
 ```
 
+## References
 
-# Appendix: Using Simulations for Interpretation 
+Brambor, Thomas, William Roberts Clark, and Matt Golder. 2006. “Understanding Interaction Models: Improving Empirical Analyses.” *Political Analysis* 14 (1). Cambridge University Press: 63–82. doi:10.1093/pan/mpi014.
 
-## Approaches to Obtain Confidence Intervals {.smaller}
+Hamermesh, Daniel S., and Amy Parker. 2005. "Beauty in the classroom: Instructors’ pulchritude and putative pedagogical productivity." *Economics of Education Review* 24 (4): 369-376.
 
-- So far, we used stats to calculate confidence intervals: 
-  - assumed sampling distributions are normal 
-  - calculated point estimates and standard errors
-  - calculate confidence intervals from estimated SEs and critical values for $\mathcal{N}(0, 1)$
-  
-- Another approach utilizes simulations:
-  - assumed sampling distributions are normal 
-  - calculated point estimates and standard errors
-  - use these values to obtain sets of simulated coefficients
-  - use these simulated coefficients to make predictions 
-
-## Draws from Simulated Sampling Distributions {.smaller}
-
-We would use our coefficient estimates and uncertainty about them to calculate sampling distributions (our best guesses about them based on our data)
-
-```{r}
-#| echo: false
-library(clarify)
-set.seed(2023)
-m1 <- lm(eval ~ beauty * female, data = evals)
-
-# get draws from multivariate normal distribution 
-sims <- clarify::sim(m1)
-as_tibble(sims$sim.coefs) %>%
-  clean_names() %>%
-  pivot_longer(values_to = "estimate",
-               names_to = "term",
-               cols = everything()) %>%
-  ggplot(aes(x = estimate)) +
-  geom_histogram(color = "white")   +
-  facet_wrap(~term, scales = "free") +
-  labs(title = "Simulated Coefficients")
-```
+Keele, Luke, and Randolph T. Stevenson. 2021. “Causal Interaction and Effect Modification: Same Model, Different Concepts.” *Political Science Research and Methods* 9 (3). Cambridge University Press: 641–49. doi:10.1017/psrm.2020.12.
 
 
-## Calculating Expected Values {.smaller}
-
-$${ \begin{array}{c}
-        \tilde{\beta}_0^1 \times 1+\tilde{\beta}_1^1 \times   \text{Age}_i  +\tilde{\beta}_2^1 \times \text{Beauty}_i + \tilde{\beta}_3^1 \times \text{Age}_i \times \text{Beauty}_i &= \tilde{y}^1\\
- \tilde{\beta}_0^2 \times 1+\tilde{\beta}_1^2 \times   \text{Age}_i  +\tilde{\beta}_2^2 \times \text{Beauty}_i + \tilde{\beta}_3^2 \times \text{Age}_i \times \text{Beauty}_i &= \tilde{y}^2\\
-  \tilde{\beta}_0^3 \times 1+\tilde{\beta}_1^3 \times   \text{Age}_i  +\tilde{\beta}_2^3 \times \text{Beauty}_i + \tilde{\beta}_3^3 \times \text{Age}_i \times \text{Beauty}_i &= \tilde{y}^3\\
-        \dots \\
-        \tilde{\beta}_0^{1000} \times 1+\tilde{\beta}_1^{1000} \times \text{Age}_i  +\tilde{\beta}_2^{1000} \times \text{Beauty}_i + \tilde{\beta}_3^{1000} \times \text{Age}_i \times \text{Beauty}_i &= \tilde{y}^{1000}\\
-    \end{array} }$$
-
-
-## Plotting Expected Values {.smaller}
-
-```{r}
-#| echo: false
-# obtain predictions based on specified values
-results <- sim_setx(sims, 
-                    x = list(female = 0:1,
-                             beauty = 1:10))
-
-plot(results) +
- scale_color_viridis_d(end = 0.8) +
-  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
-  theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
-  ylim(c(3, 5)) +
-  theme(panel.grid.minor = element_blank(),
-        plot.title.position = "plot") +
-  labs(y = "Average Teaching Evaluation")
-
-```
-
-## Evaluating the Effects with First Differences
-
-```{r}
-#| echo: false
-FD <- sim_setx(sims,
-               x = list(female = 0,
-                        beauty = 1:10)) -
-  sim_setx(sims,
-           x = list(female = 1,
-                    beauty = 1:10))
-
-plot(FD) +
- scale_color_viridis_d(end = 0.8) +
-  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
-  theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  # ylim(c(3, 5)) +
-  theme(panel.grid.minor = element_blank(),
-        plot.title.position = "plot") +
-  labs(y = "Difference in Average Teaching Evaluation",
-       subtitle = "First Difference between Male and Female Instructors")
-```
-
-
-
-
-## Using Simulations for Interpretation
-
-```{r}
-#| eval: false
-library(clarify)
-set.seed(2023)
-m1 <- lm(eval ~ beauty * female, data = evals)
-
-# get draws from multivariate normal distribution 
-sims <- clarify::sim(m1)
-
-# obtain predictions based on specified values
-results <- sim_setx(sims, 
-                    x = list(female = 0:1,
-                             beauty = 1:10))
-
-plot(results) 
-
-FD <- sim_setx(sims,
-               x = list(female = 0,
-                        beauty = 1:10)) -
-  sim_setx(sims,
-           x = list(female = 1,
-                    beauty = 1:10))
-
-plot(FD) +
- scale_color_viridis_d(end = 0.8) +
-  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
-  theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  # ylim(c(3, 5)) +
-  theme(panel.grid.minor = element_blank(),
-        plot.title.position = "plot") +
-  labs(y = "Difference in Average Teaching Evaluation",
-       subtitle = "First Difference between Male and Female Instructors")
-
-plot(FD) +
- scale_color_viridis_d(end = 0.8) +
-  scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
-  theme(legend.position = "top") +
-  scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  # ylim(c(3, 5)) +
-  theme(panel.grid.minor = element_blank(),
-        plot.title.position = "plot") +
-  labs(y = "Difference in Average Teaching Evaluation",
-       subtitle = "First Difference between Male and Female Instructors")
-```
-
-
-<!-- # Intro -->
-
-
-<!-- ```{r} -->
-<!-- #| echo: false -->
-<!-- countdown(minutes = 4, color_background = "white", left = 1) -->
-<!-- ``` -->
-
-
-
-<!-- ::: columns -->
-<!-- ::: {.column width="30%"} -->
-
-<!-- ```{dot} -->
-<!-- //| echo: false -->
-<!-- //| fig-width: 3 -->
-<!-- //| fig-height: 3 -->
-<!-- //| out-width: 100% -->
-<!-- digraph D { -->
-<!--   node [shape=oval, fontname="AtkinsonHyperlegible-Regular"]; -->
-<!--   edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5]; -->
-<!--   a [label = "Beauty Score"]; -->
-<!--   b [label = "Evaluations"]; -->
-<!--   c [label = "Female"]; -->
-
-<!--   {rank=same a b}; -->
-<!--   {rank=sink c}; -->
-<!--   a->b; -->
-<!--   c->a; -->
-<!--   c->b; -->
-<!-- } -->
-<!-- ``` -->
-
-
-<!-- :::  -->
-<!-- ::: {.column width="70%"} -->
-
-<!-- 1.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Beauty Score* on *Evaluations* causally. -->
-
-<!-- 2.  After specifying the DGP in a DAG and following our identification strategy, we can interpret the estimated coefficient for the effect of *Female* on *Evaluations* causally. -->
-
-<!-- 3. On average, a 5-point increase in *Beauty Score* would be associated with 0.4-point increase in *Teaching Evaluations*, for both female and female instructors.  -->
-
-<!-- 4. The effect of *Female* on *Teaching Evaluations* would be represented through the change in the slope of the regression coefficient for *Beauty Score*.  -->
-
-<!-- 5. For $evals = \beta_0 + \beta_1 \cdot Female$,  $\beta_1$ would be the equal to difference-in-means estimator.  -->
-
-<!-- :::  -->
-<!-- :::  -->

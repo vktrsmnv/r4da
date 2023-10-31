@@ -1,0 +1,1538 @@
+---
+title: "Multiple Linear Regression"
+subtitle: "R for Data Analysis<br>Session 8"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+editor: visual
+execute:
+  echo: true
+---
+
+```{r setup, include=FALSE}
+p_needed <- c("tidyverse", "janitor", "icons", 
+              "countdown", "showtext", "ggdag", 
+              "gt", "plotly", "broom", "patchwork")
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 6.5, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) +
+  theme(plot.title = element_text(face = "bold"))
+
+# governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+# trains <- readr::read_tsv("../data/trains.tsv") %>% clean_names()
+set.seed(2508)
+```
+
+## Agenda for Today
+
+<br>
+
+**Multiple Linear Regression**
+
+<br>
+
+**Selection of Explanatory Variables**
+
+<br>
+
+**Model Conditions & Assumpions**
+
+<br>
+
+**Intuition for Statistical Control**
+
+# Selection of Independent Variables
+
+## Data Generating Process {.smaller}
+
+-   An unknown process in the real world that "generates" the data we are interested in
+-   In social sciences, DGP is often not very precise
+-   Our understanding of DGP comes from the theory and subject knowledge
+-   The variables that we choose to include into regression should depict our idea of the DGP
+
+<!-- ## Causality -->
+
+<!-- -   A variable $X$ is a cause of a variable $Y$ if $Y$ in any way relies on $X$ for its value.... $X$ is a cause of $Y$ if $Y$ listens to $X$ and decides its value in response to what it hears (Pearl, Glymour, and Jewell 2016, 5--6) -->
+
+<!-- -   This incorporates: -->
+
+<!--     -   association between $X$ and $Y$ -->
+
+<!--     -   time ordering: cause precedes outcome -->
+
+<!--     -   nonspuriousness: there is plausible relationship -->
+
+<!-- -   **Causal effect** is the change in variable Y that would result from a change in variable X -->
+
+## Directed Acyclic Graphs (DAGs) {.smaller}
+
+**Nodes**: variables in the DGP\
+**Arrows**: causal relationships in the DGP (associations)\
+**Direction**: from the cause variable to the caused variable
+
+::: columns
+::: {.column width="50%"}
+*Directed:* Each **node** has an arrow that points to another node
+
+*Acyclic:* You can't cycle back to a node (and arrows only have one direction)
+
+*Graph:* Well...it is a graph.
+:::
+
+::: {.column width="50%"}
+```{dot}
+//| echo: false
+//| fig-width: 6
+//| fig-height: 4
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  c->a;
+  c->b;
+}
+```
+
+<!-- ```{r} -->
+
+<!-- dagify( -->
+
+<!--   Y ~ X + Z, -->
+
+<!--   X ~ Z, -->
+
+<!--   coords = list(x = c(X = 1, Y = 3, Z = 2), -->
+
+<!--                 y = c(X = 1, Y = 1, Z = 2)) -->
+
+<!-- ) %>%  -->
+
+<!--   ggplot(aes(x = x, y = y, xend = xend, yend = yend)) + -->
+
+<!--   geom_dag_edges() + -->
+
+<!--   geom_dag_point(color = "#ffffff", size = 14) + -->
+
+<!--   geom_dag_text(color = "black", size = 5) + -->
+
+<!--   theme_dag() -->
+
+<!-- ``` -->
+:::
+:::
+
+<!-- ## Acyclicalness -->
+
+<!-- What if there's something that really is cyclical? -->
+
+<!-- > Wealth → Power → Wealth -->
+
+<!-- This isn't acyclic! Wealth ↔ Power -->
+
+<!-- Split the node into different time periods -->
+
+## How DAGs Help Us? {.smaller}
+
+> DAGs represent the underlying data-generating process
+
+-   help clarify study question and relevant concepts
+-   provide common language to talk about theories and causal relationship (systematic way to talk about what is missing, like a node or a path)
+-   make our assumptions about DGP explicit
+-   help determine whether the effect of interest can be identified from available data
+-   allow us to determine which variables we need to account for to be able to estimate the *causal* effect (isolate specific pathways)
+
+# Types of Association
+
+## Major Types of Association {.smaller}
+
+::: columns
+::: {.column width="33%"}
+#### Confounding <br>(Fork)
+
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  c->a;
+  c->b;
+}
+```
+
+Common cause
+:::
+
+::: {.column width="33%"}
+#### Mediation <br>(Chain)
+
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  a->c;
+  c->b;
+}
+```
+
+Intermediate variable
+:::
+
+::: {.column width="33%"}
+#### Collision <br>(Inverted Fork)
+
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  a->c;
+  b->c;
+}
+```
+
+Selection / endogeneity
+:::
+:::
+
+## Confounding: Effect of Money on Elections {.smaller}
+
+::: columns
+::: {.column width="50%"}
+![](https://evalf22.classes.andrewheiss.com/slides/04-slides_files/figure-html/money-elections-1.png)
+:::
+
+::: {.column width="50%"}
+Handling Confounders Means:
+
+1.  Find the part of campaign money that is explained by quality, remove it.
+
+2.  Find the part of win margin that is explained by quality, remove it.
+
+3.  Find the relationship between the residual part of money and residual part of win margin. This is the *causal effect*.
+:::
+:::
+
+## More Complex DAG Example {.smaller}
+
+![](https://www.andrewheiss.com/research/chapters/heiss-causal-inference-2021/money-votes-complex.png){width=80%}
+
+## Collider is Masking Effects {.smaller}
+
+Height is unrelated to basketball skill... among professional basketball players
+
+![](https://evalf22.classes.andrewheiss.com/slides/04-slides_files/figure-html/nba-dag-1.png){width=80%}
+
+## Which Statements Are Correct? {.smaller}
+
+::: columns
+::: {.column width="55%"}
+```{r}
+#| echo: false
+#| fig-asp: 1
+set.seed(3444)
+tibble(
+  beauty = rnorm(2500),
+  talent = rnorm(2500),
+  score = beauty + talent,
+  c85 = quantile(score, .85),
+  star = ifelse(score>=c85,1,0)
+) %>% 
+  filter(star == 1) %>% 
+  janitor::clean_names(case = "sentence") %>% 
+  ggplot(aes(x = Talent, y = Beauty)) +
+  geom_point(size = 3, shape=19, alpha = 0.5) +
+  # xlim(-4, 4) + ylim(-4, 4) +
+  labs(title = "Is Beauty Related to Talent among Actors?",
+       subtitle = "Sample: Movie stars") +
+  geom_smooth(method = "lm", se = F, color = "#800010") +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  scale_y_continuous(breaks = scales::pretty_breaks()) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        text = element_text(size = 18),
+        plot.title.position = "plot"
+  )
+```
+:::
+
+::: {.column width="45%"}
+For the relationship between *Beauty* and *Talent*, being a *Movie star* is:
+
+1.  a confounder and thus should be controled for
+2.  a mediator and thus should not be controled for
+3.  a collider and here we controled for it when fitting the regression line
+4.  a collider and accounting for it masks the true relationship between *Beauty* and *Talent*
+:::
+:::
+
+## Collider is Creating Effects {.smaller}
+
+::: columns
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| fig-asp: 1
+set.seed(3444)
+tibble(
+  beauty = rnorm(2500),
+  talent = rnorm(2500),
+  score = beauty + talent,
+  c85 = quantile(score, .85),
+  star = ifelse(score>=c85,1,0)
+) %>% 
+  filter(star == 1) %>% 
+  janitor::clean_names(case = "sentence") %>% 
+  ggplot(aes(x = Talent, y = Beauty)) +
+  geom_point(size = 3, shape=19, alpha = 0.3, color = "#800010") +
+  # xlim(-4, 4) + ylim(-4, 4) +
+  labs(title = "Is Beauty Related to Talent among Actors?",
+       subtitle = "Sample: Movie stars") +
+  geom_smooth(method = "lm", se = F, color = "#800010") +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  scale_y_continuous(breaks = scales::pretty_breaks()) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        text = element_text(size = 18),
+        plot.title.position = "plot"
+  )+ xlim(-4, 4) + ylim(-4, 4)
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+#| echo: false
+#| fig-asp: 1
+set.seed(3444)
+tibble(
+  beauty = rnorm(2500),
+  talent = rnorm(2500),
+  score = beauty + talent,
+  c85 = quantile(score, .85),
+  star = ifelse(score>=c85,1,0) %>% as.character()
+) %>% 
+  # filter(star == 1) %>% 
+  janitor::clean_names(case = "sentence") %>% 
+  ggplot(aes(x = Talent, y = Beauty, color = Star)) +
+  geom_point(size = 3, shape=19, alpha = 0.3) +
+  # xlim(-4, 4) + ylim(-4, 4) +
+  labs(title = "Is Beauty Related to Talent among Actors?",
+       subtitle = "Sample: Movie Stars and Non-Stars") +
+  geom_smooth(method = "lm", se = F, color = "#800010", linewidth = 2) +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  scale_y_continuous(breaks = scales::pretty_breaks()) +
+  theme_minimal() +
+  scale_color_manual(values = c("#000000", "#800010")) +
+  guides(color = "none") +
+  theme(panel.grid.minor = element_blank(),
+        text = element_text(size = 18),
+        plot.title.position = "plot"
+  )+ xlim(-4, 4) + ylim(-4, 4)
+```
+:::
+:::
+
+*Example from Elwert, Felix, and Christopher Winship. 2014. "Endogenous Selection Bias: The Problem of Conditioning on a Collider Variable." Annu. Rev. Sociol. 40 (1): 31--53.*
+
+## When Should We Control for Rebel Strength?
+
+![](images/conf-med.jpeg){width=80%} <!-- Compare candidates as if they had the same quality -->
+
+<!-- Remove differences that are predicted by quality -->
+
+<!-- Hold quality constant -->
+
+<!-- ## Mediation  -->
+
+<!-- ## Collider -->
+
+<!-- - Example of a collider in NBA  -->
+
+<!-- - Make a plot  -->
+
+<!-- - Discuss the relationship you observe  -->
+
+<!-- - Can you think of a reason why you have such a relationship?  -->
+
+<!-- --- -->
+
+## Steps to Causal Diagram {.smaller}
+
+1.  Identify your treatment $X$ and outcome $Y$ variables
+2.  List possible variables (*Nodes*) related to the relationship you try to identify, including the unobserved and unmeasurable ones
+3.  For simplicity, combine them together or prune the ones least likely to be important
+4.  Consider which variables are likely to affect which other variables and draw arrows from one to the other
+5.  List all paths that connect $X$ to $Y$, regardless of the direction of arrows
+6.  Identify any pathways that have arrows pointing backwards towards $X$
+7.  Control for all nodes that point back to $X$ (aka *Close Backdoors*)
+
+## Paths Glossary {.smaller}
+
+Frontdoor Path
+
+:   A path where all the arrows point away from Treatment $X$
+
+Backdoor Path
+
+:   A path where at least one of the arrows points towards Treatment $X$
+
+Open Path
+
+:   A path in which there is variation in all variables along the path (and no variation in any colliders on that path)
+
+Closed Path
+
+:   A path in which there is at least one variable with no variation (or a collider with variation)
+
+> Our goal: block all backdoor paths to identify the main pathway we care about
+
+## Finding Paths
+
+::: columns
+::: {.column width="45%"}
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle, fontname="AtkinsonHyperlegible-Regular"];
+  edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  c->a;
+  c->b;
+}
+```
+:::
+
+::: {.column width="55%"}
+-   $X$ causes $Y$
+-   $Z$ causes both $X$ and $Y$
+-   $Z$ confounds the $X⟶Y$ association
+-   Paths between $X$ and $Y$:
+    -   $X⟶Y$
+    -   $X⟵Z⟶Y$
+:::
+:::
+
+-   $Z$ is a backdoor path
+-   Even if there was no $X⟶Y$, $Z$ connects them
+
+## Finding Paths: Campaign Money Example
+
+::: columns
+::: {.column width="50%"}
+```{dot}
+//| echo: false
+//| fig-width: 4
+//| fig-height: 3
+digraph D {
+  node [shape=oval, fontname="AtkinsonHyperlegible-Regular"];
+  edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5];
+X [label = "Money\nRaised"];
+Y [label = "Total\nVotes" ];
+Z [label = "Candidate\nQuality"];
+  {rank=same X Y};
+
+X -> Y;
+Z -> X;
+Z -> Y;
+}
+```
+:::
+
+::: {.column width="50%"}
+::: small
+Paths between Money and Votes:
+
+1.  Money ⟶ Total Votes
+2.  Money ⟵ Candidate Quality ⟶ Total Votes
+:::
+:::
+:::
+
+::: smaller
+-   Accounting for Quality closes the backdoor
+-   In other words, we:
+    -   compare candidates as if they had the same Quality
+    -   remove differences that are predicted by Quality
+    -   hold Quality constant
+:::
+
+## Finding Paths: A More Complex DAG
+
+::: small
+List all paths that connect *Money raised* with *Total Votes* (regardless of the direction of arrows). Which of them are backdoor paths?
+:::
+
+::: columns
+::: {.column width="60%"}
+```{dot}
+//| echo: false
+//| fig-width: 5
+//| fig-height: 5
+digraph D {
+  node [shape=oval, fontname="AtkinsonHyperlegible-Regular"];
+  edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5];
+  
+"Candidate quality";
+"Hire campaign manager" ;
+"Money raised" ;
+"Total votes" ;
+"Won election" ;
+"District" ;
+"History" [style = "dashed"] ;
+"Party";
+
+{rank=same "Money raised" "Total votes"};
+  
+"Candidate quality" -> "Money raised";
+"Candidate quality" -> "Total votes";
+"Hire campaign manager" -> "Total votes";
+"Money raised" -> "Hire campaign manager";
+"Money raised" -> "Total votes" [minlen = 5];
+"Money raised" -> "Won election";
+"Total votes" -> "Won election";
+"District" -> "Money raised";
+"District" -> "Total votes";
+"History" -> "District";
+"History" -> "Party";
+"Party" -> "Money raised";
+"Party" -> "Total votes";
+}
+
+
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| eval: false
+countdown(minutes = 3, color_background = "white")
+```
+
+::: smallest
+1.  Money ⟶ Total Votes
+2.  Money ⟶ Hire campaign manager ⟶ Total Votes
+3.  Money ⟶ Won Election ⟵Total Votes
+4.  Money ⟵ Candidate Quality ⟶ Total Votes
+5.  Money ⟵ District ⟶ Total Votes
+6.  Money ⟵ Party ⟶ Total Votes
+7.  Money ⟵ District ⟵ History ⟶ Party ⟶ Total Votes
+8.  Money ⟵ Party ⟵ History ⟶ District ⟶ Total Votes
+:::
+:::
+:::
+
+## Closing Backdoor Paths Is the Goal
+
+::: columns
+::: {.column width="60%"}
+```{dot}
+//| echo: false
+//| fig-width: 5
+//| fig-height: 5
+digraph D {
+  node [shape=oval, fontname="AtkinsonHyperlegible-Regular"];
+  edge [minlen = 1.2, arrowhead = vee, arrowsize=0.5];
+  
+"Candidate quality" [shape = "box"];
+"Hire campaign manager" ;
+"Money raised" ;
+"Total votes" ;
+"Won election" ;
+"District" [shape = "box"];
+"History" [style = "dashed"] ;
+"Party" [shape = "box"];
+
+{rank=same "Money raised" "Total votes"};
+  
+"Candidate quality" -> "Money raised";
+"Candidate quality" -> "Total votes";
+"Hire campaign manager" -> "Total votes";
+"Money raised" -> "Hire campaign manager";
+"Money raised" -> "Total votes" [minlen = 5];
+"Money raised" -> "Won election";
+"Total votes" -> "Won election";
+"District" -> "Money raised";
+"District" -> "Total votes";
+"History" -> "District";
+"History" -> "Party";
+"Party" -> "Money raised";
+"Party" -> "Total votes";
+}
+
+
+```
+:::
+
+::: {.column width="40%"}
+```{r}
+#| echo: false
+#| eval: false
+countdown(minutes = 3, color_background = "white")
+```
+
+::: smallest
+Frontdoor Paths:
+
+1.  Money ⟶ Total Votes
+2.  Money ⟶ Hire campaign manager ⟶ Total Votes
+
+Closed Backdoor Path:
+
+3.  Money ⟶ Won Election ⟵Total Votes
+
+Open Backdoor Paths:
+
+::: {.red style="color: #800010;"}
+4.  Money ⟵ Candidate Quality ⟶ Total Votes
+5.  Money ⟵ District ⟶ Total Votes
+6.  Money ⟵ Party ⟶ Total Votes
+7.  Money ⟵ District ⟵ History ⟶ Party ⟶ Total Votes
+8.  Money ⟵ Party ⟵ History ⟶ District ⟶ Total Votes
+:::
+:::
+:::
+
+::: smallest
+-   Adjusting for Quality, District, and Party *closes* open backdoors. ⟶ Yes!\
+-   Unobserved History then also does not confound Money and Votes.\
+-   Adjusting for Won Election *opens* a backdoor ⟶ No!
+:::
+:::
+
+<!-- ## More Complex Relationships -->
+
+<!-- - In your models, relationships  -->
+
+<!-- Drawing DAGs will help you determine the kind of relationship  -->
+
+<!-- ## Causal Identification {.smaller} -->
+
+<!-- - Even when working with observational data, our goal should always be to come as close to estimating unbiased causal effect of X on Y as we can  -->
+
+<!-- - The effect is *identified* if the association between treatment and outcome is properly stripped and isolated -->
+
+<!-- -   Identification implies that: -->
+
+<!--     -   All alternative stories are ruled out -->
+
+<!--     -   We have enough information to answer a specific causal inference question -->
+
+<!-- -   Sometimes we cannot identify the effect with our data alone -->
+
+<!-- ```{dot} -->
+
+<!-- //| fig-width: 4 -->
+
+<!-- //| echo: false -->
+
+<!-- digraph D { -->
+
+<!--   node [shape=oval]; -->
+
+<!--   edge [minlen = 1, arrowhead = vee]; -->
+
+<!--   a [label = "Education"]; -->
+
+<!--   b [label = "Health"]; -->
+
+<!--   c [label = "Money"]; -->
+
+<!--   {rank=same a b}; -->
+
+<!--   a->b; -->
+
+<!--   c->a; -->
+
+<!--   b->a; -->
+
+<!--   c->b; -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ![](https://pbs.twimg.com/media/FeOfP6XUYAEQ2Oq.jpg) -->
+
+------------------------------------------------------------------------
+
+<!-- ```{dot} -->
+
+<!-- //| label: fig-dot-firstdag-quarto -->
+
+<!-- //| fig-cap: "We expect a causal relationship between x and y, where x influences y" -->
+
+<!-- //| fig-width: 4 -->
+
+<!-- //| echo: false -->
+
+<!-- digraph D { -->
+
+<!--   node [shape=oval]; -->
+
+<!--   edge [minlen = 1, arrowhead = vee]; -->
+
+<!--   a [label = "Going to\nCollege"]; -->
+
+<!--   b [label = "Income"]; -->
+
+<!--   c [label = "Children"]; -->
+
+<!--   {rank=same a b}; -->
+
+<!--   a->{b, c}; -->
+
+<!--   c->b; -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ## Causation and Temporal Ordering -->
+
+<!-- ```{dot} -->
+
+<!-- //| echo: false -->
+
+<!-- //| fig-width: 6 -->
+
+<!-- digraph D { -->
+
+<!--   node [shape=oval]; -->
+
+<!--   edge [minlen = 2, arrowhead = vee]; -->
+
+<!--   a [label = "Number of Cards\nSent to You\nPast Week"]; -->
+
+<!--   b [label = "Your Birthday"]; -->
+
+<!--   {rank=same a b}; -->
+
+<!--   a->b; -->
+
+<!-- } -->
+
+<!-- ``` -->
+
+## Instructor Beauty Example
+
+```{dot}
+//| echo: false
+//| fig-width: 8
+//| out-width: 100%
+digraph D {
+  node [shape=plaintext];
+  edge [minlen = 2, arrowhead = vee];
+  a [label = "Instructors'\nBeauty"];
+  b [label = "Course\nEvaluations"];
+  c [label = "X"];
+  d [label = "Y"];
+  e [label = "Z"];
+  
+  {rank=max d};
+  {rank=same c e};
+  {rank=same a b};
+
+  a->b;
+  c->a;
+  c->b;
+  d->b;
+  a->d;
+  a->e;
+  b->e;
+}
+```
+
+## Using `dagitty.net` Tool to Find Paths
+
+-   You can use <https://dagitty.net/dags.html> to create DAGs
+-   It will help you identify open paths and select the variables that you need to control for to close them
+-   Check this page for how to use `dagitty.net`: <https://evalf21.classes.andrewheiss.com/example/dags/>
+
+# Mechanics of Multiple Linear Regression
+
+## Multiple ~~Multivariate~~ Linear Regression (MLR) {.smaller}
+
+$$ y = \hat\beta_0 + \hat\beta_1 x_1 +
+\hat\beta_2 x_2 + \cdots + \hat\beta_k x_k
++\hat\varepsilon$$
+
+> A one unit increase in $x_k$ is *associated* with, **on average**, a $\beta_k$ increase (decrease) in $y$, **holding all else constant**.
+
+<!-- > Categorical X: On average, **Y** is $\hat\beta_k$ units larger (or smaller) in **x_k**, compared to **x_k**<sub>omitted</sub>, **holding all else constant**. -->
+
+-   We obtain our coefficient for $x_k$ *independent of all other variables*
+-   We are comparing observations as though they had same value of other variables
+-   You can also think of it as comparing *within* values of other variables
+-   Coefficient $\hat\beta_k$ tells us what is the value of a predictor $x$, once we know other predictors in the model
+-   $\hat \beta_k$ captures the effect of $x_k$, which can be uniquely attributed to this variable $x_k$
+
+<!-- ## Regression Line Turns into a Hyperplane -->
+
+```{r make-more-cookies, include=FALSE}
+set.seed(250895)
+cookies <- tibble(
+  happiness = c(0.5, 2.1, 1, 2.5, 3, 1.5, 2.2, 2.5, 1.8, 3),
+  cookies = 1:10
+)
+
+cookies_data <- cookies
+cookies_model <- lm(happiness ~ cookies, data = cookies)
+cookies_fitted <- broom::augment(cookies_model)
+cookies_data <- cookies
+cookies_model <- lm(happiness ~ cookies, data = cookies)
+more_cookies = data.frame(cookies = rbinom(100, size = 10, prob = 0.4))
+more_cookies$weekend <- ifelse(more_cookies$cookies > 4, 0.2, 0.9)
+more_cookies$weekend <- rbinom(100, size = 1, prob = more_cookies$weekend)
+more_cookies$happiness <-
+  predict(cookies_model, more_cookies) + 1.3 * more_cookies$weekend + rnorm(100, sd = 0.2) - 1
+more_cookies$happiness_score <-
+  predict(cookies_model, more_cookies) + rnorm(100, sd = 0.4) 
+# cookies_fitted <- broom::augment(cookies_model)
+```
+
+<!-- ```{r plotlyfig,  echo=F, warning=F, message=F} -->
+
+<!-- #| eval: true -->
+
+<!--   y <- more_cookies$happiness_score -->
+
+<!--   x1 <- more_cookies$cookies -->
+
+<!--   x2 <- more_cookies$weekend -->
+
+<!--   df <- data.frame(y, x1, x2) -->
+
+<!--   reg <- lm(y ~ x1 + x2) -->
+
+<!--   cf.mod <- coef(reg) -->
+
+<!--   x1.seq <- seq(min(x1), max(x1), length.out = 25) -->
+
+<!--   x2.seq <- seq(min(x2, na.rm = T), max(x2, na.rm = T), length.out = 25) -->
+
+<!--   z <- -->
+
+<!--     t(outer(x1.seq, x2.seq, function(x, y) -->
+
+<!--       cf.mod[1] + cf.mod[2] * x + cf.mod[3] * y)) -->
+
+<!--   rbPal <- colorRampPalette(c('#CC2C24', '#003056')) -->
+
+<!--   cols <- -->
+
+<!--     rbPal(10)[as.numeric(cut(abs(y - reg$fitted.values), breaks = 10))] -->
+
+<!--   m <- list(t = 5) -->
+
+<!--   p <- plot_ly( -->
+
+<!--     x = x1.seq, -->
+
+<!--     y = x2.seq, -->
+
+<!--     z = z, -->
+
+<!--     colors = "#00305650", -->
+
+<!--     opacity = 0.9, -->
+
+<!--     name = "Reg.Plane", -->
+
+<!--     type = "surface" -->
+
+<!--   ) %>% -->
+
+<!--     add_trace( -->
+
+<!--       data = df, -->
+
+<!--       name = 'Happiness', -->
+
+<!--       x = x1, -->
+
+<!--       y = x2, -->
+
+<!--       z = y, -->
+
+<!--       mode = "markers", -->
+
+<!--       type = "scatter3d", -->
+
+<!--       marker = list( -->
+
+<!--         color = cols, -->
+
+<!--         opacity = 0.75, -->
+
+<!--         symbol = 105, -->
+
+<!--         size = 4 -->
+
+<!--       ) -->
+
+<!--     ) %>% -->
+
+<!--     hide_colorbar() %>% -->
+
+<!--     layout( -->
+
+<!--       margin = m, -->
+
+<!--       showlegend = FALSE, -->
+
+<!--       scene = list( -->
+
+<!--         aspectmode = "manual", -->
+
+<!--         aspectratio = list(x = 1, y = 1.3, z = 1), -->
+
+<!--         xaxis = list(title = "Cookies"), -->
+
+<!--         yaxis = list(title = "Weekend"), -->
+
+<!--         zaxis = list(title = "Happiness"), -->
+
+<!--         camera = list( -->
+
+<!--           eye = list(x = -1.5, y = -2, z = 1.05), -->
+
+<!--           center = list(x = 0, -->
+
+<!--                         y = 0, -->
+
+<!--                         z = 0) -->
+
+<!--         ) -->
+
+<!--       ) -->
+
+<!--     ) -->
+
+<!-- p -->
+
+<!-- # p %>% config(showLink = F) -->
+
+<!-- #  -->
+
+<!-- # cat(plotly:::plotly_iframe(p %>% config(showLink = F))) -->
+
+<!-- # htmlwidgets::saveWidget(p,("p.html")) -->
+
+<!-- ``` -->
+
+<!-- <iframe src="p.html" width="70%" height="100%" id="igraph" scrolling="no" seamless="seamless" frameBorder="0"> -->
+
+<!-- </iframe> -->
+
+## Confounders and Statistical Control
+
+Closing paths means ensuring we are comparing within the same values of confounders. What does this mean statistically?
+
+1.  Remove the effect of the confounder W (*Age*) on X (*Beauty*)
+2.  Remove the effect of the confounder W (*Age*) on Y (*Evlauations*)
+3.  Regress the leftovers of Y (*Evlauations*), the residuals from step 2, on leftovers of X (*Beauty*), the residuals from step 1.
+
+## Venn Diagrams: Variance and Covariance {.smaller}
+
+<br>
+
+![](images/correlation-simp.png){fig-align="center" width="700"}
+
+## Venn Diagrams: Slope Coefficients
+
+::: columns
+::: {.column width="50%"}
+::: smaller
+Slope coefficient for $X$, is the ratio between [*covariance of* $X$ and $Y$]{style="color: #003056;"} and [*variance of* $X$]{style="color: #61993B;"}
+
+$$\beta_{x} = \frac{cov(x,y)}{var(x)}= \frac{B}{A+B}$$ Slope coefficient for $Z$, is the ratio between [*covariance of* $Z$ and $Y$]{style="color: #cc2c24;"} and [*variance of* $Z$]{style="color: #a1a1a0;"}
+
+$$\beta_{z} = \frac{cov(z,y)}{var(z)}= \frac{D}{D+E}$$
+:::
+:::
+
+::: {.column width="50%"}
+![](images/corr3.png)
+:::
+:::
+
+## Venn Diagrams: Statistical Control {.smaller}
+
+::: columns
+::: {.column width="50%"}
+::: smaller
+Here $X$ and $Z$ are correlated. If we did not include $Z$, our slope will still be:
+
+$$\beta_{biased} = \frac{B + F}{A+B + F + G}$$
+
+If we include $Z$, the slope becomes: $$\beta_{unbiased} = \frac{B}{A+B}$$
+
+Since we cannot attribute [*the effect of both* $X$ and $Z$ together]{style="color: #058B8C;"} to one single variable, that part ([section F]{style="color: #058B8C;"}) is tossed out of the slope calculations.
+:::
+:::
+
+::: {.column width="50%"}
+![](images/corr2.png)
+:::
+:::
+
+## Statistical Control: Data Example
+
+```{r}
+#| echo: false
+#| out-width: 80%
+library(tidyverse)
+library(ggthemes)
+
+# df <- data.frame(W = as.integer((1:200>100))) %>%
+#   mutate(X = .5+2*W + rnorm(200)) %>%
+#   mutate(Y = -.5*X + 4*W + 1 + rnorm(200),time="1") %>%
+#   group_by(W) %>%
+#   mutate(mean_X=mean(X),mean_Y=mean(Y)) %>%
+#   ungroup()
+
+df <- more_cookies %>%
+  rename(X = cookies,
+         W = weekend,
+         Y = happiness) %>%
+  group_by(W) %>%
+  mutate(mean_X=mean(X),mean_Y=mean(Y)) %>%
+  ungroup()
+
+#Calculate correlations
+before_cor <- paste("Raw data, r = ",round(cor(df$X,df$Y),3),sep='')
+after_cor <-
+  paste("Estimate unconfounded\nrelationship: ",
+        round(cor(df$X - df$mean_X, df$Y - df$mean_Y), 3), sep = '')
+
+#Add step 2 in which X is demeaned, and 3 in which both X and Y are, and 4 which just changes label
+dffull <- rbind(
+  #Step 1: Raw data only
+  df %>% mutate(
+    mean_X = NA,
+    mean_Y = NA,
+    time = before_cor
+  ),
+  #Step 2: Add x-lines
+  df %>% mutate(mean_Y = NA,
+                time = 'Identify what parts in X\nare explained by W'),
+  #Step 3: X de-meaned
+  df %>% mutate(
+    X = X - mean_X,
+    mean_X = 0,
+    mean_Y = NA,
+    time = "Subtract parts in X\nexplained by W"
+  ),
+  #   df %>% mutate(
+  #   mean_X = NA,
+  #   mean_Y = NA,
+  #   time = paste("Raw data, r = ",round(cor(df$X,df$Y),3), " ", sep='')
+  # ),
+  #Step 4: Remove X lines, add Y
+  df %>% mutate(
+    X = X - mean_X,
+    mean_X = NA,
+    time = "Identify what parts in Y\nare explained by W"
+  ),
+  #Step 5: Y de-meaned
+  df %>% mutate(
+    X = X - mean_X,
+    Y = Y - mean_Y,
+    mean_X = NA,
+    mean_Y = 0,
+    time = "Subtract parts in Y\nexplained by W"
+  ),
+  #Step 6: Raw demeaned data only
+  df %>% mutate(
+    X = X - mean_X,
+    Y = Y - mean_Y,
+    mean_X = NA,
+    mean_Y = NA,
+    time = after_cor
+  )
+) %>%
+  mutate(time = as_factor(time) %>% fct_inorder())
+
+
+ggplot(dffull, aes(y = Y, x = X, color = as.factor(W))) +
+  geom_point(alpha =0.8) +
+  geom_vline(aes(xintercept = mean_X, color = as.factor(W)),
+             size = 1.2, alpha = 0.8) +
+  geom_hline(aes(yintercept = mean_Y, color = as.factor(W)),
+             size = 1.2, alpha = 0.8) +
+  guides(color = guide_legend(title = "W")) +
+  scale_color_manual(values = c("#000000", "#003056")) +
+  # labs(title = 'The Relationship between Y and X, Controlling for a Binary Variable W') +
+  facet_wrap( ~ time) +
+  guides(color = F) +
+  # coord_cartesian(xlim = c(-0.5, 10), ylim = c(0, 3.5)) +
+  scale_x_continuous(breaks = seq(-6, 10, by = 2)) +
+  labs(x = "Cookies eaten (X)", y = "Level of happiness (Y)") +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold")
+  ) +
+  # ylim(c(-1.2, 4)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 3))
+
+
+```
+
+<!-- ## Model Fit Evaluation {.smaller} -->
+
+<!-- **Coefficient of Determination $R^2$ and Adjusted $R^2$** -->
+
+<!-- - Measure of the proportional reduction in error by the model, i.e. how well our model explain the variation in $Y$ -->
+
+<!-- - Measure of *in-sample* fit: how well your model predicts the data used to estimate it -->
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- $$R^2=\frac{ESS}{TSS}=\frac{TSS-RSS}{TSS}$$ -->
+
+<!-- - $R^2 \in [0,1]$ -->
+
+<!-- - Increases the more explanatory variables we add -->
+
+<!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- $$Adj.R^2=1 - (1 - R^2)\frac{n-1}{n-k-1}$$ -->
+
+<!-- - May take negative values (bad model fit) -->
+
+<!-- - Adds penalty for including more variables $k$ (and sample size $n$) -->
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+<!-- - *Out-of-sample fit*: how well your model predicts new data (our goal in predictive modeling) -->
+
+<!-- ## Poll -->
+
+<!-- The $R^2$  of the model for predicting course evaluation from average beauty score is 22.3%. Which of the following is the correct interpretation of this value? -->
+
+<!-- 1. Average beauty scores correctly predict 22.3% of course evaluations in University of Texas. -->
+
+<!-- 2. 22.3% of the variability in course evaluations in University of Texas can be explained by average beauty scores of the instructors. -->
+
+<!-- 3. 22.3% of the variability in average beauty scores can be explained by course evaluations in University of Texas. -->
+
+<!-- 4. 22.3% of the time course evaluations in University of Texas can be predicted by average beauty scores of the instructors. -->
+
+<!-- ::: -->
+
+<!-- ## Statistical Control in `R` -->
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- # ```{r} -->
+
+<!-- # full_model <- lm(happiness ~ cookies + weekend,  -->
+
+<!-- #                  data = more_cookies)  -->
+
+<!-- # tidy(full_model) -->
+
+<!-- # ggplot(more_cookies, aes( -->
+
+<!-- #   x = cookies, -->
+
+<!-- #   y = happiness, -->
+
+<!-- #   color = as_factor(weekend) -->
+
+<!-- # )) + -->
+
+<!-- #   geom_jitter(width = 0.1) + -->
+
+<!-- #   guides(color = F) + -->
+
+<!-- #   geom_smooth(method = "lm") + -->
+
+<!-- #   scale_color_viridis_d() + -->
+
+<!-- #   labs(x = "Cookies eaten", y = "Level of happiness") + -->
+
+<!-- #   scale_x_continuous(breaks = scales::pretty_breaks(),  -->
+
+<!-- #                      limits = c(0, 10)) -->
+
+<!-- # ``` -->
+
+<!-- :::  -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- ## Statistical Control in `R`: Manually  -->
+
+<!-- ```{r} -->
+
+<!-- # Remove the effect of the confounder W (weekend) on X (cookies) -->
+
+<!-- step1 <- lm(cookies ~ weekend, data = more_cookies) -->
+
+<!-- step1$residuals %>% summary() -->
+
+<!-- # Remove the effect of the confounder W (weekend) on Y (happiness) -->
+
+<!-- step2 <- lm(happiness ~ weekend, data = more_cookies) -->
+
+<!-- step2$residuals %>% summary() -->
+
+<!-- # Regress the leftovers of Y on leftovers of X -->
+
+<!-- step3 <- lm(step2$residuals ~ step1$residuals) -->
+
+<!-- tidy(step3) -->
+
+<!-- ``` -->
+
+<!-- :::  -->
+
+<!-- ::: -->
+
+<!-- ## Predictions (a.k.a. Expected or Fitted Values) {.smaller} -->
+
+<!-- $$\operatorname{\widehat{Happiness}} = 0.163 + 0.154 \cdot \operatorname{Cookies} + 1.315 \cdot \text{Weekend}$$ -->
+
+<!-- <br> -->
+
+<!-- Fitted values for Happiness given Weekend $= 1$: -->
+
+<!-- $$\operatorname{\widehat{Happiness}_{Weekend}} = 0.163 + 0.154 \cdot \operatorname{Cookies} + 1.315 \cdot 1 \\ = 1.478 + 0.154\cdot\operatorname{Cookies}$$ -->
+
+<!-- Fitted values for Happiness given Weekend $= 0$: -->
+
+<!-- $$\operatorname{\widehat{Happiness}_{Weekday}} = 0.163 + 0.154 \cdot \operatorname{Cookies} + 1.315 \cdot 0 \\ = 0.163 + 0.154\cdot\operatorname{Cookies}$$ -->
+
+<!-- Expected value for Happiness given Cookies $= 5$ & Weekend $= 0$: -->
+
+<!-- $$\mathbb{E}[\operatorname{Happiness|Cookies = 5, Weekend = 0}] = 0.163 + 0.154 \cdot 5 + 1.315 \cdot 0 \\ = 0.163 + 0.154\cdot\operatorname{5} = 0.933$$ -->
+
+<!-- ## Predictions for MLR: Plot -->
+
+<!-- ```{r} -->
+
+<!-- #| echo: false -->
+
+<!-- #| out-height: 80% -->
+
+<!-- augment(happiness_m2) %>% -->
+
+<!--   ggplot(aes( -->
+
+<!--     x = cookies, -->
+
+<!--     y = happiness, -->
+
+<!--     group = weekend, -->
+
+<!--     color = as.character(weekend) -->
+
+<!--   )) + -->
+
+<!--   geom_jitter( -->
+
+<!--     size = 3, -->
+
+<!--     width = 0.1, -->
+
+<!--     alpha = 0.7 -->
+
+<!--   ) + -->
+
+<!--   labs(x = "Cookies eaten", y = "Level of happiness") + -->
+
+<!--   theme_minimal(base_size = 14) + -->
+
+<!--   theme( -->
+
+<!--     panel.grid.minor = element_blank(), -->
+
+<!--     plot.title = element_text(face = "bold") -->
+
+<!--   ) + -->
+
+<!--   geom_smooth(method = "lm", se = F) + -->
+
+<!--   guides(color = F) + -->
+
+<!--   scale_color_manual(values = c("#000000", "#800010")) + -->
+
+<!--   scale_x_continuous(breaks = 0:10) + -->
+
+<!--   scale_y_continuous(breaks = scales::pretty_breaks()) + -->
+
+<!--   geom_text( -->
+
+<!--     data = . %>% -->
+
+<!--       group_by(weekend) %>% summarise_all(max), -->
+
+<!--     aes( -->
+
+<!--       y = (.fitted), -->
+
+<!--       x = (cookies), -->
+
+<!--       label = c("Weekday", "Weekend") -->
+
+<!--     ), -->
+
+<!--     nudge_x = -0.3, -->
+
+<!--     nudge_y = 0.3, -->
+
+<!--     size = 6 -->
+
+<!--   ) -->
+
+<!-- ``` -->
+
+# Model Conditions
+
+## Conditions for Inference {.smaller}
+
+Inference on the regression coefficients and predictions are reliable only when the regression assumptions are reasonably satisfied:
+
+-   *Linearity:* There is a linear relationship between the outcome and predictor variables
+-   *Independence:* The errors are independent from each other, i.e. knowing the error term for one observation doesn't tell you anything about the error term for another observation
+-   *Normality:* The distribution of errors is approximately normal $\varepsilon|X \sim \mathcal{N}(0, \sigma^2)$
+-   *Constant variance:* The variability of the errors is equal for all values of the predictor variable, i.e. the errors are *homeoscedastic*
+
+. . .
+
+> We will use plots of the residuals to check these assumptions
+
+## Linearity Assumption {.smaller}
+
+-   We expect linearity in *parameters* (i.e. coefficients), not predictors
+-  $Y = \beta_0X^{\beta_1} + \eta$ vs. $\log(Y) = \beta_0 + \beta_1 \log(X) + \log(\eta)$
+-   Diagnostic:
+
+    -   Check the *plot of residuals vs. predicted values* for patterns
+    -   If you observe any patterns, you can look at individual plots of residuals vs. each predictor to try to identify the issue
+    -   For binary predictors the assumption is always met $\Rightarrow$ **you only need to check the linearity assumption for continuous predictors**
+-   Addressing:
+
+    -   Transformations of variables ($X$ and/or $Y$) could sometimes address the problems
+-   Consequences of Violation:
+
+    -   will *bias the coefficients* and pose problems for uncertainty measures and hypothesis testing
+
+## Linearity Assumption {.smaller}
+
+```{r, echo=FALSE}
+#| layout-ncol: 2
+#| out-width: 50%
+df <- read_csv("https://raw.githubusercontent.com/sta210-s22/website/main/slides/data/rail_trail.csv")
+df_fit <- lm(volume ~ ., data = df)
+df_aug <- augment(df_fit)
+
+ggplot(df_aug, aes(x = .fitted, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_smooth(se = F) +
+  labs(
+    x = "Fitted value", y = "Residual",
+    # subtitle = "Residuals vs. fitted values",
+    # title = "Fan Pattern in Residuals"
+  ) +
+  theme(plot.title.position = "plot")
+
+ggplot(df_aug, aes(x = hightemp, y = .resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+    geom_smooth(se = F) +
+  labs(
+    x = expression(X[1]), y = "Residual",
+    # subtitle = "Residuals vs. fitted values",
+    # title = "Pattern in Residuals"
+  ) +
+  theme(plot.title.position = "plot")
+
+# ggplot(df_aug, aes(x = precip, y = .resid)) +
+#   geom_point() +
+#   geom_hline(yintercept = 0, linetype = "dashed") +
+#     geom_smooth(se = F) +
+#   labs(
+#     x = expression(X[2]), y = "Residual",
+#     # subtitle = "Residuals vs. fitted values",
+#     # title = "Pattern in Residuals"
+#   ) +
+#   theme(plot.title.position = "plot")
+# 
+# # ggplot(df_aug, aes(x = if_else(day_type == "Weekday", "0", "1") , y = .resid)) +
+# ggplot(df_aug, aes(x = ifelse(day_type == "Weekday", 0, 1) , y = .resid)) +
+#   geom_point() +
+#   geom_hline(yintercept = 0, linetype = "dashed") +
+#   geom_smooth(se = F) +
+#   labs(
+#     x = expression(X[3]), y = "Residual",
+#     # subtitle = "Residuals vs. Predictor Z values",
+#     # title = "Fan Pattern in Residuals"
+#   ) +
+#   theme(plot.title.position = "plot")
+```
+
+## Independence Assumption {.smaller}
+
+-   Examples of violation: if the observations are clustered, e.g.
+    -   there are repeated measures from the same individual, as in longitudinal data
+    -   if classrooms were first sampled followed by sampling individuals within classes
+-   Diagnostic:
+    -   We can often check the independence condition based on the context of the data and how the observations were collected\
+    -   If the data were collected in a particular order, examine a scatterplot of the residuals versus order in which the data were collected
+-   Consequences of Violation:
+    -   may not bias the coefficient, but will pose problems for uncertainty measures (standard errors) and hypothesis testing (p-values etc)
+
+## Normality Assumption {.smaller}
+
+-   At any given predictor value the distribution of outcome given predictor is assumed to be normal
+
+-   Diagnostic:
+
+    -   Compare the distributions of residuals to a normal distribution
+
+-   Consequences of Violation:
+
+    -   may pose problems for uncertainty measures and hypothesis testing in small samples
+
+```{r, echo=FALSE, out.width="55%"}
+ggplot(df_aug, aes(.resid)) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 binwidth = 50,
+                 boundary = 0,
+                 color= "white") +
+  labs(x = "Residual", y = "",
+    # subtitle = "Residuals vs. fitted values",
+    title = "Distribution is Appoximately Normal")+
+  stat_function(
+    fun = dnorm, 
+    args = list(mean = mean(df_aug$.resid), sd = sd(df_aug$.resid)), 
+    lwd = 1.5, 
+    color = "#800010"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+## Constant Variance Assumption {.smaller}
+
+-   The vertical spread of the residuals is not constant across the plot
+-   Non-constant error variance could mean we predict some observations better (i.e. with less error) than others
+-   Diagnostic:
+
+    -   Check the *plot of residuals vs. predicted values* for non-constant the spread of residuals along the values of the predicted values 
+-   Consequences of Violation:
+
+    -   inaccurate confidence intervals and p-values
+
+```{r, echo=FALSE, out.width="55%"}
+# ggplot(df_aug, aes(x = .fitted, y = .resid)) +
+#   geom_point() +
+#   geom_hline(yintercept = 0, linetype = "dashed") +
+#   labs(
+#     x = "Fitted value", y = "Residual",
+#     subtitle = "Residuals vs. fitted values",
+#     title = "Variance is Unequal Across Fitted Values"
+#   ) +
+#   theme(plot.title.position = "plot")
+```
+
+<!-- # Beyond the Regression Line -->
+
+## Main Take Aways {.smaller}
+
+-   Regression model represents our idea of the data-generation process (DAG) in the systematic component, everything else is captured in the error term
+-   You should control for confounders, but not mediators and colliders $\Rightarrow$ controls should be related to both dependent and main independent variables\
+-   When justifying the choice of control variables, mention both how they are related to main explanatory variable and the dependent variable
+-   When interpreting the coefficients in multiple linear regression, remember that they are average effects *holding all other variables* constant
+-   You do not need to interpret the coefficients of control variables (at least as estimated effects of that variable on dependent variable)
