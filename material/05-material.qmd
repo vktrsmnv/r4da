@@ -1,6 +1,6 @@
 ---
-title: "Describing Variables"
-date: "2023-09-13"
+title: "Data Merging and Reshaping"
+date: "2023-10-04"
 draft: false
 editor_options: 
   chunk_output_type: console
@@ -8,10 +8,7 @@ editor_options:
 
 ## Learning Goals
 
--   Describe numeric and categorical variables with `R`, numerically and graphically
--   Summarize empirical distributions
--   Use `ggplot2` to create histograms, bar charts, and density plots and customize them
--   Create descriptive statistics tables for datasets
+TBA
 
 ## Week Overview
 
@@ -33,7 +30,7 @@ d <- read_sheet("https://docs.google.com/spreadsheets/d/1Vgb4YBCrg1W161ZKqXB8Go_
 #   str_extract("material/[0-9]+") %>%
 #   str_remove("material/") %>%
 #   as.numeric()
-week_nr <- 2
+week_nr <- 5
 d |>
   tidyr::fill(week) |>
   filter(week %in% c(week_nr, week_nr - 1)) |>
@@ -92,9 +89,7 @@ d |>
 
 ## Slides
 
-[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../slides/02-slides.pdf)
-
-<iframe src="../slides/02-slides.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
+There are no slides this week since we are diving deeper into coding :D 
 
 
 

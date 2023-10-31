@@ -75,27 +75,27 @@ website:
               file: material/01-material.qmd
             - text: "2: Describing Variables"
               file: material/02-material.qmd
-            # - text: "3: Describing Relationships"
-            #   file: material/03-material.qmd
-            # - text: "4: Identification and Causal Diagrams"
-            #   file: material/04-material.qmd
-            # - text: "5: Causal Diagrams and Treatment Effects"
-            #   file: material/05-material.qmd
-            # - text: "6: Regression for Describing"
-            #   file: material/06-material.qmd
-            # - text: "7: Uncertainty and Statistical Inference"
-            #   file: material/07-material.qmd
-            # - text: "8: Estimating Heterogeneous Effects"
-            #   file: material/08-material.qmd
-            # - text: "9: Binary Dependent Variable"
-            #   file: material/09-material.qmd
-            # - text: "10: Matching"
+            - text: "3: Describing Relationships"
+              file: material/03-material.qmd
+            - text: "4: Data Wrangling"
+              file: material/04-material.qmd
+            - text: "5: Data Merging and Reshaping"
+              file: material/05-material.qmd
+            - text: "6: Replication Example"
+              file: material/06-material.qmd
+            - text: "7: Linear Regression"
+              file: material/07-material.qmd
+            - text: "8: Multiple Linear Regression"
+              file: material/08-material.qmd
+            - text: "9: Interaction Effects"
+              file: material/09-material.qmd
+            # - text: "10: Uncertainty and Statistical Inference"
             #   file: material/10-material.qmd
-            # - text: "11: Fixed Effects"
+            # - text: "11: Communicating Results with Simulation"
             #   file: material/11-material.qmd
-            # - text: "12: Difference-in-Differences"
+            # - text: "12: Binary Dependent Variable"
             #   file: material/12-material.qmd
-            # - text: "13: Regression Discontinuity"
+            # - text: "13: Count Dependent Variable"
             #   file: material/13-material.qmd
             # - text: "14: Review"
             #   file: material/14-material.qmd
