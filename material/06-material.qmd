@@ -8,7 +8,7 @@ editor_options:
 
 ## Learning Goals
 
-TBA
+Today we solidify and practice all the skills you obtained in data warngling, merging, and reshaping and apply them by replicating the data preparation from the paper in *Beyond Keeping Peace: United Nations Effectiveness in the Midst of Fighting* by Lisa Hultman, Jacob Kathman, and Megan Shannon from 2014. 
 
 ## Week Overview
 

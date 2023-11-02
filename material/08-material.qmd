@@ -8,7 +8,9 @@ editor_options:
 
 ## Learning Goals
 
-TBA 
+- Distinguish between confounders, colliders, and mediators 
+- Construct directed acyclic graphs (DAGs) using `dagitty.net`
+- Use DAGs to identify variables that need to be controlled for in regression 
 
 ## Week Overview
 
@@ -93,5 +95,18 @@ d |>
 
 <iframe src="../slides/08-slides.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
 
+## Reading Material 
 
-
+If you want to learn more about the topic, you are welcome to consult either *The Effect* book/videos or material by Andrew Heiss: 
+-  {{< fa book >}} [Chapter 6 in *The Effect*](https://theeffectbook.net/ch-CausalDiagrams.html) [@Huntington-Klein:2021] 
+-  {{< fa book >}} [Chapter 7 in *The Effect*](https://theeffectbook.net/ch-DrawingCausalDiagrams.html) [@Huntington-Klein:2021] 
+-  {{< fa book >}} [Chapter 8 in *The Effect*](https://theeffectbook.net/ch-CausalPaths.html) [@Huntington-Klein:2021] 
+-  {{< fa book >}} [Chapter 9 in *The Effect*](https://theeffectbook.net/ch-FindingFrontDoors.html) [@Huntington-Klein:2021] 
+-  {{< fa video >}} [Youtube Playlist *The Effect*](https://www.youtube.com/playlist?list=PLcTBLulJV_AK1hKtnO0-kYrU0D09K-kj8) (starting from *Causal Diagrams: Causality* to *Front Door Examples*) 
+-  {{< fa book >}} [Chapter 10 **Causal Inference** in *R for Political Data Science: A Practical Guide*](https://www.andrewheiss.com/research/chapters/heiss-causal-inference-2021/10-causal-inference.pdf) [@Heiss:2021]: This contains many of the examples from the lecture, like the campaign DAG (and more advanced stuff on alternatives to using statistical control in regression, such as matching)
+  - More of the material from Andrew Heiss' courses on the topic are available here:
+    - <https://evalf21.classes.andrewheiss.com/content/04-content/> 
+    - <https://evalf21.classes.andrewheiss.com/example/dags/> 
+- {{< fa video >}} [Statistical Rethinking 2023 - 06 - Good & Bad Controls](https://youtu.be/uanZZLlzKHw?si=JDsXl1ZZncfRxE4W) by Richard McElreath
+- {{< fa book >}} *Bias mitigation in empirical peace and conflict studies: A short primer on posttreatment variables.* [@Dworschak:2023]: for some examples from conflict research paper 
+ 

@@ -8,7 +8,10 @@ editor_options:
 
 ## Learning Goals
 
-TBA
+- Formulate hypotheses with conditional relationships 
+- Estimate models with interaction effects in `R`
+- Interpret the results of regression analysis with interaction effects 
+- Visualize the effects using marginal effects plots 
 
 ## Week Overview
 

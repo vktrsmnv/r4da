@@ -8,7 +8,9 @@ editor_options:
 
 ## Learning Goals
 
-TBA
+- Select and apply appropriate functions in `dplyr` to select variables and subset observations 
+- Transform variables and generate new variables  
+- Aggregate datasets to the selected level of analysis 
 
 ## Week Overview
 

@@ -8,7 +8,10 @@ editor_options:
 
 ## Learning Goals
 
-TBA
+- Merging datasets using `dplyr` functions
+- Generating identifier variables in country data using `countrycode` package 
+- Transforming datasets from long to wide formats and vice versa 
+- Generate line plots in `ggplot2`
 
 ## Week Overview
 
