@@ -62,7 +62,7 @@ ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) +
 UA <- read_csv("../data/UA_survey.csv") %>% clean_names()
 cabinet <- read_dta("../data/cabinet_size_replication_data.dta")
 judges <- read_rds("../data/judges.rds")
-cdat <- read_csv("cdat.csv")
+# cdat <- read_csv("cdat.csv")
 set.seed(2508)
 ```
 
@@ -101,6 +101,7 @@ Indridason and Bowler (2014) explore the determinants of cabinet size in parliam
 ::: r-stack
 ```{r}
 #| echo: false
+#| eval: false
 #| fig-asp: 1
 m5 <- lm(noministers ~ sizeleg + I(sizeleg^2) + popint + eu + as.factor(country),
   data = cabinet
@@ -177,6 +178,7 @@ ggplot(cdat, aes(x = xvals * 100)) +
 ::: fragment
 ```{r}
 #| echo: false
+#| eval: false
 #| fig-asp: 1
 augment(m5, interval = "c", 
         newdata = tibble(sizeleg = seq(0.51, 7, length.out = 50), 

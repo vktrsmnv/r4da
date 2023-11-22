@@ -1,0 +1,102 @@
+---
+title: "Uncertainty and Statistical Inference"
+date: "2023-11-08"
+draft: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Learning Goals
+
+After this week, you should be able to:
+
+- explain the process of hypothesis testing, including defining null and alternative hypotheses 
+- interpret p-values in the context of hypothesis testing 
+- understand the concept of confidence intervals and how to construct them for population parameters
+
+
+## Week Overview
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(googlesheets4)
+library(gt)
+library(tidyverse)
+gs4_deauth()
+d <- read_sheet("https://docs.google.com/spreadsheets/d/1Vgb4YBCrg1W161ZKqXB8Go_BeXKtrwSZhxJXpGwmvbw/edit?usp=sharing")
+```
+
+```{r}
+#| echo: false
+# week_nr <- knitr::current_input() %>% 
+#   str_extract("material/[0-9]+") %>%
+#   str_remove("material/") %>%
+#   as.numeric()
+week_nr <- 9
+d |>
+  tidyr::fill(week) |>
+  filter(week %in% c(week_nr, week_nr - 1)) |>
+  select(-dow, -week) |>
+  mutate(
+    date = as.Date(date)
+  ) |>
+  slice(-1, -2, -3) %>%
+  gt() |>
+  fmt_date(date, date_style = 31) |>
+  sub_missing(columns = c(
+    # week, 
+    event, date, material), missing_text = "") |>
+  # cols_align(
+  #   align = "center",
+  #   columns = c(week)
+  #   ) |>
+  cols_align(
+    align = "right",
+    columns = c(date)
+    ) |>
+  cols_align(
+    align = "left",
+    columns = c(event, material)
+    ) |>
+  tab_style(
+    style = cell_borders(
+      sides = "right",
+      # color = "#D3D3D3",
+      style = "solid"
+    ),
+    locations = cells_body(
+      columns = c(date, time, event)
+    )
+  ) |>
+  fmt_markdown(
+    columns = c(time, event, material)
+  ) |>
+  tab_options(table.width = pct(100)) %>%
+  # cols_width(
+  #   # week ~ px(45),
+  #   date ~ px(100),
+  #   time ~ px(100),
+  #   event ~ px(400),
+  #   material ~ px(250)
+  # ) |>
+  cols_label_with(fn = function(x) {
+      janitor::make_clean_names(x, case = "title") |>
+        toupper() |>
+        stringr::str_replace_all("^|$", "**") |>
+        md()
+    }) |>
+  tab_options(table.font.size = 20) |>
+  opt_row_striping()
+```
+
+## Slides
+
+[<button class="btn"><i class="fa fa-download"></i> PDF Version</button>](../slides/09-slides.pdf)
+
+<iframe src="../slides/09-slides.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen width="800" height="450">
+
+
+

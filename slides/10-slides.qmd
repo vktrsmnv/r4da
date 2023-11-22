@@ -1,0 +1,730 @@
+---
+title: "Uncertainty and Statistical Inference"
+subtitle: "R for Data Analysis<br>Session 10"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+p_needed <- c("tidyverse", "janitor", "icons", "infer",
+              "countdown", "showtext", "ggdag", "magrittr",
+              "gt", "plotly", "broom", "patchwork")
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) + 
+  theme(plot.title.position = "plot") 
+theme_update(plot.title = element_text(face = "bold"),
+             plot.title.position = "plot")
+
+# governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+# trains <- readr::read_tsv("../data/trains.tsv") %>% clean_names()
+evals <- read_csv("data/beauty.csv") %>% clean_names()
+load("data/student_population.Rda")
+set.seed(2508)
+```
+
+# Uncertainty
+
+## Statistical Inference {.smaller}
+
+... is the process of using sample data to make conclusions about the underlying
+population the sample came from
+
+```{dot}
+//| echo: false
+digraph G {
+  forcelabels=true;
+  splines=false;
+  fontname="AtkinsonHyperlegible-Regular";
+  population [
+    label = "Population";
+    shape = circle; 
+  ];
+  sample [
+    label = "Sample";
+    shape = oval;
+  ];
+
+  population -> sample  [xlabel = <<font color="grey">      Probability</font>>;  color = "grey"];
+  sample -> population [xlabel = "   Inference";];
+  
+  {rank = same population; sample}
+}
+```
+
+<!-- ## Sampling in Real Life {.smaller} -->
+
+<!-- ![](https://sta210-s22.github.io/website/slides/images/lec-5/soup.png){width="365"} -->
+
+<!-- -   When you taste a spoonful of soup and decide the spoonful you tasted isn't -->
+
+<!--     salty enough, that's exploratory analysis -->
+
+<!-- -   If you generalize and conclude that your entire soup needs salt, that's an     inference -->
+
+<!-- -   For your inference to be valid, the spoonful you tasted (the sample) needs to be representative of the entire pot (the population) -->
+
+## Why Communicate Uncertainty {.smaller}
+
+> If you want to estimate a population parameter, do you prefer to report a
+> range of values the parameter might be in, or a single value?
+
+::: columns
+::: {.column width="50%"}
+If we report a point estimate, we probably won't hit the exact population
+parameter
+
+![](images/darts.png){width="300"}
+:::
+
+::: {.column width="50%"}
+If we report a range of plausible values, we have a good shot at capturing the
+parameter
+
+![](images/rings.png){width="300"}
+:::
+:::
+
+## Why Communicate Uncertainty
+
+![](https://media.eagereyes.org/wp-content/uploads/2017/09/irma-noaa-cone.png){width="732"}
+
+## How to Communicate Uncertainty {.smaller}
+
+-   *Standard error:* since point estimates vary from sample to sample, we
+    quantify this variability with what is called the *standard error* (SE)
+    *Standard error* is a *standard deviation* of the sampling distribution of a
+    statistic
+
+$$
+SE(\hat\beta_1)= \sqrt{Var(\hat{\beta_1})}, \qquad Var(\hat{\beta_1}) = \frac{\overbrace{\hat\sigma^2}^{\text{estimated regression error}^2\\\text{a.k.a. residual variance}}}{\underbrace{\sum_{i=1}^{n}(x_i - \bar x)^2}_{\text{sum of squared deviations of } x}}
+$$
+
+-   *Confidence interval:* a **range** of our best guesses about the point
+    estimate. One way to calculate it is using the *standard error*
+
+> We call a confidence interval a $(1 - \alpha)$% confidence interval if it is
+> constructed such that it contains the true parameter at least $(1 - \alpha)$%
+> of the time if we repeat the experiment a large number of times.
+
+## Thought Experiment {.smaller}
+
+Suppose we had data for the whole population (say 100'000 students) and we could
+estimate the true parameter values:
+
+$$
+\text{Evaluations} = \beta_0 + \beta_1 \cdot \text{Beauty Score} + \varepsilon
+$$
+
+```{r, echo=FALSE}
+true_model <- lm(eval ~ beauty,
+     data = students_population)
+true_est <- tidy(true_model)
+```
+
+Compare these values to estimates from a random sample of 500 students:
+
+```{r, echo=FALSE}
+sample_est <- slice_sample(students_population, n = 500) %>% 
+    lm(eval ~ beauty, data = .) %>% 
+    tidy() 
+
+true_est %>% 
+  dplyr::select(term, parameter = estimate) %>% 
+  left_join(sample_est) %>%
+   dplyr::select(term, parameter, estimate) %>%
+  knitr::kable(digits = 3)
+```
+
+## Sampling Variability {.smaller}
+
+Now let's take 5000 samples (N = 1000) from this population of 100'000 students,
+run the same bivariate model on each of these samples, and plot the results:
+
+```{r, echo=FALSE, cache=TRUE}
+# estimates <- tibble()
+# for (s in 1:5000){
+#   estimates <- slice_sample(students_population, n = 1000) %>% 
+#     lm(eval ~ beauty, data = .) %>% 
+#     tidy(conf.int = T) %>% 
+#     mutate(n = "1000",
+#            sample = s) %>% # add the number of sample 
+#     bind_rows(estimates, .)
+# }
+estimates <- read_rds("data/estimates1.rds")
+```
+
+<!-- - Sampling distributions are not observed in real life  -->
+
+::: columns
+::: {.column width="50%"}
+```{r, echo=FALSE, fig.asp=0.8}
+estimates %>%
+  ggplot(aes(x = estimate)) + # plot the point estimates
+  geom_density() +
+  # add true values to the plot
+  geom_vline(data = true_est,
+             aes(xintercept = estimate)) +
+  facet_wrap(. ~ term, scales = "free") +
+  labs(y = "",
+       title = "Sampling Distributions of Coefficients",
+       subtitle = "Solid Black Lines Indicate True Population Parameters\nRed Lines Indicate Means of Estimated Sampling Distributions") +
+  theme(axis.text.y = element_blank(),
+        plot.caption.position = "plot",
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank()) +
+  # add means of sampling distributions
+  geom_vline(
+    data = estimates %>%
+      group_by(term) %>%
+      summarise(mean = mean(estimate)),
+    aes(xintercept = mean),
+    color = "#80001050",
+    size = 2
+  ) 
+```
+:::
+
+::: {.column width="50%"}
+```{r, echo=FALSE, fig.asp=0.8}
+estimates %>%
+  select(term, sample, estimate) %>%
+  pivot_wider(names_from = term, values_from = estimate) %>%
+  clean_names() %>%
+  slice_head(n = 200) %>%
+  ggplot() +
+  geom_abline(
+    aes(
+      slope = beauty,
+      intercept = intercept,
+      color = (sample)
+    ),
+    alpha = 0.1,
+    color = "#800010"
+  )  +
+  geom_abline(
+    intercept = true_est$estimate[1],
+    slope = true_est$estimate[2],
+    color = "#000000",
+    size = 1.5
+  )  +
+  ylim(c(3, 5))  +
+  xlim(c(0, 10)) +
+  labs(
+    x = "Beauty",
+    y = "Average Teaching Evaluation",
+    title = "Regression Lines for Different Samples, N = 1000",
+    subtitle = "Solid Black Line Represents True Population Parameters\nRed Lines Represent Regression Lines Based on Estimates"
+  ) +
+  scale_x_continuous(limits = c(1, 10), breaks = scales::pretty_breaks()) +
+  theme(        plot.caption.position = "plot",
+                        panel.grid.minor = element_blank())
+```
+:::
+:::
+
+## Sampling Distributions {.smaller}
+
+-   Sampling distributions are *hypothetical* constructs, we never observe them
+    in real life
+
+-   Sampling distributions (of most statistics) are approximately normally
+    distributed (if the sample size is sufficiently large)
+
+-   Sampling distributions are centered at the true value of the population
+    coefficient (the value we would get from linear modeling if we did indeed
+    use the full population)
+
+-   The spread of the sampling distribution gives us a measure of the
+    *precision* of our estimate:
+
+    -   If the sampling distribution is very wide, then our estimate is
+        imprecise; our estimate would vary widely from sample to sample
+    -   If the sampling distribution is very narrow, then our estimate is
+        precise; our estimate would not vary much from sample to sample
+
+## Standard Error {.smaller}
+
+Standard Error is a Standard Deviation of Sampling Distribution of that
+Statistic:
+
+```{r}
+# SD of sampling distributions
+estimates %>% 
+  group_by(term) %>% 
+  summarize(sd = sd(estimate))
+
+# estimates SEs  
+estimates %>% 
+  filter(sample == 10) 
+
+# estimates SEs  
+estimates %>% 
+  filter(sample == 1000) 
+```
+
+> If we took samples of N = 100 and not N = 1000, what should happen to the
+> spread of sampling distributions?
+
+## Sample Size and Precision {.smaller}
+
+Larger samples allow for more precise estimates (i.e. smaller standard errors)
+
+```{r, echo=FALSE, cache=TRUE, out.width="65%"}
+# estimates1 <- tibble()
+# set.seed(2508)
+# for (s in 1:5000){
+#   estimates <- slice_sample(students_population, n = 500) %>% 
+#     lm(eval ~ beauty, data = .) %>% 
+#     tidy(conf.int = T) %>% 
+#     mutate(sample = s,
+#            n = "500") %>% # add the number of sample 
+#     bind_rows(estimates, .)
+# }
+# 
+# for (s in 1:5000){
+#   estimates <- slice_sample(students_population, n = 100) %>% 
+#     lm(eval ~ beauty, data = .) %>% 
+#     tidy(conf.int = T) %>% 
+#     mutate(sample = s,
+#            n = "100") %>% # add the number of sample 
+#     bind_rows(estimates, .)
+# }
+
+estimates <- read_rds("data/estimates2.rds")
+estimates %>%
+  mutate(n = as_factor(n) %>% fct_inorder()) %>%
+  ggplot(aes(x = estimate, color = n)) + # plot the point estimates
+  geom_density() +
+  # add true values to the plot
+  geom_vline(data = true_est,
+             aes(xintercept = estimate)) +
+  facet_wrap(. ~ term, scales = "free") +
+  labs(y = "",
+       title = "Sampling Distributions of Coefficients",
+       subtitle = "Solid Black Lines Indicate True Population Parameters") +
+  theme(axis.text.y = element_blank(),
+        legend.position = "bottom",
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank()) +
+  scale_color_viridis_d(end = 0.8)
+```
+
+> We cannot observe these distributions, but the SE provides us with the information about their variability. We can use this info to obtain a plausible range of estimates given our data, the confidence interval
+
+## Confidence Intervals {.smaller}
+
+-   Range of our best guesses about the point estimate with X% confidence
+    (accounting for sampling variability)
+-   If we have a large sample, we can estimate CIs from standard errors and
+    quantiles for the standard normal distribution
+    $\mathcal{N}(\mu = 0, \sigma = 1)$: $100 \cdot (1 - \alpha)$% confidence
+    interval is
+    $CI_{(1 - \alpha)} = \hat \beta \pm \underbrace{z_{\alpha / 2} \cdot SE}_{\text{Margin of Error}}$
+
+$$CI_{95} = \hat \beta \pm 1.96 SE = [ \hat \beta - 1.96 SE;  \hat\beta + 1.96 SE]$$
+
+-   The procedure of how 95% confidence intervals are constructed ensures that:
+    -   when we draw *repeated samples*
+    -   95% of CIs calculated with this formula *on the respective samples*
+    -   cover the true parameter
+-   one single calculated CI tells us *nothing* about:
+    -   parameters in other samples
+    -   individual observations in our sample and/or population
+
+<!-- > The confidence level does not mean that there is 95% probability of each CI including true value. Confidence level is a statement about the procedure in general, not each individual interval. -->
+
+## Confidence Intervals Illustration
+
+```{r, echo=FALSE}
+true_est %>% 
+  rename("true_value" = estimate) %>%
+  dplyr::select(term, true_value) %>% 
+  left_join(estimates %>% filter(n == "1000"), .) %>%
+  mutate(missed = if_else(conf.low > true_value |
+                            conf.high < true_value, "Out", "In")) %>%
+  # group_by(sample) %>%
+  slice_tail(n = length(unique(estimates$term)) * 100) %>%
+  mutate(sample = rep(1:100, each = 2)) %>%
+  ggplot(aes(
+    y = sample,
+    x = estimate,
+    xmin = conf.low,
+    xmax = conf.high,
+    color = missed
+  )) +
+  geom_pointrange() +
+    facet_wrap(. ~ term, scales = "free")  +
+  geom_vline(
+    aes(xintercept = true_value), # add vertical line at true_mean
+  ) +
+  scale_color_manual(values = c("azure4", "#800010")) + # set our preferred colors
+  theme_minimal() + # some theme to change the appearance
+  labs(
+    title = "Confidence Intervals Procedure",
+    x = "Coefficient Value",
+    y = "Sample",
+    color = "Is true population parameter inside the 95% CI?"
+  ) +
+  theme(legend.position = "top") 
+```
+
+## Confidence Intervals as Ring Toss {.smaller}
+
+::: columns
+::: {.column width="70%"}
+-   Each sample gives a different CI or toss of the ring
+-   Some samples the ring will contain the target (the CI will contain the
+    truth) other times it won't
+    -   We don't know if the CI for our sample contains the truth!
+-   *Confidence level*: percent of the time our CI will contain the population
+    parameter
+    -   Number of ring tosses that will hit the target.
+    -   We get to choose, but typical values are 90%, 95%, and 99%
+-   The confidence level of a CI determine how often the CI will be wrong
+
+:::
+
+::: {.column width="30%"}
+![](images/rings.png)
+:::
+:::
+
+> The confidence level does not mean that there is 95% probability of each CI
+> including true value. Confidence level is a statement about the procedure in
+> general, not each individual interval.
+
+## Communicating Uncertainty: Examples {.smaller}
+
+```{r}
+sample_est <- students_population %>%
+  slice_sample(n = 500) %>%
+  lm(eval ~ beauty, data = .) %>%
+  tidy(conf.int = T, conf.level = 0.95) %T>% 
+  print()
+```
+
+> 95% confidence interval for the effect of *beauty* ranges from
+> `r sample_est$conf.low[2] %>% round(2)` to
+> `r sample_est$conf.high[2] %>% round(2)`.\
+> We are 95% confident that the effect of *beauty* on course eevaluations ranges
+> from, on average, `r sample_est$conf.low[2] %>% round(2)` to
+> `r sample_est$conf.high[2] %>% round(2)`.\
+> We are 95% confident that for each additional point in *beauty* score, we
+> would expect course evaluations to increase by
+> `r sample_est$conf.low[2] %>% round(2)` to
+> `r sample_est$conf.high[2] %>% round(2)` points, on average.\
+> ~~With 95% probability the expected increase in course evaluataions ranges
+> between `r sample_est$conf.low[2] %>% round(2)` to
+> `r sample_est$conf.high[2] %>% round(2)` points for each additional unit of
+> beauty score.~~
+
+## Communicating Uncertainty {.smaller}
+
+```{r, echo=FALSE, out.width="80%"}
+students_population %>%
+  slice_sample(n = 1000) %>%
+  lm(eval ~ beauty, data = .) %>%
+  augment(., interval = "confidence", conf.level = 0.95) %>%
+  ggplot(aes(x = beauty, y = eval)) +
+ geom_jitter(
+    size = 2,
+    alpha = 0.3,
+    width = 0.1
+  ) +
+  labs(
+    x = "Beauty",
+    y = "Average Teaching Evaluation",
+    title = "Relationship between Instructor Beauty and Course Evaluations",
+  ) +
+  geom_ribbon(aes(ymin = .lower,
+                  ymax = .upper),
+              alpha = 0.5,
+              fill = "#800010") +
+  geom_line(aes(y = .fitted),
+            color = "#800010")
+```
+
+## Accuracy vs. Precision Trade-off {.smaller}
+
+-   By design, confidence intervals of different levels vary in their width:
+
+```{r, echo=FALSE}
+sample_m <- students_population %>%
+  slice_sample(n = 500) %>%
+  lm(eval ~ beauty, data = .)
+```
+
+::: columns
+::: {.column width="50%"}
+
+```{r}
+tidy(sample_m, conf.int = T, conf.level = 0.95)
+```
+
+::: 
+::: {.column width="50%"}
+
+```{r}
+tidy(sample_m, conf.int = T, conf.level = 0.99)
+```
+
+::: 
+::: 
+
+-   This relates to the precision vs. accuracy of our interval estimates: the
+    higher the level we choose, the more certain we will be to cover the true
+    value
+-   But we also loose the precision of the estimate: wider ranges can become
+    rather uninformative
+
+::: center
+![](images/download.png){width="500"}
+:::
+
+<!-- ```{r} -->
+
+<!-- sample_m %>%  -->
+
+<!--   tidy(conf.int = T, conf.level = 1)  -->
+
+<!-- ``` -->
+
+# Hypothesis Testing
+
+## Decision Based on Confidence Intervals {.smaller}
+
+> Do the data provide sufficient evidence that β1 (the true slope for the
+> population) is different from 0?
+
+<!-- - We start with our estimates and compare them to the value we are interested in. -->
+
+-   Suppose we want to know if there is a linear effect of *beauty* on
+    *evaluations* ($H_A: \hat\beta_1 \neq 0$) or if there is no linear effect
+    ($H_0: \hat\beta_1 = 0$)
+
+#### Workflow:
+
+1.  Calculate the standard error and confidence interval (e.g., 95% CI)
+2.  Check if the confidence interval covers zero or not.
+
+-   If CI does not cover zero, we conclude that with 95% confidence, the slope
+    coefficient is different from zero
+-   If CI covers zero, we conclude that with 95% confidence, the slope
+    coefficient is not different from zero
+
+```{r}
+sample_est
+```
+
+## Hypothesis Testing with *p-values* {.smaller}
+
+-   Statistical hypothesis testing is a thought experiment: *What would the
+    world look like if we knew the truth?*
+
+> Do the data provide sufficient evidence that β1 (the true slope for the
+> population) is different from 0?
+
+#### Workflow:
+
+1.  Start with a null hypothesis, $H_0$ that represents the "null-world"
+2.  Set an alternative hypothesis, $H_A$ that represents the research question,
+    i.e. what we're testing for
+3.  Conduct a hypothesis test under the assumption that the null hypothesis is
+    true and calculate a p-value (probability of observed or more extreme
+    outcome given that the null hypothesis is true)
+    -   if the test results suggest that the data do not provide convincing
+        evidence for the alternative hypothesis, stick with the null hypothesis
+    -   if they do, then reject the null hypothesis in favor of the alternative
+
+## Course Evals of English Natives vs. Non-natives {.smaller}
+
+> Are courses taught by English natives evaluated higher than courses of
+> non-natives?
+
+::: columns
+::: {.column width="50%"}
+```{r}
+evals %>% 
+  group_by(nonenglish) %>% 
+  summarize(avg_eval = mean(eval)) 
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+lm(eval ~ nonenglish, evals) %>% tidy()
+```
+:::
+:::
+
+$$\hat\beta_1 = 3.69 - 4.02 = - 0.33$$
+
+## Null Words with Permutation {.smaller}
+
+> How would the effect $\hat\beta_1$ look like if there was no difference?
+
+-   Shuffle the `eval` and `nonenglish` columns and calculate the difference in
+    evaluations between natives and non-natives
+-   Repeat re-shuffling and estimation of the differences ↑ 1000 times
+-   Check $\hat\beta_1$ in the null world: what is the probability of observing
+    data as or more extreme as our data under the null (i.e. the *p-value*)?
+
+## Null Words with Permutation: Two-sided p-value {.smaller}
+
+```{r, echo=FALSE, cache=TRUE, out.width="80%"}
+library(infer)
+set.seed(1234)
+
+genre_diffs_null <- evals %>% 
+  mutate(nonenglish = if_else(nonenglish == 1, "Yes", "No")) %>% 
+  specify(eval ~ nonenglish) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 5000, type = "permute")
+
+genre_diffs_null %>%
+  calculate("diff in means", order = c("No", "Yes")) %>%
+  visualize() +
+  shade_p_value(obs_stat = 0.33,
+                fill = "#80001050",
+                direction = "both",
+                color = "#800010") +
+  labs(x = "Simulated difference in average evaluations (English Native − Foreign)",
+       y = "Count", title = NULL)
+```
+
+## Null Words with Permutation: Slope Example {.smaller}
+
+Repeated permutations allow for quantifying the variability in the slope under
+the condition that there is no linear relationship (i.e., that the null
+hypothesis is true)
+
+```{r, echo=FALSE, out.width="70%"}
+set.seed(1125)
+m0 <- lm(eval ~ beauty,
+     data = evals)
+df_perms_1000 <- evals %>%
+  specify(eval ~ beauty) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute")
+
+ggplot(df_perms_1000,
+       aes(x = beauty, y = eval, group = replicate)) +
+  geom_line(
+    stat = "smooth",
+    method = "lm",
+    se = FALSE,
+    alpha = 0.1
+  ) +
+  labs(x = "Beauty",
+       y = "Average Teaching Evaluation",
+       title = "1,000 permuted samples") +
+  geom_abline(
+    intercept = m0$coefficients[1],
+    slope = m0$coefficients[2],
+    color = "#800010"
+  )
+```
+
+## Communicating p-values {.smaller}
+
+-   By default, p-values are about comparing to zero, i.e. no difference between
+    groups with and without $X$
+
+> "the effect of $X$ is not statistically significant/discernible (p = 0.3)"
+
+> "the effect of $X$ is not distinguishable from zero at 0.05 level" 
+
+> "the effect  of $X$ is not significantly distinguishable from zero (p = 0.3)" 
+
+> "X is a significant/discernible predictor of Y (p ≈ 0.002)"
+
+-   Every coefficient is going to be *significant*, some at 0.05 level, some at
+    0.85 level $\Rightarrow$ saying something is significant without specifying
+    the level is not enough\
+-   In general, report corresponding p-value in parenthesis to just one
+    significant digit: 0.002 rather than 0.0017
+
+## Main Take Aways {.smaller}
+
+-   Sampling variability implies uncertainty related to the estimation process:
+    more data leads to more precise estimates (i.e. smaller SEs, narrower CIs)
+-   Confidence intervals quantify the uncertainty associated with the *average
+    outcome*, not each individual prediction. Confidence level indicates how
+    often, in the long run, the CI would be wrong (i.e. not contain the true
+    value). We cannot know if the CI we obtained is a "good" or a "bad" one,
+    though.\
+-   With hypothesis testing, we are comparing the null-world to our estimates.
+    $p$-values indicate the probability of us observing the data at least as
+    extreme as we have in the null-world
+
+# Appendix
+
+## Probabilistic Interpretation of CIs {.smaller}
+
+$$CI_{95}: [\bar x - 1.96 SE, \bar x + 1.96 SE]$$
+
+-   Randomness comes from the stage of drawing a sample (we only have one, but
+    hypothetically, we draw them repeatedly)
+
+-   **After we draw the random sample**, calculating the CI is a matter of
+    procedure:
+
+    -   there is no more randomness, it's just applying the formula
+    -   hence, we can think of this as a realized experiment
+    -   if CI bounds are just numbers, the true fixed value is either inside (1)
+        or not (0)
+    -   we say: a single *calculated* CI contains the true parameter or not (and
+        in real life, we don't know if it does, so we hope it is one of the ones
+        that cover the true value)
+
+-   **Before the random sample is drawn**, we can apply probabilistic
+    interpretation to CI:
+
+    -   for a 95% confidence interval (*before* the sample for calculating that
+        CI is drawn!), there is a 95% chance that a CI will contain $\mu$
+    -   the **random** interval $[\bar x - 1.96 SE, \bar x + 1.96 SE]$ contains
+        $\mu$ with probability 0.95. It is a random interval, since the
+        endpoints change with different samples (i.e., we don't have not drawn
+        the sample yet)

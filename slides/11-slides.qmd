@@ -1,0 +1,450 @@
+---
+title: "Communicating Uncertainty with Simulations"
+subtitle: "R for Data Analysis<br>Session 11"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+p_needed <- c("tidyverse", "janitor", "icons", "infer",
+              "countdown", "showtext", "ggdag", "magrittr",
+              "gt", "haven", "broom", "patchwork", "knitr", "modelsummary")
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) + 
+  theme(plot.title.position = "plot") 
+theme_update(plot.title = element_text(face = "bold"),
+             plot.title.position = "plot")
+
+# governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+# trains <- readr::read_tsv("../data/trains.tsv") %>% clean_names()
+evals <- read_csv("data/beauty.csv") %>% clean_names()
+load("data/student_population.Rda")
+cabinet <- read_dta("data/cabinet_size_replication_data.dta")
+cdat <- read_csv("data/cdat.csv")
+
+set.seed(2508)
+m2 <- lm(eval ~ beauty + female, data = evals)
+```
+
+# Uncertainty and Inference
+
+## Model Plots and Confidence Intervals {.smaller}
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+```{r}
+tidy(m2, conf.int = T, conf.level = 0.99) %>%
+  dplyr::select(term, estimate, starts_with("conf")) %>%
+  kable()
+```
+
+<!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+
+```{r}
+modelplot(m2, conf_level = 0.99) +
+  geom_vline(xintercept = 0, lty = 2)
+```
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+## Sampling Distributions {.smaller}
+
+-   The sampling distribution of a statistic is a probability distribution based
+    on a large number of samples of size $N$ from a given population
+
+-   Sampling distributions represent the variability of our estimates: if we had
+    taken different samples from the population, we would have obtained slightly
+    different estimates
+
+-   Sampling distributions of most of the parameters are normal:
+
+    -   Determined by two parameters, mean (center) and standard deviation
+        (spread)
+
+## Draws from Simulated Sampling Distributions {.smaller}
+
+We can use our coefficient estimates and uncertainty about them to simulate
+sampling distributions:
+
+```{r}
+#| echo: false
+#| out-height: 80%
+library(clarify)
+set.seed(2023)
+# get draws from multivariate normal distribution 
+sims <- clarify::sim(m2)
+as_tibble(sims$sim.coefs) %>%
+  pivot_longer(values_to = "estimate",
+               names_to = "term",
+               cols = everything()) %>%
+  ggplot(aes(x = estimate)) +
+  geom_histogram(color = "white")   +
+  facet_wrap(~term, scales = "free") +
+  labs(title = "Simulated Coefficients") +
+  geom_vline(data = tidy(m2), aes(xintercept = estimate)) +
+  theme(plot.title.position = "plot")
+```
+
+## Simulated Sampling Distributions {.smaller}
+
+```{r}
+# get draws from multivariate normal distribution 
+sims <- clarify::sim(m2, n = 1000)
+```
+
+```{r, echo=FALSE}
+sims$sim.coefs %>% 
+  head() %>%
+  kable() 
+```
+
+## Simulated Sampling Distributions {.smaller}
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+```{r}
+as_tibble(sims$sim.coefs) %>% 
+  summarise_all(.funs = list(mean = ~ mean(.))) %>% 
+  kable()
+as_tibble(sims$sim.coefs) %>% 
+  summarise_all(.funs = list(sd = ~ sd(.))) %>% 
+  kable()
+```
+
+<!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+
+```{r}
+tidy(m2) %>% 
+  kable()
+```
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+## Calculations with Simulated Coefficients {.smaller}
+
+-   Now instead of one equation with *estimated* coefficients, we have many with
+    similar, *simulated* coefficients
+-   Each equation will result in slightly different expected value
+
+. . .
+
+$$
+{ \begin{array}{c}
+        \tilde{\beta}_0^1 \times 1+\tilde{\beta}_1^1 \times   \text{Beauty Score}_i  +\tilde{\beta}_2^1 \times \text{Female}_i &= E(\tilde {\text{Course Evaluation}_i}|\text{Beauty Score}_i, \text{Female}_i)\\
+ \tilde{\beta}_0^2 \times 1+\tilde{\beta}_1^2 \times   \text{Beauty Score}_i  +\tilde{\beta}_2^2 \times \text{Female}_i &= E(\tilde {\text{Course Evaluation}_i}|\text{Beauty Score}_i, \text{Female}_i)\\
+  \tilde{\beta}_0^3 \times 1+\tilde{\beta}_1^3 \times   \text{Beauty Score}_i  +\tilde{\beta}_2^3 \times \text{Female}_i  &= E(\tilde {\text{Course Evaluation}_i}|\text{Beauty Score}_i, \text{Female}_i)\\
+        \dots \\
+        \tilde{\beta}_0^{1000} \times 1+\tilde{\beta}_1^{1000} \times \text{Beauty Score}_i  +\tilde{\beta}_2^{1000} \times \text{Female}_i  &= E(\tilde {\text{Course Evaluation}_i}|\text{Beauty Score}_i, \text{Female}_i)\\
+    \end{array} }
+$$
+
+## Calculating Predicted Probabilities for Chosen Scenarios {.smaller}
+
+$$
+{\text{Beauty Score} = 1,~\text{Female} = 1}
+$$
+
+::: columns
+::: {.column width="50%"}
+```{r}
+lo1 <- sims$sim.coefs[1,1] +  sims$sim.coefs[1,2] * 1 +
+  sims$sim.coefs[1,3] * 1 
+lo1
+lo2 <- sims$sim.coefs[2,1] +  sims$sim.coefs[2,2] * 1 + 
+  sims$sim.coefs[2,3] * 1
+lo2
+# and so on for every row in the matrix 
+
+```
+:::
+
+::: {.column width="50%"}
+```{r}
+# with clarify 
+evs <- sim_setx(sim = sims, # object with simulated coefs  
+         x = list(beauty = 1, # scenario 
+                  female = 1))
+
+# compare to manual calculations 
+as.matrix(evs) %>% head(6) %>% kable()
+```
+:::
+:::
+
+## Summarize Expected Values {.smaller}
+
+::: columns
+::: {.column width="50%"}
+```{r, echo=FALSE}
+#| fig.asp = 1 
+# obtain predictions based on specified values
+plot(evs)
+```
+:::
+
+::: {.column width="50%"}
+```{r, echo=FALSE}
+summary(evs, level = .95) %>% kable()
+```
+
+> We are 95% confident that expected course evaluation ranges from
+> `r round(summary(evs, level = .95)[2], 2)` to
+> `r round(summary(evs, level = .95)[3], 2)` percentage points in case
+> $${\text{Beauty Score} = 1,~\text{Female} = 1}$$
+:::
+:::
+
+## Expected Values for Two Scenarios {.smaller}
+
+$${\text{Beauty Score} = 1,~\text{Female} = 0}$$
+$${\text{Beauty Score} = 1,~\text{Female} = 1}$$
+
+```{r, echo=FALSE}
+# with clarify 
+evs <- sim_setx(sim = sims, # object with simulated coefs  
+         x = list(beauty = 1, # scenario with desired (plausible) values 
+                  female = 0:1))
+
+# compare to manual calculations 
+as.matrix(evs) %>% head() %>% kable()
+```
+
+--------------------------------------------------------------------------------
+
+```{r, echo=FALSE}
+plot(evs) 
+```
+
+```{r, echo=FALSE}
+summary(evs, level = .95) %>% kable()
+```
+
+## What Is the Effect of Russian TV Propaganda? {.smaller}
+
+```{r}
+fds <- transform(evs, 
+          `First Difference` = `female = 1` - `female = 0`) 
+fds %>% 
+  summary() %>%
+  kable()
+```
+
+--------------------------------------------------------------------------------
+
+```{r, echo=FALSE}
+fds %>% 
+  plot()
+```
+
+## Multiple Scenarios and First Differences {.smaller}
+
+```{r}
+evs <- sim_setx(sim = sims, # object with simulated coefs  
+         x = list(female = 0:1, # scenario with desired (plausible) values 
+                  beauty = c(1, 10)))
+
+as.matrix(evs) %>% head(3) %>% kable()
+```
+
+## Multiple Scenarios {.smaller}
+
+```{r}
+fds <- transform(
+  evs,
+  `FD_female = 0` = `female = 0, beauty = 10` - `female = 0, beauty = 1`,
+  `FD_female = 1` = `female = 1, beauty = 10` - `female = 1, beauty = 1`
+) 
+
+summary(fds) %>% kable()
+```
+
+--------------------------------------------------------------------------------
+
+```{r, echo=FALSE}
+plot(fds)
+```
+
+# Visualising Interaction Effects
+
+## Marginal Effects Plot
+
+![](https://tompepinsky.files.wordpress.com/2017/04/mfx1.jpeg){fig-align="center"}
+
+## Quiz: Which of these statements are correct? {.smaller}
+
+```{r}
+#| echo: false
+countdown(minutes = 4, color_background = "white",top = "0")
+```
+
+Indridason and Bowler (2014) explore the determinants of cabinet size in
+parliamentary systems. Below you can find a plot based on one of their model.
+<!-- $$\widehat {Cabinet~Size} = \hat{\beta}_{0} + \hat{\beta}_{1}(\operatorname{Legislature Size}) + \hat{\beta}_{2}(\operatorname{Legislature Size}) + \hat{\beta}_{3}(\operatorname{Population Size}) + \hat{\beta}_{4}(\operatorname{EU membership}) + \epsilon$$ -->
+
+::: columns
+::: {.column width="50%"}
+1.  Systematic component of the model likely includes variable *Legislature
+    Size* interacted with another variable.\
+2.  Marginal effect of the variable *Legislature Size* is constant across all
+    values of *Legislature Size* variable.
+3.  The relationship between *legislature size* and *cabinet size* is strongest
+    for smaller values of *legislature size*.
+4.  For legislatures with sizes above 500, there is, on average, no significant
+    effect of *legislature size* on *cabinet size*.
+5.  *Legislature size* seems to be inversely related to *cabinet size*.
+:::
+
+::: {.column width="50%"}
+::: r-stack
+```{r}
+#| echo: false
+#| fig-asp: 1
+m5 <- lm(noministers ~ sizeleg + I(sizeleg^2) + popint + eu + as.factor(country),
+  data = cabinet
+)
+
+# cdat <- margins::cplot(m5, "sizeleg", what = "effect", draw = F)
+ggplot(cdat, aes(x = xvals * 100)) + 
+  geom_line(aes(y = yvals),  color = "#800010") +
+  geom_ribbon(aes(ymax = upper, ymin = lower), fill = "#80001050") +
+  geom_line(aes(y = upper), color = "#800010") +
+  geom_line(aes(y = lower), color = "#800010") +
+  geom_hline(yintercept = 0, linetype = 2) +
+  # xlim(50, 650) +
+  scale_x_continuous(breaks = scales::pretty_breaks()) +
+  # ggtitle("AME of Axle Ratio on Fuel Economy (mpg) by Weight") +
+  xlab("Legislature Size") + ylab("Marginal Effect of Legislature Size") +
+  geom_rug(
+    data = cabinet,
+    aes(x = sizeleg * 100)
+  )
+# summary(mult.fit)
+# # create a grid for all possible combinations 
+# # tibble() only allows for different values in one variable 
+# plt <- expand_grid(
+#   any_girls = 0:1,
+#   female = 0:1,
+#   age = mean(evals$age, na.rm = T),
+#   minority = 0,
+#   nonenglish = 0
+# ) 
+# 
+# predict(m0,
+#         interval = "confidence",
+#         newdata = plt,
+#         level = 0.95) %>%
+#   bind_cols(plt) %>%
+#     mutate(female = if_else(female == 1, "Female", "Male")) %>%
+#   ggplot(aes(beauty, y = fit, 
+#              color = as_factor(female),
+#              fill  = as_factor(female))) +
+#   labs(
+#     x = "Beauty",
+#     y = "Average Teaching Evaluation",
+#     title = "Relationship between Instructor Beauty\nand Course Evaluations",
+#     # subtitle = "Intercept Shift with Same Slope",
+#     color = "Instructor is",
+#     fill = "Instructor is"
+#   ) +
+#   geom_line() +
+#   geom_ribbon(aes(ymin = lwr,
+#                   ymax = upr), 
+#                 ) +
+#   # geom_pointrange(aes(y = fit, ymin = lwr, ymax = upr)) + # plots the parallel lines
+#   scale_color_viridis_d(end = 0.8, alpha = 0.8) +
+#   scale_fill_viridis_d(end = 0.8, alpha = 0.5) +
+#   theme(legend.position = "top") +
+#   scale_x_continuous(limits = c(1, 10), breaks = 1:10) +
+#   ylim(c(1, 5)) +
+#   theme(panel.grid.minor = element_blank(),
+#         plot.title.position = "plot",
+#         text = element_text(size = 20))
+#   #  geom_rug(
+#   #    data = augment(m0) %>%
+#   #   mutate(female = if_else(female == 1, "Female", "Male")),
+#   #    aes(x = beauty, y = eval),
+#   #   alpha = 0.3,
+#   #   sides = "b",
+#   #   position = "jitter",
+#   #   # size = 4,
+#   #   length = unit(0.05, "npc")
+#   # )
+```
+
+::: fragment
+```{r}
+#| echo: false
+#| fig-asp: 1
+augment(m5, interval = "c", 
+        newdata = tibble(sizeleg = seq(0.51, 7, length.out = 50), 
+                                             popint = 81.41416,
+                                             eu = 1,
+                                             country = "GER")) %>%
+  ggplot(aes(x = sizeleg * 100, y = .fitted)) +
+  geom_smooth(color = "black") +
+  geom_ribbon(aes(ymin = .lower, ymax = .upper), alpha = 0.5) +
+  labs(
+    x = "Legislature Size",
+    y = "Cabinet Size",
+    title = "Legislative Size Affects Cabinet Size",
+    subtitle = "Expected Values and 99% CIs"
+  ) 
+```
+:::
+:::
+:::
+:::

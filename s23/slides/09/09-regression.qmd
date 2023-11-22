@@ -598,7 +598,7 @@ modelplot(m2, conf_level = 0.99) +
     pro-Russian voting ranges from 16 to 59 percentage points.
 
 
-## Sampling Distributions  {.smaller}
+## Sampling Distributions {.smaller}
 
 - The sampling distribution of a statistic is a probability distribution based on a large number of samples of size  from a given population
 
