@@ -5,7 +5,7 @@ date: "2023-12-13, 23:59"
 
 <!-- ## TLDR -->
 
-Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have 10 days to complete the data essay.
+<!-- Your final project will be a data essay: you will get a dataset, a research question, and one or two hypotheses based on a short theoretical story in our final session. You will need to select a research design to test the hypotheses and thus answer the research question. The project must be completed individually, without any cooperation. You will have 10 days to complete the data essay. -->
 
 <!-- Data essay is designed to primarily evaluate the skills gained in this class, hence the focus on data analysis and presentation. If you are in your final semesters and feel like you would benefit more from working on a paper of your own, you are welcome to discuss this option with me **before May 15, 2023**, so we can agree on the option that would be a relevant evaluation for this class but also helpful for _you_.   -->
 

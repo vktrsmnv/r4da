@@ -3,7 +3,7 @@ project:
   render:
     - "*.qmd"
     - "!slides/06"
-    - "!s23"
+    # - "!s23"
     # - "!s23/*solution.qmd"
     # - "s23/index.qmd"
     # - "!s23/slides"
@@ -89,16 +89,16 @@ website:
               file: material/08-material.qmd
             - text: "9: Interaction Effects"
               file: material/09-material.qmd
-            # - text: "10: Uncertainty and Statistical Inference"
-            #   file: material/10-material.qmd
-            # - text: "11: Communicating Results with Simulation"
-            #   file: material/11-material.qmd
-            # - text: "12: Binary Dependent Variable"
-            #   file: material/12-material.qmd
-            # - text: "13: Count Dependent Variable"
-            #   file: material/13-material.qmd
-            # - text: "14: Review"
-            #   file: material/14-material.qmd
+            - text: "10: Uncertainty and Statistical Inference"
+              file: material/10-material.qmd
+            - text: "11: Communicating Results with Simulation"
+              file: material/11-material.qmd
+            - text: "12: Binary Dependent Variable"
+              file: material/12-material.qmd
+            - text: "13: Count Dependent Variable"
+              file: material/13-material.qmd
+            - text: "14: Review"
+              file: material/14-material.qmd
 
     - title: "Material"
       style: "docked"

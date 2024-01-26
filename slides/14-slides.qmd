@@ -1,0 +1,603 @@
+---
+title: "Writing Empirical Papers" 
+subtitle: "R for Data Analysis<br>Session 14"
+title-slide-attributes:
+  data-background-size: stretch
+  data-slide-number: none
+auto-stretch: false
+institute: "University of Mannheim<br>Fall 2023"
+author: "Viktoriia Semenova"
+footer: "[🔗 r4da.live](https://r4da.live/)"
+logo: images/logo.png
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    incremental: true   
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: true
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+p_needed <- c(
+  "tidyverse",
+  "janitor",
+  "icons",
+  "infer",
+  "haven",
+  "countdown",
+  "showtext",
+  "ggdag",
+  "kableExtra",
+  "magrittr",
+  "knitr",
+  "MatchIt",
+  "cobalt",
+  "patchwork",
+  "gt",
+  "flair",
+  "plotly",
+  "broom",
+  "patchwork",
+  "modelsummary",
+  "usmap",
+  "scales"
+)
+
+# check if they are already installed, install if not installed
+lapply(p_needed[!(p_needed %in% rownames(installed.packages()))], install.packages, repos = "http://cran.us.r-project.org")
+
+# load the packages
+lapply(p_needed, library, character.only = TRUE)
+
+# set width of code output
+options(width = 90)
+
+# set figure parameters for knitr
+knitr::opts_chunk$set(
+  fig.width = 7, # 7" width
+  fig.asp = 0.618, # the golden ratio
+  fig.retina = 3, # dpi multiplier for displaying HTML output on retina
+  fig.align = "center", # center align figures
+  dpi = 300 # higher dpi, sharper image
+)
+
+font_add_google(name = "Gochi Hand")
+showtext::showtext_auto()
+# set theme for ggplot2
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 20)) 
+theme_update(plot.title = element_text(face = "bold"),
+        plot.title.position = "plot",
+        panel.grid.minor = element_blank(),
+        legend.position = "bottom")
+
+
+set.seed(2508)
+```
+
+## Data Essay: Due December 20, 2023, 23:59 {.smaller .scrollable}
+
+-   GitHub repository that contains:
+    -   final dataset `women_pa_final.csv` in the `data` folder of your repo
+    -   `qmd` file containing all the code required for replicating your preprocessing and analysis; this `qmd` should render to HTML and/or PDF `lastname_replication.qmd`
+        -   all steps of the analysis should be performed in `R` and documented in your `qmd` file
+        -   your code should be well-documented, commented out, and run without errors
+        -   the code should follow the Tidyverse style guidelines (i.e. use `styler` package)
+    -   PDF with your essay (if writing in doc, please convert to PDF; if writing in `qmd`, please render the latest version to PDF) titled `lastname_dataessay.pdf`; the text can be **up to** 3500 words long
+    -   Your essay (or at least the repo) should include a *signed statutory declaration*. Essays without the declaration are not graded and receive a fail automatically.
+    -   additional files, such as raw datasets (in the `data` folder) and `misc` folder
+-   ZIP archive that includes all material from your GitHub repo submitted via ILIAS to the respective task (can be generated on GitHub webpage)
+
+# Writing Empirical Papers
+
+## Empirical Paper Structure {.scrollable}
+
+-   Introduction
+-   Literature Review
+-   Theory
+-   *Empirical Strategy (aka Research Design)*
+-   *Results*
+-   *Robustness Tests*
+-   Conclusion
+
+## Empirical Strategy {.smaller .scrollable}
+
+-   There are various ways to structure your this section. It depends on what
+    you are doing in that paper.
+-   Often a good approach is to find a nice (i.e. published in good journal)
+    paper that does something similar (e.g. also RDD or also matching), and
+    loosely follow the *structure* of it
+-   Think of this section as:
+    -   guidance for replicating your analysis (i.e. no steps should be omitted
+        in discussion, otherwise one cannot replicate it)
+    -   justification that what you are doing is the best thing you can do with
+        what you have
+        -   in this data essay, this means the best you can do *with the data
+            given*
+        -   in general, when you also select datasets to test your hypotheses,
+            justification of case/data selection is required
+
+## Empirical Startegy I {.smaller .scrollable}
+
+-   Discuss the data you are using to test the hypotheses:
+
+    -   sources, coverage of the final dataset (geographical & temporal):
+        justify the selection
+    -   mention any preprocessing step you make: did you drop any cases? did you
+        select any subsamples for main analysis?
+
+-   Discuss the operationalization of your main variables
+
+    -   level of measurement
+    -   if there are alternatives for measurement, why you opt for this one (you
+        may include others as robustness if there are no clear preferences
+        though)
+
+-   Start with descriptive stats for main variables and general info, like the
+    number of cases, etc.
+
+-   Do not put tables with descriptive stats for *all* variables you're using in
+    main text. Put the full table in Appendix
+
+-   In main text, use crosstabs for *main variables* for summary stats or Graphs
+    for (conditional) distributions of DV: over time (if applicable), main IVs.
+    Include the most informative option, not everything
+
+## Empirical Strategy II {.smaller .scrollable}
+
+-   Discuss how you plan to identify the relationship between your main IV and
+    DV:
+
+    -   Do you opt for regression or something else?\
+    -   Papers that primarily utilize experimental data, diff-in-diff or RDD
+        often state right away that they use it (see e.g. Broockman 2013)
+    -   When working with regression, explain what control variables you include
+        and why.
+    -   Do you include fixed effects? What do they help to account for?
+    -   When using matching, you can either do it from the start and explain why
+        statistical control is a superior approach or start with a multiple
+        regression and then use matching as a robustness check for your
+        regression (if the results hold, of course)
+    -   If you used a DAG for model building & covariate selection, you can put
+        it in the main text or, better, in Appendix
+
+-   When describing modeling approach, discuss which model you select (e.g.,
+    linear vs. logistic regression) and why (e.g. nature of the dependent
+    variable)
+
+-   It may be helpful to include the complete regression equation to illustrate
+    model specifications (see Problem Sets for examples)
+
+## Results I: Regression Results {.smaller .scrollable}
+
+-   Explain what you have done step-by-step, building from simple to more
+    complex
+-   Include all models into one well-formatted table (if you do different
+    analyses, like with completely different sets of IVs, it may be a good idea
+    to split tables). Report the models that are central for your argument
+-   Never leave tables/models and graphs hanging in the paper with no comments
+    in the text. Make sure you refer to each table/model/figure (not necessarily
+    in equal amount of detail)
+-   Focus on interpretation of the effects for your main independent variables
+    in terms of sign, size (where possible), and statistical significance. Don't
+    go into much depth about controls
+-   There is usually no need to include a long discussion and plots for model
+    diagnostics in the main text. Just mention that you have done the tests and
+    whether the model assumptions hold (hopefully, they will, if not - respecify
+    model). It will be a good idea, however, to put model diagnostics
+    plots/tables into appendix and provide some comments there.
+
+## More on Using Tables and Figures {.smaller .scrollable}
+
+-   Tables and figures should be clear, easily legible, and quickly understood
+    by the reader
+-   Tables and figures should stand alone, and not require the reader to
+    reference the text at all (but should still be described in text!)
+-   This requires a table/figure to minimally contain:
+    -   A title explaining the material concisely and clearly, with information
+        about the outcome variable of other meaningful quantity of interest
+        describe
+    -   Information on the sample time period and number of observations
+        included
+    -   A note or notes that describe clearly what different cell entries or
+        graphed material represents
+    -   Meaningful variable names or labels, which clearly indicate meaning
+    -   Clear and documented units of measurement
+    -   Legends and captions that provide additional information when necessary
+
+## Results II: Substantive Interpretation {.smaller .scrollable}
+
+-   When model coefficients are not easily interpretable, other more
+    understandable quantities should be produced for the reader along with their
+    estimation uncertainty
+-   Best option would be to use simulations for your main model
+-   Mention which model you picked and explain why (probably this would be your
+    main model with all confounders included)
+-   Use appropriate quantities of interest and meaningful scenarios (e.g.,
+    typical case in the data)\
+-   Discuss the substantive magnitude of the effects as well the uncertainty
+    surrounding those effects
+-   In the notes to the plot (or on the plot), mention the model you used to
+    produce the plot and the level of confidence intervals
+
+## Results III: Robustness and Limitations {.smaller .scrollable}
+
+-   Robustness: are your findings heavily dependent on the data/model you
+    choose?
+-   Here you pretty much show that your results are not a result of you spending
+    hours running models and carefully selecting the data/model/specification
+    that produce significant results but they hold regardless of some changes in
+    the empirical strategy
+    -   Try alternative measures for variables (e.g., different democracy
+        scores)
+    -   Try different model/specification: e.g., interaction/subsamples, etc.
+    -   Try matching/IPW in addition to statistical control in regression if
+        you suspect selection bias (you can dichotomize the IV if it's
+        continuous if you want to match on it)
+-   Limitations: what are the shortcomings of your analysis despite your best
+    efforts?
+    -   Any data-related limitations? measurement?
+    -   Any important but missing (maybe due to data availability) issues?
+    -   Any alternative explanations for patters you find that you can't rule
+        out?
+-   Think of this part as a way to show that not only did you do the analysis
+    but you also see what could be improved and that you have thought about
+    these potential problems of your study.
+
+# Example I (Observational Data)
+
+## Paper with Observational Data & Regression {.smaller .scrollable}
+
+[On the Distinct Effects of Left-Wing and Right-Wing Populism on Democratic
+Quality](https://www.cogitatiopress.com/politicsandgovernance/article/view/919/919)
+
+-   An example of a well-structured empirical paper (not the *best* paper
+    overall on the topic though)
+
+> This study examines the differences and commonalities of how populist parties
+> of the left and right relate to democracy. The focus is narrowed to the
+> relationship between these parties and two aspects of democratic quality,
+> minority rights and mutual constraints. Our argument is twofold: first, we
+> contend that populist parties can exert distinct influences on minority
+> rights, depending on whether they are left-wing or right-wing populist
+> parties. Second, by contrast, we propose that the association between populist
+> parties and mutual constraints is a consequence of the populist element and
+> thus, we expect no differences between the left-wing and right-wing parties.
+> We test our expectations against data from 30 European countries between 1990
+> and 2012. Our empirical findings support the argument for the proposed
+> differences regarding minority rights and, to a lesser extent, the proposed
+> similarities regarding mutual constraints. Therefore we conclude that, when
+> examining the relationship between populism and democracy, populism should not
+> be considered in isolation from its host ideology.
+
+## Empirical Strategy: Data Description {.smaller .scrollable}
+
+> To test our theoretical arguments, we use a twofold strategy. First, we assess
+> the differences between populist parties in government and opposition. Second,
+> we distinguish between left-wing, center and right-wing populism to
+> investigate the expected associations with minority rights and mutual
+> constraints.
+>
+> Empirically, we use a pooled cross-sectional design. Since we use the role
+> within a political system as well as a party's host ideology, we opted for
+> cabinets as the temporal unit of analysis. This approach allows us to
+> determine whether a party is in government or opposition with great precision,
+> while other approaches such as country-years are considerably more imprecise.
+> Our data includes information from 30 European countries between 1990 and
+> 2012. This time span captures major events for European populist parties, from
+> their establishment through their rise. We exclude cabinets with duration of
+> fewer than six months as we assume that any measurable impact is only evident
+> after some time.
+
+## Empirical Strategy: Dependent Variable {.smaller .scrollable}
+
+-   Because the datasets mentioned here are large and well-known, it may be okay
+    to include raw variable names as authors do. But better avoid doing this
+-   Better if summary stats/plots with (conditional) distribution were also
+    included
+
+> To measure democratic quality based on our concept of liberal democracy, we
+> draw on three different sources. We measure aggregated liberal democratic
+> quality by using the liberal democracy score (`v2x_libdem`) of the Varieties
+> of Democracy Project (Coppedge et al., 2011). To capture the two
+> subdimensions, mutual constraints, and minority rights, we rely on the
+> Democracy Barometer. For mutual constraints, we use the aggregated dimension
+> of horizontal checks (`MC_CHECKS`, Merkel et al., 2016, p. 29) which measures
+> the balance between executive and legislative (ratio of parliamentary seats
+> controlled by government to parliamentary seats controlled by opposition), the
+> balance of checks between executive and legislative (ratio of control
+> instruments of legislative over executive to control instruments of executive
+> over legislative), and the power of judicial branch to review political
+> decisions. This measure taps into the checks-and-balances aspect. For minority
+> rights, we use an indicator for the effective access to power for minorities
+> (`REP_DR3`, Merkel et al., 2016, p. 53) that measures the descriptive
+> representation of minorities and the extent to which they have access to
+> central power.
+
+## Empirical Strategy: Independent Variables {.smaller .scrollable}
+
+<see paper>
+
+-   Variable coding description (detailed, but not step-by-step coding
+    description)
+-   Exclusions based on this variable mentioned
+
+## Empirical Strategy: Control Variables {.smaller .scrollable}
+
+-   Variables + unit measured; detailed justification saved for appendix
+-   If space allows, better include justification right in this section
+
+> In addition to our central variables, we include a selected set of covariates
+> that, in theory, may relate to both the presence of populist parties as well
+> as the levels of our democratic measures. These variables are the level of
+> democratic consolidation (time in years since democratization), cabinet
+> duration (in years), cabinet composition (surplus governments, minimal winning
+> coalitions, and minority governments), economic development (GDP per Capita in
+> 1,000 US Dollar), and a dichotomous variable to distinguish between
+> post-communist countries and other countries. A detailed rationale for the
+> inclusion of these variables can be found in Appendix C.
+
+## Empirical Strategy: Statistical Model {.smaller .scrollable}
+
+-   Techy description (don't worry if you don't get it)
+-   Linear is often the default and people don't justify it. But if *not* using
+    the linear model, justification is required
+
+> To control for country-specific effects, we apply a **linear** mixed-effects
+> model with cabinets nested under each country (Gelman & Hill, 2007). The
+> respective countries serve as groups. This particular model also allows us to
+> compare both intra- and cross-country variance. Given our interest in the
+> change in democratic quality as a consequence of the presence of populist
+> parties, modeling intra-country variance allows us to approximate this
+> process.
+
+## Empirical Results {.smaller .scrollable}
+
+-   No table, instead the coefficient plot (table is still there in the
+    Appendix) + description of the plot in text (see paper)
+-   No further quantities presented (okay as it's a linear model)
+
+![](14/images/cogitato.png){fig-align="center" width="786"}
+
+# Example II (Experimental Design & Matching)
+
+## Candidates' Political Incentives (Broockman 2013) {.smaller .scrollable}
+
+-   Paper used in matching lab/problem set:
+    <https://onlinelibrary.wiley.com/doi/10.1111/ajps.12018>
+
+-   Empirical Strategy:
+
+    -   Description of the original experimental design in detail
+    -   Identification Strategy: experiment allows to isolate effects due to
+        randomization
+    -   Data on Legislators and Excluded Observations: who were interviewed? who
+        were dropped and why?
+
+-   Results:
+
+    -   Single table with model specifications for main results
+    -   Each model is described
+    -   Matching as alternative to statistical control for non-random variable
+        is included
+
+-   Robustness:
+
+    -   Potential alternate explanations tested & discussed and ruled out
+
+# Review for Selected Topics
+
+## Data Processing {.smaller .scrollable}
+
+- **Handling Dates with `lubridate`**
+
+```{r}
+lubridate::dmy("20/12-2023") # transforms character into date 
+lubridate::dmy("20/12-2023") %>% lubridate::day() # extracts day  
+```
+
+- **Merging Datasets**
+
+- Check that there are identifies columns with no missings in them
+
+```{r}
+#| eval: false
+left_join(df1,
+  df2 %>%
+    dplyr::select(var1, var2, id_var) %>%
+    filter(!is.na(id_var)),
+  by = c("id_variable" = "id_var")
+)
+
+left_join(df1,
+  df2 %>%
+    dplyr::select(var1, var2, id_variable = id_var) %>%
+    filter(!is.na(id_var)),
+  by = "id_var"
+)
+```
+
+
+## Control Variable Selection {.smaller}
+
+::: columns
+::: {.column width="33%"}
+#### Confounding <br>(Fork)
+
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  c->a;
+  c->b;
+}
+```
+
+Common cause
+:::
+
+::: {.column width="33%"}
+#### Mediation <br>(Chain)
+
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  a->c;
+  c->b;
+}
+```
+
+Intermediate variable
+:::
+
+::: {.column width="33%"}
+#### Collision <br>(Inverted Fork)
+
+```{dot}
+//| echo: false
+//| fig-width: 3
+//| fig-height: 3
+//| out-width: 100%
+digraph D {
+  node [shape=circle];
+  edge [len = 1.2, arrowhead = vee];
+  a [label = "X"];
+  b [label = "Y"];
+  c [label = "Z"];
+  
+  {rank=same a b};
+  {rank=sink c};
+  a->b;
+  a->c;
+  b->c;
+}
+```
+
+Selection / endogeneity
+:::
+:::
+
+
+## Working with Models with Interaction Effects I {.smaller}
+
+$$
+\text{Evaluation}_i = \hat\beta_0 + \hat\beta_1 \times \text{Female}_i  + \hat\beta_2 \text{Beauty}_i +  \hat\beta_3 \times \text{Female}_i \times \text{Beauty}_i \\
+$$
+
+**Include all constitutive terms**, even if you expect that a specific constitutive term alone has no effect on $Y$
+
+- Omitting a constitutive term forces the model to set the value of the omitted coefficient to zero: e.g., if we estimated 
+$\text{Evaluation}_i = \hat\beta_0 + \hat\beta_2 [\text{Beauty}_i = 1]  +  \hat\beta_3 [\text{Female}_i = 1] \times \text{Beauty}_i$ instead of the original model, we assumed the $\hat\beta_1 = 0$  
+- However, $\hat\beta_1$ is not the _average_ effect of *Female* for the entire sample but it only shows the effect of *Female* if *Beauty = 0*, a subgroup of the sample. It can be the case that on average, the effect of *Female* is still zero 
+- $\hat\beta_2$ captures the change in the intercepts of the regression lines between the categories of male vs. female instructors. If instead of group-specific intercept we only have one common intercept for both subgroups, the slopes may get distorted 
+
+## Working with Models with Interactions Effects II {.smaller}
+
+**Do not interpret the coefficients on constitutive terms as unconditional marginal effects:**
+
+  - the coefficient on X only captures the effect of X on Y when Z is zero 
+  - the coefficient on Z only captures the effect of Z on Y when X is zero
+
+- E.g., it is **incorrect** to say that a positive and significant coefficient on $X$ (or $Z$) means that an increase in $X$ (or $Z$) is expected to lead to an increase in $Y$  
+
+> Wrong: On average, beauty score is associated with an increase in teaching evaluations, holding all else constant. \
+> Wrong: On average, female instructors receive 0.05 points more in teaching evaluations than males, holding all else constant. \
+> Right: On average, beauty tends to have smaller effect on teaching evaluations among female instructors in comparison to male instructors, holding all else constant.  
+
+-  To know the average effect of $X$ on $Y$ we would have to know how frequently condition $Z$ is present in our sample
+
+
+## Interpreting Simualtions Output 
+
+![](https://static.cambridge.org/binary/version/id/urn:cambridge.org:id:binary:20220425072255995-0362:S0003055421001027:S0003055421001027_fig7.png){fig-align="center" width="786"}
+
+
+## Common Issues in Students Papers {.smaller .scrollable}
+
+1. Including nominal variables as a continuous variable into the model
+2. Interpretation of constitutive terms in interaction effects
+3. Interpretation of coefficients of control variables as if these coefficients depict the unbiased effect
+4. Mediator vs. moderator mixup 
+5. Lacking justification of controls
+6. Inconsistency between DAG and models
+7. Justifying model selection with types of independent variables  
+8. Redundant plots/tables 
+
+
+<!-- ## Paper Argument in a Nutshell  {.smaller .scrollable} -->
+
+<!-- **When do politicians defect from the ruling party in electoral autocracies?** [(Reuter and Szakonyi 2019)](https://www.cambridge.org/core/journals/american-political-science-review/article/elite-defection-under-autocracy-evidence-from-russia/E1E472FF1EE7FD0E4747C35B890D8F14)  -->
+
+<!--   - In almost all dictatorships the leader is supported by a group of elites. These elites provide essential political services to the dictator, and the breakdown of elite coalitions is one of the main threats to authoritarian rule.  -->
+
+<!--   - *Electoral defection* is a situation when a regime-affiliated candidate not only leaves the ruling party (party supported by the dictator), but also challenges it by running for office with a different political affiliation (as an independent or as a member of any other political party). -->
+
+<!--   - Aligning with the regime offers significant advantages for politicians, including state backing during elections and access to rents. At the same time, affiliation can come at considerable cost. Regimes can force politicians to forgo their own political beliefs and constituency demands in order to toe the party line. Politicians also run the risk of being tainted by their association with an autocratic regime should the regime falter and rivals seek retribution. -->
+
+<!-- ## Paper Hypotheses  -->
+
+<!-- ## Data Description & Justification {.smaller .scrollable} -->
+
+<!-- We test our hypotheses using data on candidacies to regional legislative office in Russia during the period 1999–2016. Russia is a federal state containing 85 subnational units, colloquially called regions, each of which contains a directly elected legislature. Why should an analysis of elite defections look at Russian regional legislators? First, these legislatures contain a vivid cross section of the most important elites in a region. The most prominent regional figures—directors of large enterprises, representatives of state corporations, and the heads of major hospitals and research institutes—are all likely to be members of (or have representatives in) their region’s legislature. Regional legislatures are key fora of rent-seeking and spoil-sharing among the Russian regional elite. -->
+
+<!-- Next, the large number of regions in Russia provides a greater sample size than could be obtained by studying a national legislature. Since Russian regions vary on important political dimensions—including institutional configurations, levels of political competition, and the strength of United Russia’s regional branches—we are able to examine hypotheses about how regime-level factors affect defection. A number of scholars have made the convincing case that Russian regions can be treated as subnational political regimes (Lankina, Libman, and Obydenkova Reference Lankina, Libman and Obydenkova2016; Petrov and Titkov Reference Petrov and Titkov2013), a conceptual convention that is common in the study of other federations as well (Gibson Reference Gibson2005). At the same time, by looking at variation in defection rates within a single dominant party, we are able to hold constant some important factors, such as ideology and national political conditions. -->
+
+<!-- A final reason for examining Russian regional legislatures is practical. Given that our hypotheses make predictions about when elites leave the ruling party, we require an arena where data on partisan affiliations are available. While many bureaucrats carry partisan memberships, information on those affiliations is not public and is difficult to gather. For legislative candidates, the matter is simplified by the fact that candidates register their affiliation when they run for office. -->
+
+<!-- Our period of analysis begins at a time when United Russia was emerging as the dominant party in Russia. From 1999 to early 2003, central authorities had little involvement in regional legislative politics. Between 2001 and 2003, only 1.7% of candidates were affiliated with United Russia, which received backing from President Putin but was only starting to expand its position outside of Moscow. Beginning in 2003, the federal center—and United Russia—significantly increased its role in regional politics. By the late 2000s, all of Russia’s regional legislatures had United Russia majorities and the vast majority had super majorities. Between 2010 and 2016, 72% of all regional deputies held a UR affiliation. -->
+
+<!-- ## Example II: Candidates' Political Incentives (Broockman 2013) -->
+
+<!-- ## Closing Backdoors -->
+
+<!-- **Model-based vs. Design-based Identification** -->
+
+<!-- -   Option 1: Do our best to measure all confounding variables (and assume we -->
+
+<!--     did if that's plausible): *regression*, *matching*, *IPW* -->
+
+<!-- -   Option 2: Make comparisons *within* units with repeated measures of same -->
+
+<!--     units, thus controlling for unobserved things that stay constant in units -->
+
+<!--     over time: *fixed effects* -->
+
+<!-- -   Option 3: Look for quasi-experiments (**as-if** random assignment) -->
+
+<!--     -   Difference-in-difference -->
+
+<!--     -   Regression discontinuity design -->
+
+<!-- ## Each Method Has Pros and Cons -->
+
+<!-- ![](https://evalf22.classes.andrewheiss.com/slides/img/08-class/causality-continuum.png) -->
