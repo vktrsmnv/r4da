@@ -7,7 +7,7 @@ title-slide-attributes:
 auto-stretch: false
 institute: "University of Mannheim<br>Spring 2023"
 author: "Viktoriia Semenova"
-footer: "[🔗 r4da.live](https://r4da.live/)"
+footer: "[🔗 r4da.netlify.app](https://r4da.netlify.app/)"
 logo: images/logo.png
 format:
   revealjs:
@@ -51,7 +51,7 @@ showtext::showtext_auto()
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) +
   theme(plot.title = element_text(face = "bold"))
 
-governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+governors <- readr::read_csv("https://r4da.netlify.app/files/data/external_data/governors.csv")
 trains <- readr::read_tsv("../data/trains.tsv") %>% clean_names()
 ```
 
@@ -315,7 +315,7 @@ cookies_model <- lm(happiness ~ cookies, data = cookies)
 cookies_fitted <- broom::augment(cookies_model)
 ```
 <!-- ![](https://theeffectbook.net/the-effect_files/figure-html/describingrelationships-smoking-1.png) -->
-<!-- ![](https://r4da.live/files/img/assignments/prior_attitudes_balance.png) -->
+<!-- ![](https://r4da.netlify.app/files/img/assignments/prior_attitudes_balance.png) -->
 
 ## Conditional Means
 

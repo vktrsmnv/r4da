@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Problem Set 9: Suggested Solutions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<meta property="og:title" content="R for Data Analysis - Problem Set 9: Suggested Solutions">
+<meta property="og:description" content="We will again work with the data from the article as before, but now switch from judge-level to case-level analysis.">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link active" data-scroll-target="#dataset">Dataset</a></li>
+  <li><a href="#task-0-setup" id="toc-task-0-setup" class="nav-link" data-scroll-target="#task-0-setup">Task 0: Setup</a></li>
+  <li><a href="#task-1-binary-dependent-variable-models" id="toc-task-1-binary-dependent-variable-models" class="nav-link" data-scroll-target="#task-1-binary-dependent-variable-models">Task 1: Binary Dependent Variable Models</a></li>
+  <li><a href="#task-2-predicted-probabilities" id="toc-task-2-predicted-probabilities" class="nav-link" data-scroll-target="#task-2-predicted-probabilities">Task 2: Predicted Probabilities</a></li>
+  <li><a href="#task-3-substantive-interpretation-with-simulations" id="toc-task-3-substantive-interpretation-with-simulations" class="nav-link" data-scroll-target="#task-3-substantive-interpretation-with-simulations">Task 3: Substantive Interpretation with Simulations</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Problem Set 9: Suggested Solutions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="dataset" class="level2">
+<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
+<blockquote class="blockquote">
+<p>Glynn, Adam N., and Maya Sen.&nbsp;2015. “Identifying Judicial Empathy: Does Having Daughters Cause Judges to Rule for Women’s Issues?” <em>American Journal of Political Science</em> 59(1): 37–54.</p>
+</blockquote>
+<p>We will again work with the data from the article as before, but now switch from judge-level to case-level analysis. Instead of looking at the proportion of votes a judge ruled progressively, we will have data on multiple cases and see if a judge ruled progressively or not. In other words, our dependent variable will become discrete and binary. We will have data on multiple years for multiple circuits for multiple judges. For the sake of this task, we will ignore the fact that there is some nesting in the data structure.</p>
+<p>You will need to obtain the dataset yourself from the Dataverse website, which a place where you can find replication materials for many published papers (most often, datasets along with the code). You need the by-case dataset, i.e.&nbsp;one of the files in the <code>csv</code> format.</p>
+<blockquote class="blockquote">
+<p>Replication Data for Identifying Judicial Empathy: Does Having Daughters Cause Judges to Rule for Women’s Issues?: https://doi.org/10.7910/DVN/26544.</p>
+</blockquote>
+</section>
+<section id="task-0-setup" class="level2">
+<h2 class="anchored" data-anchor-id="task-0-setup">Task 0: Setup</h2>
+<ul>
+<li>Update your names in the YAML.</li>
+<li>Download the dataset into <code>data</code> folder.</li>
+<li>Load the dataset in the <code>setup</code> chunk.</li>
+</ul>
+</section>
+<section id="task-1-binary-dependent-variable-models" class="level2">
+<h2 class="anchored" data-anchor-id="task-1-binary-dependent-variable-models">Task 1: Binary Dependent Variable Models</h2>
+<ol type="1">
+<li>Ruling pro-feminist or not is conceptually only possible when an issue at question has a gendered component. Therefore, you will need to subset the cases that belong to certain topic areas. In particular, you can follow approach that the authors describe in the paper, and subset the cases that:</li>
+</ol>
+<blockquote class="blockquote">
+<p>&lt;…&gt; explicitly involved (1) employment discrimination on the basis of gender by private actors, (2) employment discrimination on the basis of pregnancy by private actors, (3) reproductive rights or abortion, and (4) claims made under Title IX. This left us with 1,325 cases that had a gender component &lt;…&gt; Of these 1,325 cases, 310 were brought by male or transsexual plaintiffs or by plaintiffs representing men’s or lesbian, gay, bisexual, and transgender (LGBT) interests. Because these cases did not go to the heart of our inquiry (and because many included male plaintiffs suing for adverse employment decisions due to sexual harassment by the plaintiff), we excluded them.</p>
+</blockquote>
+<ul>
+<li>The variables <code>area</code> and <code>femplaintiff</code> will contain the necessary information for subsetting.</li>
+<li>In addition to that, subset the cases where the judge is a parent so that we remove the systematic differences between those who have children and don’t. <code>child</code> variable contains the necessary info. We will only be working with the parents subset.<br>
+</li>
+<li>You may need to create <code>any_girls</code> variable and the variables for race and catholic. You can adapt your code from previous problem sets.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: preprocessing</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cases <span class="ot">&lt;-</span> cases <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    femplaintiff <span class="sc">==</span> <span class="dv">1</span>, <span class="co"># remove male plaintiffs</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    area <span class="sc">==</span> <span class="st">"employment"</span> <span class="sc">|</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      area <span class="sc">==</span> <span class="st">"Title IX"</span> <span class="sc">|</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      area <span class="sc">==</span> <span class="st">"pregnancy"</span> <span class="sc">|</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      area <span class="sc">==</span> <span class="st">"abortion"</span> <span class="sc">|</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      area <span class="sc">==</span> <span class="st">"reproductive rights"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    child <span class="sc">&gt;</span> <span class="dv">0</span> <span class="co"># subset parents only </span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">any_girls =</span> girls <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="co"># or if_else(girls &gt; 0, TRUE, FALSE)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">any_girls =</span> <span class="fu">as.numeric</span>(any_girls),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">catholic =</span> <span class="fu">if_else</span>(religion <span class="sc">==</span> <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">african =</span> <span class="fu">if_else</span>(race <span class="sc">==</span> <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">hispanic =</span> <span class="fu">if_else</span>(race <span class="sc">==</span> <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">asian =</span> <span class="fu">if_else</span>(race <span class="sc">==</span> <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Run a logistic regression with the following specification. Store the results in <code>m1</code>.</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\log\left[ \frac { \widehat{Progressive~Vote = 1} }{ 1 - \widehat{Progressive~Vote = 1} } \right]  &amp;= {\hat\beta}_{0}\ + {\hat\beta}_{1} \cdot \operatorname{At \ least \ 1 \ daughter}\ +  \ {\hat\beta}_{2} \cdot \operatorname{Woman}\ +  \ {\hat\beta}_{3} \cdot \operatorname{Age}\ + \\
+&amp;\quad {\hat\beta}_{4} \cdot \operatorname{Catholic}\ +  \ {\hat\beta}_{5} \cdot \operatorname{Asian}\ +  \ {\hat\beta}_{6} \cdot \operatorname{African}\ +  \ {\hat\beta}_{7} \cdot \operatorname{Hispanic}\ + \\
+&amp;\quad {\hat\beta}_{8} \cdot \operatorname{Republican}\ +  \ {\hat\beta}_{9} \cdot \operatorname{Number \ of \ kids}\
+\end{aligned}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: girls-presence</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    progressive_vote <span class="sc">~</span> any_girls <span class="sc">+</span> republican <span class="sc">+</span> age <span class="sc">+</span> catholic <span class="sc">+</span> woman <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      african <span class="sc">+</span> hispanic <span class="sc">+</span> child,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> cases</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Now account for the number of children in the model without assuming that each additional kid has the same effect on the dependent variable. In other words, treat <code>kids</code> as a categorical variable (like <code>race</code>) and estimate separate coefficients for each number of kids (excluding the baseline). Store the results in <code>m2</code>. Do you find such an approach more reasonable than the one from before? Why (not)?</li>
+</ol>
+<blockquote class="blockquote">
+<p>When treating number of kids as a numeric variable, we assume that each additional kid has equal impact on the dependent variable. With a categorical specification, we relax this assumption and allow for different effects for every additional kid. Hence, the coefficients for respective variables in this specificiation reflect the difference to the baseline category (which is one child, as we are working with <em>parents</em> subset), so the effect of having 1 vs.&nbsp;2, 1 vs.&nbsp;3, 1 vs.&nbsp;4 kids and so on. With a large number of observations, such a specification allows for more flexibility and also potentialy captures more unobserved differences between the judges with different numbers of kids.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: kids-categorical</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    progressive_vote <span class="sc">~</span> any_girls <span class="sc">+</span> republican <span class="sc">+</span> age <span class="sc">+</span> catholic <span class="sc">+</span> woman <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      african <span class="sc">+</span> hispanic <span class="sc">+</span> <span class="fu">factor</span>(child),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> cases</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Building on the model you find more reasonable, explore if the effect of having daughters actually depend on the number of daughters, not just their presence or not. Estimate two more specifications: one treating girls as a regular numeric variable and another one allowing for various coefficients for different number of daughters (as you did with number of kids before). Store the results in <code>m3</code> and <code>m4</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: girls-number</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    progressive_vote <span class="sc">~</span> girls <span class="sc">+</span> republican <span class="sc">+</span> age <span class="sc">+</span> catholic <span class="sc">+</span> woman <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      african <span class="sc">+</span> hispanic <span class="sc">+</span> <span class="fu">factor</span>(child),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> cases</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    progressive_vote <span class="sc">~</span> <span class="fu">factor</span>(girls) <span class="sc">+</span> republican <span class="sc">+</span> age <span class="sc">+</span> catholic <span class="sc">+</span> woman <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      african <span class="sc">+</span> hispanic <span class="sc">+</span> <span class="fu">factor</span>(child),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> cases</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="5" type="1">
+<li>Finally, based on model 2, fit a model where you explicitly allow for the effect of <code>any_girls</code> to differ across the values of <code>age</code> variable (i.e.&nbsp;add an interaction effect). Store the results in <code>m5</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: girls-interaction</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">&lt;-</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    progressive_vote <span class="sc">~</span> any_girls <span class="sc">*</span> age <span class="sc">+</span> republican <span class="sc">+</span> age <span class="sc">+</span> catholic <span class="sc">+</span> woman <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      african <span class="sc">+</span> hispanic <span class="sc">+</span> <span class="fu">factor</span>(child),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> logit),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> cases</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="6" type="1">
+<li>Make a nice table with the estimates for all the models you fitted. Hide the code for the table so that only the output of the chunk is shown. (You are welcome to adapt the code from the previous problem set!)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: nice-table</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add one row instead of categorical child variables </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">tribble</span>(<span class="sc">~</span>term, <span class="sc">~</span>m1,  <span class="sc">~</span>m2,  <span class="sc">~</span>m3,  <span class="sc">~</span>m4, <span class="sc">~</span>m5, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Number of children'</span>, <span class="st">' '</span>, <span class="st">'X'</span>,  <span class="st">'X'</span>, <span class="st">'X'</span>, <span class="st">'X'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(rows, <span class="st">'position'</span>) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">33</span>) <span class="co"># add to row 33</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">models =</span> <span class="fu">list</span>(m1, m2, m3, m4, m5),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"The Effect of Having Daughters on Progressive Vote among Judges"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">gof_omit =</span> <span class="st">"RMSE"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">"lccccc"</span>, <span class="co"># left-align first column, center others</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">coef_map =</span> <span class="fu">c</span>(     <span class="co"># change order and names of coefs</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"any_girls"</span> <span class="ot">=</span> <span class="st">"At least 1 daughter"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"girls"</span> <span class="ot">=</span> <span class="st">"Daughters"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"any_girls:age"</span> <span class="ot">=</span> <span class="st">"At least 1 daughter $</span><span class="sc">\\</span><span class="st">times$ Age"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"factor(girls)1"</span> <span class="ot">=</span> <span class="st">"1 daughter"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"factor(girls)2"</span> <span class="ot">=</span> <span class="st">"2 daughters"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"factor(girls)3"</span> <span class="ot">=</span> <span class="st">"3 daughter"</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"factor(girls)4"</span> <span class="ot">=</span> <span class="st">"4 daughters"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"factor(girls)5"</span> <span class="ot">=</span> <span class="st">"5 daughter"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age"</span> <span class="ot">=</span> <span class="st">"Age (years)"</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"catholic"</span> <span class="ot">=</span> <span class="st">"Catholic"</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"asian"</span> <span class="ot">=</span> <span class="st">"Asian"</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"african"</span> <span class="ot">=</span> <span class="st">"African"</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hispanic"</span> <span class="ot">=</span> <span class="st">"Hispanic"</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"republican"</span> <span class="ot">=</span> <span class="st">"Republican"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"child"</span> <span class="ot">=</span> <span class="st">"Number of Children"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"woman"</span> <span class="ot">=</span> <span class="st">"Female"</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(Intercept)"</span> <span class="ot">=</span> <span class="st">"Intercept"</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># coef_omit = "^factor\\(c", # hides the coefs that start as "factor(c"</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">add_rows =</span> rows,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">notes =</span> <span class="fu">list</span>(<span class="st">"Notes: Standard errors in parentheses. White is the baseline category for race."</span>),</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">stars =</span> T <span class="co"># include p-values</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">add_header_above</span>(<span class="co"># add an extra row with</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">" "</span> <span class="ot">=</span> <span class="dv">1</span>, <span class="co"># nothing in column 1</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"DV: Progressive Vote = 1"</span> <span class="ot">=</span> <span class="dv">5</span>),</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># "DV.." spread across all 5 columns with models</span></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">bold =</span> F,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">italic =</span> T) <span class="sc">%&gt;%</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">column_spec</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">width =</span> <span class="st">"2cm"</span>) <span class="co"># set the size of 2-6 columns in table to 2 cm</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
+<caption>The Effect of Having Daughters on Progressive Vote among Judges</caption>
+ <thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; font-style: italic; " colspan="5"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">DV: Progressive Vote = 1</div></th>
+</tr>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> &nbsp;(1) </th>
+   <th style="text-align:center;"> &nbsp;&nbsp;(2) </th>
+   <th style="text-align:center;"> &nbsp;&nbsp;(3) </th>
+   <th style="text-align:center;"> &nbsp;&nbsp;(4) </th>
+   <th style="text-align:center;"> &nbsp;&nbsp;(5) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> At least 1 daughter </td>
+   <td style="text-align:center;width: 2cm; "> 0.358* </td>
+   <td style="text-align:center;width: 2cm; "> 0.406** </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> 2.454+ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.140) </td>
+   <td style="text-align:center;width: 2cm; "> (0.147) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (1.339) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Daughters </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> 0.133* </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.065) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> At least 1 daughter $\times$ Age </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> −0.040 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.026) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 daughter </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> 0.438** </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.160) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 daughters </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> 0.344* </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.168) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3 daughter </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> 0.495* </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.241) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 daughters </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> −12.779 </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (378.593) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5 daughter </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> 0.801 </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.607) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Age (years) </td>
+   <td style="text-align:center;width: 2cm; "> 0.019* </td>
+   <td style="text-align:center;width: 2cm; "> 0.017+ </td>
+   <td style="text-align:center;width: 2cm; "> 0.018+ </td>
+   <td style="text-align:center;width: 2cm; "> 0.019+ </td>
+   <td style="text-align:center;width: 2cm; "> 0.051* </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.009) </td>
+   <td style="text-align:center;width: 2cm; "> (0.009) </td>
+   <td style="text-align:center;width: 2cm; "> (0.010) </td>
+   <td style="text-align:center;width: 2cm; "> (0.010) </td>
+   <td style="text-align:center;width: 2cm; "> (0.024) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Catholic </td>
+   <td style="text-align:center;width: 2cm; "> −0.349** </td>
+   <td style="text-align:center;width: 2cm; "> −0.336** </td>
+   <td style="text-align:center;width: 2cm; "> −0.349** </td>
+   <td style="text-align:center;width: 2cm; "> −0.333** </td>
+   <td style="text-align:center;width: 2cm; "> −0.330** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.120) </td>
+   <td style="text-align:center;width: 2cm; "> (0.123) </td>
+   <td style="text-align:center;width: 2cm; "> (0.124) </td>
+   <td style="text-align:center;width: 2cm; "> (0.125) </td>
+   <td style="text-align:center;width: 2cm; "> (0.123) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> African </td>
+   <td style="text-align:center;width: 2cm; "> −0.190 </td>
+   <td style="text-align:center;width: 2cm; "> −0.214 </td>
+   <td style="text-align:center;width: 2cm; "> −0.253 </td>
+   <td style="text-align:center;width: 2cm; "> −0.166 </td>
+   <td style="text-align:center;width: 2cm; "> −0.172 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.256) </td>
+   <td style="text-align:center;width: 2cm; "> (0.263) </td>
+   <td style="text-align:center;width: 2cm; "> (0.266) </td>
+   <td style="text-align:center;width: 2cm; "> (0.275) </td>
+   <td style="text-align:center;width: 2cm; "> (0.264) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Hispanic </td>
+   <td style="text-align:center;width: 2cm; "> −0.621 </td>
+   <td style="text-align:center;width: 2cm; "> −0.707+ </td>
+   <td style="text-align:center;width: 2cm; "> −0.597 </td>
+   <td style="text-align:center;width: 2cm; "> −0.702 </td>
+   <td style="text-align:center;width: 2cm; "> −0.623 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.417) </td>
+   <td style="text-align:center;width: 2cm; "> (0.429) </td>
+   <td style="text-align:center;width: 2cm; "> (0.427) </td>
+   <td style="text-align:center;width: 2cm; "> (0.431) </td>
+   <td style="text-align:center;width: 2cm; "> (0.432) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Republican </td>
+   <td style="text-align:center;width: 2cm; "> −0.672*** </td>
+   <td style="text-align:center;width: 2cm; "> −0.695*** </td>
+   <td style="text-align:center;width: 2cm; "> −0.727*** </td>
+   <td style="text-align:center;width: 2cm; "> −0.666*** </td>
+   <td style="text-align:center;width: 2cm; "> −0.685*** </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.127) </td>
+   <td style="text-align:center;width: 2cm; "> (0.133) </td>
+   <td style="text-align:center;width: 2cm; "> (0.133) </td>
+   <td style="text-align:center;width: 2cm; "> (0.138) </td>
+   <td style="text-align:center;width: 2cm; "> (0.134) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of Children </td>
+   <td style="text-align:center;width: 2cm; "> 0.003 </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.038) </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Female </td>
+   <td style="text-align:center;width: 2cm; "> −0.243 </td>
+   <td style="text-align:center;width: 2cm; "> −0.264 </td>
+   <td style="text-align:center;width: 2cm; "> −0.295 </td>
+   <td style="text-align:center;width: 2cm; "> −0.251 </td>
+   <td style="text-align:center;width: 2cm; "> −0.260 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;width: 2cm; "> (0.173) </td>
+   <td style="text-align:center;width: 2cm; "> (0.183) </td>
+   <td style="text-align:center;width: 2cm; "> (0.183) </td>
+   <td style="text-align:center;width: 2cm; "> (0.185) </td>
+   <td style="text-align:center;width: 2cm; "> (0.184) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Intercept </td>
+   <td style="text-align:center;width: 2cm; "> −1.100* </td>
+   <td style="text-align:center;width: 2cm; "> −0.903 </td>
+   <td style="text-align:center;width: 2cm; "> −0.800 </td>
+   <td style="text-align:center;width: 2cm; "> −1.014+ </td>
+   <td style="text-align:center;width: 2cm; "> −2.723* </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1pxwidth: 2cm; "> (0.519) </td>
+   <td style="text-align:center;box-shadow: 0px 1pxwidth: 2cm; "> (0.564) </td>
+   <td style="text-align:center;box-shadow: 0px 1pxwidth: 2cm; "> (0.566) </td>
+   <td style="text-align:center;box-shadow: 0px 1pxwidth: 2cm; "> (0.581) </td>
+   <td style="text-align:center;box-shadow: 0px 1pxwidth: 2cm; "> (1.321) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of children </td>
+   <td style="text-align:center;width: 2cm; ">  </td>
+   <td style="text-align:center;width: 2cm; "> X </td>
+   <td style="text-align:center;width: 2cm; "> X </td>
+   <td style="text-align:center;width: 2cm; "> X </td>
+   <td style="text-align:center;width: 2cm; "> X </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;width: 2cm; "> 1692 </td>
+   <td style="text-align:center;width: 2cm; "> 1692 </td>
+   <td style="text-align:center;width: 2cm; "> 1692 </td>
+   <td style="text-align:center;width: 2cm; "> 1692 </td>
+   <td style="text-align:center;width: 2cm; "> 1692 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;width: 2cm; "> 2222.4 </td>
+   <td style="text-align:center;width: 2cm; "> 2230.3 </td>
+   <td style="text-align:center;width: 2cm; "> 2233.9 </td>
+   <td style="text-align:center;width: 2cm; "> 2234.9 </td>
+   <td style="text-align:center;width: 2cm; "> 2229.8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;width: 2cm; "> 2271.3 </td>
+   <td style="text-align:center;width: 2cm; "> 2317.3 </td>
+   <td style="text-align:center;width: 2cm; "> 2320.9 </td>
+   <td style="text-align:center;width: 2cm; "> 2343.6 </td>
+   <td style="text-align:center;width: 2cm; "> 2322.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;width: 2cm; "> −1102.223 </td>
+   <td style="text-align:center;width: 2cm; "> −1099.166 </td>
+   <td style="text-align:center;width: 2cm; "> −1100.964 </td>
+   <td style="text-align:center;width: 2cm; "> −1097.452 </td>
+   <td style="text-align:center;width: 2cm; "> −1097.921 </td>
+  </tr>
+</tbody>
+<tfoot>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
+<tr><td style="padding: 0; " colspan="100%">
+<sup></sup> Notes: Standard errors in parentheses. White is the baseline category for race.</td></tr>
+</tfoot>
+</table>
+
+</div>
+</div>
+<ol start="7" type="1">
+<li>Interpret the results in 3-4 sentences. Focus on the main independent variables and their effects.</li>
+</ol>
+<blockquote class="blockquote">
+<p>In general, having daughters seems to be related to progressive voting on the case-level, too. Both the presence (models 1 and 2) and the number of daughters (models 3 to 5) seems to have an impact on judges voting behavior. When we look closely at the effects of the number of daughters in model 4, we can observe that in comparison to having only sons, having one, two, or three daughters makes the judge more likely to vote progressively. There seem to be no significant differences for cases with more than 3 duaghters, but that is likely due to the fact that we do not observe many cases like that. When we condition the effect of having one daughter on the age of the judge, we would expect that the impact of having a duaghter somewhat decreases with age, yet the interction term alone is not statistically significant at levels below 0.1.</p>
+</blockquote>
+<ol start="8" type="1">
+<li>(Optional) In the table above, hide the coefficients for <code>child</code> variable when you treat it as categorical. Instead, add a row into the table that says <em>Number of children</em> and a <span class="math inline">\(\checkmark\)</span> for the specifications where you treated that variable as categorical. Also, try to put all main treatment variables to the top of the table for better readability.</li>
+</ol>
+<blockquote class="blockquote">
+<p>See code above.</p>
+</blockquote>
+</section>
+<section id="task-2-predicted-probabilities" class="level2">
+<h2 class="anchored" data-anchor-id="task-2-predicted-probabilities">Task 2: Predicted Probabilities</h2>
+<p>What would be the predicted probability to rule progressively for a judge that is a woman, Democrat, 40 years old at investiture, white, and catholic with 2 kids and 1 daughter vs.&nbsp;two sons? Calculate the predictions for models 2 and 4 that you estimated. Please do this manually (by working with coefficients). You can check your results with a <code>predict()</code> function if you want to. Recall that you need to transform the linear predictor with a logistic function to obtain the probabilities from the log odds. Present both your log odds estimates and predicted probabilities in a nice table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: predictions for different models</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># custom inverse logit (logistic) function</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>inv_logit <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>(x) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(x))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># empty vector for log odds </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>logodds <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># calculations for scenarios</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>logodds[<span class="dv">1</span>] <span class="ot">&lt;-</span> m2<span class="sc">$</span>coefficients[[<span class="st">"(Intercept)"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"woman"</span>]] <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"age"</span>]] <span class="sc">*</span> <span class="dv">40</span> <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"catholic"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"factor(child)2"</span>]] <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"any_girls"</span>]] </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>logodds[<span class="dv">2</span>] <span class="ot">&lt;-</span> m2<span class="sc">$</span>coefficients[[<span class="st">"(Intercept)"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"woman"</span>]] <span class="sc">+</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"age"</span>]] <span class="sc">*</span> <span class="dv">40</span> <span class="sc">+</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"catholic"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  m2<span class="sc">$</span>coefficients[[<span class="st">"factor(child)2"</span>]] </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>logodds[<span class="dv">3</span>] <span class="ot">&lt;-</span> m4<span class="sc">$</span>coefficients[[<span class="st">"(Intercept)"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"woman"</span>]] <span class="sc">+</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"age"</span>]] <span class="sc">*</span> <span class="dv">40</span> <span class="sc">+</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"catholic"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"factor(child)2"</span>]] <span class="sc">+</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"factor(girls)1"</span>]] </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>logodds[<span class="dv">4</span>] <span class="ot">&lt;-</span> m4<span class="sc">$</span>coefficients[[<span class="st">"(Intercept)"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"woman"</span>]] <span class="sc">+</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"age"</span>]] <span class="sc">*</span> <span class="dv">40</span> <span class="sc">+</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"catholic"</span>]] <span class="sc">+</span> </span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  m4<span class="sc">$</span>coefficients[[<span class="st">"factor(child)2"</span>]] </span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co"># place your calculations in vectors </span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>predprobs <span class="ot">&lt;-</span> <span class="fu">inv_logit</span>(logodds)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># produce the nice table </span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>table <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"4"</span>), <span class="at">each =</span> <span class="dv">2</span>),</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>          <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>), <span class="at">times =</span> <span class="dv">2</span>),</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>          logodds,</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>          predprobs) </span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Model"</span>, <span class="st">"Has a Daughter"</span>, <span class="st">"Log Odds"</span>, <span class="st">"Pred. Probabilities"</span>)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>table <span class="sc">%&gt;%</span> </span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Model </th>
+   <th style="text-align:left;"> Has a Daughter </th>
+   <th style="text-align:right;"> Log Odds </th>
+   <th style="text-align:right;"> Pred. Probabilities </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> -0.573 </td>
+   <td style="text-align:right;"> 0.361 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> -0.979 </td>
+   <td style="text-align:right;"> 0.273 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:left;"> Yes </td>
+   <td style="text-align:right;"> -0.560 </td>
+   <td style="text-align:right;"> 0.364 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:left;"> No </td>
+   <td style="text-align:right;"> -0.998 </td>
+   <td style="text-align:right;"> 0.269 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+<section id="task-3-substantive-interpretation-with-simulations" class="level2">
+<h2 class="anchored" data-anchor-id="task-3-substantive-interpretation-with-simulations">Task 3: Substantive Interpretation with Simulations</h2>
+<ol type="1">
+<li>Start with model 2. For the same scenarios as in task 2, use simulations to account for the uncertainty for your point estimates and obtain the distributions of predicted probabilities.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">sim</span>(m2)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>evs <span class="ot">&lt;-</span> <span class="fu">sim_setx</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  sims,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">republican =</span> <span class="dv">0</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">age =</span> <span class="dv">40</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">catholic =</span> <span class="dv">1</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">woman =</span> <span class="dv">0</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">african =</span> <span class="dv">0</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">hispanic =</span> <span class="dv">0</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">child =</span> <span class="dv">2</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">any_girls =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Present the expected values graphically and numerically with <code>plot()</code> and <code>summary()</code> commands. Comment on the output in 1-2 sentences. Optionally, make custom plots with better data-to-ink ratio.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(evs) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> any_girls = 0 </td>
+   <td style="text-align:right;"> 0.329 </td>
+   <td style="text-align:right;"> 0.237 </td>
+   <td style="text-align:right;"> 0.430 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> any_girls = 1 </td>
+   <td style="text-align:right;"> 0.423 </td>
+   <td style="text-align:right;"> 0.343 </td>
+   <td style="text-align:right;"> 0.504 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(evs, <span class="at">level =</span> <span class="fl">0.99</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="09-problem-set_files/figure-html/evs-plot-simulations-m2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Predicted probability to vote progressively for a judge that is a woman, Democrat, 40 years old at investiture, white, and catholic with 2 kids and 1 daughter ranges from 0.34 to 0.5, based on a 95% confidence interval. For the same judge but with no daughters, on average, the probability to vote progressively on a case ranges from 0.24 to 0.43.</p>
+</blockquote>
+<ol start="3" type="1">
+<li>Calculate the first differences to quantify the effect of the <code>any_girls</code> variable on the predicted probability scale.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fds <span class="ot">&lt;-</span> <span class="fu">transform</span>(evs,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">FD</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">any_girls = 1</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">any_girls = 0</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>Present your first difference estimates graphically and numerically with <code>plot()</code> and <code>summary()</code> commands. Comment on the output in 1-2 sentences. Optionally, make custom plots with better data-to-ink ratio.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fds, <span class="at">level =</span> <span class="fl">0.99</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 0.5 % </th>
+   <th style="text-align:right;"> 99.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> any_girls = 0 </td>
+   <td style="text-align:right;"> 0.329 </td>
+   <td style="text-align:right;"> 0.209 </td>
+   <td style="text-align:right;"> 0.467 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> any_girls = 1 </td>
+   <td style="text-align:right;"> 0.423 </td>
+   <td style="text-align:right;"> 0.321 </td>
+   <td style="text-align:right;"> 0.532 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD </td>
+   <td style="text-align:right;"> 0.095 </td>
+   <td style="text-align:right;"> 0.007 </td>
+   <td style="text-align:right;"> 0.170 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fds, <span class="at">level =</span> <span class="fl">0.99</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="09-problem-set_files/figure-html/fd-plot-simulations-m2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>As first differences depict, having a daughter leads to an average increase of 0.09 precentage points in probability to vote progressively for such a judge. This difference is also significantly different from zero (99% confidence intervals for the first difference do not include zero).</p>
+</blockquote>
+<ol start="5" type="1">
+<li>Would you expect the differences to change in size if you used a different scenario? Why (not)?</li>
+</ol>
+<blockquote class="blockquote">
+<p>In general, we could expect the difference between the scenarios to remain significantly difference from zero, yet the exact value of difference will not be the same, as logit is not a linear model with constant marginal effects. Hence, it is important to try out different scenarios, including the one that is close to an average case in our data.</p>
+</blockquote>
+<ol start="6" type="1">
+<li>(Optional) Now repeat the process for model 5 (with an interaction with age). Calculate the expected values for the same scenario but for age ranging from 35 to 64 (empirical min and max). As a result, you will obtain the plot for the first differences. Explain the findings in 2-3 sentences.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">sim</span>(m5)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># store expected values for a scenario where 'age = 35:64' and 'any_girls = 0'   </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>evs <span class="ot">&lt;-</span> clarify<span class="sc">::</span><span class="fu">sim_setx</span>(sims, <span class="at">x =</span> <span class="fu">list</span>(<span class="at">republican =</span> <span class="dv">0</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">age =</span> <span class="dv">35</span><span class="sc">:</span><span class="dv">64</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">catholic =</span> <span class="dv">1</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">woman =</span> <span class="dv">1</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">african =</span> <span class="dv">0</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">hispanic =</span> <span class="dv">0</span>, </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">child =</span> <span class="dv">2</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">any_girls =</span> <span class="dv">1</span>))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># store expected values for a scenario where 'age = 35:64' and 'any_girls = 0'   </span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>evs1 <span class="ot">&lt;-</span> clarify<span class="sc">::</span><span class="fu">sim_setx</span>(sims, <span class="at">x =</span> <span class="fu">list</span>(<span class="at">republican =</span> <span class="dv">0</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">age =</span> <span class="dv">35</span><span class="sc">:</span><span class="dv">64</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">catholic =</span> <span class="dv">1</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">woman =</span> <span class="dv">1</span>, </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">african =</span> <span class="dv">0</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">hispanic =</span> <span class="dv">0</span>, </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">child =</span> <span class="dv">2</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">any_girls =</span> <span class="dv">0</span>))</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># E[Y|Daughter] - E[Y|No Daughters]</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(evs <span class="sc">-</span> evs1) <span class="sc">+</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"First Differences"</span>) <span class="sc">+</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> cases,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> <span class="dv">0</span>),</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">sides =</span> <span class="st">"b"</span>,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.3</span>,</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"jitter"</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="09-problem-set_files/figure-html/simulations-m5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(evs <span class="sc">-</span> evs1) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">"250px"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:250px; "><table>
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">   </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> Estimate </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 2.5 % </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> age = 35 </td>
+   <td style="text-align:right;"> 0.198 </td>
+   <td style="text-align:right;"> 0.029 </td>
+   <td style="text-align:right;"> 0.314 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 36 </td>
+   <td style="text-align:right;"> 0.193 </td>
+   <td style="text-align:right;"> 0.030 </td>
+   <td style="text-align:right;"> 0.308 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 37 </td>
+   <td style="text-align:right;"> 0.188 </td>
+   <td style="text-align:right;"> 0.031 </td>
+   <td style="text-align:right;"> 0.303 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 38 </td>
+   <td style="text-align:right;"> 0.183 </td>
+   <td style="text-align:right;"> 0.033 </td>
+   <td style="text-align:right;"> 0.296 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 39 </td>
+   <td style="text-align:right;"> 0.178 </td>
+   <td style="text-align:right;"> 0.035 </td>
+   <td style="text-align:right;"> 0.287 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 40 </td>
+   <td style="text-align:right;"> 0.173 </td>
+   <td style="text-align:right;"> 0.037 </td>
+   <td style="text-align:right;"> 0.279 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 41 </td>
+   <td style="text-align:right;"> 0.167 </td>
+   <td style="text-align:right;"> 0.038 </td>
+   <td style="text-align:right;"> 0.269 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 42 </td>
+   <td style="text-align:right;"> 0.161 </td>
+   <td style="text-align:right;"> 0.040 </td>
+   <td style="text-align:right;"> 0.259 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 43 </td>
+   <td style="text-align:right;"> 0.155 </td>
+   <td style="text-align:right;"> 0.038 </td>
+   <td style="text-align:right;"> 0.249 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 44 </td>
+   <td style="text-align:right;"> 0.148 </td>
+   <td style="text-align:right;"> 0.043 </td>
+   <td style="text-align:right;"> 0.237 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 45 </td>
+   <td style="text-align:right;"> 0.142 </td>
+   <td style="text-align:right;"> 0.044 </td>
+   <td style="text-align:right;"> 0.225 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 46 </td>
+   <td style="text-align:right;"> 0.135 </td>
+   <td style="text-align:right;"> 0.042 </td>
+   <td style="text-align:right;"> 0.211 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 47 </td>
+   <td style="text-align:right;"> 0.128 </td>
+   <td style="text-align:right;"> 0.043 </td>
+   <td style="text-align:right;"> 0.201 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 48 </td>
+   <td style="text-align:right;"> 0.120 </td>
+   <td style="text-align:right;"> 0.041 </td>
+   <td style="text-align:right;"> 0.189 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 49 </td>
+   <td style="text-align:right;"> 0.113 </td>
+   <td style="text-align:right;"> 0.039 </td>
+   <td style="text-align:right;"> 0.178 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 50 </td>
+   <td style="text-align:right;"> 0.105 </td>
+   <td style="text-align:right;"> 0.035 </td>
+   <td style="text-align:right;"> 0.168 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 51 </td>
+   <td style="text-align:right;"> 0.097 </td>
+   <td style="text-align:right;"> 0.028 </td>
+   <td style="text-align:right;"> 0.158 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 52 </td>
+   <td style="text-align:right;"> 0.089 </td>
+   <td style="text-align:right;"> 0.020 </td>
+   <td style="text-align:right;"> 0.153 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 53 </td>
+   <td style="text-align:right;"> 0.080 </td>
+   <td style="text-align:right;"> 0.010 </td>
+   <td style="text-align:right;"> 0.145 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 54 </td>
+   <td style="text-align:right;"> 0.072 </td>
+   <td style="text-align:right;"> -0.001 </td>
+   <td style="text-align:right;"> 0.139 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 55 </td>
+   <td style="text-align:right;"> 0.063 </td>
+   <td style="text-align:right;"> -0.016 </td>
+   <td style="text-align:right;"> 0.137 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 56 </td>
+   <td style="text-align:right;"> 0.054 </td>
+   <td style="text-align:right;"> -0.032 </td>
+   <td style="text-align:right;"> 0.135 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 57 </td>
+   <td style="text-align:right;"> 0.045 </td>
+   <td style="text-align:right;"> -0.049 </td>
+   <td style="text-align:right;"> 0.133 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 58 </td>
+   <td style="text-align:right;"> 0.035 </td>
+   <td style="text-align:right;"> -0.067 </td>
+   <td style="text-align:right;"> 0.132 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 59 </td>
+   <td style="text-align:right;"> 0.026 </td>
+   <td style="text-align:right;"> -0.086 </td>
+   <td style="text-align:right;"> 0.129 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 60 </td>
+   <td style="text-align:right;"> 0.016 </td>
+   <td style="text-align:right;"> -0.106 </td>
+   <td style="text-align:right;"> 0.130 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 61 </td>
+   <td style="text-align:right;"> 0.007 </td>
+   <td style="text-align:right;"> -0.125 </td>
+   <td style="text-align:right;"> 0.131 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 62 </td>
+   <td style="text-align:right;"> -0.003 </td>
+   <td style="text-align:right;"> -0.148 </td>
+   <td style="text-align:right;"> 0.134 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 63 </td>
+   <td style="text-align:right;"> -0.013 </td>
+   <td style="text-align:right;"> -0.169 </td>
+   <td style="text-align:right;"> 0.135 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age = 64 </td>
+   <td style="text-align:right;"> -0.023 </td>
+   <td style="text-align:right;"> -0.188 </td>
+   <td style="text-align:right;"> 0.137 </td>
+  </tr>
+</tbody>
+</table></div>
+
+</div>
+</div>
+<p><br>
+</p>
+<blockquote class="blockquote">
+<p>The plot shows the difference in predicted probabilities to vote progressively between a judge with and without a kid (same scenario as before) over different values of age variable with the 95% confidence intervals. For the judges over 53 years old, there seems to be no significant differences in probabilities to vote progressively when having at least one daughter versus not having any (as 95% confidence interval starts to include zero). F0r younger judges, the effect of having daughers ranges from 0.03 to 0.31 at 35 year old and 0.01 to 0.14 at 53 years old.</p>
+</blockquote>
+<ol start="7" type="1">
+<li>(Optional) Now repeat the process for model 4. Calculate the expected values for the same scenario but for a range of values for the number of daughters from 0 to 3. Make sure that you also set the value of <code>child</code> variable to a meaningful constant quantity (i.e.&nbsp;3 or more). Comment on the plot in 2-3 sentences.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sims <span class="ot">&lt;-</span> <span class="fu">sim</span>(m4)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>evs <span class="ot">&lt;-</span> clarify<span class="sc">::</span><span class="fu">sim_setx</span>(sims, <span class="at">x =</span> <span class="fu">list</span>(<span class="at">republican =</span> <span class="dv">0</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">age =</span> <span class="dv">50</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">catholic =</span> <span class="dv">1</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">woman =</span> <span class="dv">1</span>, </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">african =</span> <span class="dv">0</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">hispanic =</span> <span class="dv">0</span>, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">child =</span> <span class="dv">3</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">girls =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">3</span>))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(evs) <span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="09-problem-set_files/figure-html/simulations-m4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(evs) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> girls = 0 </td>
+   <td style="text-align:right;"> 0.314 </td>
+   <td style="text-align:right;"> 0.222 </td>
+   <td style="text-align:right;"> 0.419 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> girls = 1 </td>
+   <td style="text-align:right;"> 0.415 </td>
+   <td style="text-align:right;"> 0.314 </td>
+   <td style="text-align:right;"> 0.523 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> girls = 2 </td>
+   <td style="text-align:right;"> 0.393 </td>
+   <td style="text-align:right;"> 0.293 </td>
+   <td style="text-align:right;"> 0.494 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> girls = 3 </td>
+   <td style="text-align:right;"> 0.429 </td>
+   <td style="text-align:right;"> 0.311 </td>
+   <td style="text-align:right;"> 0.560 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<blockquote class="blockquote">
+<p>In this case, predicted probability to vote progressively changes for different numbers of daughters, with the lowest being from 0.22 to 0.42 with no daughters and highest for having three kids and all of them being daughters (average of 0.43, with 95% confidence intrval of 0.31 to 0.31).</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transform</span>(evs,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">FD_3to0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">girls = 3</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">girls = 0</span><span class="st">`</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">FD_2to0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">girls = 2</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">girls = 0</span><span class="st">`</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">FD_1to0</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">girls = 1</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">girls = 0</span><span class="st">`</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">FD_3to1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">girls = 3</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">girls = 1</span><span class="st">`</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">FD_2to1</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">girls = 2</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">girls = 1</span><span class="st">`</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">`</span><span class="at">FD_3to2</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">girls = 3</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">girls = 2</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> Estimate </th>
+   <th style="text-align:right;"> 2.5 % </th>
+   <th style="text-align:right;"> 97.5 % </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> girls = 0 </td>
+   <td style="text-align:right;"> 0.314 </td>
+   <td style="text-align:right;"> 0.222 </td>
+   <td style="text-align:right;"> 0.419 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> girls = 1 </td>
+   <td style="text-align:right;"> 0.415 </td>
+   <td style="text-align:right;"> 0.314 </td>
+   <td style="text-align:right;"> 0.523 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> girls = 2 </td>
+   <td style="text-align:right;"> 0.393 </td>
+   <td style="text-align:right;"> 0.293 </td>
+   <td style="text-align:right;"> 0.494 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> girls = 3 </td>
+   <td style="text-align:right;"> 0.429 </td>
+   <td style="text-align:right;"> 0.311 </td>
+   <td style="text-align:right;"> 0.560 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_3to0 </td>
+   <td style="text-align:right;"> 0.115 </td>
+   <td style="text-align:right;"> 0.012 </td>
+   <td style="text-align:right;"> 0.227 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_2to0 </td>
+   <td style="text-align:right;"> 0.078 </td>
+   <td style="text-align:right;"> 0.008 </td>
+   <td style="text-align:right;"> 0.148 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_1to0 </td>
+   <td style="text-align:right;"> 0.101 </td>
+   <td style="text-align:right;"> 0.035 </td>
+   <td style="text-align:right;"> 0.174 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_3to1 </td>
+   <td style="text-align:right;"> 0.014 </td>
+   <td style="text-align:right;"> -0.089 </td>
+   <td style="text-align:right;"> 0.123 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_2to1 </td>
+   <td style="text-align:right;"> -0.023 </td>
+   <td style="text-align:right;"> -0.088 </td>
+   <td style="text-align:right;"> 0.044 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> FD_3to2 </td>
+   <td style="text-align:right;"> 0.037 </td>
+   <td style="text-align:right;"> -0.056 </td>
+   <td style="text-align:right;"> 0.137 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<blockquote class="blockquote">
+<p>If we take a closer look at the differences and estimate the differences in probabilities across the scenarios, we would observe that there are significant (at 0.05 level) differences to having no daughters in each case, but there seem to be no significant differences in predicted probabilities across cases with more than one daughter. We can thus conclude that based on your data, it is the presence rather than the number of daughters that has the impact of judicial voting behavior.</p>
+</blockquote>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

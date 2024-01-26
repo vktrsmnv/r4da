@@ -7,7 +7,7 @@ title-slide-attributes:
 auto-stretch: false
 institute: "University of Mannheim<br>Spring 2023"
 author: "Viktoriia Semenova"
-footer: "[🔗 r4da.live](https://r4da.live/)"
+footer: "[🔗 r4da.netlify.app](https://r4da.netlify.app/)"
 logo: images/logo.png
 format:
   revealjs:
@@ -23,7 +23,7 @@ execute:
 
 ```{r, include=FALSE}
 
-un_votes <- readr::read_csv("https://r4da.live/files/data/external_data/un_votes.csv")
+un_votes <- readr::read_csv("https://r4da.netlify.app/files/data/external_data/un_votes.csv")
 p_needed <- c("tidyverse", "scico", "icons") 
 
 # check if they are already installed, install if not installed 
@@ -42,8 +42,6 @@ lapply(p_needed, library, character.only = TRUE)
     -   `#github_lab_updates`: notifies you on push to lab repos
     -   `#github_discussions_updates`: notifies you on new posts in Discussions
     -   you can create private channels for teamwork
-
-
 :::
 
 ## Naming Conventions
@@ -70,25 +68,27 @@ un_votes$`percent yes`
 install.packages("tidyverse")
 ```
 
-    install.packages("ggplot2")
-    install.packages("dplyr")
-    install.packages("tidyr")
-    install.packages("readr")
-    install.packages("purrr")
-    install.packages("tibble")
-    install.packages("stringr")
-    install.packages("forcats")
-    install.packages("lubridate")
-    install.packages("hms")
-    install.packages("DBI")
-    install.packages("haven")
-    install.packages("httr")
-    install.packages("jsonlite")
-    install.packages("readxl")
-    install.packages("rvest")
-    install.packages("xml2")
-    install.packages("modelr")
-    install.packages("broom")
+```         
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("readr")
+install.packages("purrr")
+install.packages("tibble")
+install.packages("stringr")
+install.packages("forcats")
+install.packages("lubridate")
+install.packages("hms")
+install.packages("DBI")
+install.packages("haven")
+install.packages("httr")
+install.packages("jsonlite")
+install.packages("readxl")
+install.packages("rvest")
+install.packages("xml2")
+install.packages("modelr")
+install.packages("broom")
+```
 :::
 
 ::: {.column width="50%"}
@@ -96,14 +96,16 @@ install.packages("tidyverse")
 library("tidyverse")
 ```
 
-    library("ggplot2")
-    library("dplyr")
-    library("tidyr")
-    library("readr")
-    library("purrr")
-    library("tibble")
-    library("stringr")
-    library("forcats")
+```         
+library("ggplot2")
+library("dplyr")
+library("tidyr")
+library("readr")
+library("purrr")
+library("tibble")
+library("stringr")
+library("forcats")
+```
 :::
 :::
 
@@ -139,7 +141,7 @@ lapply(p_needed, library, character.only = TRUE)
 
 ## Information about Dataset
 
-How many and what columns does it contain? How many observations are there? 
+How many and what columns does it contain? How many observations are there?
 
 ```{r}
 glimpse(un_votes)
@@ -207,34 +209,30 @@ me %>%
 
 ## Types of Data in Political Science
 
+-   **Cross-section:** a snapshot of a sample of units (e.g., people, countries, governments) at one point of time
 
-- **Cross-section:** a snapshot of a sample of units (e.g., people, countries, governments) at one point of time 
+-   **Time series:** observations on variables over time
 
-- **Time series:** observations on variables over time 
+-   **Pooled time series cross-section:** comparable time series data observed on variety of units (e.g., people, countries, governments)
 
-- **Pooled time series cross-section:** comparable time series data observed on variety of units (e.g., people, countries, governments)
-  - Usually few cases, but long time series 
+    -   Usually few cases, but long time series
 
-- **Panel data:** large number of the same cross-sectional units (e.g., survey respondents) observed repeatedly 
-  - Usually many cases, but shorter time series 
+-   **Panel data:** large number of the same cross-sectional units (e.g., survey respondents) observed repeatedly
+
+    -   Usually many cases, but shorter time series
 
 ------------------------------------------------------------------------
 
 ## ![](https://openintro-ims.netlify.app/01-data-hello_files/figure-html/variables-1.png)
 
+## Types of Variables
 
-## Types of Variables 
-
-- **Numerical (quantitative):** take on values sensible to add, subtract, take averages, etc. with these values 
-  + *Continuous:* take on any of an infinite number of values within a given range (e.g., vote share) 
-  `r icons::fontawesome("r-project")` `numeric`
-  + *Discrete:* take on one of a specific set of numeric values (e.g., number of human fatalities in conflict) 
-    `r icons::fontawesome("r-project")` `integer`
-
-- **Categorical (qualitative):** take on a limited number of distinct categories categories can be identified with numbers, but not sensible to do arithmetic operations
-`r icons::fontawesome("r-project")` `character` or `factor`
-  + *Ordinal:* levels have an inherent ordering (e.g., Likert scales) 
-  + *Nominal:* levels have no inherent ordering (e.g., party choice: CDU, SPD, Greens, etc.) 
+-   **Numerical (quantitative):** take on values sensible to add, subtract, take averages, etc. with these values
+    -   *Continuous:* take on any of an infinite number of values within a given range (e.g., vote share) `r icons::fontawesome("r-project")` `numeric`
+    -   *Discrete:* take on one of a specific set of numeric values (e.g., number of human fatalities in conflict) `r icons::fontawesome("r-project")` `integer`
+-   **Categorical (qualitative):** take on a limited number of distinct categories categories can be identified with numbers, but not sensible to do arithmetic operations `r icons::fontawesome("r-project")` `character` or `factor`
+    -   *Ordinal:* levels have an inherent ordering (e.g., Likert scales)
+    -   *Nominal:* levels have no inherent ordering (e.g., party choice: CDU, SPD, Greens, etc.)
 
 > Data types are conceptual
 
@@ -258,11 +256,13 @@ me %>%
 ## Central Tendency: Mean
 
 <!-- ::: columns -->
+
 <!-- ::: {.column width="50%"} -->
 
-**Mean:** arithmetic average, the "typical" value, the best guess about the value drawn from the distribution 
+**Mean:** arithmetic average, the "typical" value, the best guess about the value drawn from the distribution
 
 $$\bar{x} = \frac{x_1 + x_2 + x_3 + ... + x_N}{N} = \frac{\sum_{i=1}^{N}x_i}{N}$$
+
 ```{r}
 mean(x = un_votes$percent_yes)
 
@@ -271,23 +271,21 @@ sum(un_votes$percent_yes) / length(un_votes$percent_yes)
 
 ## Central Tendency: Median
 
-
-**Median:** value of $x$ that falls in the middle position when observations are ordered ascending 
+**Median:** value of $x$ that falls in the middle position when observations are ordered ascending
 
 $$\widetilde{x} =\begin{cases}
   x_\frac{N+1}{2}                                    & \text{if }N\text{ is odd}\\
   \frac {1}{2}\left(x_{\frac{N}{2}} + x_{\frac{N}{2} + 1}\right) & \text{if }N \text{ is even}
-\end{cases}$$
-<!-- :::  -->
-<!-- ::: {.column width="50%"} -->
+\end{cases}$$ <!-- :::  --> <!-- ::: {.column width="50%"} -->
 
 ```{r}
 median(x = un_votes$percent_yes)
 summary(un_votes$percent_yes)
 ```
-<!-- :::  -->
+
 <!-- :::  -->
 
+<!-- :::  -->
 
 ## Problems with Single Numbers
 
@@ -318,7 +316,6 @@ animals_mean %>%
 
 ::: columns
 ::: {.column width="50%"}
-
 ```{r animal-weight-bar, echo=FALSE, fig.dim=c(4.8, 3.75), out.width="100%"}
 ggplot(
   animals_mean,
@@ -330,10 +327,9 @@ ggplot(
   theme_bw() +
   scale_fill_manual(values = c("#c32e37", "#003056"))
 ```
+:::
 
-::: 
 ::: {.column width="50%"}
-
 ```{r animal-weight-points, echo=FALSE, fig.dim=c(4.8, 3.75), out.width="100%"}
 ggplot(animals, aes(x = animal_type, y = weight, color = animal_type)) +
   geom_point(position = position_jitter(height = 0), size = 1) +
@@ -348,16 +344,14 @@ ggplot(animals, aes(x = animal_type, y = weight, color = animal_type)) +
   theme_bw()  +
   scale_color_manual(values = c("#c32e37", "#003056"))
 ```
-
-::: 
-::: 
-
+:::
+:::
 
 ## Sample Dispersion: Variance
 
 <!-- ::: {.column width="60%"} -->
 
-**Variance:** measure of the typical departure from the mean of a dataset 
+**Variance:** measure of the typical departure from the mean of a dataset
 
 $$
 s^2 = \frac{\sum_{i=1}^{N}(x_i - \bar{x})^2} {N - 1}
@@ -369,13 +363,11 @@ var(x = un_votes$percent_yes)
 
 ## Sample Dispersion: Standard Deviation
 
-**Standard Deviation $s$:** measure of the typical departure from the mean of a dataset (intuitive scale)
+**Standard Deviation** $s$: measure of the typical departure from the mean of a dataset (intuitive scale)
 
 $$
 s = \sqrt{\frac{\sum_{i=1}^{N}(x_i - \bar{x})^2} {N - 1}} = \sqrt{s^2}
-$$
-<!-- :::  -->
-<!-- ::: {.column width="40%"} -->
+$$ <!-- :::  --> <!-- ::: {.column width="40%"} -->
 
 ```{r variance}
 sd(x = un_votes$percent_yes)
@@ -383,25 +375,19 @@ sd(x = un_votes$percent_yes)
 
 <!-- :::  -->
 
-
-
-
-
-
 ## Quantiles and Range
-
 
 ::: columns
 <!-- ::: {.column width="50%"} -->
 
-- **Range:** difference between smallest and largest value 
+-   **Range:** difference between smallest and largest value
 
 <!-- $$range = x_{max} - x_{min}$$ -->
 
-- **Interquantile Range:** range of the middle 50% of the data, distance between the first quartile (25th percentile) and third quartile (75th percentile) 
-
+-   **Interquantile Range:** range of the middle 50% of the data, distance between the first quartile (25th percentile) and third quartile (75th percentile)
 
 <!-- :::  -->
+
 <!-- ::: {.column width="50%"} -->
 
 ```{r ranges}
@@ -416,7 +402,7 @@ IQR(x = un_votes$percent_yes)
 ```
 
 <!-- :::  -->
-::: 
+:::
 
 # Grammar of graphics: `ggplot2`
 
@@ -719,16 +705,13 @@ ggplot(eg, aes(x = x, y = y, alpha = x)) +
 
 ::: columns
 ::: {.column width="50%"}
-
 Untidy Data
 
 ![](https://datavizs22.classes.andrewheiss.com/slides/img/03/untidy-example.png)
 :::
 
 ::: {.column width="50%"}
-
-Tidy data
-![](https://datavizs22.classes.andrewheiss.com/slides/img/03/tidy-example.png)
+Tidy data ![](https://datavizs22.classes.andrewheiss.com/slides/img/03/tidy-example.png)
 :::
 :::
 
@@ -736,14 +719,11 @@ Tidy data
 
 ![](https://datavizs22.classes.andrewheiss.com/slides/img/03/original-dfs-tidy.png)
 
-
 ## Data: US Governors
 
-
-> Does political office cause worse or better longevity prospects? Two perspectives in the literature offer contradicting answers. First, increased income, social status, and political connections obtained through holding office can increase longevity. Second, increased stress and working hours associated with holding office can have detrimental effects on longevity. <...> The results show that politicians winning a close election live 5–10 years longer than candidates who lose.
+> Does political office cause worse or better longevity prospects? Two perspectives in the literature offer contradicting answers. First, increased income, social status, and political connections obtained through holding office can increase longevity. Second, increased stress and working hours associated with holding office can have detrimental effects on longevity. \<...\> The results show that politicians winning a close election live 5--10 years longer than candidates who lose.
 
 ## Data: US Governors
-
 
 ```{r, include=FALSE}
 governors <- readr::read_csv("../data/governors.csv")
@@ -758,15 +738,21 @@ glimpse(governors)
 <!-- **Mapping vs. setting** -->
 
 <!-- ```{r} -->
+
 <!-- #| eval: false -->
 
 <!-- ggplot(governors) + -->
+
 <!--   geom_jitter(aes(x = party, y = election_age,  -->
+
 <!--                  color = "blue")) -->
 
 <!-- ggplot(governors) + -->
+
 <!--   geom_jitter(aes(x = party, y = election_age),  -->
+
 <!--                  color = "blue") -->
+
 <!-- ``` -->
 
 <!-- ## **Global vs. local** -->
@@ -774,26 +760,37 @@ glimpse(governors)
 <!-- **Any aesthetics in `ggplot()` will show up in all `geom_` layers** -->
 
 <!-- ```{r} -->
+
 <!-- #| eval: false -->
 
 <!-- ggplot(governors, aes(x = party, y = election_age, color = party)) + -->
+
 <!--   geom_boxplot() + -->
+
 <!--   geom_jitter(alpha = 0.5)  -->
+
 <!-- ``` -->
 
 <!-- ``` r -->
+
 <!-- ggplot(governors) + -->
+
 <!--   geom_jitter(aes(x = party, y = election_age, color = party)) -->
+
 <!-- ``` -->
 
 <!-- **Any aesthetics in `geom_` layers only apply to that layer** -->
 
 <!-- ```{r} -->
+
 <!-- #| eval: false -->
 
 <!-- ggplot(governors, aes(x = party, y = election_age)) + -->
+
 <!--   geom_boxplot() + -->
+
 <!--   geom_jitter(aes(color = party), alpha = 0.5)  -->
+
 <!-- ``` -->
 
 <!-- ## Theoretical Distributions -->
@@ -823,18 +820,19 @@ filter ( governors,election_age>   50,     sex=="Male" )
 
 ## Styling the Code: How
 
-
 ```{r, eval=FALSE}
 install.packages("styler")
 library(styler)
 ```
 
-![](images/styler.png){width="80%"} - More on styling [on course website](https://r4da.live/resource/style.html)
+![](images/styler.png){width="80%"} - More on styling [on course website](https://r4da.netlify.app/resource/style.html)
 
 <!-- ## Tables for Descriptive Statistics -->
 
 <!-- -   `stargazer`: PDF + HTML (solid general descriptive stats tables) !refuses to work with tibbles -->
+
 <!-- -   `skimr`: good for overall dataset description -->
+
 <!-- -   `modelsummary`: flexible tables -->
 
 ## Saving Your Plots: Bitmaps vs Vector
@@ -843,22 +841,19 @@ library(styler)
 ::: {.column width="50%"}
 ![](https://datavizs22.classes.andrewheiss.com/slides/img/02/example-bitmap.png)
 
-- JPEG: Photographs
+-   JPEG: Photographs
 
-- PNG/GIF: Images with limited colors
+-   PNG/GIF: Images with limited colors
+:::
 
-::: 
 ::: {.column width="50%"}
-
 ![](https://datavizs22.classes.andrewheiss.com/slides/img/02/example-vector.png)
 
+-   PDF: Anything vector based
 
-- PDF: Anything vector based
-
-- SVG: Vectors online
-
-::: 
-::: 
+-   SVG: Vectors online
+:::
+:::
 
 **Save your plots as PNG or SVG (Web) or PDF (Print)**
 

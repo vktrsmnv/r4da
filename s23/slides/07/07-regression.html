@@ -369,7 +369,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-1-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-1-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -382,7 +382,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-2-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-2-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -451,30 +451,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="linearity-assumption-violation" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="linearity-assumption-violation">Linearity Assumption Violation</h2>
-<div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 90 Columns: 7
-── Column specification ──────────────────────────────────────────────────────────────────
-Delimiter: ","
-chr (2): season, day_type
-dbl (5): volume, hightemp, avgtemp, cloudcover, precip
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div class="cell quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -483,16 +472,15 @@ dbl (5): volume, hightemp, avgtemp, cloudcover, precip
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
-</div>
 </div>
 </div>
 </div>
@@ -522,7 +510,7 @@ dbl (5): volume, hightemp, avgtemp, cloudcover, precip
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-4-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-4-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -539,7 +527,7 @@ dbl (5): volume, hightemp, avgtemp, cloudcover, precip
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-5-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-5-1.png" style="height:90.0%" width="2100" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -637,9 +625,6 @@ SE(\hat\beta_1)= \sqrt{Var(\hat{\beta_1})}, \qquad Var(\hat{\beta_1}) = \frac{\o
 </div>
 <p>Compare these values to estimates from a random sample of 500 students:</p>
 <div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining with `by = join_by(term)`</code></pre>
-</div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
 <thead>
@@ -668,35 +653,27 @@ SE(\hat\beta_1)= \sqrt{Var(\hat{\beta_1})}, \qquad Var(\hat{\beta_1}) = \frac{\o
 <section id="sampling-variability" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="sampling-variability">Sampling Variability</h2>
 <p>Now let’s take 5000 samples (N = 1000) from this population of 100’000 students, run the same bivariate model on each of these samples, and plot the results:</p>
-<div class="cell" data-layout-align="center" data-hash="07-regression_cache/html/unnamed-chunk-9_0d030a40a11daee8334ba3965ee695e1">
+<div class="cell" data-layout-align="center" data-hash="07-regression_cache/revealjs/unnamed-chunk-9_88de7c696fdcdbbe0ba297600714bfb3">
 
 </div>
 <!-- - Sampling distributions are not observed in real life  -->
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>Scale for x is already present.
-Adding another scale for x, which will replace the existing scale.</code></pre>
-</div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -721,36 +698,36 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <h2 class="smaller anchored" data-anchor-id="standard-error">Standard Error</h2>
 <p>Standard Error are Standard Deviations of Sampling Distributions:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SD of sampling distributions</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(term) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sd =</span> <span class="fu">sd</span>(estimate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SD of sampling distributions</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(term) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sd =</span> <span class="fu">sd</span>(estimate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   term            sd
   &lt;chr&gt;        &lt;dbl&gt;
-1 (Intercept) 0.0545
-2 beauty      0.0114</code></pre>
+1 (Intercept) 0.0533
+2 beauty      0.0113</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates SEs  </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates SEs  </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 9
-  term        estimate std.error statistic       p.value conf.low conf.high n     sample
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
-1 (Intercept)   3.71      0.0533     69.6  0               3.61      3.82   1000      10
-2 beauty        0.0676    0.0112      6.01 0.00000000266   0.0455    0.0896 1000      10</code></pre>
+  term        estimate std.error statistic    p.value conf.low conf.high n     sample
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
+1 (Intercept)   3.72      0.0543     68.5  0            3.62      3.83   1000      10
+2 beauty        0.0573    0.0117      4.89 0.00000119   0.0343    0.0803 1000      10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates SEs  </span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="dv">1000</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates SEs  </span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>estimates <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="dv">1000</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 9
-  term        estimate std.error statistic     p.value conf.low conf.high n     sample
-  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
-1 (Intercept)   3.78      0.0526     71.8  0             3.67      3.88   1000    1000
-2 beauty        0.0570    0.0114      4.99 0.000000724   0.0346    0.0795 1000    1000</code></pre>
+  term        estimate std.error statistic  p.value conf.low conf.high n     sample
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt;
+1 (Intercept)   3.79      0.0542     69.9  0          3.69      3.90   1000    1000
+2 beauty        0.0453    0.0120      3.78 0.000164   0.0218    0.0688 1000    1000</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
@@ -760,11 +737,11 @@ Adding another scale for x, which will replace the existing scale.</code></pre>
 <section id="sample-size-and-precision" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="sample-size-and-precision">Sample Size and Precision</h2>
 <p>Larger samples allow for more precise estimates (i.e.&nbsp;smaller standard errors)</p>
-<div class="cell" data-layout-align="center" data-hash="07-regression_cache/html/unnamed-chunk-13_7f9a95eab523517df9e09005601d5e9f">
+<div class="cell" data-layout-align="center" data-hash="07-regression_cache/revealjs/unnamed-chunk-13_fcc25a8959bc12ed9aff471388e7dec5">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-13-1.png" style="height:80.0%" width="2100" class="figure-img"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-13-1.png" style="height:80.0%" width="2100" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -799,13 +776,10 @@ We can use this info to obtain a plausible range of estimates given our data, th
 <section id="confidence-intervals-illustration" class="level2">
 <h2 class="anchored" data-anchor-id="confidence-intervals-illustration">Confidence Intervals Illustration</h2>
 <div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>Joining with `by = join_by(term)`</code></pre>
-</div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -839,24 +813,24 @@ We can use this info to obtain a plausible range of estimates given our data, th
 <section id="communicating-uncertainty-examples" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="communicating-uncertainty-examples">Communicating Uncertainty: Examples</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sample_est <span class="ot">&lt;-</span> students_population <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(eval <span class="sc">~</span> beauty, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="sc">%T&gt;%</span> </span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sample_est <span class="ot">&lt;-</span> students_population <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">500</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(eval <span class="sc">~</span> beauty, <span class="at">data =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="sc">%T&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)   3.65      0.0738     49.4  4.20e-194   3.50      3.79  
-2 beauty        0.0668    0.0159      4.19 3.33e-  5   0.0354    0.0981</code></pre>
+1 (Intercept)   3.58      0.0767     46.7  3.45e-184   3.43       3.73 
+2 beauty        0.0911    0.0168      5.42 9.54e-  8   0.0581     0.124</code></pre>
 </div>
 </div>
 <blockquote class="blockquote">
-<p>95% confidence interval for the effect of <em>beauty</em> ranges from 0.04 to 0.1.<br>
-We are 95% confident that the effect of <em>beauty</em> on course eevaluations ranges from, on average, 0.04 to 0.1.<br>
-We are 95% confident that for each additional point in <em>beauty</em> score, we would expect course evaluations to increase by 0.04 to 0.1 points, on average.<br>
-<del>With 95% probability the expected increase in course evaluataions ranges between 0.04 to 0.1 points for each additional unit of beauty score.</del></p>
+<p>95% confidence interval for the effect of <em>beauty</em> ranges from 0.06 to 0.12.<br>
+We are 95% confident that the effect of <em>beauty</em> on course eevaluations ranges from, on average, 0.06 to 0.12.<br>
+We are 95% confident that for each additional point in <em>beauty</em> score, we would expect course evaluations to increase by 0.06 to 0.12 points, on average.<br>
+<del>With 95% probability the expected increase in course evaluataions ranges between 0.06 to 0.12 points for each additional unit of beauty score.</del></p>
 </blockquote>
 </section>
 <section id="communicating-uncertainty" class="level2 smaller">
@@ -865,7 +839,7 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -880,23 +854,23 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sample_m <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.95</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sample_m <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.95</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)   3.63      0.0765     47.4  8.11e-187   3.48       3.78 
-2 beauty        0.0866    0.0163      5.30 1.71e-  7   0.0545     0.119</code></pre>
+1 (Intercept)   3.63      0.0741     49.0  1.83e-192   3.48       3.77 
+2 beauty        0.0797    0.0156      5.10 4.93e-  7   0.0490     0.110</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sample_m <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sample_m <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>(<span class="at">conf.int =</span> T, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)   3.63      0.0765     47.4  8.11e-187   3.43       3.82 
-2 beauty        0.0866    0.0163      5.30 1.71e-  7   0.0444     0.129</code></pre>
+1 (Intercept)   3.63      0.0741     49.0  1.83e-192   3.44       3.82 
+2 beauty        0.0797    0.0156      5.10 4.93e-  7   0.0392     0.120</code></pre>
 </div>
 </div>
 <ul>
@@ -934,13 +908,13 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 <li>If CI covers zero, we conclude that with 95% confidence, the slope coefficient is not different from zero</li>
 </ul>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sample_est</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sample_est</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic   p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)   3.65      0.0738     49.4  4.20e-194   3.50      3.79  
-2 beauty        0.0668    0.0159      4.19 3.33e-  5   0.0354    0.0981</code></pre>
+1 (Intercept)   3.58      0.0767     46.7  3.45e-184   3.43       3.73 
+2 beauty        0.0911    0.0168      5.42 9.54e-  8   0.0581     0.124</code></pre>
 </div>
 </div>
 </section>
@@ -974,9 +948,9 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>evals <span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nonenglish) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_eval =</span> <span class="fu">mean</span>(eval)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>evals <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nonenglish) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_eval =</span> <span class="fu">mean</span>(eval)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   nonenglish avg_eval
@@ -987,7 +961,7 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 </div>
 </div><div class="column" style="width:50%;">
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(eval <span class="sc">~</span> nonenglish, evals) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(eval <span class="sc">~</span> nonenglish, evals) <span class="sc">%&gt;%</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic p.value
@@ -1013,11 +987,11 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 </section>
 <section id="null-words-with-permutation-two-sided-p-value" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="null-words-with-permutation-two-sided-p-value">Null Words with Permutation: Two-sided p-value</h2>
-<div class="cell" data-layout-align="center" data-hash="07-regression_cache/html/unnamed-chunk-22_77ef31f35606d029fc9871234586dd8b">
+<div class="cell" data-layout-align="center" data-hash="07-regression_cache/revealjs/unnamed-chunk-22_fa9708cf8d388e598a7ff9d535ab74e9">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1027,13 +1001,10 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 <h2 class="smaller anchored" data-anchor-id="null-words-with-permutation-slope-example">Null Words with Permutation: Slope Example</h2>
 <p>Repeated permutations allow for quantifying the variability in the slope under the condition that there is no linear relationship (i.e., that the null hypothesis is true)</p>
 <div class="cell" data-layout-align="center">
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="07-regression_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="2100"></p>
+<p><img src="07-regression_files/figure-revealjs/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="2100"></p>
 </figure>
 </div>
 </div>
@@ -1075,6 +1046,44 @@ We are 95% confident that for each additional point in <em>beauty</em> score, we
 </section>
 
 </main> <!-- /main -->
+
+<script>
+  // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+  // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+  // slide changes (different for each slide format).
+  (function () {
+    // dispatch for htmlwidgets
+    function fireSlideEnter() {
+      const event = window.document.createEvent("Event");
+      event.initEvent("slideenter", true, true);
+      window.document.dispatchEvent(event);
+    }
+
+    function fireSlideChanged(previousSlide, currentSlide) {
+      fireSlideEnter();
+
+      // dispatch for shiny
+      if (window.jQuery) {
+        if (previousSlide) {
+          window.jQuery(previousSlide).trigger("hidden");
+        }
+        if (currentSlide) {
+          window.jQuery(currentSlide).trigger("shown");
+        }
+      }
+    }
+
+    // hookup for slidy
+    if (window.w3c_slidy) {
+      window.w3c_slidy.add_observer(function (slide_num) {
+        // slide_num starts at position 1
+        fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+      });
+    }
+
+  })();
+</script>
+
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Learning to use data and statistics to explore the social, political, and economic world">
+
+<title>R for Data Analysis - Problem Set 2: Suggested Solutions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta property="og:title" content="R for Data Analysis - Problem Set 2: Suggested Solutions">
+<meta property="og:description" content="A professor in the Government department at Harvard, Ryan Enos, conducted a randomized field experiment assessing the extent to which individuals living in suburban communities around Boston…">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">R for Data Analysis</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html">
+ <span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../material/index.html">
+ <span class="menu-text">Course Material</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../resource/index.html">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../s23/index.html">
+ <span class="menu-text">Spring 2023</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/r4da-f23"><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://rstudio.cloud"><i class="bi bi-cloud-fill" role="img" aria-label="RStudio.cloud">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
+  <li><a href="#task-0-update-the-name-in-yaml" id="toc-task-0-update-the-name-in-yaml" class="nav-link" data-scroll-target="#task-0-update-the-name-in-yaml">Task 0: Update the Name in YAML</a></li>
+  <li><a href="#task-1-loading-the-data" id="toc-task-1-loading-the-data" class="nav-link" data-scroll-target="#task-1-loading-the-data">Task 1: Loading the Data</a></li>
+  <li><a href="#task-2-overview-of-the-dataset" id="toc-task-2-overview-of-the-dataset" class="nav-link" data-scroll-target="#task-2-overview-of-the-dataset">Task 2: Overview of the Dataset</a></li>
+  <li><a href="#task-3-plots-for-continuous-discrete-variables" id="toc-task-3-plots-for-continuous-discrete-variables" class="nav-link" data-scroll-target="#task-3-plots-for-continuous-discrete-variables">Task 3: Plots for Continuous Discrete Variables</a>
+  <ul class="collapse">
+  <li><a href="#make-the-plots" id="toc-make-the-plots" class="nav-link" data-scroll-target="#make-the-plots">3.1: Make the plots</a></li>
+  <li><a href="#discuss-the-plots" id="toc-discuss-the-plots" class="nav-link" data-scroll-target="#discuss-the-plots">3.2: Discuss the plots</a></li>
+  </ul></li>
+  <li><a href="#task-4-recreating-a-plot-with-layered-geoms" id="toc-task-4-recreating-a-plot-with-layered-geoms" class="nav-link" data-scroll-target="#task-4-recreating-a-plot-with-layered-geoms">Task 4: Recreating a Plot with Layered <code>geom</code>s</a>
+  <ul class="collapse">
+  <li><a href="#recreate-this-plot" id="toc-recreate-this-plot" class="nav-link" data-scroll-target="#recreate-this-plot">4.1: Recreate this plot</a></li>
+  <li><a href="#discuss-the-plot" id="toc-discuss-the-plot" class="nav-link" data-scroll-target="#discuss-the-plot">4.2: Discuss the plot</a></li>
+  <li><a href="#discuss-the-design-of-the-plot" id="toc-discuss-the-design-of-the-plot" class="nav-link" data-scroll-target="#discuss-the-design-of-the-plot">4.3: Discuss the design of the plot</a></li>
+  <li><a href="#make-an-alternative-optional" id="toc-make-an-alternative-optional" class="nav-link" data-scroll-target="#make-an-alternative-optional">4.4: Make an alternative (optional)</a></li>
+  <li><a href="#make-a-plot-for-another-variable" id="toc-make-a-plot-for-another-variable" class="nav-link" data-scroll-target="#make-a-plot-for-another-variable">4.5: Make a plot for another variable</a></li>
+  </ul></li>
+  <li><a href="#task-5-visualize-categorical-variables" id="toc-task-5-visualize-categorical-variables" class="nav-link" data-scroll-target="#task-5-visualize-categorical-variables">Task 5: Visualize Categorical Variables</a>
+  <ul class="collapse">
+  <li><a href="#discuss-the-plots-1" id="toc-discuss-the-plots-1" class="nav-link" data-scroll-target="#discuss-the-plots-1">5.1: Discuss the plots</a></li>
+  <li><a href="#improve-the-plots" id="toc-improve-the-plots" class="nav-link" data-scroll-target="#improve-the-plots">5.2: Improve the plots</a></li>
+  <li><a href="#store-your-plot" id="toc-store-your-plot" class="nav-link" data-scroll-target="#store-your-plot">5.3: Store your plot</a></li>
+  </ul></li>
+  <li><a href="#task-6-store-the-plot-object" id="toc-task-6-store-the-plot-object" class="nav-link" data-scroll-target="#task-6-store-the-plot-object">Task 6: Store the plot object</a>
+  <ul class="collapse">
+  <li><a href="#save-the-image" id="toc-save-the-image" class="nav-link" data-scroll-target="#save-the-image">6.1. Save the image</a></li>
+  <li><a href="#save-the-plot-object" id="toc-save-the-plot-object" class="nav-link" data-scroll-target="#save-the-plot-object">6.2. Save the plot object</a></li>
+  </ul></li>
+  <li><a href="#task-7-final-steps" id="toc-task-7-final-steps" class="nav-link" data-scroll-target="#task-7-final-steps">Task 7: Final Steps</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Problem Set 2: Suggested Solutions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># put all packages we use in a vector</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p_needed <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tidyverse"</span>, <span class="co"># shortcut for ggplot2, dplyr, readr</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"janitor"</span>, <span class="co"># clean variable names</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"styler"</span> <span class="co"># to style the code</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># check if they are already installed, install if not installed</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  p_needed[<span class="sc">!</span>(p_needed <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>()))],</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  install.packages</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># load the packages</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(p_needed, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># set the theme for all plots to theme_bw</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># feel free to change the theme!</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">theme_set</span>(ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>A professor in the Government department at Harvard, Ryan Enos, conducted a randomized field experiment assessing the extent to which individuals living in suburban communities around Boston, Massachusetts, and their views were affected by exposure to demographic change.</p>
+<blockquote class="blockquote">
+<p>Enos, R. D. 2014. <a href="http://dx.doi.org/10.1073/pnas.1317670111">“Causal Effect of Intergroup Contact on Exclusionary Attitudes.”</a> <em>Proceedings of the National Academy of Sciences</em> 111(10): 3699–3704.</p>
+</blockquote>
+<p>Subjects in the experiment were individuals riding on the commuter rail line and overwhelmingly white. Every morning, multiple trains pass through various stations in suburban communities that were used for this study. For pairs of trains leaving the same station at roughly the same time, one was randomly assigned to receive the treatment and one was designated as a control. By doing so all the benefits of randomization apply for this dataset.</p>
+<p>The treatment in this experiment was the presence of two native Spanish-speaking ‘confederates’ (a term used in experiments to indicate that these individuals worked for the researcher, unbeknownst to the subjects) on the platform each morning prior to the train’s arrival. The presence of these confederates, who would appear as Hispanic foreigners to the subjects, was intended to simulate the kind of demographic change anticipated for the United States in coming years. For those individuals in the control group, no such confederates were present on the platform. The treatment was administered for 10 days. Participants were asked questions related to immigration policy both before the experiment started and after the experiment had ended. You will be working withe the dataset with these variables (names may differ slightly):</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>treatment</code></td>
+<td>variable with two levels: “Treated” and “Control”</td>
+</tr>
+<tr class="even">
+<td><code>att_start</code></td>
+<td>starting attitude toward immigration issues. Uses a 3 to 15 scale, with higher numbers meaning more conservative</td>
+</tr>
+<tr class="odd">
+<td><code>att_end</code></td>
+<td>ending attitude toward immigration issues. Uses a 3 to 15 scale, with higher numbers meaning more conservative</td>
+</tr>
+<tr class="even">
+<td><code>gender</code></td>
+<td>variable with values “Male” and “Female”</td>
+</tr>
+<tr class="odd">
+<td><code>race</code></td>
+<td>variable with values “Asian”, “Black”, “Hispanic”, and “White”</td>
+</tr>
+<tr class="even">
+<td><code>liberal</code></td>
+<td>logical variable with TRUE meaning liberal</td>
+</tr>
+<tr class="odd">
+<td><code>party</code></td>
+<td>variable with values “Democrat” and “Republican”</td>
+</tr>
+<tr class="even">
+<td><code>age</code></td>
+<td>age in years</td>
+</tr>
+<tr class="odd">
+<td><code>income</code></td>
+<td>family income in dollars</td>
+</tr>
+<tr class="even">
+<td><code>line</code></td>
+<td>commuter train line, with values “Framingham” and “Franklin”</td>
+</tr>
+<tr class="odd">
+<td><code>station</code></td>
+<td>train station</td>
+</tr>
+<tr class="even">
+<td><code>hisp_perc</code></td>
+<td>percentage of Hispanic residents in person’s zip code</td>
+</tr>
+<tr class="odd">
+<td><code>ideology_start</code></td>
+<td>measure of political ideology, before the experiment, on a 1 to 5 scale, with higher numbers meaning more conservative</td>
+</tr>
+<tr class="even">
+<td><code>ideology_end</code></td>
+<td>measure of political ideology, after the experiment, on a 1 to 5 scale, with higher numbers meaning more conservative</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="task-0-update-the-name-in-yaml" class="level2">
+<h2 class="anchored" data-anchor-id="task-0-update-the-name-in-yaml">Task 0: Update the Name in YAML</h2>
+</section>
+<section id="task-1-loading-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="task-1-loading-the-data">Task 1: Loading the Data</h2>
+<p>This data comes from Enos (2014), which investigated attitudes toward immigration among Boston commuters.</p>
+<p>Please load the dataset <code>trains.tsv</code> from the data folder using the <code>readr</code> package and function <code>read_tsv</code>. Make sure the variable names are nice-to-work-with (<code>janitor</code> package can come in handy).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trains <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"data/trains.tsv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 115 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (6): Treatment, Gender, Race, Party, Line, Station
+dbl (7): Att Start, Att End, Age, Income, Hisp Perc, Ideology Start, Ideolog...
+lgl (1): Liberal
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="task-2-overview-of-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="task-2-overview-of-the-dataset">Task 2: Overview of the Dataset</h2>
+<p>Describe the dataset. Please answer the following questions in text and with the code where it is needed. I provide you with some template code that can help in answering one of the questions in the chunk below.</p>
+<ul>
+<li>How many variables are there?</li>
+</ul>
+<blockquote class="blockquote">
+<p>There are 14 variables in the dataset.</p>
+</blockquote>
+<ul>
+<li>How many observations exist?</li>
+</ul>
+<blockquote class="blockquote">
+<p>There are 115 observations.</p>
+</blockquote>
+<ul>
+<li>How many of the observations belong to <em>Treatment</em> and how many to <em>Control</em> condition?</li>
+</ul>
+<blockquote class="blockquote">
+<p>64 observations belong to the <em>Control</em> condition, the rest of them, 51 cases, belong to <em>Treatment</em> group.</p>
+</blockquote>
+<ul>
+<li>What are the types of variables (conceptually, not inside <code>R</code>)? Recall the plot from the slides.</li>
+</ul>
+<blockquote class="blockquote">
+<p><code>att_start</code>, <code>att_end</code>, <code>ideology_start</code>, <code>ideology_end</code> are, based on the description of them, ordinal, yet due to a large number of categories <code>att_start</code>, <code>att_end</code>, can be treated as discrete numeric ones in practice. <code>gender</code>, <code>race</code>, <code>liberal</code>, <code>party</code>, <code>line</code>, and <code>station</code> are all nominal, and <code>hisp_perc</code> and <code>income</code> are continuous numeric variables.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(trains)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 115  14</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># number of values per group</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>trains <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+Control Treated 
+     64      51 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># share of values per group</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>trains <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(treatment) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prop.table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>.
+  Control   Treated 
+0.5565217 0.4434783 </code></pre>
+</div>
+</div>
+</section>
+<section id="task-3-plots-for-continuous-discrete-variables" class="level2">
+<h2 class="anchored" data-anchor-id="task-3-plots-for-continuous-discrete-variables">Task 3: Plots for Continuous Discrete Variables</h2>
+<section id="make-the-plots" class="level3">
+<h3 class="anchored" data-anchor-id="make-the-plots">3.1: Make the plots</h3>
+<p>Create two plots for the distribution of immigration attitudes <em>before</em> the experiment. For the first plot, use <code>geom_histogram()</code>. For the second plot, use <code>geom_bar</code> or make a lollipop plot (see the lab for the code example).</p>
+<p>Put the code for the plots into the chunks with respective labels. Don’t forget to make the plots reader-friendly!</p>
+<blockquote class="blockquote">
+<p>Hint: you are welcome to play around with themes argument. Check the examples here: https://ggplot2.tidyverse.org/reference/ggtheme.html</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> trains, <span class="fu">aes</span>(<span class="at">x =</span> att_start)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">1</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">boundary =</span> <span class="fl">3.5</span>, <span class="co"># there is a cutoff at 4</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#800010"</span>, <span class="co"># sets the color to a specific value</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span> <span class="co"># changes color for borders</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Immigration Attitudes before the Experiment"</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Immigration Attitudes before the Experiment"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data: Enos (2014)"</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02-problem-set_files/figure-html/attitudes-histogram-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> trains, <span class="fu">aes</span>(<span class="at">x =</span> att_start)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"#800010"</span>, <span class="co"># sets the color to a specific value</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span> <span class="co"># changes color for borders</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Immigration Attitudes before the Experiment"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Immigration Attitudes before the Experiment"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data: Enos (2014)"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02-problem-set_files/figure-html/attitudes-barplot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="discuss-the-plots" class="level3">
+<h3 class="anchored" data-anchor-id="discuss-the-plots">3.2: Discuss the plots</h3>
+<p>Out of these two, which of the <code>geom</code>s do you think works better for presenting a discrete variable? Why do you think so?</p>
+<blockquote class="blockquote">
+<p>Barplot is a better choice given that this variable has discrete values, as it communicates the nature of the variable clearer. The gaps between the bars signal that there are no values in-between.</p>
+</blockquote>
+</section>
+</section>
+<section id="task-4-recreating-a-plot-with-layered-geoms" class="level2">
+<h2 class="anchored" data-anchor-id="task-4-recreating-a-plot-with-layered-geoms">Task 4: Recreating a Plot with Layered <code>geom</code>s</h2>
+<p>When looking at the data from the experiments, we often want to compare the characteristics of the respondents across groups. We should have have very similar groups, on average, to ba able to make valid inferences from the experiment. In this case, we would like to know if prior attitudes to immigration differ between (1) those who got assigned to the treatment condition and (2) those who were assigned to the control condition. Below you see a plot that could allow for such a comparison.</p>
+<p><img src="images/prior_attitudes_balance.png" class="img-fluid"></p>
+<section id="recreate-this-plot" class="level3">
+<h3 class="anchored" data-anchor-id="recreate-this-plot">4.1: Recreate this plot</h3>
+<blockquote class="blockquote">
+<p>Hint: order of layers makes a difference: layers may override the preceeding ones. Hint: you can use <code>geom_jitter</code> for the points. Hint: you may not get the points at <em>exactly</em> the same places, and that’s okay.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> trains,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> att_start,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> treatment</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Immigration Attitudes among Boston Commuters"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data source: Enos (2014)"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Attitudes before Experiment"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">""</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02-problem-set_files/figure-html/prior-attitudes-balance-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="discuss-the-plot" class="level3">
+<h3 class="anchored" data-anchor-id="discuss-the-plot">4.2: Discuss the plot</h3>
+<p>What is your conclusion regarding the “balance” of the groups: do we seem to have, on average, similar prior immigration attitudes across groups?</p>
+<blockquote class="blockquote">
+<p>There do not seem to be large differences between the distributions in <em>Treatment</em> and <em>Control</em> groups. The boxplot indicates that the medians are close to one another in values, and with the IQRs of both distributions overlapping strongly. We can also observe, not very clearly though, that there are more observations in the contol group. However, given that we have not conducted any proper statistical tests, it is hard to answer this question based on the lot alone.</p>
+</blockquote>
+</section>
+<section id="discuss-the-design-of-the-plot" class="level3">
+<h3 class="anchored" data-anchor-id="discuss-the-design-of-the-plot">4.3: Discuss the design of the plot</h3>
+<p>Discuss design choices behind the plot:</p>
+<ul>
+<li>What do you think is the purpose of adding each <code>geom</code> layer?</li>
+</ul>
+<blockquote class="blockquote">
+<p>The boxplot presents the summary statistics, namely the median and the IQR, in a concise way, which simplifies the comparison of the distributions between treatment groups. The points here convey the infomation about the number of observations in each group.</p>
+</blockquote>
+<ul>
+<li>Can either of them be omitted without loosing information?</li>
+</ul>
+<blockquote class="blockquote">
+<p>Both communicate different kinds of information, so we cannot drop either of them without losing information.</p>
+</blockquote>
+<ul>
+<li>Is there any more information about the distributions of prior immigration attitudes conditional on the treatment status you would like to have?</li>
+</ul>
+<blockquote class="blockquote">
+<p>It would be helpful to also see the mean value and the density of the distribution.</p>
+</blockquote>
+<ul>
+<li>Is it helpful in this case to remove the values on the horizontal axis? Why (not)?</li>
+</ul>
+<blockquote class="blockquote">
+<p>By default, some of the values get omitted, i.e.&nbsp;we do not have each value of the variable possible (from 3 to 15). With such a small number of values, we can include them all to reduce the cognitive load for the reader. What would also be helpful is including the information about the scale of the index, i.e.&nbsp;whoch values depict more conservative attitudes.</p>
+</blockquote>
+</section>
+<section id="make-an-alternative-optional" class="level3">
+<h3 class="anchored" data-anchor-id="make-an-alternative-optional">4.4: Make an alternative (optional)</h3>
+<p>Can you think of an alternative way to convey the same information graphically (e.g., using different <code>geom</code>s)? Or any adjustments to the current version of the plot? Make that plot!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> trains,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> att_start,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> treatment</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">height =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>, <span class="at">width =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">"#800010"</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Immigration Attitudes among Boston Commuters"</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data source: Enos (2014)"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Attitudes before Experiment"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">""</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"text"</span>, <span class="at">x =</span> <span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">14.5</span>), <span class="at">y =</span> <span class="fl">0.25</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"Least Conservative"</span>, <span class="st">"Most Conservative"</span>), </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">3</span>, <span class="at">fontface =</span> <span class="dv">3</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>, <span class="co"># moves the title to the left </span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>), <span class="co"># bold font for plot title</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(), <span class="co"># removes ticks on y-axis (aesthetic choice)</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span>  <span class="fu">element_blank</span>(), <span class="co"># removes grid lines between integers</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>() <span class="co"># removes grid lines between integers</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="co">#  restricts the y-axis to the range of interest </span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">clip =</span> <span class="st">'off'</span> <span class="co"># allows for annotations outside of the plot space </span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02-problem-set_files/figure-html/alternative-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Note that this solution includes the layers we have not yet discussed, but I provide it in case you want to see some examples. These are the changes made to the original plot: (1) clearer x-axis labels for only the reasonable values; (2) infomration about the scale; (3) smaller jittering of the points to still preserve their positions on the x-axis visually; (4) density added to show the shape of the distribution.</p>
+</blockquote>
+</section>
+<section id="make-a-plot-for-another-variable" class="level3">
+<h3 class="anchored" data-anchor-id="make-a-plot-for-another-variable">4.5: Make a plot for another variable</h3>
+<p>Now compare the immigration attitudes <em>after</em> the experiment across treatment and control groups with the same plot. Based on this plot alone, what can you conclude about the effect of the treatment?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> trains,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> att_end,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> treatment</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">color =</span> <span class="st">"#800010"</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">height =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Immigration Attitudes among Boston Commuters"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data source: Enos (2014)"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Attitudes after Experiment"</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">""</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">3</span>, <span class="dv">15</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>() <span class="co"># removes grid lines between integers</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02-problem-set_files/figure-html/post-attitudes-balance-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Unlike before, there seem to be an outlier in the distribution in the control group, so in order to emphasize it, I adjust the color of the boxplot to be different from that of the rest of the points. In comparison to the previous plots, we can observe a stronger disparity between the <em>Treated</em> and <em>Control</em> groups: the difference between the medians is now 2 points. Yet as in the case before, it is hard to make conclusions regarding the effect of the treatment solely based on the plots. Moreover, if we are interested in the effect of the treatment, it might have been useful to also incorporate the information about the prior attitudes (yet not necessary), which we do not do with such a visualization. This plot only carries the information about the after-treatment measure, so we also cannot interpret it as communicating the change in the attitudes among subgroups.</p>
+</blockquote>
+</section>
+</section>
+<section id="task-5-visualize-categorical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="task-5-visualize-categorical-variables">Task 5: Visualize Categorical Variables</h2>
+<p>Below you can find the code to create (very basic) barplots for the <em>race</em> variable. As with immigration attitudes, we want to know if we had similar distributions for races across treatment conditions.</p>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/unnamed-chunk-8-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/unnamed-chunk-8-6.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<section id="discuss-the-plots-1" class="level3">
+<h3 class="anchored" data-anchor-id="discuss-the-plots-1">5.1: Discuss the plots</h3>
+<p>Which of these plots (if any) do you think makes a better job at allowing for the comparison of the distributions across treatment groups? Why?</p>
+<blockquote class="blockquote">
+<p><strong>First row:</strong> stacked bar charts make the comparison between groups harder than two other alternatives provided.<br>
+<strong>Second row:</strong> the left plot emphasizes the comparison <strong>across</strong> <em>Treatment</em> and <em>Control</em> categories and makes it easier by grouping based on this variable than on the <em>race</em> variable. The right plot makes the comparison <strong>within</strong> the <em>Treatment</em> and <em>Control</em> groups easier. Given that we are interested in the comparison between values of race variable <em>across</em> the condition, the left plot does a better job as it puts the categories of interest, the treatment group, side-by-side. &nbsp;<br>
+<strong>Third row:</strong> Plots depict proportions rather than counts. This comes with the disadvantage of losing the information about relative group sizes in absolute numbers. However, proportions seem to facilitate the comparison that we are interested in. &nbsp;The plot on the left indicates imbalances in the race composition by looking at the total number of repsondents of race A and calculating the proportion of respondents that belong to the treatment/control group within that race A. The 0.5 value would indicate that we have an equal number of respondents of race A in both groups, which does not imply balance. Since <em>Treatment</em> and <em>Control</em> group (could) differ in sizes, the threshold of 0.5 does not help us determine if there are many more respondents of race A in one treatment group over the other when taking into account the full distribution. &nbsp;The plot on the right, however, shows the shares <em>within</em> the treatment groups. Here, the absolute size of the group becomes irrelevant, and we can compare the proportions across the groups, which is our goal.<br>
+<em>Out of these options, the right plot in the third row and the left plot in the second row (since it conveys the information about the group sizes) are the most helpful given our task.</em></p>
+</blockquote>
+</section>
+<section id="improve-the-plots" class="level3">
+<h3 class="anchored" data-anchor-id="improve-the-plots">5.2: Improve the plots</h3>
+<p>Select the plot(s) that you think are the most useful for our purpose. Improve that plot to make it more reader-friendly.</p>
+<blockquote class="blockquote">
+<p>First plot is made cleaner with the <code>theme</code> arguments and by adding a uniform color palette. Both plots have the numerical variable on the horizontal axis since the perception of numeric information could to be easier this way. This becomes especially clear for the second plot.</p>
+</blockquote>
+<div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>race_plot <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">labs</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Individuals"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Treatment Group"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Individuals' Race across Treatment Groups"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Enos (2014)"</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>()</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>treat_plot <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Share of Individuals"</span>,</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">""</span>,</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Individuals' Race across Treatment Groups"</span>,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Enos (2014)"</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Control</span><span class="sc">\n</span><span class="st">N = 64"</span>, <span class="st">"Treated</span><span class="sc">\n</span><span class="st">N = 51"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/improved-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="02-problem-set_files/figure-html/improved-plot-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="store-your-plot" class="level3">
+<h3 class="anchored" data-anchor-id="store-your-plot">5.3: Store your plot</h3>
+<p>Save the plot from 5.2 into the environment.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nice_plot <span class="ot">&lt;-</span> treat_plot <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Share of Individuals"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">""</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of Individuals' Race across Treatment Groups"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data Source: Enos (2014)"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="task-6-store-the-plot-object" class="level2">
+<h2 class="anchored" data-anchor-id="task-6-store-the-plot-object">Task 6: Store the plot object</h2>
+<section id="save-the-image" class="level3">
+<h3 class="anchored" data-anchor-id="save-the-image">6.1. Save the image</h3>
+<p>Sometimes you will need to export the plot from RStudio. Save your last plot in the folder <em>figures</em>. Choose a meaningful name for the file.</p>
+<blockquote class="blockquote">
+<p>Tip: We usually store plots in <code>pdf</code> or <code>png</code> formats, not <code>jpeg</code>. <code>jpeg</code> compresses the quality of the image.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"figures"</span>) <span class="co"># this creates the folder figures</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> nice_plot, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"race_plot.png"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"figures"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And here we check that the figure was created by including it in the file like this:</p>
+<p><code>![](figures/race_plot.png)</code></p>
+<p><img src="figures/race_plot.png" class="img-fluid"></p>
+</section>
+<section id="save-the-plot-object" class="level3">
+<h3 class="anchored" data-anchor-id="save-the-plot-object">6.2. Save the plot object</h3>
+<p>Another times we just want to store a <code>ggplot</code> object so we can work on it later on. Save you <code>ggplot</code> object into an <code>rds</code> file in the <em>output</em> folder. You can use the <code>write_rds</code> command from <code>readr</code>. Adjust the lines in the chunk below to do the job:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"output"</span>) <span class="co"># this creates the folder Output</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> nice_plot,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="st">"output/race_plot.rds"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And here we check that it worked correctly by loading the plot back and printing it (without storing it into an object in the environment):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_rds</span>(<span class="st">"output/race_plot.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="02-problem-set_files/figure-html/check-raw-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="task-7-final-steps" class="level2">
+<h2 class="anchored" data-anchor-id="task-7-final-steps">Task 7: Final Steps</h2>
+<ul>
+<li>Style your code with <code>styler</code> addin.</li>
+<li>Render the final (!) version of your document into PDF.</li>
+<li>Commit and push the latest version of your file to GitHub.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Content <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> 2023 by <a href="https://www.sowi.uni-mannheim.de/gschwend/team/postdocs-and-doctoral-students/viktoriia-semenova/">Viktoriia Semenova</a> <br> All content licensed under a <i class="fa-brands fa-creative-commons" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-by" aria-hidden="true"></i> <i class="fa-brands fa-creative-commons-nc" aria-hidden="true"></i> <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International license (CC BY-NC 4.0)</a></div>   
+    <div class="nav-footer-right">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i>, <a href="https://github.com/"><i class="fa-brands fa-github" aria-hidden="true"></i></a>, <a href="https://posit.co/"><i class="fa-brands fa-r-project" aria-hidden="true"></i></a> and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

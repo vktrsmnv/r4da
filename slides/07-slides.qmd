@@ -7,7 +7,7 @@ title-slide-attributes:
 auto-stretch: false
 institute: "University of Mannheim<br>Fall 2023"
 author: "Viktoriia Semenova"
-footer: "[🔗 r4da.live](https://r4da.live/)"
+footer: "[🔗 r4da.netlify.app](https://r4da.netlify.app/)"
 logo: images/logo.png
 format:
   revealjs:
@@ -51,13 +51,12 @@ showtext::showtext_auto()
 ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14)) +
   theme(plot.title = element_text(face = "bold"))
 
-# governors <- readr::read_csv("https://r4da.live/files/data/external_data/governors.csv")
+# governors <- readr::read_csv("https://r4da.netlify.app/files/data/external_data/governors.csv")
 # trains <- readr::read_tsv("../data/trains.tsv") %>% clean_names()
 set.seed(2508)
 ```
 
 # Intro
-
 
 ## Agenda for Today
 
@@ -68,7 +67,6 @@ set.seed(2508)
 <br>
 
 **Interpretation of Regression Coefficients**
-
 
 <!-- ## Cookies and Happiness -->
 
@@ -97,7 +95,6 @@ cookies_base <- ggplot(cookies_fitted, aes(x = cookies, y = happiness)) +
 
 # cookies_base
 ```
-
 
 ## Cookies and Happiness: OLS Regression Line {.smaller}
 
@@ -191,75 +188,108 @@ cookies_base +
 # Fitting and Interpreting Models
 
 <!-- ## Workflow -->
+
 <!-- <br> -->
 
 <!-- ```{dot} -->
+
 <!-- //| echo: false -->
+
 <!-- digraph G { -->
+
 <!--   forcelabels=true; -->
+
 <!--   splines=false; -->
+
 <!--   fontname="AtkinsonHyperlegible-Regular"; -->
+
 <!--   causal [ -->
+
 <!--     label = "Causal Estimand"; -->
+
 <!--     shape = rect;  -->
+
 <!--     group=a; -->
+
 <!--   ]; -->
+
 <!--   stats [ -->
+
 <!--     label = "Statistical Estimand"; -->
+
 <!--     shape = rect; -->
+
 <!--      group=a; -->
+
 <!--   ]; -->
+
 <!--   est [ -->
+
 <!--     label = "Estimate"; -->
+
 <!--     shape = rect; -->
+
 <!--      group=a; -->
+
 <!--   ]; -->
+
 <!--   mod [ -->
+
 <!--     label = "Causal Model"; -->
+
 <!--     shape = oval; -->
+
 <!--      group=b; -->
+
 <!--   ]; -->
+
 <!--   data [ -->
+
 <!--     label = "Data"; -->
+
 <!--     shape = oval; -->
+
 <!--     group=b; -->
+
 <!--   ]; -->
 
 <!--   causal -> stats [xlabel = "Identification    " ]; -->
+
 <!--   stats -> est [ xlabel = "Estimation   "; dir = "backward"]; -->
+
 <!--   mod -> stats; -->
+
 <!--   data -> est; -->
 
 <!-- { -->
+
 <!--     rank=same; -->
+
 <!--     causal; mod;  -->
-<!--   } -->
-<!--   { -->
-<!--     rank=same; -->
-<!--     stats; data;  -->
+
 <!--   } -->
 
+<!--   { -->
+
+<!--     rank=same; -->
+
+<!--     stats; data;  -->
+
+<!--   } -->
 
 <!-- } -->
 
 <!-- ``` -->
 
-
 ## Language of Models {.smaller}
 
-
--   **True Model**
-    $y = \underbrace{\beta_0}_{\text{intercept}} + \underbrace{\beta_1}_{\text{slope}} x + \underbrace{\varepsilon}_{\text{error}}$
+-   **True Model** $y = \underbrace{\beta_0}_{\text{intercept}} + \underbrace{\beta_1}_{\text{slope}} x + \underbrace{\varepsilon}_{\text{error}}$
     -   Population parameters $\beta$: truth (estimand), unknown to us
--   **Estimated Model**
-    $y = \underbrace{\hat\beta_0}_{\text{intercept}} + \underbrace{\hat\beta_1}_{\text{slope}} x + \underbrace{\hat\varepsilon}_{\text{residual}}$
-    -   Estimates $\hat{\beta}$: our best guess about the estimand given the
-        data
+-   **Estimated Model** $y = \underbrace{\hat\beta_0}_{\text{intercept}} + \underbrace{\hat\beta_1}_{\text{slope}} x + \underbrace{\hat\varepsilon}_{\text{residual}}$
+    -   Estimates $\hat{\beta}$: our best guess about the estimand given the data
 -   A model has two parts:
-    -   **Systematic Component** of a linear model:
-        $\underbrace{\hat y}_{\text{fitted}\\\text{value}} = \underbrace{\hat\beta_0}_{\text{intercept}} + \underbrace{\hat\beta_1}_{\text{slope}} x$
+    -   **Systematic Component** of a linear model: $\underbrace{\hat y}_{\text{fitted}\\\text{value}} = \underbrace{\hat\beta_0}_{\text{intercept}} + \underbrace{\hat\beta_1}_{\text{slope}} x$
     -   **Stochastic Component** of a linear model: $\hat\varepsilon$
-
 
 ## Vocabulary
 
@@ -268,31 +298,37 @@ y = \hat \beta_0 + \hat \beta_1 x_1 + \hat \varepsilon
 $$
 
 -   $y$: dependent variable, outcome
--   $x$: independent variable, treatment, explanatory variable, treatment,
-    predictor, feature
+-   $x$: independent variable, treatment, explanatory variable, treatment, predictor, feature
 -   $\hat y$: predicted values of y, y-hat, fitted values, regression line\
 -   $\hat \beta_0$: intercept, prediction when all $x=0$, constant
 -   $\hat \beta_k$: slope, the effect of $k$-th variable
 
-
-
 <!-- ## Modeling Happiness with Cookies -->
 
-
 <!-- $$ -->
+
 <!-- y = \hat \beta_0 + \hat \beta_1 x_1 + \hat \varepsilon -->
+
 <!-- $$ -->
 
 <!-- $$ -->
+
 <!-- \begin{aligned} -->
+
 <!-- &{\text{Happiness}} =  \hat \beta_0 +  \hat \beta_1 \text{Cookies} + \hat \varepsilon -->
+
 <!-- \end{aligned} -->
+
 <!-- $$ -->
 
 <!-- $$ -->
+
 <!-- \begin{aligned} -->
+
 <!-- &\widehat{\text{Happiness}} =  \hat \beta_0 +  \hat \beta_1 \text{Cookies}  -->
+
 <!-- \end{aligned} -->
+
 <!-- $$ -->
 
 <!-- :::task -->
@@ -303,24 +339,14 @@ $$
 
 ## Interpreting Slope Coefficient Poll {.normal}
 
-
 `r equatiomatic::extract_eq(cookies_model, intercept = "beta", use_coefs = TRUE, coef_digits = 3, swap_var_names = c("cookies" = "Number of Cookies Eaten", "happiness" = "Happiness"))`
 
-The slope of the model for predicting happiness score from number of consumed
-cookies is `r round(cookies_model$coefficients["cookies"], 3)`. Which of the
-following is the best interpretation of this value?
+The slope of the model for predicting happiness score from number of consumed cookies is `r round(cookies_model$coefficients["cookies"], 3)`. Which of the following is the best interpretation of this value?
 
-1.  For every additional cookie eaten, the happiness score goes up by
-    `r round(cookies_model$coefficients["cookies"], 3)` points, on average.
-2.  For every additional cookie eaten, we expect the happiness score to be
-    higher by `r round(cookies_model$coefficients["cookies"], 3)` points, on
-    average.
-3.  For every additional cookie eaten, the happiness score goes up by
-    `r round(cookies_model$coefficients["cookies"], 3)` points.
-4.  For every one point increase in happiness score, the number of cookies eaten
-    goes up by `r round(cookies_model$coefficients["cookies"], 3)` points, on
-    average.
-
+1.  For every additional cookie eaten, the happiness score goes up by `r round(cookies_model$coefficients["cookies"], 3)` points, on average.
+2.  For every additional cookie eaten, we expect the happiness score to be higher by `r round(cookies_model$coefficients["cookies"], 3)` points, on average.
+3.  For every additional cookie eaten, the happiness score goes up by `r round(cookies_model$coefficients["cookies"], 3)` points.
+4.  For every one point increase in happiness score, the number of cookies eaten goes up by `r round(cookies_model$coefficients["cookies"], 3)` points, on average.
 
 ```{r}
 #| echo: false
@@ -332,113 +358,163 @@ countdown(minutes = 1.5, color_background = "white", font_size = 2, top = 0)
 ::: small
 `r equatiomatic::extract_eq(cookies_model, intercept = "beta", use_coefs = TRUE, coef_digits = 3, swap_var_names = c("cookies" = "Number of Cookies Eaten", "happiness" = "Happiness"))`
 
-> Slope: For every additional cookie eaten, we expect the happiness score to be
-> higher by `r round(cookies_model$coefficients["cookies"], 3)` points, on
-> average.
+> Slope: For every additional cookie eaten, we expect the happiness score to be higher by `r round(cookies_model$coefficients["cookies"], 3)` points, on average.
 
--   Each additional cookie has the same effect on happiness, i.e. *marginal
-    effect* is constant
-    -   Associated increase in happiness is 0.155 for the first and, say, tenth
-        cookie
+-   Each additional cookie has the same effect on happiness, i.e. *marginal effect* is constant
+    -   Associated increase in happiness is 0.155 for the first and, say, tenth cookie
 
-> Intercept: If the number of eaten cookies is 0, we expect the happiness score
-> to be `r round(cookies_model$coefficients[1], 3)` points.
+> Intercept: If the number of eaten cookies is 0, we expect the happiness score to be `r round(cookies_model$coefficients[1], 3)` points.
 
--   Intercept is meaningful in the context of data because the predictor can
-    feasibly take values equal to or near zero
+-   Intercept is meaningful in the context of data because the predictor can feasibly take values equal to or near zero
 :::
 
-
-# Mechanics of Linear Regression 
+# Mechanics of Linear Regression
 
 <!-- ## Errors/Residuals in Regression {.smaller} -->
 
 <!-- - Random noise, the *stochastic* component of the model: the sum of “everything else” not in the systematic component of the model -->
-<!-- <!-- - We assume errors to be, on average, zero given every value of X: $\mathbb{E}(\varepsilon|X) = 0$ --> 
+
+<!-- <!-- - We assume errors to be, on average, zero given every value of X: $\mathbb{E}(\varepsilon|X) = 0$ -->
 
 <!-- ```{r} -->
+
 <!-- #| echo: false -->
+
 <!-- #| out-height: 90% -->
+
 <!-- m_cookies <- lm(happiness ~ cookies, data = cookies) -->
+
 <!-- cookies_fitted <- augment(m_cookies)  -->
 
 <!-- ggplot( -->
-<!--   cookies_fitted, -->
-<!--   aes(y = .resid, x = cookies) -->
-<!-- ) + -->
-<!--   geom_point() + -->
-<!--   geom_hline( -->
-<!--     yintercept = 0, -->
-<!--     linetype = "dashed" -->
-<!--   ) + -->
-<!--   labs( -->
-<!--     x = "Cookies eaten", -->
-<!--     y = "Residuals" -->
-<!--   ) -->
-<!-- ``` -->
 
+<!--   cookies_fitted, -->
+
+<!--   aes(y = .resid, x = cookies) -->
+
+<!-- ) + -->
+
+<!--   geom_point() + -->
+
+<!--   geom_hline( -->
+
+<!--     yintercept = 0, -->
+
+<!--     linetype = "dashed" -->
+
+<!--   ) + -->
+
+<!--   labs( -->
+
+<!--     x = "Cookies eaten", -->
+
+<!--     y = "Residuals" -->
+
+<!--   ) -->
+
+<!-- ``` -->
 
 <!-- ## Regression Standard Error -->
 
 <!-- Once we fit the model, we can use the residuals to estimate error variance (i.e. residual variance): -->
 
 <!-- $$ -->
+
 <!-- \hat\sigma^2 = \frac{\overbrace{\sum_{i=1}^{n}\hat{e}_i^2}^{\text{sum of squared residuals}}}{ -->
+
 <!-- \underbrace{ -->
+
 <!-- \underbrace{n}_{\text{number of}\\\text{observations}}-\underbrace{k}_{\text{number of}\\\text{covariates}} - 1 -->
+
 <!-- }_{\text{degrees of freedom}} -->
+
 <!-- } -->
+
 <!-- $$ -->
 
 <!-- Regression standard error  $\sqrt{\hat\sigma^2}$: -->
 
 <!-- -  A measure of the average error (average difference between observed and  predicted values of the outcome) in same units as the outcome variable -->
 
-
-<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) --> 
+<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) -->
 
 <!-- ```{r, echo=FALSE} -->
+
 <!-- #| out-height: 80% -->
+
 <!-- set.seed(0) -->
+
 <!-- dat <- data.frame(x=(x=runif(10000, 0, 50)), -->
+
 <!--                   y=rnorm(10000, 10*x, 100)) -->
+
 <!-- ## breaks: where you want to compute densities -->
+
 <!-- breaks <- seq(0, max(dat$x), len=5) -->
+
 <!-- dat$section <- cut(dat$x, breaks) -->
+
 <!-- ## Get the residuals -->
+
 <!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+
 <!-- ## Compute densities for each section, flip the axes, add means of sections -->
+
 <!-- ## Note: densities need to be scaled in relation to section size (2000 here) -->
+
 <!-- dens <- do.call(rbind, lapply(split(dat, dat$section), function(x) { -->
+
 <!--   d <- density(x$res, n=5000) -->
+
 <!--   res <- data.frame(x=max(x$x)- d$y*2000, y=d$x+mean(x$y)) -->
+
 <!--   res <- res[order(res$y), ] -->
+
 <!--   ## Get some data for normal lines as well -->
+
 <!--   xs <- seq(min(x$res), max(x$res), len=5000) -->
+
 <!--   res <- rbind(res, data.frame(y=xs , -->
+
 <!--                                x=max(x$x) - 2000*dnorm(xs, 0, sd(x$res)))) -->
+
 <!--   res$type <- rep(c("empirical", "normal"), each=5000) -->
+
 <!--   res -->
+
 <!-- })) -->
+
 <!-- dens$section <- rep(levels(dat$section), each=10000) -->
+
 <!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+
 <!-- ggplot(dat, aes(x, res)) + -->
+
 <!--   geom_point(size = 0.1, alpha = 0.25) + -->
+
 <!--   geom_hline(yintercept = 0) + -->
+
 <!--   geom_path( -->
+
 <!--     data = dens[dens$type == "normal", ], -->
+
 <!--     aes(x, y, group = section), -->
+
 <!--     color = "#003056", -->
+
 <!--     lwd = 0.8 -->
+
 <!--   ) + -->
+
 <!--   theme(axis.text.x = element_blank()) + -->
+
 <!--   scale_y_continuous(breaks = 0) + -->
+
 <!--     labs(y = "Residuals", -->
+
 <!--        x = "X")  -->
 
-
 <!-- ``` -->
-
 
 ## Explained vs. Unexplained Variation in Y
 
@@ -638,8 +714,6 @@ cookies_base +
 :::
 :::
 
-
-
 ```{r make-more-cookies, include=FALSE}
 set.seed(250895)
 cookies_data <- cookies
@@ -794,7 +868,6 @@ p3
 
 ## Fitting Line Example II {.smaller}
 
-
 $$
 \begin{aligned}
 &\widehat{\text{Happiness}} =  2 + 0 \cdot \text{Cookies} = \overline{\text{Happiness}} 
@@ -809,8 +882,6 @@ p2
 ```
 
 ## Fitting Line Example III {.smaller}
-
-
 
 $$
 \begin{aligned}
@@ -840,36 +911,26 @@ p1
 
 ```
 
-
 ## Explained vs. Unexplained Variation in Y
 
 ::: smaller
-**Explained Variance (Sum of Squares):** 
-$$ESS = \sum^{n}_{i=1}(\hat y_i - \bar y)^2$$
+**Explained Variance (Sum of Squares):** $$ESS = \sum^{n}_{i=1}(\hat y_i - \bar y)^2$$
 
-**Sum of Squared Residuals:**
-$$RSS = \sum^n_{i=1}\hat{\varepsilon_i}^2 = \sum^n_{i=1}(y_i - \hat{y_i})^2$$
+**Sum of Squared Residuals:** $$RSS = \sum^n_{i=1}\hat{\varepsilon_i}^2 = \sum^n_{i=1}(y_i - \hat{y_i})^2$$
 
-**Total Sum of Squares:** 
-$$TSS = \sum^{n}_{i=1}(y_i - \bar y)^2 = ESS + RSS$$
+**Total Sum of Squares:** $$TSS = \sum^{n}_{i=1}(y_i - \bar y)^2 = ESS + RSS$$
 :::
-
-
-
-
 
 ## What Are Coefficient Values in OLS {.small}
 
 ::: columns
 ::: {.column width="50%"}
-
 $$\text{Sum of Squared Residuals (SSR)} \\= \sum^n_{i=1}\hat{\varepsilon_i}^2 \\ = \sum^n_{i=1}(y_i - \hat{y_i})^2 \\ = \sum^n_{i=1}(y_i - \hat{\beta_0} - \hat{\beta_1} x_i)^2$$
 
--   OLS estimator finds values of $\hat\beta$ which minimize $SSR$, the
-    unexplained variance\
+-   OLS estimator finds values of $\hat\beta$ which minimize $SSR$, the unexplained variance\
 -   We use differential calculus to find these values of $\hat{\beta}$ ([full derivation](https://r4da.live/resource/slr.html))
-
 :::
+
 ::: {.column width="50%"}
 ```{r}
 #| echo: false
@@ -900,83 +961,116 @@ knitr::include_graphics("images/coefs.png")
 :::
 :::
 
-
-
 <!-- ## Regression Standard Error -->
 
 <!-- Once we fit the model, we can use the residuals to estimate error variance (i.e. residual variance): -->
 
 <!-- $$ -->
+
 <!-- \hat\sigma^2 = \frac{\overbrace{\sum_{i=1}^{n}\hat{e}_i^2}^{\text{sum of squared residuals}}}{ -->
+
 <!-- \underbrace{ -->
+
 <!-- \underbrace{n}_{\text{number of}\\\text{observations}}-\underbrace{k}_{\text{number of}\\\text{covariates}} - 1 -->
+
 <!-- }_{\text{degrees of freedom}} -->
+
 <!-- } -->
+
 <!-- $$ -->
 
 <!-- Regression standard error  $\sqrt{\hat\sigma^2}$: -->
 
 <!-- -  A measure of the average error (average difference between observed and  predicted values of the outcome) in same units as the outcome variable -->
 
-
-<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) --> 
+<!-- $\varepsilon \sim \mathcal{N}(0, \sigma^2)$) -->
 
 <!-- ```{r, echo=FALSE} -->
+
 <!-- #| out-height: 80% -->
+
 <!-- set.seed(0) -->
+
 <!-- dat <- data.frame(x=(x=runif(10000, 0, 50)), -->
+
 <!--                   y=rnorm(10000, 10*x, 100)) -->
+
 <!-- ## breaks: where you want to compute densities -->
+
 <!-- breaks <- seq(0, max(dat$x), len=5) -->
+
 <!-- dat$section <- cut(dat$x, breaks) -->
+
 <!-- ## Get the residuals -->
+
 <!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+
 <!-- ## Compute densities for each section, flip the axes, add means of sections -->
+
 <!-- ## Note: densities need to be scaled in relation to section size (2000 here) -->
+
 <!-- dens <- do.call(rbind, lapply(split(dat, dat$section), function(x) { -->
+
 <!--   d <- density(x$res, n=5000) -->
+
 <!--   res <- data.frame(x=max(x$x)- d$y*2000, y=d$x+mean(x$y)) -->
+
 <!--   res <- res[order(res$y), ] -->
+
 <!--   ## Get some data for normal lines as well -->
+
 <!--   xs <- seq(min(x$res), max(x$res), len=5000) -->
+
 <!--   res <- rbind(res, data.frame(y=xs , -->
+
 <!--                                x=max(x$x) - 2000*dnorm(xs, 0, sd(x$res)))) -->
+
 <!--   res$type <- rep(c("empirical", "normal"), each=5000) -->
+
 <!--   res -->
+
 <!-- })) -->
+
 <!-- dens$section <- rep(levels(dat$section), each=10000) -->
+
 <!-- dat$res <- residuals(lm(y ~ x, data=dat)) -->
+
 <!-- ggplot(dat, aes(x, res)) + -->
+
 <!--   geom_point(size = 0.1, alpha = 0.25) + -->
+
 <!--   geom_hline(yintercept = 0) + -->
+
 <!--   geom_path( -->
+
 <!--     data = dens[dens$type == "normal", ], -->
+
 <!--     aes(x, y, group = section), -->
+
 <!--     color = "#003056", -->
+
 <!--     lwd = 0.8 -->
+
 <!--   ) + -->
+
 <!--   theme(axis.text.x = element_blank()) + -->
+
 <!--   scale_y_continuous(breaks = 0) + -->
+
 <!--     labs(y = "Residuals", -->
+
 <!--        x = "X")  -->
 
-
 <!-- ``` -->
-
 
 ## Properties of Least Squares Regression
 
 ::: smaller
--   The regression line goes through the center of mass point, the coordinates
-    corresponding to average $X$ and average $Y$, $(\bar{X}, \bar{Y})$:
+-   The regression line goes through the center of mass point, the coordinates corresponding to average $X$ and average $Y$, $(\bar{X}, \bar{Y})$:
 
 $$\bar{Y} = \hat \beta_0 + \hat \beta_1 \bar{X} ~ \rightarrow ~ \hat \beta_0 = \bar{y} - \hat \beta_1 \bar{x}$$
 
--   The slope has the same sign as the correlation coefficient:
-    $\beta_X = Corr(X,Y) \dfrac{{\sigma_Y}}{{\sigma_X}}$
+-   The slope has the same sign as the correlation coefficient: $\beta_X = Corr(X,Y) \dfrac{{\sigma_Y}}{{\sigma_X}}$
 
 -   The sum of the residuals is zero (by design): $\sum_{i = 1}^n e_i = 0$
 :::
-
-
-

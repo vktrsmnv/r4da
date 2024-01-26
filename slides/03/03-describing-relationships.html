@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../..//files/icon-512.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.2.475">
+
+  <meta name="author" content="Viktoriia Semenova">
+  <title>R for Data Analysis - Describing Relationships</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-captioned.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-captioned) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-captioned.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-captioned .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-captioned .callout-caption  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-captioned.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-captioned.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-caption {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-caption {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-caption {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-captioned .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-captioned .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-captioned) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-caption {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-caption {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-caption {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-caption {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-caption {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="../../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
+  <script src="../../site_libs/countdown-0.4.0/countdown.js"></script>
+<meta property="og:title" content="R for Data Analysis - Describing Relationships">
+<meta property="og:description" content="Data Analytics and Visualization with R<br>Session 3">
+<meta property="og:image" content="https://r4da.live/files/icon-512.png">
+<meta property="og:site-name" content="R for Data Analysis">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="512">
+<meta property="og:image:width" content="512">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-size="stretch" data-slide-number="none" class="quarto-title-block center">
+  <h1 class="title">Describing Relationships</h1>
+  <p class="subtitle">Data Analytics and Visualization with R<br>Session 3</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Viktoriia Semenova 
+</div>
+        <p class="quarto-title-affiliation">
+            University of Mannheim<br>Spring 2023
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="warm-up" class="title-slide slide level1 center">
+<h1>Warm up</h1>
+
+</section>
+<section id="housekeeping-homework" class="slide level2">
+<h2>Housekeeping: Homework</h2>
+<ul>
+<li class="fragment">Push your latest version of the project to GitHub</li>
+<li class="fragment">Slack me/write on GitHub Discussion</li>
+<li class="fragment">Include the lines of code which produce the error and the error text when asking for help</li>
+<li class="fragment">Deadline for Problem Set 3: Monday 23:59 (not noon)</li>
+<li class="fragment">Office hours Monday 16:00-17:00 (and Friday)</li>
+</ul>
+</section>
+<section id="your-github-stats" class="slide level2">
+<h2>Your GitHub Stats 🤓</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img data-src="images/PS01_by_hour.png"></p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/PS01_by_wday.png"></p>
+</div>
+</div>
+</section>
+<section id="quiz-which-of-these-statements-are-correct" class="slide level2">
+<h2>Quiz: Which of these statements are correct?</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="countdown" id="timer_5aae8ef8" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">04</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<ol type="1">
+<li class="fragment"><p>The mean and mode of the variable always have to be present in the data.</p></li>
+<li class="fragment"><p>When estimating variance of the distribution, observations further from the mean have more weight than observations close to the mean.</p></li>
+<li class="fragment"><p>Boxplot contains the information about the distributions’ measures of center, spread, and shape.</p></li>
+<li class="fragment"><p>Median and IQR are more robust to outliers than mean and standard deviation.</p></li>
+<li class="fragment"><p>Proportion is the mean of a binary variable.</p></li>
+</ol>
+</section>
+<section id="anatomy-of-a-boxplot" class="slide level2">
+<h2>Anatomy of a Boxplot</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/boxplot-explanation-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="will-these-two-graphs-look-different" class="slide level2">
+<h2>Will these two graphs look different?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="plot-a">Plot A</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="at">data =</span> governors,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    <span class="at">x =</span> year,</span>
+<span id="cb1-5"><a href="#cb1-5"></a>    <span class="at">y =</span> lived_after</span>
+<span id="cb1-6"><a href="#cb1-6"></a>  )</span>
+<span id="cb1-7"><a href="#cb1-7"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<h3 id="plot-b">Plot B</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb2-3"><a href="#cb2-3"></a>    governors, </span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="fu">aes</span>(</span>
+<span id="cb2-5"><a href="#cb2-5"></a>      <span class="at">x =</span> year, </span>
+<span id="cb2-6"><a href="#cb2-6"></a>      <span class="at">y =</span> lived_after</span>
+<span id="cb2-7"><a href="#cb2-7"></a>      ),</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="today" class="slide level2">
+<h2>Today</h2>
+<ul>
+<li class="fragment">Last week: describing variables by themselves</li>
+<li class="fragment">Today: how variables can be related to each other
+<ul>
+<li class="fragment">Measuring association</li>
+<li class="fragment">Visualizing bivariate relationships</li>
+<li class="fragment">Lab: data viz + data wrangling</li>
+</ul></li>
+</ul>
+<!-- ## Bar Plots  -->
+<!-- - Problem 1: labels are too long -->
+<!--   - Solution 1: space out the columns  -->
+<!--   - Solution 2: swap the x and the y axis, so that the bars run horizontally -->
+<!-- - Problem 2: confusing to read -->
+<!--   - Solution: arrange bars in order of their size (not alphabetically), but only if there is no natural ordering to the categories  -->
+</section>
+<section id="what-is-statistics" class="slide level2">
+<h2>What is Statistics?</h2>
+<blockquote>
+<p>Use a sample to make inferences about a population</p>
+</blockquote>
+<p><img data-src="https://data-fss21-week3-slides.netlify.app/img/statinf.jpg"></p>
+</section>
+<section id="terminology" class="slide level2">
+<h2>Terminology</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><em>Estimand</em>: the <em>true</em> value of the parameter in the population (unknown)</li>
+<li class="fragment"><em>Estimate</em>: a value which is our best guess about a parameter based on our sample</li>
+<li class="fragment"><em>Estimator</em>: the function (procedure) we apply to get the estimate</li>
+</ul>
+<!-- > Estimate = Estimand + Bias + Noise -->
+</div><div class="column" style="width:50%;">
+<p><img data-src="https://pbs.twimg.com/media/DxH-rucWsAAYWR-.jpg"></p>
+</div>
+</div>
+</section>
+<section id="notation" class="slide level2">
+<h2>Notation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="greek">Greek</h3>
+<ul>
+<li class="fragment"><p>Letters like <span class="math inline">\(\beta_1\)</span> are the <strong><em>truth</em></strong>/<strong><em>estimands</em></strong>, aka population parameters</p></li>
+<li class="fragment"><p>Letters with extra markings like <span class="math inline">\(\hat{\beta_1}\)</span> are our <strong><em>estimate</em></strong> of the truth based on our sample</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="latin">Latin</h3>
+<ul>
+<li class="fragment"><p>Letters like <span class="math inline">\(X\)</span> are <strong><em>actual data</em></strong> from our sample</p></li>
+<li class="fragment"><p>Letters with extra markings like <span class="math inline">\(\bar{X}\)</span> are <strong><em>calculations</em></strong> from our sample</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="estimating-the-truth" class="slide level2">
+<h2>Estimating the Truth</h2>
+<blockquote>
+<p>(Sample) Data → Calculation → Estimate → Truth</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td><span class="math inline">\(X\)</span></td>
+</tr>
+<tr class="even">
+<td>Calculation</td>
+<td><span class="math inline">\(\bar{X} = \frac{\sum{X}}{N}\)</span></td>
+</tr>
+<tr class="odd">
+<td>Estimate</td>
+<td><span class="math inline">\(\hat{\mu}\)</span></td>
+</tr>
+<tr class="even">
+<td>Truth</td>
+<td><span class="math inline">\(\mu\)</span></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<p><span class="math display">\[
+\bar{X} = \hat{\mu}
+\]</span></p>
+<p><span class="math display">\[
+X \rightarrow \bar{X} \rightarrow \hat{\mu} \xrightarrow{\text{🤞 hopefully 🤞}} \mu
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="conditional-marginal-distributions" class="slide level2">
+<h2>Conditional (Marginal) Distributions</h2>
+<p>A <em>conditional distribution</em> is the distribution of one variable given the value of another variable</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-5-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- ## Cookies and Happiness -->
+<!-- ![](https://theeffectbook.net/the-effect_files/figure-html/describingrelationships-smoking-1.png) -->
+<!-- ![](https://r4da.live/files/img/assignments/prior_attitudes_balance.png) -->
+</section>
+<section id="conditional-means" class="slide level2">
+<h2>Conditional Means</h2>
+<ul>
+<li class="fragment">Summarizes conditional distributions<br>
+</li>
+<li class="fragment">Conditional expectation <span class="math inline">\(E[Y|X]\)</span>:
+<ul>
+<li class="fragment">Expected (typical/average) <span class="math inline">\(Y\)</span>, given the value of <span class="math inline">\(X\)</span></li>
+</ul></li>
+<li class="fragment">Independence (no relationship) <span class="math inline">\(E[Y|X] = E[Y]\)</span>:
+<ul>
+<li class="fragment">“Knowing <span class="math inline">\(X\)</span> doesn’t affect my expectation of <span class="math inline">\(Y\)</span>”</li>
+<li class="fragment">Learning about <span class="math inline">\(X\)</span> does not help us to predict <span class="math inline">\(Y\)</span></li>
+<li class="fragment">Our best guess remains the typical value of <span class="math inline">\(Y\)</span></li>
+</ul></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">treatment</th>
+<th style="text-align: right;">att_start_mn</th>
+<th style="text-align: right;">att_end_mn</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: right;">8.859375</td>
+<td style="text-align: right;">8.453125</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Treated</td>
+<td style="text-align: right;">9.607843</td>
+<td style="text-align: right;">10.000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="does-time-of-day-help-predict-happiness" class="slide level2">
+<h2>Does Time of Day Help Predict Happiness?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>cookies_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   happiness cookies time     
+       &lt;dbl&gt;   &lt;int&gt; &lt;chr&gt;    
+ 1       0.5       1 Morning  
+ 2       2         2 Morning  
+ 3       1         3 Morning  
+ 4       2.5       4 Morning  
+ 5       3         5 Morning  
+ 6       1.5       6 Afternoon
+ 7       2         7 Afternoon
+ 8       2.5       8 Afternoon
+ 9       2         9 Afternoon
+10       3        10 Afternoon</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>cookies_data <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">group_by</span>(time) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="fu">summarise_all</span>(mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  time      happiness cookies
+  &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;
+1 Afternoon       2.2       8
+2 Morning         1.8       3</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="relationships" class="title-slide slide level1 center">
+<h1>Relationships</h1>
+
+</section>
+<section id="what-does-it-mean-to-be-related" class="slide level2">
+<h2>What Does it Mean to Be Related?</h2>
+<ul>
+<li class="fragment">We would consider two variables to be <em>related</em> if knowing something about one of them tells you something about the other</li>
+<li class="fragment">Variables are <em>dependent</em> on each other if telling you the value of one gives you information about the distribution of the other</li>
+<li class="fragment">Variables are <em>correlated</em> if knowing whether one of them is unusually high gives you information about whether the other is unusually high (positive correlation) or unusually low (negative correlation)</li>
+<li class="fragment">Explaining one variable Y with another X means <em>predicting</em> your Y by looking at the distribution of Y for your value of X</li>
+</ul>
+</section>
+<section id="which-of-these-statements-describe-correlations" class="slide level2">
+<h2>Which of These Statements Describe Correlations?</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="countdown" id="timer_0a177a1c" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+</div>
+</div>
+<ol type="1">
+<li class="fragment">Voters who donate money to political candidates are usually wealthy.</li>
+<li class="fragment">Cities with more crime tend to hire more police officers.</li>
+<li class="fragment">Female legislators on average speak more emotionally about women-related issues as compared to male parliamentarians.</li>
+<li class="fragment">Most candidate who win political office received a lot of campaign donations.</li>
+</ol>
+</section></section>
+<section>
+<section id="measuring-association" class="title-slide slide level1 center">
+<h1>Measuring Association</h1>
+
+</section>
+<section id="covariance" class="slide level2">
+<h2>Covariance</h2>
+<p><span class="math display">\[Cov(X,Y) = \frac{\overbrace{\sum^N_{i = 1}\overbrace{(X_i - \bar{x})}^{\text{Deviation of }X_i\\\text{from mean of X}} \times\overbrace{(Y_i-\bar{y})}^{\text{Deviation of }Y_i\\\text{from mean of Y}}}^{\text{Sum of the product of the deviations}\\\text{across all observations}}}{\underbrace{N}_{\text{Number of observations}}}\]</span></p>
+<ul>
+<li class="fragment">conveys information about co-occurrence of the values in variables</li>
+<li class="fragment">positive values indicate direct relationship (positive correlation)</li>
+<li class="fragment">negative values indicate inverse relationship (negative correlation)</li>
+</ul>
+</section>
+<section id="covariance-example" class="slide level2">
+<h2>Covariance: Example</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">13</span>, <span class="dv">19</span>, <span class="dv">25</span>, <span class="dv">29</span>, <span class="dv">10</span>, <span class="dv">30</span>)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">28</span>, <span class="dv">32</span>, <span class="dv">38</span>, <span class="dv">35</span>, <span class="dv">11</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x, y)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">x</th>
+<th style="text-align: right;">y</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">28</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="fu">summarise_all</span>(mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         x        y
+1 18.57143 23.71429</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">cov</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 37.85714</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="covariance-illustration" class="slide level2">
+<h2>Covariance: Illustration</h2>
+<div class="r-stack">
+<!-- ::: fragment -->
+<!-- ##### Scatterplot  -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-12-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- ::: -->
+<div class="fragment">
+<!-- ##### Add Mean of X -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-13-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<!-- ##### Add Mean of Y -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-14-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<!-- ##### Calculate the Deviations from Mean of X -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-15-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<!-- ##### Calculate the Deviations from Mean of Y -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-16-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<!-- ##### Multiply the Deviations -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-17-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<!-- ##### Product Sign Tells How X & Y Move Relative to Their Means -->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-18-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-19-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- :::  -->
+<!-- :::  -->
+</section>
+<section id="correlation-coefficient" class="slide level2">
+<h2>Correlation Coefficient</h2>
+<p><span class="math display">\[corr(X,Y)=\frac{Cov(X,Y)}{\underbrace{\sigma_X}_{\text{Standard }\\\text{Deviation }\\\text{of X}}\underbrace{\sigma_Y}_{\text{Standard}\\\text{Deviation}\\\text{of Y}}}\]</span></p>
+<ul>
+<li class="fragment">rescaled covariance to <span class="math inline">\(corr(X,Y) \in [-1,1]\)</span>: extreme values indicate stronger relationship</li>
+<li class="fragment">sometimes denoted by letter <span class="math inline">\(r\)</span></li>
+<li class="fragment">says nothing about <em>how much</em> <span class="math inline">\(Y\)</span> changes when <span class="math inline">\(X\)</span> changes</li>
+<li class="fragment">has no units and will not be affected by a linear change in the units (e.g., going from centimeters to inches)</li>
+</ul>
+</section>
+<section id="correlation-values" class="slide level2">
+<h2>Correlation Values</h2>
+<p><br>
+</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table>
+<thead>
+<tr class="header">
+<th>r</th>
+<th>Rough meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>±0.1–0.3</td>
+<td>Modest</td>
+</tr>
+<tr class="even">
+<td>±0.3–0.5</td>
+<td>Moderate</td>
+</tr>
+<tr class="odd">
+<td>±0.5–0.8</td>
+<td>Strong</td>
+</tr>
+<tr class="even">
+<td>±0.8–0.9</td>
+<td>Very strong</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center" data-fig.dim="[4.8,4.2]">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/correlation-grid-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="correlograms" class="slide level2">
+<h2>Correlograms</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="heatmaps">Heatmaps</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/cor-heatmap-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<h3 id="points">Points</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/cor-points-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="slope-of-the-regression-line" class="slide level2">
+<h2>Slope of the Regression Line</h2>
+<p><span class="math display">\[\beta_X = \frac{Cov(X,Y)}{\underbrace{\sigma_X}_{\text{Standard }\\\text{Deviation }\\\text{of X}}}\]</span></p>
+<blockquote>
+<p>How much <span class="math inline">\(Y\)</span> changes, on average, as <span class="math inline">\(X\)</span> increases by one unit</p>
+</blockquote>
+</section></section>
+<section>
+<section id="regression-line-as-conditional-mean" class="title-slide slide level1 center">
+<h1>Regression Line as Conditional Mean</h1>
+
+</section>
+<section id="cookies-and-happiness-again" class="slide level2">
+<h2>Cookies and Happiness (again)</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-20-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="goal-draw-a-line-that-approximates-the-relationship" class="title-slide slide level1 smaller center">
+<h1>Goal: Draw a line that approximates the relationship</h1>
+
+</section>
+<section id="prediction-ignoring-number-of-cookies-eaten" class="slide level2">
+<h2>Prediction Ignoring Number of Cookies Eaten</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/cookies-no-info-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-the-line-through-every-observation" class="slide level2">
+<h2>Fitting the Line Through Every Observation</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/cookies-spline-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="loess-curve" class="slide level2">
+<h2>LOESS Curve</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/cookies-loess-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="ols-regression-line" class="slide level2">
+<h2>OLS Regression Line</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/cookies-lm-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regression-line-explains-variance-in-y-with-x" class="slide level2">
+<h2>Regression Line Explains Variance in Y with X</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-21-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="explained-vs.-unexplained-variance" class="slide level2">
+<h2>Explained vs.&nbsp;Unexplained Variance</h2>
+<div class="r-stack">
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-22-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-23-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-24-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="visualizing-relationships" class="title-slide slide level1 center">
+<h1>Visualizing Relationships</h1>
+
+</section>
+<section id="the-dangers-of-dual-y-axes" class="slide level2">
+<h2>The Dangers of Dual y-axes</h2>
+<figure>
+<p><img src="images/dual-axis.png" title="Spurious correlation between divorce rate and margarine consumption" alt="Spurious correlation between divorce rate and margarine consumption" width="100%"></p>
+<figcaption>
+Source: <a href="https://www.tylervigen.com/spurious-correlations" target="_blank">Tyler Vigen’s spurious correlations</a>
+</figcaption>
+</figure>
+</section>
+<section id="the-problem-too-much-freedom" class="slide level2">
+<h2>The Problem: Too Much Freedom</h2>
+<ul>
+<li class="fragment">We have to choose where the y-axes start and stop</li>
+<li class="fragment">We can force the two trends to line up however we want</li>
+</ul>
+<!-- ## Relationships and Two Axis -->
+<!-- ![](images/two-y-by-four-sm.jpeg) -->
+</section>
+<section id="example-from-the-economist" class="slide level2">
+<h2>Example from <em>The Economist</em></h2>
+<p><br> <!-- ::: columns --></p>
+<!-- ::: {.column width="50%"} -->
+<p><img data-src="https://datavizs22.classes.andrewheiss.com/slides/img/07/economist-dogs.png"> <!-- ::: --></p>
+<!-- ::: {.column width="50%"} -->
+<!-- ![](images/PS01_by_wday.png) -->
+<!-- ::: -->
+<!-- ::: -->
+</section>
+<section id="fine-when-they-measure-the-same-thing" class="slide level2">
+<h2>Fine When They Measure the Same Thing</h2>
+<div class="cell" data-layout-align="center" data-fig.dim="[8,3.5]">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/atl-weather-dual-nice-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-a-second-scale-in-ggplot2" class="slide level2">
+<h2>Adding a second scale in <code>ggplot2</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-25-1.png" width="1500"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb12-2"><a href="#cb12-2"></a>  weather,</span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> tempmax)</span>
+<span id="cb12-4"><a href="#cb12-4"></a>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb12-8"><a href="#cb12-8"></a>    <span class="at">sec.axis =</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>      <span class="fu">sec_axis</span>(</span>
+<span id="cb12-10"><a href="#cb12-10"></a>        <span class="at">trans =</span> <span class="sc">~</span> (. <span class="sc">*</span> <span class="dv">9</span> <span class="sc">/</span> <span class="dv">5</span>) <span class="sc">+</span> <span class="dv">32</span>,</span>
+<span id="cb12-11"><a href="#cb12-11"></a>        <span class="at">name =</span> <span class="st">"Fahrenheit"</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a>      )</span>
+<span id="cb12-13"><a href="#cb12-13"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-15"><a href="#cb12-15"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Celsius"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16"></a>    <span class="at">title =</span> <span class="st">"Daily high temperatures in Mannheim"</span>,</span>
+<span id="cb12-17"><a href="#cb12-17"></a>    <span class="at">subtitle =</span> <span class="st">"January 1 2021–December 31, 2021"</span>,</span>
+<span id="cb12-18"><a href="#cb12-18"></a>    <span class="at">caption =</span> <span class="st">"Source: visualcrossing.com"</span></span>
+<span id="cb12-19"><a href="#cb12-19"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-a-second-scale-in-ggplot2-1" class="slide level2">
+<h2>Adding a second scale in <code>ggplot2</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-27-1.png" width="1500"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>gov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  party       total
+  &lt;chr&gt;       &lt;int&gt;
+1 Democrat      557
+2 Republican    527
+3 Third party     8</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>gov <span class="ot">&lt;-</span> governors <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>  <span class="fu">group_by</span>(party) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>  <span class="fu">summarize</span>(<span class="at">total =</span> <span class="fu">n</span>())</span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="fu">ggplot</span>(</span>
+<span id="cb15-6"><a href="#cb15-6"></a>  gov,</span>
+<span id="cb15-7"><a href="#cb15-7"></a>  <span class="fu">aes</span>(</span>
+<span id="cb15-8"><a href="#cb15-8"></a>    <span class="at">x =</span> party, <span class="at">y =</span> total,</span>
+<span id="cb15-9"><a href="#cb15-9"></a>    <span class="at">fill =</span> party</span>
+<span id="cb15-10"><a href="#cb15-10"></a>  )</span>
+<span id="cb15-11"><a href="#cb15-11"></a>) <span class="sc">+</span></span>
+<span id="cb15-12"><a href="#cb15-12"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb15-14"><a href="#cb15-14"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(</span>
+<span id="cb15-15"><a href="#cb15-15"></a>      <span class="at">trans =</span> <span class="sc">~</span> . <span class="sc">/</span> <span class="fu">sum</span>(gov<span class="sc">$</span>total),</span>
+<span id="cb15-16"><a href="#cb15-16"></a>      <span class="at">labels =</span> scales<span class="sc">::</span>percent</span>
+<span id="cb15-17"><a href="#cb15-17"></a>    )</span>
+<span id="cb15-18"><a href="#cb15-18"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a>  <span class="fu">scale_fill_viridis_d</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="alternative-use-multiple-plots" class="slide level2">
+<h2>Alternative: Use Multiple Plots</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="03-describing-relationships_files/figure-revealjs/unnamed-chunk-30-1.png" width="2100"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>temp_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb16-3"><a href="#cb16-3"></a>  weather,</span>
+<span id="cb16-4"><a href="#cb16-4"></a>  <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> tempmax)</span>
+<span id="cb16-5"><a href="#cb16-5"></a>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-9"><a href="#cb16-9"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-10"><a href="#cb16-10"></a>    <span class="at">y =</span> <span class="st">"Temperature (ºC)"</span></span>
+<span id="cb16-11"><a href="#cb16-11"></a>  )</span>
+<span id="cb16-12"><a href="#cb16-12"></a></span>
+<span id="cb16-13"><a href="#cb16-13"></a>humid_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb16-14"><a href="#cb16-14"></a>  weather,</span>
+<span id="cb16-15"><a href="#cb16-15"></a>  <span class="fu">aes</span>(<span class="at">x =</span> datetime, <span class="at">y =</span> humidity)</span>
+<span id="cb16-16"><a href="#cb16-16"></a>) <span class="sc">+</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb16-18"><a href="#cb16-18"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-20"><a href="#cb16-20"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb16-21"><a href="#cb16-21"></a>    <span class="at">y =</span> <span class="st">"Humidity (%)"</span></span>
+<span id="cb16-22"><a href="#cb16-22"></a>  )</span>
+<span id="cb16-23"><a href="#cb16-23"></a></span>
+<span id="cb16-24"><a href="#cb16-24"></a>temp_plot <span class="sc">+</span> humid_plot <span class="sc">+</span></span>
+<span id="cb16-25"><a href="#cb16-25"></a>  <span class="fu">plot_layout</span>(</span>
+<span id="cb16-26"><a href="#cb16-26"></a>    <span class="at">ncol =</span> <span class="dv">1</span>,</span>
+<span id="cb16-27"><a href="#cb16-27"></a>    <span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>)</span>
+<span id="cb16-28"><a href="#cb16-28"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<!-- ## Lab -->
+<!-- -   Conditional distributions -->
+<!-- -   Reshaping datasets -->
+<!-- -   Basic manipulations -->
+<!--     -   create new variables -->
+<!--     -   subset a portion of data -->
+<!--     -   select variables -->
+<!-- -   Scatterplots -->
+<!--     -   transparency of plots -->
+<!--     -   correlograms -->
+<!--     -   hex -->
+</section>
+<section id="to-do-list" class="slide level2">
+<h2>To-Do List</h2>
+<ul>
+<li class="fragment">Problem Set 3 (Visualization and Data Wrangling)</li>
+<li class="fragment">Readings/videos for week 4 (Intro to Causality)</li>
+</ul>
+
+<p><img src="images/logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://r4da.live/">🔗 r4da.live</a></p>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        target: function(trigger) {
+          return trigger.previousElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto-reveal',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
